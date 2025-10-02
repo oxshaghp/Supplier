@@ -1,0 +1,216 @@
+
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+
+export default function LoginPage() {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    rememberMe: false
+  });
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: '' }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        newErrors.email = 'Please enter a valid email address';
+      }
+    }
+    
+    if (!formData.password.trim()) {
+      newErrors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
+    
+    // Simulate login process
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // Redirect to dashboard
+    window.location.href = '/dashboard';
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      
+      <main className="py-12">
+        <div className="w-full px-6">
+          <div className="max-w-md mx-auto">
+            
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+              <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i className="ri-user-line text-yellow-600 text-2xl"></i>
+                </div>
+                <h1 className="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h1>
+                <p className="text-gray-600">Sign in to access your business dashboard</p>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm ${
+                      errors.email ? 'border-red-300' : 'border-gray-300'
+                    }`}
+                    placeholder="Enter your email"
+                    required
+                  />
+                  {errors.email && (
+                    <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={formData.password}
+                      onChange={(e) => handleInputChange('password', e.target.value)}
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm pr-12 ${
+                        errors.password ? 'border-red-300' : 'border-gray-300'
+                      }`}
+                      placeholder="Enter your password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                    >
+                      <i className={`ri-${showPassword ? 'eye-off' : 'eye'}-line`}></i>
+                    </button>
+                  </div>
+                  {errors.password && (
+                    <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.rememberMe}
+                      onChange={(e) => handleInputChange('rememberMe', e.target.checked)}
+                      className="sr-only"
+                    />
+                    <div className={`w-5 h-5 border-2 rounded flex items-center justify-center mr-3 ${
+                      formData.rememberMe ? 'bg-yellow-400 border-yellow-400' : 'border-gray-300'
+                    }`}>
+                      {formData.rememberMe && (
+                        <i className="ri-check-line text-white text-sm"></i>
+                      )}
+                    </div>
+                    <span className="text-sm text-gray-700">Remember me</span>
+                  </label>
+                  
+                  <Link href="/forgot-password" className="text-sm text-yellow-600 hover:text-yellow-700 font-medium">
+                    Forgot password?
+                  </Link>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`w-full py-4 rounded-lg font-medium text-lg whitespace-nowrap cursor-pointer transition-all ${
+                    isSubmitting
+                      ? 'bg-gray-400 text-white cursor-not-allowed'
+                      : 'bg-yellow-400 text-white hover:bg-yellow-500'
+                  }`}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <i className="ri-loader-4-line animate-spin mr-2"></i>
+                      Signing In...
+                    </>
+                  ) : (
+                    <>
+                      <i className="ri-login-circle-line mr-2"></i>
+                      Sign In
+                    </>
+                  )}
+                </button>
+              </form>
+
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <div className="text-center">
+                  <p className="text-sm text-gray-600 mb-4">
+                    Don't have an account?{' '}
+                    <Link href="/register" className="text-yellow-600 hover:text-yellow-700 font-medium">
+                      Create Account
+                    </Link>
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    By signing in, you agree to our{' '}
+                    <Link href="/terms" className="text-yellow-600 hover:text-yellow-700">
+                      Terms of Service
+                    </Link>{' '}
+                    and{' '}
+                    <Link href="/privacy" className="text-yellow-600 hover:text-yellow-700">
+                      Privacy Policy
+                    </Link>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Demo Login Info */}
+            <div className="mt-6 bg-blue-50 p-4 rounded-lg">
+              <p className="text-sm text-blue-800 mb-2">
+                <i className="ri-information-line mr-2"></i>
+                <strong>Demo Login:</strong>
+              </p>
+              <p className="text-sm text-blue-700">
+                Email: demo@supplier.sa<br />
+                Password: demo123
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
+      
+      <Footer />
+    </div>
+  );
+}
