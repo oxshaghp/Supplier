@@ -1,18 +1,20 @@
-
 export const translations = {
   en: {
     // Navigation
     nav: {
       home: "Home",
-      businesses: "Businesses", 
+      businesses: "Businesses",
       addBusiness: "Add Business",
       pricing: "Pricing",
       dashboard: "Dashboard",
       contact: "Contact",
       register: "Register",
-      login: "Login"
+      login: "Login",
+      allSuppliers: "All Suppliers",
+      subscription: "Subscription",
+      aboutUs: "About Us",
     },
-    
+
     // Header
     logo: "Supplier",
     home: "Home",
@@ -21,14 +23,35 @@ export const translations = {
     about: "About",
     createProfile: "Create Profile",
     register: "Register",
-    
+    banner: {
+      slogan1Long: "#1 Website Where All Businesses Meet",
+      slogan1Short: "#1 Business Network",
+      slogan2Long: "We Make The Far Closer",
+      slogan2Short: "Global Reach",
+      slogan3Long: "We Supply, You Succeed",
+      slogan3Short: "Supply Solutions",
+      slogan4Long: "Connecting Saudi Businesses Since Day One",
+      slogan4Short: "Saudi Network",
+    },
+    messages: {
+      recent: "Recent Messages",
+      newCountSuffix: "new",
+      viewAll: "View All Messages",
+    },
+    userMenu: {
+      dashboard: "Dashboard",
+      addBusiness: "Add Business",
+      signOut: "Sign Out",
+    },
+
     // Search Section
     findWhatYouNeed: "Find What You Need",
-    searchDescription: "Search for suppliers and services in your area. Get instant notifications when businesses respond to your requests.",
+    searchDescription:
+      "Search for suppliers and services in your area. Get instant notifications when businesses respond to your requests.",
     searchPlaceholder: "What are you looking for?",
     locationPlaceholder: "Location/ City",
     searchBusinesses: "Find a Supplier",
-    
+
     // Categories
     allCategories: "All Categories",
     electronics: "Electronics",
@@ -42,31 +65,81 @@ export const translations = {
     construction: "Construction",
     textile: "Textile",
     beauty: "Beauty",
-    
+    // Extended category names used in SearchSection
+    cat: {
+      agriculture: "Agriculture",
+      apparelFashion: "Apparel & Fashion",
+      automobile: "Automobile",
+      brassHardware: "Brass Hardware & Components",
+      businessServices: "Business Services",
+      chemicals: "Chemicals",
+      computerHardwareSoftware: "Computer Hardware & Software",
+      constructionRealEstate: "Construction & Real Estate",
+      consumerElectronics: "Consumer Electronics",
+      electronicsElectrical: "Electronics & Electrical Supplies",
+      energyPower: "Energy & Power",
+      environmentPollution: "Environment & Pollution",
+      foodBeverage: "Food & Beverage",
+      furniture: "Furniture",
+      giftsCrafts: "Gifts & Crafts",
+      healthBeauty: "Health & Beauty",
+      homeSupplies: "Home Supplies",
+      homeTextiles: "Home Textiles & Furnishings",
+      hospitalMedical: "Hospital & Medical Supplies",
+      hotelSupplies: "Hotel Supplies & Equipment",
+      industrialSupplies: "Industrial Supplies",
+      jewelryGemstones: "Jewelry & Gemstones",
+      leatherProducts: "Leather & Leather Products",
+      machinery: "Machinery",
+      mineralMetals: "Mineral & Metals",
+      officeSchool: "Office & School Supplies",
+      oilGas: "Oil and Gas",
+      packagingPaper: "Packaging & Paper",
+      pharmaceuticals: "Pharmaceuticals",
+      pipesTubes: "Pipes, Tubes & Fittings",
+      plasticsProducts: "Plastics & Products",
+      printingPublishing: "Printing & Publishing",
+      realEstate: "Real Estate",
+      scientificLaboratory: "Scientific & Laboratory Instruments",
+      securityProtection: "Security & Protection",
+      sportsEntertainment: "Sports & Entertainment",
+      telecommunications: "Telecommunications",
+      textilesFabrics: "Textiles & Fabrics",
+      toys: "Toys",
+      transportation: "Transportation",
+    },
+
     // Map Section
     findBusinessesNearYou: "Find Businesses Near You",
-    mapDescription: "Discover local suppliers and services on our interactive map. Click on any pin to view business details and connect directly.",
+    mapDescription:
+      "Discover local suppliers and services on our interactive map. Click on any pin to view business details and connect directly.",
     addYourBusiness: "Add Your Business",
-    
+
     // Featured Businesses
     featuredBusinesses: "Featured Businesses",
-    featuredDescription: "Discover top-rated businesses in your area that are ready to serve your needs.",
+    featuredDescription:
+      "Discover top-rated businesses in your area that are ready to serve your needs.",
     viewProfile: "View Profile",
     openNow: "Open Now",
     closed: "Closed",
-    
+
     // How It Works
     howItWorks: "How It Works",
-    howItWorksDescription: "Getting started is simple. Follow these three easy steps to connect with local businesses.",
+    howItWorksDescription:
+      "Getting started is simple. Follow these three easy steps to connect with local businesses.",
     searchStep: "Search & Discover",
-    searchStepDesc: "Use our powerful search tools to find exactly what you need in your area.",
+    searchStepDesc:
+      "Use our powerful search tools to find exactly what you need in your area.",
     connectStep: "Connect & Compare",
-    connectStepDesc: "Reach out to multiple businesses, compare services, and read reviews.",
+    connectStepDesc:
+      "Reach out to multiple businesses, compare services, and read reviews.",
     chooseStep: "Choose & Work",
-    chooseStepDesc: "Select the best business for your needs and start building your partnership.",
-    
+    chooseStepDesc:
+      "Select the best business for your needs and start building your partnership.",
+
     // Footer
-    footerDescription: "Connecting businesses and suppliers through location-based networking. Build your network and grow your business locally.",
+    footerDescription:
+      "Connecting businesses and suppliers through location-based networking. Build your network and grow your business locally.",
     forBusinesses: "For Businesses",
     findSuppliers: "Find Suppliers",
     browseServices: "Browse Services",
@@ -87,7 +160,7 @@ export const translations = {
     allRightsReserved: "All rights reserved.",
     privacy: "Privacy",
     terms: "Terms",
-    cookies: "Cookies"
+    cookies: "Cookies",
   },
   ar: {
     // Navigation
@@ -99,9 +172,12 @@ export const translations = {
       dashboard: "لوحة التحكم",
       contact: "اتصل بنا",
       register: "تسجيل",
-      login: "تسجيل الدخول"
+      login: "تسجيل الدخول",
+      allSuppliers: "جميع الموردين",
+      subscription: "الاشتراك",
+      aboutUs: "من نحن",
     },
-    
+
     // Header
     logo: "المورد",
     home: "الرئيسية",
@@ -110,14 +186,35 @@ export const translations = {
     about: "حولنا",
     createProfile: "إنشاء ملف شخصي",
     register: "تسجيل",
-    
+    banner: {
+      slogan1Long: "#1 موقع حيث تلتقي جميع الشركات",
+      slogan1Short: "أفضل شبكة أعمال",
+      slogan2Long: "نقرّب البعيد",
+      slogan2Short: "وصول عالمي",
+      slogan3Long: "نزوّدك لتنجح",
+      slogan3Short: "حلول التوريد",
+      slogan4Long: "نربط أعمال المملكة منذ اليوم الأول",
+      slogan4Short: "شبكة السعودية",
+    },
+    messages: {
+      recent: "الرسائل الحديثة",
+      newCountSuffix: "جديدة",
+      viewAll: "عرض كل الرسائل",
+    },
+    userMenu: {
+      dashboard: "لوحة التحكم",
+      addBusiness: "إضافة شركة",
+      signOut: "تسجيل الخروج",
+    },
+
     // Search Section
     findWhatYouNeed: "اعثر على ما تحتاجه",
-    searchDescription: "ابحث عن الموردين والخدمات في منطقتك. احصل على إشعارات فورية عندما ترد الشركات على طلباتك.",
+    searchDescription:
+      "ابحث عن الموردين والخدمات في منطقتك. احصل على إشعارات فورية عندما ترد الشركات على طلباتك.",
     searchPlaceholder: "ما الذي تبحث عنه؟",
     locationPlaceholder: "الموقع/ المدينة",
-    searchBusinesses: "البحث في الشركات",
-    
+    searchBusinesses: "البحث عن مورد",
+
     // Categories
     allCategories: "جميع الفئات",
     electronics: "الإلكترونيات",
@@ -131,31 +228,79 @@ export const translations = {
     construction: "البناء",
     textile: "النسيج",
     beauty: "الجمال",
-    
+    // Extended category names used in SearchSection
+    cat: {
+      agriculture: "الزراعة",
+      apparelFashion: "الملابس والأزياء",
+      automobile: "السيارات",
+      brassHardware: "مكونات ومعدات النحاس",
+      businessServices: "الخدمات التجارية",
+      chemicals: "الكيماويات",
+      computerHardwareSoftware: "أجهزة الكمبيوتر والبرمجيات",
+      constructionRealEstate: "البناء والعقارات",
+      consumerElectronics: "الإلكترونيات الاستهلاكية",
+      electronicsElectrical: "الإلكترونيات واللوازم الكهربائية",
+      energyPower: "الطاقة والقوى",
+      environmentPollution: "البيئة والتلوث",
+      foodBeverage: "الأغذية والمشروبات",
+      furniture: "الأثاث",
+      giftsCrafts: "الهدايا والحرف",
+      healthBeauty: "الصحة والجمال",
+      homeSupplies: "مستلزمات المنزل",
+      homeTextiles: "المنسوجات والمفروشات المنزلية",
+      hospitalMedical: "مستلزمات المستشفيات والطب",
+      hotelSupplies: "مستلزمات وتجهيزات الفنادق",
+      industrialSupplies: "المستلزمات الصناعية",
+      jewelryGemstones: "المجوهرات والأحجار الكريمة",
+      leatherProducts: "الجلود ومنتجاتها",
+      machinery: "الآلات",
+      mineralMetals: "المعادن والخامات",
+      officeSchool: "مستلزمات المكتب والمدرسة",
+      oilGas: "النفط والغاز",
+      packagingPaper: "التغليف والورق",
+      pharmaceuticals: "الأدوية",
+      pipesTubes: "الأنابيب والوصلات",
+      plasticsProducts: "اللدائن والمنتجات البلاستيكية",
+      printingPublishing: "الطباعة والنشر",
+      realEstate: "العقارات",
+      scientificLaboratory: "الأدوات العلمية والمخبرية",
+      securityProtection: "الأمن والحماية",
+      sportsEntertainment: "الرياضة والترفيه",
+      telecommunications: "الاتصالات",
+      textilesFabrics: "المنسوجات والأقمشة",
+      toys: "الألعاب",
+      transportation: "النقل",
+    },
+
     // Map Section
     findBusinessesNearYou: "اعثر على الشركات القريبة منك",
-    mapDescription: "اكتشف الموردين والخدمات المحلية على خريطتنا التفاعلية. انقر على أي دبوس لعرض تفاصيل الأعمال والاتصال مباشرة.",
+    mapDescription:
+      "اكتشف الموردين والخدمات المحلية على خريطتنا التفاعلية. انقر على أي دبوس لعرض تفاصيل الأعمال والاتصال مباشرة.",
     addYourBusiness: "أضف شركتك",
-    
+
     // Featured Businesses
     featuredBusinesses: "الشركات المميزة",
-    featuredDescription: "اكتشف الشركات الأعلى تقييماً في منطقتك والمستعدة لخدمة احتياجاتك.",
+    featuredDescription:
+      "اكتشف الشركات الأعلى تقييماً في منطقتك والمستعدة لخدمة احتياجاتك.",
     viewProfile: "عرض الملف الشخصي",
     openNow: "مفتوح الآن",
     closed: "مغلق",
-    
+
     // How It Works
     howItWorks: "كيف يعمل",
-    howItWorksDescription: "البدء بسيط. اتبع هذه الخطوات الثلاث السهلة للتواصل مع الشركات المحلية.",
+    howItWorksDescription:
+      "البدء بسيط. اتبع هذه الخطوات الثلاث السهلة للتواصل مع الشركات المحلية.",
     searchStep: "البحث والاكتشاف",
-    searchStepDesc: "استخدم أدوات البحث القوية للعثور على ما تحتاجه بالضبط في منطقتك.",
+    searchStepDesc:
+      "استخدم أدوات البحث القوية للعثور على ما تحتاجه بالضبط في منطقتك.",
     connectStep: "التواصل والمقارنة",
     connectStepDesc: "تواصل مع عدة شركات، قارن الخدمات، واقرأ المراجعات.",
     chooseStep: "الاختيار والعمل",
     chooseStepDesc: "اختر أفضل شركة لاحتياجاتك وابدأ في بناء شراكتك.",
-    
+
     // Footer
-    footerDescription: "ربط الشركات والموردين من خلال الشبكات القائمة على الموقع. ابن شبكتك واجعل شركتك تنمو محلياً.",
+    footerDescription:
+      "ربط الشركات والموردين من خلال الشبكات القائمة على الموقع. ابن شبكتك واجعل شركتك تنمو محلياً.",
     forBusinesses: "للشركات",
     findSuppliers: "العثور على الموردين",
     browseServices: "تصفح الخدمات",
@@ -176,6 +321,6 @@ export const translations = {
     allRightsReserved: "جميع الحقوق محفوظة.",
     privacy: "الخصوصية",
     terms: "الشروط",
-    cookies: "ملفات تعريف الارتباط"
-  }
+    cookies: "ملفات تعريف الارتباط",
+  },
 };
