@@ -1,54 +1,58 @@
+"use client";
 
-'use client';
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { useLanguage } from "../lib/LanguageContext";
 
 const saudiCities = [
-  { name: 'Riyadh', lat: 24.7136, lng: 46.6753 },
-  { name: 'Jeddah', lat: 21.4858, lng: 39.1925 },
-  { name: 'Mecca', lat: 21.3891, lng: 39.8579 },
-  { name: 'Medina', lat: 24.5247, lng: 39.5692 },
-  { name: 'Dammam', lat: 26.4207, lng: 50.0888 },
-  { name: 'Al Khobar', lat: 26.2172, lng: 50.1971 },
-  { name: 'Tabuk', lat: 28.3998, lng: 36.5660 },
-  { name: 'Abha', lat: 18.2164, lng: 42.5047 },
-  { name: 'Buraidah', lat: 26.3260, lng: 43.9750 },
-  { name: 'Khamis Mushait', lat: 18.3061, lng: 42.7326 },
-  { name: 'Hail', lat: 27.5114, lng: 41.6900 },
-  { name: 'Najran', lat: 17.4924, lng: 44.1277 },
-  { name: 'Jazan', lat: 16.8892, lng: 42.5511 },
-  { name: 'Taif', lat: 21.2703, lng: 40.4158 },
-  { name: 'Al Jubail', lat: 27.0174, lng: 49.6584 }
+  { name: "Riyadh", lat: 24.7136, lng: 46.6753 },
+  { name: "Jeddah", lat: 21.4858, lng: 39.1925 },
+  { name: "Mecca", lat: 21.3891, lng: 39.8579 },
+  { name: "Medina", lat: 24.5247, lng: 39.5692 },
+  { name: "Dammam", lat: 26.4207, lng: 50.0888 },
+  { name: "Al Khobar", lat: 26.2172, lng: 50.1971 },
+  { name: "Tabuk", lat: 28.3998, lng: 36.566 },
+  { name: "Abha", lat: 18.2164, lng: 42.5047 },
+  { name: "Buraidah", lat: 26.326, lng: 43.975 },
+  { name: "Khamis Mushait", lat: 18.3061, lng: 42.7326 },
+  { name: "Hail", lat: 27.5114, lng: 41.69 },
+  { name: "Najran", lat: 17.4924, lng: 44.1277 },
+  { name: "Jazan", lat: 16.8892, lng: 42.5511 },
+  { name: "Taif", lat: 21.2703, lng: 40.4158 },
+  { name: "Al Jubail", lat: 27.0174, lng: 49.6584 },
 ];
 
-export default function BusinessLocationMap({ selectedLocation, setSelectedLocation }) {
+export default function BusinessLocationMap({
+  selectedLocation,
+  setSelectedLocation,
+}) {
+  const { t } = useLanguage();
   const [mapCenter, setMapCenter] = useState(selectedLocation);
-  const [selectedCity, setSelectedCity] = useState('');
-  const [customAddress, setCustomAddress] = useState('');
-  const [locationMethod, setLocationMethod] = useState('map'); // 'map', 'city', 'address'
+  const [selectedCity, setSelectedCity] = useState("");
+  const [customAddress, setCustomAddress] = useState("");
+  const [locationMethod, setLocationMethod] = useState("map"); // 'map', 'city', 'address'
 
   const handleMapClick = (event) => {
     // In a real implementation, you would get coordinates from the map click event
     // For now, we'll simulate with a small random offset within Saudi Arabia bounds
     const newLat = 24.7136 + (Math.random() - 0.5) * 10; // Approximate Saudi Arabia lat range
     const newLng = 46.6753 + (Math.random() - 0.5) * 20; // Approximate Saudi Arabia lng range
-    
+
     // Ensure coordinates stay within Saudi Arabia bounds
     const boundedLat = Math.max(16, Math.min(32, newLat));
     const boundedLng = Math.max(34, Math.min(55, newLng));
-    
+
     setSelectedLocation({
       lat: parseFloat(boundedLat.toFixed(6)),
-      lng: parseFloat(boundedLng.toFixed(6))
+      lng: parseFloat(boundedLng.toFixed(6)),
     });
   };
 
   const handleCitySelect = (cityName) => {
-    const city = saudiCities.find(c => c.name === cityName);
+    const city = saudiCities.find((c) => c.name === cityName);
     if (city) {
       setSelectedLocation({
         lat: city.lat,
-        lng: city.lng
+        lng: city.lng,
       });
       setSelectedCity(cityName);
     }
@@ -56,16 +60,17 @@ export default function BusinessLocationMap({ selectedLocation, setSelectedLocat
 
   const handleAddressGeocode = async () => {
     if (!customAddress.trim()) return;
-    
+
     // In a real implementation, you would use a geocoding service
     // For demo, we'll set a random location in Saudi Arabia
-    const randomCity = saudiCities[Math.floor(Math.random() * saudiCities.length)];
+    const randomCity =
+      saudiCities[Math.floor(Math.random() * saudiCities.length)];
     const offsetLat = randomCity.lat + (Math.random() - 0.5) * 0.1;
     const offsetLng = randomCity.lng + (Math.random() - 0.5) * 0.1;
-    
+
     setSelectedLocation({
       lat: parseFloat(offsetLat.toFixed(6)),
-      lng: parseFloat(offsetLng.toFixed(6))
+      lng: parseFloat(offsetLng.toFixed(6)),
     });
   };
 
@@ -75,29 +80,29 @@ export default function BusinessLocationMap({ selectedLocation, setSelectedLocat
         (position) => {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
-          
+
           // Check if location is within Saudi Arabia bounds (approximate)
           if (lat >= 16 && lat <= 32 && lng >= 34 && lng <= 55) {
             setSelectedLocation({
               lat: parseFloat(lat.toFixed(6)),
-              lng: parseFloat(lng.toFixed(6))
+              lng: parseFloat(lng.toFixed(6)),
             });
           } else {
             // If outside Saudi Arabia, default to Riyadh
             setSelectedLocation({
               lat: 24.7136,
-              lng: 46.6753
+              lng: 46.6753,
             });
-            alert('Location detected outside Saudi Arabia. Defaulted to Riyadh.');
+            alert(t("map.outsideSaudi"));
           }
         },
         (error) => {
-          console.error('Error getting location:', error);
-          alert('Unable to get your location. Please select manually.');
+          console.error("Error getting location:", error);
+          alert(t("map.cannotGetLocation"));
         }
       );
     } else {
-      alert('Geolocation is not supported by this browser.');
+      alert(t("map.notSupported"));
     }
   };
 
@@ -105,74 +110,80 @@ export default function BusinessLocationMap({ selectedLocation, setSelectedLocat
     <div className="sticky top-8">
       <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
         <div className="p-6 bg-yellow-50 border-b border-yellow-100">
-          <h3 className="text-xl font-bold text-gray-800 mb-2">Set Your Business Location</h3>
-          <p className="text-sm text-gray-600">
-            Choose your exact business location for customers to find you easily
-          </p>
+          <h3 className="text-xl font-bold text-gray-800 mb-2">
+            {t("map.setLocationTitle")}
+          </h3>
+          <p className="text-sm text-gray-600">{t("map.setLocationDesc")}</p>
         </div>
 
         {/* Location Method Selection */}
         <div className="p-4 bg-gray-50 border-b border-gray-100">
           <div className="flex space-x-2 mb-4">
             <button
-              onClick={() => setLocationMethod('map')}
+              onClick={() => setLocationMethod("map")}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                locationMethod === 'map' 
-                  ? 'bg-yellow-400 text-white' 
-                  : 'bg-white text-gray-600 border border-gray-300 hover:bg-gray-50'
+                locationMethod === "map"
+                  ? "bg-yellow-400 text-white"
+                  : "bg-white text-gray-600 border border-gray-300 hover:bg-gray-50"
               }`}
             >
               <i className="ri-map-pin-line mr-2"></i>
-              Pin on Map
+              {t("map.methodPin")}
             </button>
             <button
-              onClick={() => setLocationMethod('city')}
+              onClick={() => setLocationMethod("city")}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                locationMethod === 'city' 
-                  ? 'bg-yellow-400 text-white' 
-                  : 'bg-white text-gray-600 border border-gray-300 hover:bg-gray-50'
+                locationMethod === "city"
+                  ? "bg-yellow-400 text-white"
+                  : "bg-white text-gray-600 border border-gray-300 hover:bg-gray-50"
               }`}
             >
               <i className="ri-building-line mr-2"></i>
-              Select City
+              {t("map.methodCity")}
             </button>
             <button
-              onClick={() => setLocationMethod('address')}
+              onClick={() => setLocationMethod("address")}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                locationMethod === 'address' 
-                  ? 'bg-yellow-400 text-white' 
-                  : 'bg-white text-gray-600 border border-gray-300 hover:bg-gray-50'
+                locationMethod === "address"
+                  ? "bg-yellow-400 text-white"
+                  : "bg-white text-gray-600 border border-gray-300 hover:bg-gray-50"
               }`}
             >
               <i className="ri-road-map-line mr-2"></i>
-              Enter Address
+              {t("map.methodAddress")}
             </button>
           </div>
 
-          {locationMethod === 'city' && (
+          {locationMethod === "city" && (
             <div className="space-y-3">
-              <label className="block text-sm font-medium text-gray-700">Select Major City</label>
+              <label className="block text-sm font-medium text-gray-700">
+                {t("map.selectMajorCity")}
+              </label>
               <select
                 value={selectedCity}
                 onChange={(e) => handleCitySelect(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm pr-8"
               >
-                <option value="">Choose a city...</option>
-                {saudiCities.map(city => (
-                  <option key={city.name} value={city.name}>{city.name}</option>
+                <option value="">{t("map.chooseCityPlaceholder")}</option>
+                {saudiCities.map((city) => (
+                  <option key={city.name} value={city.name}>
+                    {city.name}
+                  </option>
                 ))}
               </select>
             </div>
           )}
 
-          {locationMethod === 'address' && (
+          {locationMethod === "address" && (
             <div className="space-y-3">
-              <label className="block text-sm font-medium text-gray-700">Enter Complete Address</label>
+              <label className="block text-sm font-medium text-gray-700">
+                {t("map.enterCompleteAddress")}
+              </label>
               <input
                 type="text"
                 value={customAddress}
                 onChange={(e) => setCustomAddress(e.target.value)}
-                placeholder="e.g., King Fahd Road, Al-Olaya District, Riyadh"
+                placeholder={t("map.addressPlaceholder")}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
               />
               <button
@@ -181,21 +192,23 @@ export default function BusinessLocationMap({ selectedLocation, setSelectedLocat
                 className="w-full bg-yellow-400 text-white py-2 px-4 rounded-lg hover:bg-yellow-500 font-medium text-sm whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <i className="ri-search-line mr-2"></i>
-                Find Location
+                {t("map.findLocation")}
               </button>
             </div>
           )}
 
-          {locationMethod === 'map' && (
+          {locationMethod === "map" && (
             <div className="text-center">
               <button
                 onClick={getCurrentLocation}
                 className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 font-medium text-sm whitespace-nowrap cursor-pointer mr-3"
               >
                 <i className="ri-crosshair-line mr-2"></i>
-                Use My Location
+                {t("map.useMyLocation")}
               </button>
-              <span className="text-xs text-gray-500">or click on the map below</span>
+              <span className="text-xs text-gray-500">
+                {t("map.orClickOnMap")}
+              </span>
             </div>
           )}
         </div>
@@ -210,8 +223,8 @@ export default function BusinessLocationMap({ selectedLocation, setSelectedLocat
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             title="Business Location Map"
-            onClick={locationMethod === 'map' ? handleMapClick : undefined}
-            className={locationMethod === 'map' ? 'cursor-crosshair' : ''}
+            onClick={locationMethod === "map" ? handleMapClick : undefined}
+            className={locationMethod === "map" ? "cursor-crosshair" : ""}
           ></iframe>
 
           {/* Location Pin Overlay */}
@@ -221,7 +234,7 @@ export default function BusinessLocationMap({ selectedLocation, setSelectedLocat
                 <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-red-500"></div>
               </div>
               <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black text-white px-2 py-1 rounded text-xs whitespace-nowrap">
-                Your Business
+                {t("map.yourBusiness")}
               </div>
             </div>
           </div>
@@ -232,14 +245,14 @@ export default function BusinessLocationMap({ selectedLocation, setSelectedLocat
               // Calculate approximate position based on map bounds
               const xPercent = ((city.lng - 34) / (55 - 34)) * 100;
               const yPercent = ((32 - city.lat) / (32 - 16)) * 100;
-              
+
               return (
                 <div
                   key={city.name}
                   className="absolute w-3 h-3 bg-blue-400 rounded-full border-2 border-white shadow-md"
                   style={{
                     left: `${Math.max(5, Math.min(95, xPercent))}%`,
-                    top: `${Math.max(5, Math.min(95, yPercent))}%`
+                    top: `${Math.max(5, Math.min(95, yPercent))}%`,
                   }}
                   title={city.name}
                 ></div>
@@ -250,21 +263,25 @@ export default function BusinessLocationMap({ selectedLocation, setSelectedLocat
 
         <div className="p-4 bg-gray-50 space-y-3">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-600">Latitude:</span>
-            <span className="font-mono text-gray-800">{selectedLocation.lat.toFixed(6)}</span>
+            <span className="text-gray-600">{t("map.latitude")}</span>
+            <span className="font-mono text-gray-800">
+              {selectedLocation.lat.toFixed(6)}
+            </span>
           </div>
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-600">Longitude:</span>
-            <span className="font-mono text-gray-800">{selectedLocation.lng.toFixed(6)}</span>
+            <span className="text-gray-600">{t("map.longitude")}</span>
+            <span className="font-mono text-gray-800">
+              {selectedLocation.lng.toFixed(6)}
+            </span>
           </div>
-          
-          {locationMethod === 'map' && (
+
+          {locationMethod === "map" && (
             <button
               onClick={handleMapClick}
               className="w-full bg-yellow-400 text-white py-2 px-4 rounded-lg hover:bg-yellow-500 font-medium text-sm whitespace-nowrap cursor-pointer"
             >
               <i className="ri-crosshair-line mr-2"></i>
-              Adjust Pin Location
+              {t("map.adjustPin")}
             </button>
           )}
         </div>
@@ -275,12 +292,14 @@ export default function BusinessLocationMap({ selectedLocation, setSelectedLocat
               <i className="ri-information-line text-blue-600 text-sm"></i>
             </div>
             <div>
-              <h4 className="text-sm font-medium text-blue-800 mb-1">Location Tips</h4>
+              <h4 className="text-sm font-medium text-blue-800 mb-1">
+                {t("map.tipsTitle")}
+              </h4>
               <ul className="text-xs text-blue-700 space-y-1">
-                <li>• Place the pin at your main entrance or office location</li>
-                <li>• Ensure the location is easily accessible to customers</li>
-                <li>• Double-check that your address matches the pin location</li>
-                <li>• Use landmarks nearby to help customers find you easier</li>
+                <li>{t("map.tip1")}</li>
+                <li>{t("map.tip2")}</li>
+                <li>{t("map.tip3")}</li>
+                <li>{t("map.tip4")}</li>
               </ul>
             </div>
           </div>

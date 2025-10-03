@@ -910,7 +910,7 @@ export default function SearchSection() {
                   <div className="mb-4 text-left">
                     <p className="text-sm md:text-base font-bold text-gray-700">
                       <i className="ri-lightbulb-line text-yellow-500 mr-2"></i>
-                      Search for products and services
+                      {t("searchRequest.guideTitle")}
                     </p>
                   </div>
 
@@ -1089,27 +1089,33 @@ export default function SearchSection() {
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
                     <div className="space-y-2">
                       <label className="block text-sm font-semibold text-gray-800 mb-3">
-                        Display Name
+                        {t("searchRequest.displayNameLabel")}
                       </label>
                       <select
                         name="nameType"
                         className="w-full py-3 md:py-4 px-4 md:px-5 border-2 border-gray-200 rounded-xl focus:border-yellow-400 focus:outline-none transition-colors pr-8 md:pr-12 bg-gray-50 hover:bg-white"
                       >
-                        <option value="profile">Use Profile Name</option>
-                        <option value="anonymous">Anonymous Request</option>
+                        <option value="profile">
+                          {t("searchRequest.displayNameProfile")}
+                        </option>
+                        <option value="anonymous">
+                          {t("searchRequest.displayNameAnonymous")}
+                        </option>
                       </select>
                     </div>
 
                     <div className="space-y-2">
                       <label className="block text-sm font-semibold text-gray-800 mb-3">
-                        Industry Category
+                        {t("searchRequest.industryLabel")}
                       </label>
                       <select
                         name="category"
                         className="w-full py-3 md:py-4 px-4 md:px-5 border-2 border-gray-200 rounded-xl focus:border-yellow-400 focus:outline-none transition-colors pr-8 md:pr-12 bg-gray-50 hover:bg-white"
                         required
                       >
-                        <option value="">Select your industry</option>
+                        <option value="">
+                          {t("searchRequest.industryPlaceholder")}
+                        </option>
                         <option value="agriculture">
                           Agriculture & Farming
                         </option>
@@ -1207,21 +1213,33 @@ export default function SearchSection() {
 
                     <div className="space-y-2">
                       <label className="block text-sm font-semibold text-gray-800 mb-3">
-                        Preferred Distance
+                        {t("searchRequest.distanceLabel")}
                       </label>
                       <select
                         name="distance"
                         className="w-full py-3 md:py-4 px-4 md:px-5 border-2 border-gray-200 rounded-xl focus:border-yellow-400 focus:outline-none transition-colors pr-8 md:pr-12 bg-gray-50 hover:bg-white"
                         required
                       >
-                        <option value="">Choose distance range</option>
-                        <option value="5km">Within 5 km (Local)</option>
-                        <option value="10km">Within 10 km (Nearby)</option>
-                        <option value="25km">Within 25 km (City)</option>
-                        <option value="50km">Within 50 km (Regional)</option>
-                        <option value="100km">Within 100 km (Extended)</option>
+                        <option value="">
+                          {t("searchRequest.distancePlaceholder")}
+                        </option>
+                        <option value="5km">
+                          {t("searchRequest.distance5")}
+                        </option>
+                        <option value="10km">
+                          {t("searchRequest.distance10")}
+                        </option>
+                        <option value="25km">
+                          {t("searchRequest.distance25")}
+                        </option>
+                        <option value="50km">
+                          {t("searchRequest.distance50")}
+                        </option>
+                        <option value="100km">
+                          {t("searchRequest.distance100")}
+                        </option>
                         <option value="anywhere">
-                          Anywhere in Saudi Arabia
+                          {t("searchRequest.distanceAnywhere")}
                         </option>
                       </select>
                     </div>
@@ -1230,13 +1248,13 @@ export default function SearchSection() {
                   {/* Description Section */}
                   <div className="space-y-4">
                     <label className="block text-sm font-semibold text-gray-800">
-                      Describe Your Requirements
+                      {t("searchRequest.descLabel")}
                       <span className="text-yellow-600 ml-1">*</span>
                     </label>
                     <div className="relative">
                       <textarea
                         name="description"
-                        placeholder="Tell suppliers exactly what you need. Be specific about quantities, specifications, quality requirements, and any special conditions. Maximum 2 sentences, 200 characters."
+                        placeholder={t("searchRequest.descPlaceholder")}
                         rows={4}
                         maxLength={200}
                         value={description}
@@ -1250,7 +1268,10 @@ export default function SearchSection() {
                             sentenceCount > 2 ? "text-red-500" : "text-gray-500"
                           }`}
                         >
-                          {sentenceCount}/2 sentences
+                          {t("searchRequest.sentencesCounter").replace(
+                            "{{count}}",
+                            String(sentenceCount)
+                          )}
                         </span>
                         <span
                           className={`${
@@ -1259,7 +1280,10 @@ export default function SearchSection() {
                               : "text-gray-500"
                           }`}
                         >
-                          {description.length}/200 chars
+                          {t("searchRequest.charsCounter").replace(
+                            "{{count}}",
+                            String(description.length)
+                          )}
                         </span>
                       </div>
                     </div>
@@ -1275,17 +1299,21 @@ export default function SearchSection() {
                           <>
                             <i className="ri-loader-4-line animate-spin mr-2"></i>
                             <span className="hidden sm:inline">
-                              Submitting Request...
+                              {t("searchRequest.submittingLong")}
                             </span>
-                            <span className="sm:hidden">Submitting...</span>
+                            <span className="sm:hidden">
+                              {t("searchRequest.submitting")}
+                            </span>
                           </>
                         ) : (
                           <>
                             <i className="ri-send-plane-line mr-2"></i>
                             <span className="hidden sm:inline">
-                              Submit Supplier Request
+                              {t("searchRequest.submit")}
                             </span>
-                            <span className="sm:hidden">Submit Request</span>
+                            <span className="sm:hidden">
+                              {t("searchRequest.submitShort")}
+                            </span>
                           </>
                         )}
                       </button>

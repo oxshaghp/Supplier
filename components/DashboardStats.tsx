@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "../lib/LanguageContext";
 
 export default function DashboardStats() {
+  const { t } = useLanguage();
   const [timeRange, setTimeRange] = useState("7days");
   const [showAllActivity, setShowAllActivity] = useState(false);
 
@@ -87,15 +89,17 @@ export default function DashboardStats() {
     <div className="space-y-8">
       {/* Time Range Filter */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">Dashboard Overview</h2>
+        <h2 className="text-2xl font-bold text-gray-800">
+          {t("dashboard.overview")}
+        </h2>
         <select
           value={timeRange}
           onChange={(e) => setTimeRange(e.target.value)}
           className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm pr-8"
         >
-          <option value="7days">Last 7 days</option>
-          <option value="30days">Last 30 days</option>
-          <option value="90days">Last 90 days</option>
+          <option value="7days">{t("dashboard.last7")}</option>
+          <option value="30days">{t("dashboard.last30")}</option>
+          <option value="90days">{t("dashboard.last90")}</option>
         </select>
       </div>
 
@@ -124,7 +128,7 @@ export default function DashboardStats() {
           <h3 className="text-2xl font-bold text-gray-800 mb-1">
             {stats.views.current.toLocaleString()}
           </h3>
-          <p className="text-gray-600 text-sm">Profile Views</p>
+          <p className="text-gray-600 text-sm">{t("dashboard.profileViews")}</p>
         </div>
 
         <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
@@ -152,7 +156,9 @@ export default function DashboardStats() {
           <h3 className="text-2xl font-bold text-gray-800 mb-1">
             {stats.contacts.current}
           </h3>
-          <p className="text-gray-600 text-sm">Contact Requests</p>
+          <p className="text-gray-600 text-sm">
+            {t("dashboard.contactRequests")}
+          </p>
         </div>
 
         <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
@@ -180,7 +186,9 @@ export default function DashboardStats() {
           <h3 className="text-2xl font-bold text-gray-800 mb-1">
             {stats.inquiries.current}
           </h3>
-          <p className="text-gray-600 text-sm">Business Inquiries</p>
+          <p className="text-gray-600 text-sm">
+            {t("dashboard.businessInquiries")}
+          </p>
         </div>
 
         <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
@@ -206,13 +214,17 @@ export default function DashboardStats() {
           <h3 className="text-2xl font-bold text-gray-800 mb-1">
             {stats.rating.current}
           </h3>
-          <p className="text-gray-600 text-sm">Average Rating</p>
+          <p className="text-gray-600 text-sm">
+            {t("dashboard.averageRating")}
+          </p>
         </div>
       </div>
 
       {/* Quick Actions */}
       <div>
-        <h3 className="text-xl font-bold text-gray-800 mb-6">Quick Actions</h3>
+        <h3 className="text-xl font-bold text-gray-800 mb-6">
+          {t("dashboard.quickActions")}
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {quickActions.map((action, index) => (
             <button
@@ -225,9 +237,23 @@ export default function DashboardStats() {
                 <i className={`${action.icon} text-white text-xl`}></i>
               </div>
               <h4 className="font-semibold text-gray-800 mb-2">
-                {action.title}
+                {index === 0
+                  ? t("dashboard.updateHours")
+                  : index === 1
+                  ? t("dashboard.addProducts")
+                  : index === 2
+                  ? t("dashboard.respondReviews")
+                  : t("dashboard.uploadPhotos")}
               </h4>
-              <p className="text-gray-600 text-sm">{action.description}</p>
+              <p className="text-gray-600 text-sm">
+                {index === 0
+                  ? t("dashboard.updateHoursDesc")
+                  : index === 1
+                  ? t("dashboard.addProductsDesc")
+                  : index === 2
+                  ? t("dashboard.respondReviewsDesc")
+                  : t("dashboard.uploadPhotosDesc")}
+              </p>
             </button>
           ))}
         </div>
@@ -236,7 +262,7 @@ export default function DashboardStats() {
       {/* Recent Activity */}
       <div>
         <h3 className="text-xl font-bold text-gray-800 mb-6">
-          Recent Activity
+          {t("dashboard.recentActivity")}
         </h3>
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm">
           <div className="space-y-1">
@@ -279,7 +305,7 @@ export default function DashboardStats() {
               onClick={() => setShowAllActivity(true)}
               className="w-full text-center py-2 text-gray-600 hover:text-gray-800 font-medium text-sm cursor-pointer"
             >
-              View All Activity
+              {t("dashboard.viewAllActivity")}
               <i className="ri-arrow-right-line ml-2"></i>
             </button>
           </div>
@@ -290,7 +316,9 @@ export default function DashboardStats() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[80vh] overflow-hidden">
             <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-gray-800">All Activity</h3>
+              <h3 className="text-xl font-bold text-gray-800">
+                {t("dashboard.allActivity")}
+              </h3>
               <button
                 onClick={() => setShowAllActivity(false)}
                 className="text-gray-400 hover:text-gray-600 text-2xl cursor-pointer"
@@ -333,7 +361,7 @@ export default function DashboardStats() {
                 onClick={() => setShowAllActivity(false)}
                 className="px-4 py-2 rounded border border-gray-300 text-gray-700 hover:bg-gray-50"
               >
-                Close
+                {t("dashboard.close")}
               </button>
             </div>
           </div>

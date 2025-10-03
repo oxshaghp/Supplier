@@ -1,9 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useLanguage } from "../../lib/LanguageContext";
 
 export default function PricingHero() {
   const router = useRouter();
+  const { t } = useLanguage();
   return (
     <section
       className="relative py-24 bg-gradient-to-br from-yellow-400 via-yellow-500 to-orange-500 overflow-hidden"
@@ -21,19 +23,19 @@ export default function PricingHero() {
           <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 mb-8">
             <i className="ri-vip-crown-line text-yellow-300"></i>
             <span className="text-sm font-medium">
-              All-in-One Business Solution
+              {t("subscription.heroBadge")}
             </span>
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-            Transform Your Business with
-            <span className="text-yellow-300"> One Complete Plan</span>
+            {t("subscription.heroTitle1")}
+            <span className="text-yellow-300">
+              {t("subscription.heroTitle2")}
+            </span>
           </h1>
 
           <p className="text-xl md:text-2xl text-gray-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Get every premium feature, advanced tool, and growth opportunity in
-            one comprehensive subscription. No tiers, no limits, just everything
-            you need to succeed.
+            {t("subscription.heroDesc")}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-12">
@@ -42,14 +44,14 @@ export default function PricingHero() {
               className="bg-white text-gray-800 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg whitespace-nowrap cursor-pointer"
             >
               <i className="ri-rocket-line mr-2"></i>
-              Start Your Success Story
+              {t("subscription.heroPrimary")}
             </button>
             <button
               onClick={() => router.push("/subscription#how-it-works")}
               className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-gray-800 transition-all whitespace-nowrap cursor-pointer"
             >
               <i className="ri-play-circle-line mr-2"></i>
-              See How It Works
+              {t("subscription.heroSecondary")}
             </button>
           </div>
 
@@ -59,10 +61,10 @@ export default function PricingHero() {
                 <i className="ri-customer-service-2-line text-gray-800 text-xl"></i>
               </div>
               <h3 className="text-lg font-semibold mb-2">
-                Direct Communication
+                {t("subscription.heroFeature1Title")}
               </h3>
               <p className="text-gray-200 text-sm">
-                Get contacted directly by customers and procurement teams
+                {t("subscription.heroFeature1Desc")}
               </p>
             </div>
 
@@ -70,9 +72,11 @@ export default function PricingHero() {
               <div className="w-12 h-12 bg-yellow-300 rounded-full flex items-center justify-center mb-4 mx-auto">
                 <i className="ri-map-pin-line text-gray-800 text-xl"></i>
               </div>
-              <h3 className="text-lg font-semibold mb-2">Featured Placement</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                {t("subscription.heroFeature2Title")}
+              </h3>
               <p className="text-gray-200 text-sm">
-                Appear first on homepage and in all search results
+                {t("subscription.heroFeature2Desc")}
               </p>
             </div>
 
@@ -81,10 +85,10 @@ export default function PricingHero() {
                 <i className="ri-shield-star-line text-gray-800 text-xl"></i>
               </div>
               <h3 className="text-lg font-semibold mb-2">
-                Special Verification
+                {t("subscription.heroFeature3Title")}
               </h3>
               <p className="text-gray-200 text-sm">
-                Get verified badge and recommended supplier status
+                {t("subscription.heroFeature3Desc")}
               </p>
             </div>
 
@@ -92,9 +96,11 @@ export default function PricingHero() {
               <div className="w-12 h-12 bg-yellow-300 rounded-full flex items-center justify-center mb-4 mx-auto">
                 <i className="ri-line-chart-line text-gray-800 text-xl"></i>
               </div>
-              <h3 className="text-lg font-semibold mb-2">Smart Analytics</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                {t("subscription.heroFeature4Title")}
+              </h3>
               <p className="text-gray-200 text-sm">
-                Real-time leads alerts and comprehensive business insights
+                {t("subscription.heroFeature4Desc")}
               </p>
             </div>
           </div>
@@ -103,17 +109,17 @@ export default function PricingHero() {
             <div className="flex items-center justify-center space-x-4 text-lg font-semibold">
               <div className="flex items-center space-x-2">
                 <i className="ri-check-line text-green-300"></i>
-                <span>30-Day Free Trial</span>
+                <span>{t("subscription.heroTrial")}</span>
               </div>
               <div className="w-px h-6 bg-white/30"></div>
               <div className="flex items-center space-x-2">
                 <i className="ri-shield-check-line text-green-300"></i>
-                <span>Cancel Anytime</span>
+                <span>{t("subscription.heroCancelAnytime")}</span>
               </div>
               <div className="w-px h-6 bg-white/30"></div>
               <div className="flex items-center space-x-2">
                 <i className="ri-customer-service-line text-green-300"></i>
-                <span>24/7 Support</span>
+                <span>{t("subscription.heroSupport247")}</span>
               </div>
             </div>
           </div>

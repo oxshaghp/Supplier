@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useLanguage } from "../lib/LanguageContext";
 
 type InboxMessage = {
   id: number;
@@ -36,6 +37,7 @@ type DashboardMessagesProps = {
 export default function DashboardMessages({
   selectedMessageId,
 }: DashboardMessagesProps) {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<"inbox" | "sent">("inbox");
   const [selectedMessage, setSelectedMessage] = useState<AnyMessage | null>(
     null
@@ -225,13 +227,15 @@ export default function DashboardMessages({
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">Messages</h2>
+        <h2 className="text-2xl font-bold text-gray-800">
+          {t("messagesPage.title")}
+        </h2>
         <button
           onClick={() => setShowCompose(true)}
           className="bg-yellow-400 text-white px-6 py-3 rounded-lg hover:bg-yellow-500 font-medium whitespace-nowrap cursor-pointer"
         >
           <i className="ri-add-line mr-2"></i>
-          Compose
+          {t("messagesPage.compose")}
         </button>
       </div>
 
@@ -248,7 +252,8 @@ export default function DashboardMessages({
               }`}
             >
               <i className="ri-inbox-line mr-2"></i>
-              Inbox ({messages.inbox.filter((m) => m.unread).length})
+              {t("messagesPage.inbox")} (
+              {messages.inbox.filter((m) => m.unread).length})
             </button>
             <button
               onClick={() => setActiveTab("sent")}
@@ -259,7 +264,7 @@ export default function DashboardMessages({
               }`}
             >
               <i className="ri-send-plane-line mr-2"></i>
-              Sent ({messages.sent.length})
+              {t("messagesPage.sent")} ({messages.sent.length})
             </button>
           </nav>
         </div>
@@ -409,25 +414,30 @@ export default function DashboardMessages({
 
               {activeTab === "inbox" && (
                 <div className="border-t border-gray-200 pt-6">
-                  <h3 className="font-medium text-gray-800 mb-3">Reply</h3>
+                  <h3 className="font-medium text-gray-800 mb-3">
+                    {t("messagesPage.reply")}
+                  </h3>
                   <textarea
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
                     rows={4}
                     maxLength={500}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm resize-none"
-                    placeholder="Type your reply here..."
+                    placeholder={t("messagesPage.typeReplyPlaceholder")}
                   />
                   <div className="flex justify-between items-center mt-3">
                     <span className="text-xs text-gray-500">
-                      {replyText.length}/500 characters
+                      {t("messagesPage.charactersCounter").replace(
+                        "{{count}}",
+                        String(replyText.length)
+                      )}
                     </span>
                     <div className="flex space-x-3">
                       <button
                         onClick={() => setSelectedMessage(null)}
                         className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 font-medium text-sm whitespace-nowrap cursor-pointer"
                       >
-                        Cancel
+                        {t("messagesPage.cancel")}
                       </button>
                       <button
                         onClick={() => handleReply(selectedMessage.id)}
@@ -439,7 +449,7 @@ export default function DashboardMessages({
                         }`}
                       >
                         <i className="ri-send-plane-line mr-2"></i>
-                        Send Reply
+                        {t("messagesPage.sendReply")}
                       </button>
                     </div>
                   </div>
@@ -455,7 +465,9 @@ export default function DashboardMessages({
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-2xl w-full max-h-screen overflow-y-auto">
             <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-gray-800">New Message</h3>
+              <h3 className="text-xl font-bold text-gray-800">
+                {t("messagesPage.newMessage")}
+              </h3>
               <button
                 onClick={() => setShowCompose(false)}
                 className="text-gray-400 hover:text-gray-600 cursor-pointer"
@@ -465,36 +477,38 @@ export default function DashboardMessages({
             </div>
             <div className="p-6 space-y-4">
               <div>
-                <label className="block text-sm text-gray-600 mb-1">To</label>
+                <label className="block text-sm text-gray-600 mb-1">
+                  {t("messagesPage.to")}
+                </label>
                 <input
                   type="email"
                   value={composeTo}
                   onChange={(e) => setComposeTo(e.target.value)}
-                  placeholder="recipient@example.com"
+                  placeholder={t("messagesPage.recipientPlaceholder")}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
                 />
               </div>
               <div>
                 <label className="block text-sm text-gray-600 mb-1">
-                  Subject
+                  {t("messagesPage.subject")}
                 </label>
                 <input
                   type="text"
                   value={composeSubject}
                   onChange={(e) => setComposeSubject(e.target.value)}
-                  placeholder="Subject"
+                  placeholder={t("messagesPage.subjectPlaceholder")}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
                 />
               </div>
               <div>
                 <label className="block text-sm text-gray-600 mb-1">
-                  Message
+                  {t("messagesPage.message")}
                 </label>
                 <textarea
                   rows={6}
                   value={composeBody}
                   onChange={(e) => setComposeBody(e.target.value)}
-                  placeholder="Type your message..."
+                  placeholder={t("messagesPage.messagePlaceholder")}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm resize-none"
                 />
               </div>
@@ -504,7 +518,7 @@ export default function DashboardMessages({
                 onClick={() => setShowCompose(false)}
                 className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 font-medium text-sm whitespace-nowrap cursor-pointer"
               >
-                Cancel
+                {t("messagesPage.cancel")}
               </button>
               <button
                 onClick={() => {
@@ -539,7 +553,7 @@ export default function DashboardMessages({
                 }`}
               >
                 <i className="ri-send-plane-line mr-2"></i>
-                Send
+                {t("messagesPage.send")}
               </button>
             </div>
           </div>
@@ -557,7 +571,9 @@ export default function DashboardMessages({
               <h3 className="text-2xl font-bold text-gray-800">
                 {messages.inbox.filter((m) => m.unread).length}
               </h3>
-              <p className="text-gray-600 text-sm">Unread Messages</p>
+              <p className="text-gray-600 text-sm">
+                {t("messagesPage.unreadMessages")}
+              </p>
             </div>
           </div>
         </div>
@@ -569,7 +585,9 @@ export default function DashboardMessages({
             </div>
             <div>
               <h3 className="text-2xl font-bold text-gray-800">2.4h</h3>
-              <p className="text-gray-600 text-sm">Avg Response Time</p>
+              <p className="text-gray-600 text-sm">
+                {t("messagesPage.avgResponseTime")}
+              </p>
             </div>
           </div>
         </div>
@@ -581,7 +599,9 @@ export default function DashboardMessages({
             </div>
             <div>
               <h3 className="text-2xl font-bold text-gray-800">94%</h3>
-              <p className="text-gray-600 text-sm">Response Rate</p>
+              <p className="text-gray-600 text-sm">
+                {t("messagesPage.responseRate")}
+              </p>
             </div>
           </div>
         </div>

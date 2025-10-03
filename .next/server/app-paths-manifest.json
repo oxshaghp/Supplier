@@ -1,8 +1,8 @@
 {
-  "/success-stories/page": "app/success-stories/page.js",
-  "/admin/page": "app/admin/page.js",
-  "/businesses/page": "app/businesses/page.js",
-  "/register/page": "app/register/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
-  "/page": "app/page.js"
+  "/subscription/page": "app/subscription/page.js",
+  "/help-center/page": "app/help-center/page.js",
+  "/about/page": "app/about/page.js",
+  "/vision-2030/page": "app/vision-2030/page.js",
+  "/page": "app/page.js",
+  "/dashboard/page": "app/dashboard/page.js"
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useLanguage } from "../../../lib/LanguageContext";
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import Link from "next/link";
@@ -8,6 +9,7 @@ import Link from "next/link";
 type BusinessProfileProps = { businessId: string };
 
 export default function BusinessProfile({ businessId }: BusinessProfileProps) {
+  const { t } = useLanguage();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showContact, setShowContact] = useState(false);
   const [showInquiryModal, setShowInquiryModal] = useState(false);
@@ -41,8 +43,9 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
   };
 
   const getRatingText = (rating: number) => {
-    const texts = ["", "Poor", "Fair", "Good", "Very Good", "Excellent"];
-    return texts[rating];
+    const texts =
+      (t("businessProfile.ratingTexts") as unknown as string[]) || [];
+    return texts[rating] || "";
   };
 
   const handleReviewSubmit = async (e: React.FormEvent) => {
@@ -314,16 +317,17 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
 
     const todayHours = business.workingHours[currentDay as DayKey];
 
-    if (todayHours.closed) return { status: "Closed", color: "text-red-600" };
+    if (todayHours.closed)
+      return { status: t("businessProfile.closed"), color: "text-red-600" };
 
     const openTime = parseInt(todayHours.open.replace(":", ""));
     const closeTime = parseInt(todayHours.close.replace(":", ""));
 
     if (currentTime >= openTime && currentTime <= closeTime) {
-      return { status: "Open Now", color: "text-green-600" };
+      return { status: t("businessProfile.openNow"), color: "text-green-600" };
     }
 
-    return { status: "Closed", color: "text-red-600" };
+    return { status: t("businessProfile.closed"), color: "text-red-600" };
   };
 
   const getBusinessTypeIcon = (type: string): string => {
@@ -467,7 +471,8 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                       ></i>
                     ))}
                     <span className="text-white ml-2 font-medium">
-                      {business.rating} ({business.reviewCount} reviews)
+                      {business.rating} ({business.reviewCount}{" "}
+                      {t("businessProfile.ratingReviewsSuffix")})
                     </span>
                   </div>
                 </div>
@@ -509,7 +514,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-800">
-                    Target Customers
+                    {t("businessProfile.targetCustomers")}
                   </p>
                   <p className="text-sm text-gray-600">
                     {business.targetCustomers.join(", ")}
@@ -523,10 +528,13 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-800">
-                    Service Area
+                    {t("businessProfile.serviceArea")}
                   </p>
                   <p className="text-sm text-gray-600">
-                    Up to {business.serviceDistance}
+                    {t("businessProfile.upToDistance").replace(
+                      "{{distance}}",
+                      business.serviceDistance
+                    )}
                   </p>
                 </div>
               </div>
@@ -541,7 +549,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-800">
-                    Business Type
+                    {t("businessProfile.businessType")}
                   </p>
                   <p className="text-sm text-gray-600">
                     {business.businessType}
@@ -561,7 +569,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                 {/* About Section */}
                 <div>
                   <h2 className="text-3xl font-bold text-gray-800 mb-6">
-                    About This Business
+                    {t("businessProfile.aboutThisBusiness")}
                   </h2>
                   <p className="text-gray-600 leading-relaxed text-lg">
                     {business.description}
@@ -572,10 +580,13 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                 <div>
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-3xl font-bold text-gray-800">
-                      Products & Services
+                      {t("businessProfile.productsServices")}
                     </h2>
                     <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                      {business.productsAndServices.length} items
+                      {t("businessProfile.itemsCount").replace(
+                        "{{count}}",
+                        String(business.productsAndServices.length)
+                      )}
                     </span>
                   </div>
 
@@ -584,12 +595,11 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                       <div className="flex items-center space-x-3">
                         <i className="ri-list-check-2 text-blue-600 text-lg"></i>
                         <h3 className="font-semibold text-gray-800">
-                          Complete Product & Service Catalog
+                          {t("businessProfile.catalogTitle")}
                         </h3>
                       </div>
                       <p className="text-sm text-gray-600 mt-1">
-                        Search through our extensive inventory of products and
-                        services
+                        {t("businessProfile.catalogSubtitle")}
                       </p>
                     </div>
 
@@ -636,14 +646,13 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2 text-sm text-blue-700">
                           <i className="ri-search-line"></i>
-                          <span>
-                            Customers can search for any of these items to find
-                            your business
-                          </span>
+                          <span>{t("businessProfile.customersCanSearch")}</span>
                         </div>
                         <div className="text-sm text-blue-600 font-medium">
-                          Total: {business.productsAndServices.length}{" "}
-                          products/services
+                          {t("businessProfile.totalProductsServices").replace(
+                            "{{count}}",
+                            String(business.productsAndServices.length)
+                          )}
                         </div>
                       </div>
                     </div>
@@ -653,7 +662,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                 {/* Business Gallery Section */}
                 <div>
                   <h2 className="text-3xl font-bold text-gray-800 mb-6">
-                    Business Gallery
+                    {t("businessProfile.businessGallery")}
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {business.galleryImages.map((image, index) => (
@@ -687,8 +696,10 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                   <div className="mt-6 text-center">
                     <p className="text-gray-600 text-sm">
                       <i className="ri-camera-line mr-2"></i>
-                      Showcasing our business, products, and services through{" "}
-                      {business.galleryImages.length} selected photos
+                      {t("businessProfile.showcasingPhotos").replace(
+                        "{{count}}",
+                        String(business.galleryImages.length)
+                      )}
                     </p>
                   </div>
                 </div>
@@ -697,14 +708,14 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                 <div>
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-3xl font-bold text-gray-800">
-                      Customer Reviews
+                      {t("businessProfile.customerReviews")}
                     </h2>
                     <button
                       onClick={() => setShowReviewModal(true)}
                       className="bg-yellow-400 text-white px-6 py-3 rounded-full hover:bg-yellow-500 font-medium whitespace-nowrap cursor-pointer flex items-center space-x-2"
                     >
                       <i className="ri-edit-line"></i>
-                      <span>Write a Review</span>
+                      <span>{t("businessProfile.writeAReview")}</span>
                     </button>
                   </div>
 
@@ -825,7 +836,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                 {/* Contact Information */}
                 <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
                   <h3 className="text-xl font-bold text-gray-800 mb-4">
-                    Contact Information
+                    {t("businessProfile.contactInformation")}
                   </h3>
 
                   <div className="space-y-4 mb-6">
@@ -834,7 +845,9 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                         <i className="ri-phone-line text-yellow-600"></i>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Phone</p>
+                        <p className="text-sm text-gray-600">
+                          {t("businessProfile.phone")}
+                        </p>
                         <p className="font-medium text-gray-800">
                           {business.phone}
                         </p>
@@ -846,7 +859,9 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                         <i className="ri-mail-line text-blue-600"></i>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Email</p>
+                        <p className="text-sm text-gray-600">
+                          {t("businessProfile.email")}
+                        </p>
                         <p className="font-medium text-gray-800">
                           {business.email}
                         </p>
@@ -858,7 +873,9 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                         <i className="ri-global-line text-green-600"></i>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Website</p>
+                        <p className="text-sm text-gray-600">
+                          {t("businessProfile.website")}
+                        </p>
                         <p className="font-medium text-gray-800">
                           {business.website}
                         </p>
@@ -870,7 +887,9 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                         <i className="ri-map-pin-line text-purple-600"></i>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Address</p>
+                        <p className="text-sm text-gray-600">
+                          {t("businessProfile.address")}
+                        </p>
                         <p className="font-medium text-gray-800">
                           {business.address}
                         </p>
@@ -884,7 +903,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                       className="bg-yellow-400 text-white py-3 px-4 rounded-lg hover:bg-yellow-500 font-medium text-sm whitespace-nowrap cursor-pointer"
                     >
                       <i className="ri-message-line mr-2"></i>
-                      Message/Request
+                      {t("businessProfile.messageRequest")}
                     </button>
                   </div>
                 </div>
@@ -892,7 +911,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                 {/* Working Hours */}
                 <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
                   <h3 className="text-xl font-bold text-gray-800 mb-6">
-                    Working Hours
+                    {t("businessProfile.workingHours")}
                   </h3>
                   <div className="space-y-3">
                     {Object.entries(business.workingHours).map(
@@ -910,7 +929,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                             }`}
                           >
                             {hours.closed
-                              ? "Closed"
+                              ? t("businessProfile.closedLabel")
                               : `${hours.open} - ${hours.close}`}
                           </span>
                         </div>
@@ -923,7 +942,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                 <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
                   <div className="p-4 border-b border-gray-100">
                     <h3 className="text-lg font-bold text-gray-800">
-                      Location
+                      {t("businessProfile.location")}
                     </h3>
                   </div>
                   <div className="h-64 relative">
@@ -949,7 +968,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                       className="w-full bg-yellow-400 text-white py-2 px-4 rounded-lg hover:bg-yellow-500 font-medium text-sm whitespace-nowrap cursor-pointer"
                     >
                       <i className="ri-directions-line mr-2"></i>
-                      Get Directions
+                      {t("businessProfile.getDirections")}
                     </button>
                   </div>
                 </div>
@@ -962,10 +981,10 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
         <section className="py-12 bg-yellow-50">
           <div className="w-full px-6 text-center">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              Explore More Businesses
+              {t("businessProfile.exploreMore")}
             </h2>
             <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-              Discover other suppliers and service providers in your area
+              {t("businessProfile.discoverOthers")}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link
@@ -973,14 +992,14 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                 className="bg-yellow-400 text-white px-8 py-4 rounded-full hover:bg-yellow-500 font-semibold whitespace-nowrap cursor-pointer"
               >
                 <i className="ri-map-line mr-2"></i>
-                Back to Map
+                {t("businessProfile.backToMap")}
               </Link>
               <Link
                 href="/add-business"
                 className="border border-yellow-400 text-yellow-600 px-8 py-4 rounded-full hover:bg-yellow-50 font-semibold whitespace-nowrap cursor-pointer"
               >
                 <i className="ri-add-line mr-2"></i>
-                Add Your Business
+                {t("businessProfile.addYourBusiness")}
               </Link>
             </div>
           </div>
@@ -1001,10 +1020,13 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                     </div>
                     <div>
                       <h2 className="text-xl font-bold text-gray-800">
-                        New Message
+                        {t("businessProfile.newMessage")}
                       </h2>
                       <p className="text-sm text-gray-600">
-                        To: {business.name}
+                        {t("businessProfile.toBusiness").replace(
+                          "{{name}}",
+                          business.name
+                        )}
                       </p>
                     </div>
                   </div>
@@ -1177,7 +1199,7 @@ Best regards,"
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center space-x-2 text-sm text-gray-600">
                         <i className="ri-time-line"></i>
-                        <span>Business hours: 8:00 AM - 6:00 PM</span>
+                        <span>{t("businessProfile.businessHoursInline")}</span>
                       </div>
                     </div>
 
@@ -1187,7 +1209,7 @@ Best regards,"
                         onClick={resetInquiryForm}
                         className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium cursor-pointer"
                       >
-                        Cancel
+                        {t("businessProfile.cancel")}
                       </button>
                       <button
                         type="submit"
@@ -1203,12 +1225,12 @@ Best regards,"
                         {isSubmitting ? (
                           <>
                             <i className="ri-loader-4-line animate-spin"></i>
-                            <span>Sending...</span>
+                            <span>{t("businessProfile.sending")}</span>
                           </>
                         ) : (
                           <>
                             <i className="ri-send-plane-line"></i>
-                            <span>Send Message</span>
+                            <span>{t("businessProfile.sendMessage")}</span>
                           </>
                         )}
                       </button>
@@ -1223,7 +1245,7 @@ Best regards,"
                   <i className="ri-mail-check-line text-green-600 text-3xl"></i>
                 </div>
                 <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                  Message Sent Successfully!
+                  {t("businessProfile.messageSentTitle")}
                 </h3>
                 <p className="text-gray-600 mb-2">
                   Your inquiry has been sent to <strong>{business.name}</strong>
@@ -1238,19 +1260,13 @@ Best regards,"
                     </div>
                     <div className="text-left">
                       <h4 className="text-sm font-medium text-yellow-800 mb-1">
-                        What happens next?
+                        {t("businessProfile.whatHappensNext")}
                       </h4>
                       <ul className="text-xs text-yellow-700 space-y-1">
-                        <li>
-                          • The business will receive your message via email
-                        </li>
-                        <li>
-                          • They can respond directly to your email address
-                        </li>
-                        <li>• You may also receive a phone call if provided</li>
-                        <li>
-                          • Check your spam folder if you don't hear back soon
-                        </li>
+                        <li>{t("businessProfile.nextSteps1")}</li>
+                        <li>{t("businessProfile.nextSteps2")}</li>
+                        <li>{t("businessProfile.nextSteps3")}</li>
+                        <li>{t("businessProfile.nextSteps4")}</li>
                       </ul>
                     </div>
                   </div>
@@ -1259,7 +1275,7 @@ Best regards,"
                   onClick={resetInquiryForm}
                   className="bg-yellow-400 text-white px-8 py-3 rounded-lg hover:bg-yellow-500 font-medium cursor-pointer"
                 >
-                  Close
+                  {t("businessProfile.close")}
                 </button>
               </div>
             )}
@@ -1275,10 +1291,13 @@ Best regards,"
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-2xl font-bold text-white">
-                    Write a Review
+                    {t("businessProfile.writeReviewTitle")}
                   </h3>
                   <p className="text-yellow-100 mt-1">
-                    Share your experience with {business.name}
+                    {t("businessProfile.shareExperience").replace(
+                      "{{name}}",
+                      business.name
+                    )}
                   </p>
                 </div>
                 <button
@@ -1296,10 +1315,10 @@ Best regards,"
                   <i className="ri-check-line text-4xl text-green-600"></i>
                 </div>
                 <h4 className="text-2xl font-bold text-gray-800 mb-4">
-                  Thank You!
+                  {t("businessProfile.thankYou")}
                 </h4>
                 <p className="text-gray-600 mb-6">
-                  Your review has been submitted for approval.
+                  {t("businessProfile.reviewSubmitted")}
                 </p>
 
                 <div className="bg-blue-50 rounded-lg p-4 mb-6 text-left">
@@ -1426,19 +1445,13 @@ Best regards,"
                     </div>
                     <div>
                       <h4 className="text-sm font-medium text-blue-800 mb-2">
-                        Review Guidelines
+                        {t("businessProfile.reviewGuidelines")}
                       </h4>
                       <ul className="text-xs text-blue-700 space-y-1">
-                        <li>• Be honest and fair in your assessment</li>
-                        <li>
-                          • Focus on your personal experience with the business
-                        </li>
-                        <li>
-                          • Avoid inappropriate language or personal attacks
-                        </li>
-                        <li>
-                          • Include specific details about products or services
-                        </li>
+                        <li>{t("businessProfile.guidelines1")}</li>
+                        <li>{t("businessProfile.guidelines2")}</li>
+                        <li>{t("businessProfile.guidelines3")}</li>
+                        <li>{t("businessProfile.guidelines4")}</li>
                       </ul>
                     </div>
                   </div>
@@ -1446,8 +1459,7 @@ Best regards,"
 
                 <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                   <div className="text-xs text-gray-500">
-                    Reviews are subject to moderation and may take 24-48 hours
-                    to appear
+                    {t("businessProfile.moderationNotice")}
                   </div>
                   <div className="flex space-x-3">
                     <button
@@ -1455,7 +1467,7 @@ Best regards,"
                       onClick={() => setShowReviewModal(false)}
                       className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium cursor-pointer"
                     >
-                      Cancel
+                      {t("businessProfile.cancel")}
                     </button>
                     <button
                       type="submit"
@@ -1467,7 +1479,7 @@ Best regards,"
                       }`}
                     >
                       <i className="ri-send-plane-line"></i>
-                      <span>Submit Review</span>
+                      <span>{t("businessProfile.submitReview")}</span>
                     </button>
                   </div>
                 </div>

@@ -1,15 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import { useLanguage } from "../lib/LanguageContext";
 
 export default function Footer() {
+  const { t, isRTL } = useLanguage();
   return (
     <footer className="bg-white text-gray-800">
       {/* Vision 2030 Support Banner */}
       <div className="bg-yellow-400 text-white py-3">
         <div className="w-full px-6">
           <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-center space-x-4 text-sm">
+            <div
+              className={`flex items-center justify-center ${
+                isRTL ? "space-x-reverse space-x-4" : "space-x-4"
+              } text-sm`}
+            >
               <div className="flex items-center space-x-2">
                 <div className="w-6 h-4 bg-white rounded-sm flex items-center justify-center">
                   <div className="w-4 h-3 bg-green-600 relative">
@@ -20,12 +26,12 @@ export default function Footer() {
                   </div>
                 </div>
                 <span className="font-medium">
-                  Proudly Supporting Saudi Vision 2030
+                  {t("footer.bannerSupport2030")}
                 </span>
               </div>
               <span className="text-yellow-200">|</span>
               <span className="text-yellow-100">
-                Empowering Local Businesses
+                {t("footer.bannerEmpowerLocal")}
               </span>
             </div>
           </div>
@@ -68,7 +74,7 @@ export default function Footer() {
               <div className="mb-8">
                 <div className="inline-flex items-center justify-center bg-gradient-to-r from-green-50 to-yellow-50 px-6 py-3 rounded-full border border-green-200">
                   <span className="text-gray-800 text-xl font-bold">
-                    100% Saudi Made
+                    {t("footer.brandMadeInSaudi")}
                   </span>
                 </div>
               </div>
@@ -102,7 +108,7 @@ export default function Footer() {
               <div>
                 <h4 className="text-lg font-bold text-gray-800 mb-6 flex items-center">
                   <i className="ri-building-line text-yellow-600 mr-2"></i>
-                  For Businesses
+                  {t("footer.forBusinesses")}
                 </h4>
                 <ul className="space-y-4">
                   <li>
@@ -111,7 +117,7 @@ export default function Footer() {
                       className="text-gray-600 hover:text-yellow-600 transition-colors flex items-center"
                     >
                       <i className="ri-add-circle-line text-yellow-500 mr-2 w-4 h-4 flex items-center justify-center"></i>
-                      <span>Register Business</span>
+                      <span>{t("footer.registerBusiness")}</span>
                     </Link>
                   </li>
                   <li>
@@ -120,7 +126,7 @@ export default function Footer() {
                       className="text-gray-600 hover:text-yellow-600 transition-colors flex items-center"
                     >
                       <i className="ri-search-line text-yellow-500 mr-2 w-4 h-4 flex items-center justify-center"></i>
-                      <span>Find Suppliers</span>
+                      <span>{t("footer.findSuppliers")}</span>
                     </Link>
                   </li>
                   <li>
@@ -129,7 +135,7 @@ export default function Footer() {
                       className="text-gray-600 hover:text-yellow-600 transition-colors flex items-center"
                     >
                       <i className="ri-vip-crown-line text-yellow-500 mr-2 w-4 h-4 flex items-center justify-center"></i>
-                      <span>Premium Plans</span>
+                      <span>{t("footer.pricingPlans")}</span>
                     </Link>
                   </li>
                   <li>
@@ -138,7 +144,7 @@ export default function Footer() {
                       className="text-gray-600 hover:text-yellow-600 transition-colors flex items-center"
                     >
                       <i className="ri-dashboard-line text-yellow-500 mr-2 w-4 h-4 flex items-center justify-center"></i>
-                      <span>Business Dashboard</span>
+                      <span>{t("footer.businessDashboard")}</span>
                     </Link>
                   </li>
                 </ul>
@@ -148,7 +154,7 @@ export default function Footer() {
               <div>
                 <h4 className="text-lg font-bold text-gray-800 mb-6 flex items-center">
                   <i className="ri-book-line text-yellow-600 mr-2"></i>
-                  Resources
+                  {t("footer.resources")}
                 </h4>
                 <ul className="space-y-4">
                   <li>
@@ -157,7 +163,7 @@ export default function Footer() {
                       className="text-gray-600 hover:text-yellow-600 transition-colors flex items-center"
                     >
                       <i className="ri-question-line text-yellow-500 mr-2 w-4 h-4 flex items-center justify-center"></i>
-                      <span>Help Center</span>
+                      <span>{t("footer.helpCenter")}</span>
                     </Link>
                   </li>
                   <li>
@@ -166,7 +172,7 @@ export default function Footer() {
                       className="text-gray-600 hover:text-yellow-600 transition-colors flex items-center"
                     >
                       <i className="ri-guide-line text-yellow-500 mr-2 w-4 h-4 flex items-center justify-center"></i>
-                      <span>Business Guides</span>
+                      <span>{t("footer.businessGuides")}</span>
                     </Link>
                   </li>
                   <li>
@@ -175,7 +181,7 @@ export default function Footer() {
                       className="text-gray-600 hover:text-yellow-600 transition-colors flex items-center"
                     >
                       <i className="ri-article-line text-yellow-500 mr-2 w-4 h-4 flex items-center justify-center"></i>
-                      <span>Success Stories</span>
+                      <span>{t("footer.successStories")}</span>
                     </Link>
                   </li>
                   <li>
@@ -184,7 +190,7 @@ export default function Footer() {
                       className="text-gray-600 hover:text-yellow-600 transition-colors flex items-center"
                     >
                       <i className="ri-customer-service-line text-yellow-500 mr-2 w-4 h-4 flex items-center justify-center"></i>
-                      <span>24/7 Support</span>
+                      <span>{t("footer.support247")}</span>
                     </Link>
                   </li>
                 </ul>
@@ -194,7 +200,7 @@ export default function Footer() {
               <div>
                 <h4 className="text-lg font-bold text-gray-800 mb-6 flex items-center">
                   <i className="ri-team-line text-yellow-600 mr-2"></i>
-                  Company
+                  {t("footer.company")}
                 </h4>
                 <ul className="space-y-4">
                   <li>
@@ -203,7 +209,7 @@ export default function Footer() {
                       className="text-gray-600 hover:text-yellow-600 transition-colors flex items-center"
                     >
                       <i className="ri-information-line text-yellow-500 mr-2 w-4 h-4 flex items-center justify-center"></i>
-                      <span>About Us</span>
+                      <span>{t("footer.aboutUs")}</span>
                     </Link>
                   </li>
                   <li>
@@ -212,7 +218,7 @@ export default function Footer() {
                       className="text-gray-600 hover:text-yellow-600 transition-colors flex items-center"
                     >
                       <i className="ri-eye-line text-yellow-500 mr-2 w-4 h-4 flex items-center justify-center"></i>
-                      <span>Vision 2030</span>
+                      <span>{t("footer.vision2030")}</span>
                     </Link>
                   </li>
                 </ul>
@@ -228,15 +234,21 @@ export default function Footer() {
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
               {/* Copyright */}
-              <div className="flex items-center space-x-4">
-                <p className="text-white text-sm">
-                  © 2024 Supplier.sa. All rights reserved.
-                </p>
-                <div className="flex items-center space-x-2 text-xs text-yellow-100">
+              <div
+                className={`flex items-center ${
+                  isRTL ? "space-x-reverse space-x-4" : "space-x-4"
+                }`}
+              >
+                <p className="text-white text-sm">{t("footer.copyright")}</p>
+                <div
+                  className={`flex items-center ${
+                    isRTL ? "space-x-reverse space-x-2" : "space-x-2"
+                  } text-xs text-yellow-100`}
+                >
                   <div className="w-4 h-3 bg-white rounded-sm flex items-center justify-center">
                     <div className="w-2 h-2 bg-green-600 rounded-full"></div>
                   </div>
-                  <span>Proudly Made in Saudi Arabia</span>
+                  <span>{t("footer.proudlyMadeInSaudi")}</span>
                 </div>
               </div>
 
@@ -246,19 +258,19 @@ export default function Footer() {
                   href="/privacy"
                   className="text-white hover:text-yellow-100 text-sm transition-colors"
                 >
-                  Privacy Policy
+                  {t("footer.privacyPolicy")}
                 </Link>
                 <Link
                   href="/terms"
                   className="text-white hover:text-yellow-100 text-sm transition-colors"
                 >
-                  Terms of Service
+                  {t("footer.termsOfService")}
                 </Link>
                 <Link
                   href="/cookie-policy"
                   className="text-white hover:text-yellow-100 text-sm transition-colors"
                 >
-                  Cookie Policy
+                  {t("footer.cookiePolicy")}
                 </Link>
               </div>
             </div>
