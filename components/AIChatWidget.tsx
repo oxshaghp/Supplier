@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AIChatWidget() {
   const [isMinimized, setIsMinimized] = useState(false);
@@ -9,17 +9,17 @@ export default function AIChatWidget() {
     {
       id: 1,
       text: "Hello! I'm your AI assistant. I can help you find suppliers and automatically filter businesses based on your specific needs. Just tell me what you're looking for!",
-      sender: 'ai',
-      timestamp: new Date()
-    }
+      sender: "ai",
+      timestamp: new Date(),
+    },
   ]);
-  const [inputMessage, setInputMessage] = useState('');
+  const [inputMessage, setInputMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
   const router = useRouter();
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -28,64 +28,106 @@ export default function AIChatWidget() {
 
   const generateAISuggestions = (query) => {
     const lowerQuery = query.toLowerCase();
-    
+
     const suggestions = {
       categories: [],
       locations: [],
       rating: null,
       features: [],
-      businessTypes: []
+      businessTypes: [],
+      products: [],
     };
 
     // Enhanced product/service recognition and category mapping
     const categoryMappings = {
-      'glass|window|door|construction|building|cement|concrete|marble|tile|paint|steel|metal|iron': 'construction-real-estate',
-      'electronic|computer|tech|software|hardware|smartphone|laptop|tablet': 'consumer-electronics',
-      'food|restaurant|catering|grocery|beverage|drink|cafe|kitchen': 'food-beverage',
-      'medical|healthcare|hospital|pharmaceutical|medicine|clinic|equipment': 'hospital-medical',
-      'auto|car|vehicle|automotive|spare parts|garage|tire|engine': 'automobile',
-      'textile|fabric|clothing|apparel|fashion|garment|cotton|silk': 'textiles-fabrics',
-      'chemical|industrial|manufacturing|factory|machinery|equipment': 'industrial-supplies',
-      'furniture|office|home|decoration|interior|chair|table|sofa': 'furniture',
-      'oil|gas|petroleum|energy|fuel|power|electricity': 'oil-gas',
-      'agriculture|farming|crop|livestock|fertilizer|seed|plant': 'agriculture',
-      'jewelry|gold|silver|diamond|accessories|watch|ring': 'jewelry-gemstones',
-      'leather|bag|shoe|belt|wallet|handbag': 'leather-products',
-      'plastic|polymer|packaging|container|bottle': 'plastics-products',
-      'paper|printing|publishing|stationery|book|magazine': 'printing-publishing',
-      'security|protection|safety|surveillance|camera|alarm': 'security-protection',
-      'sport|entertainment|game|toy|recreation|fitness': 'sports-entertainment',
-      'telecommunication|phone|internet|network|mobile|wifi': 'telecommunications',
-      'hotel|hospitality|restaurant|catering|tourism': 'hotel-supplies',
-      'office|school|education|stationery|supplies|pen|notebook': 'office-school'
+      "glass|window|door|construction|building|cement|concrete|marble|tile|paint|steel|metal|iron":
+        "construction-real-estate",
+      "electronic|computer|tech|software|hardware|smartphone|laptop|tablet":
+        "consumer-electronics",
+      "food|restaurant|catering|grocery|beverage|drink|cafe|kitchen":
+        "food-beverage",
+      "medical|healthcare|hospital|pharmaceutical|medicine|clinic|equipment":
+        "hospital-medical",
+      "auto|car|vehicle|automotive|spare parts|garage|tire|engine":
+        "automobile",
+      "textile|fabric|clothing|apparel|fashion|garment|cotton|silk":
+        "textiles-fabrics",
+      "chemical|industrial|manufacturing|factory|machinery|equipment":
+        "industrial-supplies",
+      "furniture|office|home|decoration|interior|chair|table|sofa": "furniture",
+      "oil|gas|petroleum|energy|fuel|power|electricity": "oil-gas",
+      "agriculture|farming|crop|livestock|fertilizer|seed|plant": "agriculture",
+      "jewelry|gold|silver|diamond|accessories|watch|ring": "jewelry-gemstones",
+      "leather|bag|shoe|belt|wallet|handbag": "leather-products",
+      "plastic|polymer|packaging|container|bottle": "plastics-products",
+      "paper|printing|publishing|stationery|book|magazine":
+        "printing-publishing",
+      "security|protection|safety|surveillance|camera|alarm":
+        "security-protection",
+      "sport|entertainment|game|toy|recreation|fitness": "sports-entertainment",
+      "telecommunication|phone|internet|network|mobile|wifi":
+        "telecommunications",
+      "hotel|hospitality|restaurant|catering|tourism": "hotel-supplies",
+      "office|school|education|stationery|supplies|pen|notebook":
+        "office-school",
     };
 
+    // Product-specific detection
+    const productMappings = {
+      "glass|window|mirror": "Glass & Windows",
+      "door|gate|entrance": "Doors & Gates",
+      "cement|concrete|building material": "Construction Materials",
+      "marble|tile|flooring": "Marble & Tiles",
+      "paint|coating|color": "Paints & Coatings",
+      "steel|metal|iron": "Steel & Metals",
+      "computer|laptop|desktop": "Computers & Laptops",
+      "phone|mobile|smartphone": "Mobile Phones",
+      "food|restaurant|grocery": "Food Products",
+      "medical|medicine|health": "Medical Supplies",
+      "car|vehicle|automotive": "Automotive Parts",
+      "clothing|fabric|textile": "Clothing & Textiles",
+      "furniture|chair|table": "Furniture",
+      "electronic|device|gadget": "Electronics",
+    };
+
+    // Detect categories
     Object.entries(categoryMappings).forEach(([keywords, category]) => {
-      const keywordList = keywords.split('|');
-      if (keywordList.some(keyword => lowerQuery.includes(keyword))) {
+      const keywordList = keywords.split("|");
+      if (keywordList.some((keyword) => lowerQuery.includes(keyword))) {
         if (!suggestions.categories.includes(category)) {
           suggestions.categories.push(category);
         }
       }
     });
 
+    // Detect specific products
+    Object.entries(productMappings).forEach(([keywords, product]) => {
+      const keywordList = keywords.split("|");
+      if (keywordList.some((keyword) => lowerQuery.includes(keyword))) {
+        if (!suggestions.products.includes(product)) {
+          suggestions.products.push(product);
+        }
+      }
+    });
+
     // Enhanced location detection
     const locationMappings = {
-      'riyadh|riyad|الرياض': 'Riyadh',
-      'jeddah|jidda|jedda|جدة': 'Jeddah',
-      'makkah|mecca|maka|مكة': 'Makkah',
-      'medina|madinah|المدينة': 'Madinah',
-      'dammam|الدمام': 'Dammam',
-      'khobar|خبر': 'Khobar',
-      'taif|الطائف': 'Taif',
-      'abha|أبها': 'Abha',
-      'tabuk|تبوك': 'Tabuk',
-      'buraidah|بريدة': 'Buraidah'
+      "riyadh|riyad|الرياض": "Riyadh",
+      "jeddah|jidda|jedda|جدة": "Jeddah",
+      "makkah|mecca|maka|مكة": "Makkah",
+      "medina|madinah|المدينة": "Madinah",
+      "dammam|الدمام": "Dammam",
+      "khobar|خبر": "Khobar",
+      "taif|الطائف": "Taif",
+      "abha|أبها": "Abha",
+      "tabuk|تبوك": "Tabuk",
+      "buraidah|بريدة": "Buraidah",
+      "saudi|ksa|المملكة|السعودية": "Saudi Arabia",
     };
 
     Object.entries(locationMappings).forEach(([keywords, location]) => {
-      const keywordList = keywords.split('|');
-      if (keywordList.some(keyword => lowerQuery.includes(keyword))) {
+      const keywordList = keywords.split("|");
+      if (keywordList.some((keyword) => lowerQuery.includes(keyword))) {
         if (!suggestions.locations.includes(location)) {
           suggestions.locations.push(location);
         }
@@ -94,15 +136,16 @@ export default function AIChatWidget() {
 
     // Business type detection
     const businessTypeMappings = {
-      'supplier|supply|supplying|distribute|distributor': 'Supplier',
-      'store|shop|retail|market|outlet': 'Store',
-      'office|company|corporate|business': 'Office',
-      'individual|freelance|personal|private': 'Individual'
+      "supplier|supply|supplying|distribute|distributor|manufacturer|factory":
+        "Supplier",
+      "store|shop|retail|market|outlet|showroom": "Store",
+      "office|company|corporate|business|provider": "Office",
+      "individual|freelance|personal|private": "Individual",
     };
 
     Object.entries(businessTypeMappings).forEach(([keywords, type]) => {
-      const keywordList = keywords.split('|');
-      if (keywordList.some(keyword => lowerQuery.includes(keyword))) {
+      const keywordList = keywords.split("|");
+      if (keywordList.some((keyword) => lowerQuery.includes(keyword))) {
         if (!suggestions.businessTypes.includes(type)) {
           suggestions.businessTypes.push(type);
         }
@@ -111,29 +154,31 @@ export default function AIChatWidget() {
 
     // Quality indicators
     const qualityIndicators = {
-      'best|top|excellent|premium|high quality|superior': 5,
-      'good|quality|reliable|trusted': 4,
-      'average|decent|okay': 3
+      "best|top|excellent|premium|high quality|superior|quality|جودة|أفضل": 4,
+      "good|reliable|trusted|trustworthy|موثوق|جيد": 3,
+      "average|decent|okay|متوسط": 2,
     };
 
     Object.entries(qualityIndicators).forEach(([keywords, rating]) => {
-      const keywordList = keywords.split('|');
-      if (keywordList.some(keyword => lowerQuery.includes(keyword))) {
+      const keywordList = keywords.split("|");
+      if (keywordList.some((keyword) => lowerQuery.includes(keyword))) {
         suggestions.rating = Math.max(suggestions.rating || 0, rating);
       }
     });
 
     // Feature detection
     const featureMappings = {
-      'delivery|shipping|transport': 'Free Delivery',
-      '24/7|24 hours|always open': '24/7 Service',
-      'warranty|guarantee': 'Warranty',
-      'installation|setup|fitting': 'Installation Service'
+      "delivery|shipping|transport|توصيل|شحن": "delivery",
+      "24/7|24 hours|always open|طوال اليوم": "24_7",
+      "warranty|guarantee|ضمان|كفالة": "warranty",
+      "installation|setup|fitting|تركيب": "installation",
+      "wholesale|بالجملة|جمله": "wholesale",
+      "retail|مفرق|مفرد": "retail",
     };
 
     Object.entries(featureMappings).forEach(([keywords, feature]) => {
-      const keywordList = keywords.split('|');
-      if (keywordList.some(keyword => lowerQuery.includes(keyword))) {
+      const keywordList = keywords.split("|");
+      if (keywordList.some((keyword) => lowerQuery.includes(keyword))) {
         if (!suggestions.features.includes(feature)) {
           suggestions.features.push(feature);
         }
@@ -146,67 +191,110 @@ export default function AIChatWidget() {
   const navigateAndFilter = (suggestions, query) => {
     // Create URL with search parameters for filtering
     const params = new URLSearchParams();
-    
+
     if (suggestions.categories.length > 0) {
-      params.set('category', suggestions.categories[0]);
+      params.set("category", suggestions.categories[0]);
     }
     if (suggestions.locations.length > 0) {
-      params.set('location', suggestions.locations.join(','));
+      params.set("location", suggestions.locations[0]);
     }
     if (suggestions.businessTypes.length > 0) {
-      params.set('type', suggestions.businessTypes[0]);
+      params.set("businessType", suggestions.businessTypes[0]);
     }
     if (suggestions.rating) {
-      params.set('rating', suggestions.rating.toString());
+      params.set("minRating", suggestions.rating.toString());
     }
     if (suggestions.features.length > 0) {
-      params.set('features', suggestions.features.join(','));
+      params.set("features", suggestions.features.join(","));
     }
-    
-    params.set('search', query);
-    
+
+    params.set("search", query);
+    params.set("ai_filtered", "true");
+
     // Navigate to businesses page with filters
     router.push(`/businesses?${params.toString()}`);
   };
 
   const simulateAIResponse = (userMessage) => {
     const lowerMessage = userMessage.toLowerCase();
-    
-    // Check if user is looking for specific suppliers or products
-    if (lowerMessage.includes('supplier') || lowerMessage.includes('find') || lowerMessage.includes('looking for') || lowerMessage.includes('need')) {
-      const suggestions = generateAISuggestions(userMessage);
-      
-      // Navigate to businesses page with filters
+
+    // Always generate suggestions for any user query
+    const suggestions = generateAISuggestions(userMessage);
+
+    // Check if we have enough information to perform a search
+    const hasEnoughInfo =
+      suggestions.categories.length > 0 ||
+      suggestions.products.length > 0 ||
+      suggestions.locations.length > 0;
+
+    if (hasEnoughInfo) {
+      // Navigate to businesses page with filters after a short delay
       setTimeout(() => {
         navigateAndFilter(suggestions, userMessage);
       }, 2000);
-      
-      let response = "Perfect! I found what you're looking for. Let me search our database and take you to the filtered results...";
-      
+
+      let response = "🔍 **I found relevant suppliers for you!**\n\n";
+
+      if (suggestions.products.length > 0) {
+        response += `📦 **Products:** ${suggestions.products.join(", ")}\n`;
+      }
+
       if (suggestions.categories.length > 0) {
-        response += ` I detected you need ${suggestions.categories.join(', ')} suppliers.`;
+        response += `🏷️ **Category:** ${suggestions.categories.join(", ")}\n`;
       }
-      
+
       if (suggestions.locations.length > 0) {
-        response += ` Looking in ${suggestions.locations.join(', ')}.`;
+        response += `📍 **Location:** ${suggestions.locations.join(", ")}\n`;
       }
-      
-      response += " Taking you to the results page now!";
-      
+
+      if (suggestions.businessTypes.length > 0) {
+        response += `🏢 **Business Type:** ${suggestions.businessTypes.join(
+          ", "
+        )}\n`;
+      }
+
+      if (suggestions.rating) {
+        response += `⭐ **Minimum Rating:** ${suggestions.rating}+ stars\n`;
+      }
+
+      if (suggestions.features.length > 0) {
+        response += `✨ **Features:** ${suggestions.features
+          .map((f) => f.replace("_", " "))
+          .join(", ")}\n`;
+      }
+
+      response += "\nTaking you to the filtered results now...";
+
       return response;
     }
-    
-    // General responses for other queries
-    const responses = [
-      "I can help you find suppliers in various categories. What type of business are you looking for?",
-      "Tell me what product or service you need, and I'll find the right suppliers for you!",
-      "I can search by location, category, rating, and specific requirements. What do you need?",
-      "Would you like me to show you suppliers with the highest ratings in your area?",
-      "I can filter suppliers by categories like Electronics, Construction, Food & Beverage, and more. Which interests you?",
-      "Based on your location, I can find several nearby suppliers. What are you looking for?"
-    ];
-    
-    return responses[Math.floor(Math.random() * responses.length)];
+
+    // If not enough information, ask for more details
+    let followUpQuestion =
+      "I'd love to help you find the perfect suppliers! To give you the best results, could you tell me:\n\n";
+
+    const missingInfo = [];
+    if (suggestions.categories.length === 0) {
+      missingInfo.push(
+        "• What type of product or service are you looking for? (e.g., glass, electronics, furniture)"
+      );
+    }
+    if (suggestions.locations.length === 0) {
+      missingInfo.push("• Which city or region? (e.g., Riyadh, Jeddah)");
+    }
+    if (suggestions.businessTypes.length === 0) {
+      missingInfo.push(
+        "• What type of business? (e.g., supplier, store, manufacturer)"
+      );
+    }
+
+    if (missingInfo.length > 0) {
+      followUpQuestion += missingInfo.join("\n");
+    } else {
+      followUpQuestion =
+        "Great! I have enough information. Let me search for the best suppliers matching your criteria...";
+    }
+
+    return followUpQuestion;
   };
 
   const handleSendMessage = async () => {
@@ -215,13 +303,13 @@ export default function AIChatWidget() {
     const userMessage = {
       id: Date.now(),
       text: inputMessage,
-      sender: 'user',
-      timestamp: new Date()
+      sender: "user",
+      timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     const currentMessage = inputMessage;
-    setInputMessage('');
+    setInputMessage("");
     setIsTyping(true);
 
     // Simulate AI response delay
@@ -229,21 +317,30 @@ export default function AIChatWidget() {
       const aiResponse = {
         id: Date.now() + 1,
         text: simulateAIResponse(currentMessage),
-        sender: 'ai',
-        timestamp: new Date()
+        sender: "ai",
+        timestamp: new Date(),
       };
-      
-      setMessages(prev => [...prev, aiResponse]);
+
+      setMessages((prev) => [...prev, aiResponse]);
       setIsTyping(false);
     }, 1500);
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
     }
   };
+
+  // Quick suggestions for common searches
+  const quickSuggestions = [
+    "Glass suppliers in Jeddah",
+    "Electronics stores in Riyadh",
+    "Construction materials",
+    "Food suppliers with delivery",
+    "Medical equipment companies",
+  ];
 
   return (
     <>
@@ -270,8 +367,12 @@ export default function AIChatWidget() {
                   <i className="ri-robot-line text-yellow-500"></i>
                 </div>
                 <div>
-                  <h3 className="text-white font-medium text-sm">AI Supplier Finder</h3>
-                  <p className="text-yellow-100 text-xs">Find & Filter Instantly</p>
+                  <h3 className="text-white font-medium text-sm">
+                    AI Supplier Finder
+                  </h3>
+                  <p className="text-yellow-100 text-xs">
+                    Find & Filter Instantly
+                  </p>
                 </div>
               </div>
               <div className="flex items-center space-x-2">
@@ -297,18 +398,29 @@ export default function AIChatWidget() {
               {messages.map((message) => (
                 <div
                   key={message.id}
-                  className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className={`flex ${
+                    message.sender === "user" ? "justify-end" : "justify-start"
+                  }`}
                 >
-                  <div className={`max-w-[75%] ${
-                    message.sender === 'user'
-                      ? 'bg-yellow-500 text-white rounded-2xl rounded-br-sm'
-                      : 'bg-white text-gray-800 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100'
-                  } px-4 py-2`}>
+                  <div
+                    className={`max-w-[85%] ${
+                      message.sender === "user"
+                        ? "bg-yellow-500 text-white rounded-2xl rounded-br-sm"
+                        : "bg-white text-gray-800 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100"
+                    } px-4 py-2 whitespace-pre-line`}
+                  >
                     <p className="text-sm">{message.text}</p>
-                    <p className={`text-xs mt-1 ${
-                      message.sender === 'user' ? 'text-yellow-100' : 'text-gray-500'
-                    }`}>
-                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    <p
+                      className={`text-xs mt-1 ${
+                        message.sender === "user"
+                          ? "text-yellow-100"
+                          : "text-gray-500"
+                      }`}
+                    >
+                      {message.timestamp.toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </p>
                   </div>
                 </div>
@@ -319,12 +431,39 @@ export default function AIChatWidget() {
                   <div className="bg-white text-gray-800 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100 px-4 py-2">
                     <div className="flex space-x-1">
                       <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div
+                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                        style={{ animationDelay: "0.1s" }}
+                      ></div>
+                      <div
+                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                        style={{ animationDelay: "0.2s" }}
+                      ></div>
                     </div>
                   </div>
                 </div>
               )}
+
+              {/* Quick Suggestions */}
+              {messages.length <= 2 && (
+                <div className="space-y-2 mt-4">
+                  <p className="text-xs text-gray-500 text-center">
+                    Try asking about:
+                  </p>
+                  <div className="flex flex-wrap gap-2 justify-center">
+                    {quickSuggestions.map((suggestion, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setInputMessage(suggestion)}
+                        className="text-xs bg-white border border-gray-300 rounded-full px-3 py-1 hover:bg-gray-50 transition-colors cursor-pointer"
+                      >
+                        {suggestion}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div ref={messagesEndRef} />
             </div>
 
@@ -336,7 +475,7 @@ export default function AIChatWidget() {
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="e.g., Glass supplier in Jeddah..."
+                  placeholder="e.g., Glass supplier in Jeddah with delivery..."
                   className="flex-1 px-3 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
                 />
                 <button

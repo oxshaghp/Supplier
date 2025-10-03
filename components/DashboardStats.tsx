@@ -1,86 +1,86 @@
+"use client";
 
-'use client';
-
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function DashboardStats() {
-  const [timeRange, setTimeRange] = useState('7days');
-  
+  const [timeRange, setTimeRange] = useState("7days");
+  const [showAllActivity, setShowAllActivity] = useState(false);
+
   const stats = {
-    views: { current: 1247, change: 12.5, trend: 'up' },
-    contacts: { current: 89, change: 8.2, trend: 'up' },
-    inquiries: { current: 34, change: -3.1, trend: 'down' },
-    rating: { current: 4.8, change: 0.2, trend: 'up' }
+    views: { current: 1247, change: 12.5, trend: "up" },
+    contacts: { current: 89, change: 8.2, trend: "up" },
+    inquiries: { current: 34, change: -3.1, trend: "down" },
+    rating: { current: 4.8, change: 0.2, trend: "up" },
   };
 
   const recentActivities = [
     {
       id: 1,
-      type: 'inquiry',
-      title: 'New inquiry from Sarah Johnson',
-      message: 'Looking for LED TVs in bulk',
-      time: '2 hours ago',
-      icon: 'ri-message-line',
-      color: 'text-blue-600 bg-blue-100'
+      type: "inquiry",
+      title: "New inquiry from Sarah Johnson",
+      message: "Looking for LED TVs in bulk",
+      time: "2 hours ago",
+      icon: "ri-message-line",
+      color: "text-blue-600 bg-blue-100",
     },
     {
       id: 2,
-      type: 'view',
-      title: 'Profile viewed by Tech Solutions Co.',
-      message: 'Viewed your electronics category',
-      time: '4 hours ago',
-      icon: 'ri-eye-line',
-      color: 'text-green-600 bg-green-100'
+      type: "view",
+      title: "Profile viewed by Tech Solutions Co.",
+      message: "Viewed your electronics category",
+      time: "4 hours ago",
+      icon: "ri-eye-line",
+      color: "text-green-600 bg-green-100",
     },
     {
       id: 3,
-      type: 'review',
-      title: 'New 5-star review received',
+      type: "review",
+      title: "New 5-star review received",
       message: 'Michael Chen: "Excellent service and quality"',
-      time: '1 day ago',
-      icon: 'ri-star-line',
-      color: 'text-yellow-600 bg-yellow-100'
+      time: "1 day ago",
+      icon: "ri-star-line",
+      color: "text-yellow-600 bg-yellow-100",
     },
     {
       id: 4,
-      type: 'contact',
-      title: 'Contact request from Emirates Mall',
-      message: 'Requested phone consultation',
-      time: '2 days ago',
-      icon: 'ri-phone-line',
-      color: 'text-purple-600 bg-purple-100'
-    }
+      type: "contact",
+      title: "Contact request from Emirates Mall",
+      message: "Requested phone consultation",
+      time: "2 days ago",
+      icon: "ri-phone-line",
+      color: "text-purple-600 bg-purple-100",
+    },
   ];
 
   const quickActions = [
     {
-      title: 'Update Business Hours',
-      description: 'Modify your working schedule',
-      icon: 'ri-time-line',
-      color: 'bg-blue-500',
-      action: 'hours'
+      title: "Update Business Hours",
+      description: "Modify your working schedule",
+      icon: "ri-time-line",
+      color: "bg-blue-500",
+      action: "hours",
     },
     {
-      title: 'Add New Products',
-      description: 'Update your product keywords',
-      icon: 'ri-add-circle-line',
-      color: 'bg-green-500',
-      action: 'products'
+      title: "Add New Products",
+      description: "Update your product keywords",
+      icon: "ri-add-circle-line",
+      color: "bg-green-500",
+      action: "products",
     },
     {
-      title: 'Respond to Reviews',
-      description: '3 reviews need responses',
-      icon: 'ri-chat-1-line',
-      color: 'bg-yellow-500',
-      action: 'reviews'
+      title: "Respond to Reviews",
+      description: "3 reviews need responses",
+      icon: "ri-chat-1-line",
+      color: "bg-yellow-500",
+      action: "reviews",
     },
     {
-      title: 'Upload Photos',
-      description: 'Add more business images',
-      icon: 'ri-camera-line',
-      color: 'bg-purple-500',
-      action: 'photos'
-    }
+      title: "Upload Photos",
+      description: "Add more business images",
+      icon: "ri-camera-line",
+      color: "bg-purple-500",
+      action: "photos",
+    },
   ];
 
   return (
@@ -106,12 +106,24 @@ export default function DashboardStats() {
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
               <i className="ri-eye-line text-blue-600 text-xl"></i>
             </div>
-            <span className={`text-sm font-medium ${stats.views.trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
-              <i className={`${stats.views.trend === 'up' ? 'ri-arrow-up-line' : 'ri-arrow-down-line'} mr-1`}></i>
+            <span
+              className={`text-sm font-medium ${
+                stats.views.trend === "up" ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              <i
+                className={`${
+                  stats.views.trend === "up"
+                    ? "ri-arrow-up-line"
+                    : "ri-arrow-down-line"
+                } mr-1`}
+              ></i>
               {Math.abs(stats.views.change)}%
             </span>
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-1">{stats.views.current.toLocaleString()}</h3>
+          <h3 className="text-2xl font-bold text-gray-800 mb-1">
+            {stats.views.current.toLocaleString()}
+          </h3>
           <p className="text-gray-600 text-sm">Profile Views</p>
         </div>
 
@@ -120,12 +132,26 @@ export default function DashboardStats() {
             <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
               <i className="ri-contacts-line text-green-600 text-xl"></i>
             </div>
-            <span className={`text-sm font-medium ${stats.contacts.trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
-              <i className={`${stats.contacts.trend === 'up' ? 'ri-arrow-up-line' : 'ri-arrow-down-line'} mr-1`}></i>
+            <span
+              className={`text-sm font-medium ${
+                stats.contacts.trend === "up"
+                  ? "text-green-600"
+                  : "text-red-600"
+              }`}
+            >
+              <i
+                className={`${
+                  stats.contacts.trend === "up"
+                    ? "ri-arrow-up-line"
+                    : "ri-arrow-down-line"
+                } mr-1`}
+              ></i>
               {Math.abs(stats.contacts.change)}%
             </span>
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-1">{stats.contacts.current}</h3>
+          <h3 className="text-2xl font-bold text-gray-800 mb-1">
+            {stats.contacts.current}
+          </h3>
           <p className="text-gray-600 text-sm">Contact Requests</p>
         </div>
 
@@ -134,12 +160,26 @@ export default function DashboardStats() {
             <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
               <i className="ri-question-line text-yellow-600 text-xl"></i>
             </div>
-            <span className={`text-sm font-medium ${stats.inquiries.trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
-              <i className={`${stats.inquiries.trend === 'up' ? 'ri-arrow-up-line' : 'ri-arrow-down-line'} mr-1`}></i>
+            <span
+              className={`text-sm font-medium ${
+                stats.inquiries.trend === "up"
+                  ? "text-green-600"
+                  : "text-red-600"
+              }`}
+            >
+              <i
+                className={`${
+                  stats.inquiries.trend === "up"
+                    ? "ri-arrow-up-line"
+                    : "ri-arrow-down-line"
+                } mr-1`}
+              ></i>
               {Math.abs(stats.inquiries.change)}%
             </span>
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-1">{stats.inquiries.current}</h3>
+          <h3 className="text-2xl font-bold text-gray-800 mb-1">
+            {stats.inquiries.current}
+          </h3>
           <p className="text-gray-600 text-sm">Business Inquiries</p>
         </div>
 
@@ -148,12 +188,24 @@ export default function DashboardStats() {
             <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
               <i className="ri-star-line text-purple-600 text-xl"></i>
             </div>
-            <span className={`text-sm font-medium ${stats.rating.trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
-              <i className={`${stats.rating.trend === 'up' ? 'ri-arrow-up-line' : 'ri-arrow-down-line'} mr-1`}></i>
+            <span
+              className={`text-sm font-medium ${
+                stats.rating.trend === "up" ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              <i
+                className={`${
+                  stats.rating.trend === "up"
+                    ? "ri-arrow-up-line"
+                    : "ri-arrow-down-line"
+                } mr-1`}
+              ></i>
               {Math.abs(stats.rating.change)}
             </span>
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-1">{stats.rating.current}</h3>
+          <h3 className="text-2xl font-bold text-gray-800 mb-1">
+            {stats.rating.current}
+          </h3>
           <p className="text-gray-600 text-sm">Average Rating</p>
         </div>
       </div>
@@ -167,10 +219,14 @@ export default function DashboardStats() {
               key={index}
               className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all text-left cursor-pointer group"
             >
-              <div className={`w-12 h-12 ${action.color} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+              <div
+                className={`w-12 h-12 ${action.color} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
+              >
                 <i className={`${action.icon} text-white text-xl`}></i>
               </div>
-              <h4 className="font-semibold text-gray-800 mb-2">{action.title}</h4>
+              <h4 className="font-semibold text-gray-800 mb-2">
+                {action.title}
+              </h4>
               <p className="text-gray-600 text-sm">{action.description}</p>
             </button>
           ))}
@@ -179,19 +235,36 @@ export default function DashboardStats() {
 
       {/* Recent Activity */}
       <div>
-        <h3 className="text-xl font-bold text-gray-800 mb-6">Recent Activity</h3>
+        <h3 className="text-xl font-bold text-gray-800 mb-6">
+          Recent Activity
+        </h3>
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm">
           <div className="space-y-1">
             {recentActivities.map((activity, index) => (
-              <div key={activity.id} className={`p-6 ${index !== recentActivities.length - 1 ? 'border-b border-gray-100' : ''}`}>
+              <div
+                key={activity.id}
+                className={`p-6 ${
+                  index !== recentActivities.length - 1
+                    ? "border-b border-gray-100"
+                    : ""
+                }`}
+              >
                 <div className="flex items-start space-x-4">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${activity.color}`}>
+                  <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center ${activity.color}`}
+                  >
                     <i className={`${activity.icon} text-sm`}></i>
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-medium text-gray-800 mb-1">{activity.title}</h4>
-                    <p className="text-gray-600 text-sm mb-2">{activity.message}</p>
-                    <span className="text-gray-400 text-xs">{activity.time}</span>
+                    <h4 className="font-medium text-gray-800 mb-1">
+                      {activity.title}
+                    </h4>
+                    <p className="text-gray-600 text-sm mb-2">
+                      {activity.message}
+                    </p>
+                    <span className="text-gray-400 text-xs">
+                      {activity.time}
+                    </span>
                   </div>
                   <button className="text-gray-400 hover:text-gray-600 cursor-pointer">
                     <i className="ri-more-line"></i>
@@ -200,15 +273,72 @@ export default function DashboardStats() {
               </div>
             ))}
           </div>
-          
+
           <div className="p-4 border-t border-gray-100">
-            <button className="w-full text-center py-2 text-gray-600 hover:text-gray-800 font-medium text-sm cursor-pointer">
+            <button
+              onClick={() => setShowAllActivity(true)}
+              className="w-full text-center py-2 text-gray-600 hover:text-gray-800 font-medium text-sm cursor-pointer"
+            >
               View All Activity
               <i className="ri-arrow-right-line ml-2"></i>
             </button>
           </div>
         </div>
       </div>
+
+      {showAllActivity && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[80vh] overflow-hidden">
+            <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-gray-800">All Activity</h3>
+              <button
+                onClick={() => setShowAllActivity(false)}
+                className="text-gray-400 hover:text-gray-600 text-2xl cursor-pointer"
+              >
+                <i className="ri-close-line"></i>
+              </button>
+            </div>
+            <div
+              className="p-6 overflow-y-auto"
+              style={{ maxHeight: "calc(80vh - 88px)" }}
+            >
+              <div className="space-y-3">
+                {recentActivities.map((activity) => (
+                  <div
+                    key={`all-${activity.id}`}
+                    className="p-4 border border-gray-100 rounded-xl flex items-start space-x-4"
+                  >
+                    <div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center ${activity.color}`}
+                    >
+                      <i className={`${activity.icon} text-sm`}></i>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-medium text-gray-800 mb-1">
+                        {activity.title}
+                      </h4>
+                      <p className="text-gray-600 text-sm mb-1">
+                        {activity.message}
+                      </p>
+                      <span className="text-gray-400 text-xs">
+                        {activity.time}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="p-4 border-t border-gray-100 flex justify-end">
+              <button
+                onClick={() => setShowAllActivity(false)}
+                className="px-4 py-2 rounded border border-gray-300 text-gray-700 hover:bg-gray-50"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
