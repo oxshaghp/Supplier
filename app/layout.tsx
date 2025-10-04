@@ -125,7 +125,6 @@ export default function RootLayout({
         className={`${inter.className} ${robotoMono.variable} ${pacifico.variable} antialiased`}
       >
         <LanguageProvider>{children}</LanguageProvider>
-        <ClickPayIntegrationStatus />
       </body>
     </html>
   );

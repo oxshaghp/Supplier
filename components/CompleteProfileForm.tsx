@@ -1,54 +1,108 @@
+"use client";
 
-'use client';
-
-import { useState } from 'react';
-import Link from 'next/link';
-import BranchManagement from './BranchManagement';
+import { useState } from "react";
+import Link from "next/link";
+import BranchManagement from "./BranchManagement";
+import { useLanguage } from "./../lib/LanguageContext";
 
 const categories = [
-  'Agriculture', 'Apparel & Fashion', 'Automobile', 'Brass Hardware & Components', 'Business Services',
-  'Chemicals', 'Computer Hardware & Software', 'Construction & Real Estate', 'Consumer Electronics',
-  'Electronics & Electrical Supplies', 'Energy & Power', 'Environment & Pollution', 'Food & Beverage',
-  'Furniture', 'Gifts & Crafts', 'Health & Beauty', 'Home Supplies', 'Home Textiles & Furnishings',
-  'Hospital & Medical Supplies', 'Hotel Supplies & Equipment', 'Industrial Supplies', 'Jewelry & Gemstones',
-  'Leather & Leather Products', 'Machinery', 'Mineral & Metals', 'Office & School Supplies', 'Oil and Gas',
-  'Packaging & Paper', 'Pharmaceuticals', 'Pipes, Tubes & Fittings', 'Plastics & Products',
-  'Printing & Publishing', 'Real Estate', 'Scientific & Laboratory Instruments', 'Security & Protection',
-  'Sports & Entertainment', 'Telecommunications', 'Textiles & Fabrics', 'Toys', 'Transportation'
+  "Agriculture",
+  "Apparel & Fashion",
+  "Automobile",
+  "Brass Hardware & Components",
+  "Business Services",
+  "Chemicals",
+  "Computer Hardware & Software",
+  "Construction & Real Estate",
+  "Consumer Electronics",
+  "Electronics & Electrical Supplies",
+  "Energy & Power",
+  "Environment & Pollution",
+  "Food & Beverage",
+  "Furniture",
+  "Gifts & Crafts",
+  "Health & Beauty",
+  "Home Supplies",
+  "Home Textiles & Furnishings",
+  "Hospital & Medical Supplies",
+  "Hotel Supplies & Equipment",
+  "Industrial Supplies",
+  "Jewelry & Gemstones",
+  "Leather & Leather Products",
+  "Machinery",
+  "Mineral & Metals",
+  "Office & School Supplies",
+  "Oil and Gas",
+  "Packaging & Paper",
+  "Pharmaceuticals",
+  "Pipes, Tubes & Fittings",
+  "Plastics & Products",
+  "Printing & Publishing",
+  "Real Estate",
+  "Scientific & Laboratory Instruments",
+  "Security & Protection",
+  "Sports & Entertainment",
+  "Telecommunications",
+  "Textiles & Fabrics",
+  "Toys",
+  "Transportation",
 ];
 
-const businessTypes = ['Supplier', 'Store', 'Office', 'Individual'];
+const businessTypes = ["Supplier", "Store", "Office", "Individual"];
 
-const targetCustomerOptions = ['Large Organizations', 'Small Businesses', 'Individuals'];
+const targetCustomerOptions = [
+  "Large Organizations",
+  "Small Businesses",
+  "Individuals",
+];
 
-const serviceDistanceOptions = ['5 km', '10 km', '15 km', '25 km', '50 km', '100+ km'];
+const serviceDistanceOptions = [
+  "5 km",
+  "10 km",
+  "15 km",
+  "25 km",
+  "50 km",
+  "100+ km",
+];
 
 const serviceOptions = [
-  'Wholesale', 'Retail', 'Repair Services', 'Consulting', 'Installation',
-  'Maintenance', 'Custom Orders', 'Bulk Orders', 'Emergency Services', 'Delivery'
+  "Wholesale",
+  "Retail",
+  "Repair Services",
+  "Consulting",
+  "Installation",
+  "Maintenance",
+  "Custom Orders",
+  "Bulk Orders",
+  "Emergency Services",
+  "Delivery",
 ];
 
-export default function CompleteProfileForm({ formData, setFormData, selectedLocation }) {
+export default function CompleteProfileForm({
+  formData,
+  setFormData,
+  selectedLocation,
+}) {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedTargetCustomers, setSelectedTargetCustomers] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [productKeywords, setProductKeywords] = useState('');
+  const [productKeywords, setProductKeywords] = useState("");
   const [keywordSuggestions, setKeywordSuggestions] = useState([]);
   const [showKeywordGuide, setShowKeywordGuide] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [errors, setErrors] = useState({});
-  const [submitStatus, setSubmitStatus] = useState('');
+  const [submitStatus, setSubmitStatus] = useState("");
   const [crFile, setCrFile] = useState(null);
-  const [crPreview, setCrPreview] = useState('');
+  const [crPreview, setCrPreview] = useState("");
   const [showVerificationModal, setShowVerificationModal] = useState(false);
-  
+  const { t } = useLanguage();
   // Additional phone numbers state
   const [additionalPhones, setAdditionalPhones] = useState([
-    { id: 1, type: 'Sales Representative', number: '', name: '' }
+    { id: 1, type: "Sales Representative", number: "", name: "" },
   ]);
-  
+
   // Branch management state
   const [branches, setBranches] = useState([]);
   const [showBranchManagement, setShowBranchManagement] = useState(false);
@@ -56,126 +110,566 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
   // Keyword suggestions based on category
   const getCategorySuggestions = (categories) => {
     const suggestions = {
-      'Agriculture': ['seeds', 'fertilizers', 'pesticides', 'farming equipment', 'irrigation systems', 'livestock feed', 'greenhouse supplies', 'tractors', 'harvesting tools', 'organic products'],
-      'Apparel & Fashion': ['clothing', 'fashion accessories', 'footwear', 'handbags', 'jewelry', 'watches', 'sunglasses', 'belts', 'scarves', 'fashion design'],
-      'Automobile': ['car parts', 'automotive accessories', 'tires', 'batteries', 'engine oil', 'brake pads', 'car electronics', 'vehicle maintenance', 'auto repair', 'car detailing'],
-      'Brass Hardware & Components': ['brass fittings', 'hardware components', 'metal fabrication', 'brass valves', 'connectors', 'fasteners', 'brass pipes', 'industrial hardware', 'custom brass parts', 'marine hardware'],
-      'Business Services': ['consulting', 'accounting', 'legal services', 'marketing services', 'HR services', 'business development', 'financial planning', 'project management', 'training', 'outsourcing'],
-      'Chemicals': ['industrial chemicals', 'laboratory chemicals', 'cleaning chemicals', 'specialty chemicals', 'chemical raw materials', 'petrochemicals', 'pharmaceutical chemicals', 'agricultural chemicals', 'water treatment', 'adhesives'],
-      'Computer Hardware & Software': ['computers', 'laptops', 'software', 'servers', 'networking equipment', 'storage devices', 'monitors', 'keyboards', 'IT support', 'system integration'],
-      'Construction & Real Estate': ['building materials', 'construction equipment', 'real estate', 'property management', 'cement', 'steel', 'concrete', 'roofing materials', 'electrical supplies', 'plumbing'],
-      'Consumer Electronics': ['smartphones', 'tablets', 'laptops', 'televisions', 'audio systems', 'cameras', 'gaming consoles', 'wearables', 'home appliances', 'electronic accessories'],
-      'Electronics & Electrical Supplies': ['electrical components', 'wiring', 'switches', 'outlets', 'circuit breakers', 'electrical panels', 'transformers', 'cables', 'lighting', 'power supplies'],
-      'Energy & Power': ['solar panels', 'generators', 'batteries', 'renewable energy', 'power systems', 'electrical equipment', 'energy storage', 'inverters', 'wind turbines', 'power distribution'],
-      'Environment & Pollution': ['waste management', 'recycling', 'environmental consulting', 'pollution control', 'water treatment', 'air purification', 'environmental monitoring', 'sustainable solutions', 'green technology', 'hazardous waste'],
-      'Food & Beverage': ['catering', 'fresh vegetables', 'bakery items', 'beverages', 'frozen food', 'spices', 'dairy products', 'meat', 'seafood', 'organic food'],
-      'Furniture': ['office chairs', 'desks', 'sofas', 'beds', 'dining tables', 'wardrobes', 'kitchen cabinets', 'outdoor furniture', 'custom furniture', 'office furniture'],
-      'Gifts & Crafts': ['handmade crafts', 'gift items', 'decorative items', 'art supplies', 'personalized gifts', 'party supplies', 'seasonal decorations', 'hobby materials', 'collectibles', 'souvenirs'],
-      'Health & Beauty': ['cosmetics', 'skincare products', 'hair care', 'health supplements', 'medical devices', 'beauty equipment', 'spa services', 'wellness products', 'fitness equipment', 'personal care'],
-      'Home Supplies': ['household items', 'cleaning supplies', 'home decor', 'kitchen utensils', 'storage solutions', 'garden supplies', 'home improvement', 'appliances', 'bedding', 'bathroom accessories'],
-      'Home Textiles & Furnishings': ['curtains', 'bed sheets', 'towels', 'carpets', 'upholstery', 'table linens', 'cushions', 'blankets', 'rugs', 'home fabrics'],
-      'Hospital & Medical Supplies': ['medical equipment', 'surgical instruments', 'hospital furniture', 'medical disposables', 'diagnostic equipment', 'patient care', 'laboratory supplies', 'medical devices', 'healthcare products', 'pharmaceuticals'],
-      'Hotel Supplies & Equipment': ['hotel furniture', 'hospitality supplies', 'restaurant equipment', 'hotel linens', 'catering equipment', 'hotel amenities', 'commercial kitchen', 'housekeeping supplies', 'hotel technology', 'guest room supplies'],
-      'Industrial Supplies': ['industrial equipment', 'safety equipment', 'tools', 'machinery parts', 'industrial chemicals', 'manufacturing supplies', 'maintenance supplies', 'protective gear', 'industrial automation', 'quality control'],
-      'Jewelry & Gemstones': ['gold jewelry', 'silver jewelry', 'diamonds', 'gemstones', 'watches', 'custom jewelry', 'precious metals', 'jewelry repair', 'wedding rings', 'fashion jewelry'],
-      'Leather & Leather Products': ['leather goods', 'handbags', 'wallets', 'belts', 'shoes', 'leather jackets', 'luggage', 'leather furniture', 'custom leather', 'leather accessories'],
-      'Machinery': ['industrial machinery', 'manufacturing equipment', 'construction machinery', 'agricultural machinery', 'packaging machinery', 'printing machinery', 'textile machinery', 'food processing', 'automation equipment', 'heavy machinery'],
-      'Mineral & Metals': ['steel', 'aluminum', 'copper', 'iron ore', 'precious metals', 'metal alloys', 'mining equipment', 'metal processing', 'scrap metal', 'industrial metals'],
-      'Office & School Supplies': ['office supplies', 'stationery', 'paper', 'pens', 'notebooks', 'office furniture', 'school supplies', 'educational materials', 'printing supplies', 'office equipment'],
-      'Oil and Gas': ['petroleum products', 'oil drilling', 'gas equipment', 'refinery supplies', 'pipeline equipment', 'petrochemicals', 'fuel', 'oil field services', 'gas processing', 'energy services'],
-      'Packaging & Paper': ['packaging materials', 'paper products', 'boxes', 'labels', 'plastic packaging', 'printing paper', 'corrugated boxes', 'packaging design', 'industrial packaging', 'eco packaging'],
-      'Pharmaceuticals': ['medicines', 'pharmaceutical raw materials', 'medical supplies', 'drug manufacturing', 'healthcare products', 'pharmaceutical equipment', 'clinical supplies', 'biotechnology', 'research chemicals', 'medical devices'],
-      'Pipes, Tubes & Fittings': ['steel pipes', 'PVC pipes', 'pipe fittings', 'valves', 'plumbing supplies', 'industrial pipes', 'tube fittings', 'pipeline systems', 'hydraulic fittings', 'gas pipes'],
-      'Plastics & Products': ['plastic products', 'plastic raw materials', 'injection molding', 'plastic packaging', 'plastic containers', 'PVC products', 'plastic sheets', 'custom plastics', 'recycled plastics', 'polymer products'],
-      'Printing & Publishing': ['printing services', 'digital printing', 'offset printing', 'publishing', 'graphic design', 'promotional materials', 'business cards', 'brochures', 'books', 'magazines'],
-      'Real Estate': ['property sales', 'property management', 'real estate development', 'commercial property', 'residential property', 'property investment', 'real estate consulting', 'property valuation', 'leasing', 'construction'],
-      'Scientific & Laboratory Instruments': ['laboratory equipment', 'scientific instruments', 'research equipment', 'analytical instruments', 'microscopes', 'testing equipment', 'laboratory supplies', 'measuring instruments', 'lab furniture', 'calibration services'],
-      'Security & Protection': ['security systems', 'surveillance cameras', 'access control', 'alarm systems', 'security services', 'protective equipment', 'fire safety', 'security guards', 'cybersecurity', 'safety equipment'],
-      'Sports & Entertainment': ['sports equipment', 'fitness equipment', 'recreational facilities', 'entertainment systems', 'sports accessories', 'outdoor gear', 'exercise machines', 'sports apparel', 'gaming equipment', 'leisure products'],
-      'Telecommunications': ['telecom equipment', 'networking solutions', 'communication systems', 'mobile accessories', 'internet services', 'telephone systems', 'wireless technology', 'data communication', 'telecom infrastructure', 'VoIP systems'],
-      'Textiles & Fabrics': ['fabrics', 'textiles', 'yarns', 'clothing materials', 'industrial textiles', 'home textiles', 'textile machinery', 'fabric printing', 'textile chemicals', 'fiber products'],
-      'Toys': ['children toys', 'educational toys', 'outdoor toys', 'electronic toys', 'board games', 'action figures', 'dolls', 'toy vehicles', 'learning toys', 'baby toys'],
-      'Transportation': ['logistics', 'freight services', 'shipping', 'cargo handling', 'transportation equipment', 'fleet management', 'warehousing', 'delivery services', 'supply chain', 'vehicle rental']
+      Agriculture: [
+        "seeds",
+        "fertilizers",
+        "pesticides",
+        "farming equipment",
+        "irrigation systems",
+        "livestock feed",
+        "greenhouse supplies",
+        "tractors",
+        "harvesting tools",
+        "organic products",
+      ],
+      "Apparel & Fashion": [
+        "clothing",
+        "fashion accessories",
+        "footwear",
+        "handbags",
+        "jewelry",
+        "watches",
+        "sunglasses",
+        "belts",
+        "scarves",
+        "fashion design",
+      ],
+      Automobile: [
+        "car parts",
+        "automotive accessories",
+        "tires",
+        "batteries",
+        "engine oil",
+        "brake pads",
+        "car electronics",
+        "vehicle maintenance",
+        "auto repair",
+        "car detailing",
+      ],
+      "Brass Hardware & Components": [
+        "brass fittings",
+        "hardware components",
+        "metal fabrication",
+        "brass valves",
+        "connectors",
+        "fasteners",
+        "brass pipes",
+        "industrial hardware",
+        "custom brass parts",
+        "marine hardware",
+      ],
+      "Business Services": [
+        "consulting",
+        "accounting",
+        "legal services",
+        "marketing services",
+        "HR services",
+        "business development",
+        "financial planning",
+        "project management",
+        "training",
+        "outsourcing",
+      ],
+      Chemicals: [
+        "industrial chemicals",
+        "laboratory chemicals",
+        "cleaning chemicals",
+        "specialty chemicals",
+        "chemical raw materials",
+        "petrochemicals",
+        "pharmaceutical chemicals",
+        "agricultural chemicals",
+        "water treatment",
+        "adhesives",
+      ],
+      "Computer Hardware & Software": [
+        "computers",
+        "laptops",
+        "software",
+        "servers",
+        "networking equipment",
+        "storage devices",
+        "monitors",
+        "keyboards",
+        "IT support",
+        "system integration",
+      ],
+      "Construction & Real Estate": [
+        "building materials",
+        "construction equipment",
+        "real estate",
+        "property management",
+        "cement",
+        "steel",
+        "concrete",
+        "roofing materials",
+        "electrical supplies",
+        "plumbing",
+      ],
+      "Consumer Electronics": [
+        "smartphones",
+        "tablets",
+        "laptops",
+        "televisions",
+        "audio systems",
+        "cameras",
+        "gaming consoles",
+        "wearables",
+        "home appliances",
+        "electronic accessories",
+      ],
+      "Electronics & Electrical Supplies": [
+        "electrical components",
+        "wiring",
+        "switches",
+        "outlets",
+        "circuit breakers",
+        "electrical panels",
+        "transformers",
+        "cables",
+        "lighting",
+        "power supplies",
+      ],
+      "Energy & Power": [
+        "solar panels",
+        "generators",
+        "batteries",
+        "renewable energy",
+        "power systems",
+        "electrical equipment",
+        "energy storage",
+        "inverters",
+        "wind turbines",
+        "power distribution",
+      ],
+      "Environment & Pollution": [
+        "waste management",
+        "recycling",
+        "environmental consulting",
+        "pollution control",
+        "water treatment",
+        "air purification",
+        "environmental monitoring",
+        "sustainable solutions",
+        "green technology",
+        "hazardous waste",
+      ],
+      "Food & Beverage": [
+        "catering",
+        "fresh vegetables",
+        "bakery items",
+        "beverages",
+        "frozen food",
+        "spices",
+        "dairy products",
+        "meat",
+        "seafood",
+        "organic food",
+      ],
+      Furniture: [
+        "office chairs",
+        "desks",
+        "sofas",
+        "beds",
+        "dining tables",
+        "wardrobes",
+        "kitchen cabinets",
+        "outdoor furniture",
+        "custom furniture",
+        "office furniture",
+      ],
+      "Gifts & Crafts": [
+        "handmade crafts",
+        "gift items",
+        "decorative items",
+        "art supplies",
+        "personalized gifts",
+        "party supplies",
+        "seasonal decorations",
+        "hobby materials",
+        "collectibles",
+        "souvenirs",
+      ],
+      "Health & Beauty": [
+        "cosmetics",
+        "skincare products",
+        "hair care",
+        "health supplements",
+        "medical devices",
+        "beauty equipment",
+        "spa services",
+        "wellness products",
+        "fitness equipment",
+        "personal care",
+      ],
+      "Home Supplies": [
+        "household items",
+        "cleaning supplies",
+        "home decor",
+        "kitchen utensils",
+        "storage solutions",
+        "garden supplies",
+        "home improvement",
+        "appliances",
+        "bedding",
+        "bathroom accessories",
+      ],
+      "Home Textiles & Furnishings": [
+        "curtains",
+        "bed sheets",
+        "towels",
+        "carpets",
+        "upholstery",
+        "table linens",
+        "cushions",
+        "blankets",
+        "rugs",
+        "home fabrics",
+      ],
+      "Hospital & Medical Supplies": [
+        "medical equipment",
+        "surgical instruments",
+        "hospital furniture",
+        "medical disposables",
+        "diagnostic equipment",
+        "patient care",
+        "laboratory supplies",
+        "medical devices",
+        "healthcare products",
+        "pharmaceuticals",
+      ],
+      "Hotel Supplies & Equipment": [
+        "hotel furniture",
+        "hospitality supplies",
+        "restaurant equipment",
+        "hotel linens",
+        "catering equipment",
+        "hotel amenities",
+        "commercial kitchen",
+        "housekeeping supplies",
+        "hotel technology",
+        "guest room supplies",
+      ],
+      "Industrial Supplies": [
+        "industrial equipment",
+        "safety equipment",
+        "tools",
+        "machinery parts",
+        "industrial chemicals",
+        "manufacturing supplies",
+        "maintenance supplies",
+        "protective gear",
+        "industrial automation",
+        "quality control",
+      ],
+      "Jewelry & Gemstones": [
+        "gold jewelry",
+        "silver jewelry",
+        "diamonds",
+        "gemstones",
+        "watches",
+        "custom jewelry",
+        "precious metals",
+        "jewelry repair",
+        "wedding rings",
+        "fashion jewelry",
+      ],
+      "Leather & Leather Products": [
+        "leather goods",
+        "handbags",
+        "wallets",
+        "belts",
+        "shoes",
+        "leather jackets",
+        "luggage",
+        "leather furniture",
+        "custom leather",
+        "leather accessories",
+      ],
+      Machinery: [
+        "industrial machinery",
+        "manufacturing equipment",
+        "construction machinery",
+        "agricultural machinery",
+        "packaging machinery",
+        "printing machinery",
+        "textile machinery",
+        "food processing",
+        "automation equipment",
+        "heavy machinery",
+      ],
+      "Mineral & Metals": [
+        "steel",
+        "aluminum",
+        "copper",
+        "iron ore",
+        "precious metals",
+        "metal alloys",
+        "mining equipment",
+        "metal processing",
+        "scrap metal",
+        "industrial metals",
+      ],
+      "Office & School Supplies": [
+        "office supplies",
+        "stationery",
+        "paper",
+        "pens",
+        "notebooks",
+        "office furniture",
+        "school supplies",
+        "educational materials",
+        "printing supplies",
+        "office equipment",
+      ],
+      "Oil and Gas": [
+        "petroleum products",
+        "oil drilling",
+        "gas equipment",
+        "refinery supplies",
+        "pipeline equipment",
+        "petrochemicals",
+        "fuel",
+        "oil field services",
+        "gas processing",
+        "energy services",
+      ],
+      "Packaging & Paper": [
+        "packaging materials",
+        "paper products",
+        "boxes",
+        "labels",
+        "plastic packaging",
+        "printing paper",
+        "corrugated boxes",
+        "packaging design",
+        "industrial packaging",
+        "eco packaging",
+      ],
+      Pharmaceuticals: [
+        "medicines",
+        "pharmaceutical raw materials",
+        "medical supplies",
+        "drug manufacturing",
+        "healthcare products",
+        "pharmaceutical equipment",
+        "clinical supplies",
+        "biotechnology",
+        "research chemicals",
+        "medical devices",
+      ],
+      "Pipes, Tubes & Fittings": [
+        "steel pipes",
+        "PVC pipes",
+        "pipe fittings",
+        "valves",
+        "plumbing supplies",
+        "industrial pipes",
+        "tube fittings",
+        "pipeline systems",
+        "hydraulic fittings",
+        "gas pipes",
+      ],
+      "Plastics & Products": [
+        "plastic products",
+        "plastic raw materials",
+        "injection molding",
+        "plastic packaging",
+        "plastic containers",
+        "PVC products",
+        "plastic sheets",
+        "custom plastics",
+        "recycled plastics",
+        "polymer products",
+      ],
+      "Printing & Publishing": [
+        "printing services",
+        "digital printing",
+        "offset printing",
+        "publishing",
+        "graphic design",
+        "promotional materials",
+        "business cards",
+        "brochures",
+        "books",
+        "magazines",
+      ],
+      "Real Estate": [
+        "property sales",
+        "property management",
+        "real estate development",
+        "commercial property",
+        "residential property",
+        "property investment",
+        "real estate consulting",
+        "property valuation",
+        "leasing",
+        "construction",
+      ],
+      "Scientific & Laboratory Instruments": [
+        "laboratory equipment",
+        "scientific instruments",
+        "research equipment",
+        "analytical instruments",
+        "microscopes",
+        "testing equipment",
+        "laboratory supplies",
+        "measuring instruments",
+        "lab furniture",
+        "calibration services",
+      ],
+      "Security & Protection": [
+        "security systems",
+        "surveillance cameras",
+        "access control",
+        "alarm systems",
+        "security services",
+        "protective equipment",
+        "fire safety",
+        "security guards",
+        "cybersecurity",
+        "safety equipment",
+      ],
+      "Sports & Entertainment": [
+        "sports equipment",
+        "fitness equipment",
+        "recreational facilities",
+        "entertainment systems",
+        "sports accessories",
+        "outdoor gear",
+        "exercise machines",
+        "sports apparel",
+        "gaming equipment",
+        "leisure products",
+      ],
+      Telecommunications: [
+        "telecom equipment",
+        "networking solutions",
+        "communication systems",
+        "mobile accessories",
+        "internet services",
+        "telephone systems",
+        "wireless technology",
+        "data communication",
+        "telecom infrastructure",
+        "VoIP systems",
+      ],
+      "Textiles & Fabrics": [
+        "fabrics",
+        "textiles",
+        "yarns",
+        "clothing materials",
+        "industrial textiles",
+        "home textiles",
+        "textile machinery",
+        "fabric printing",
+        "textile chemicals",
+        "fiber products",
+      ],
+      Toys: [
+        "children toys",
+        "educational toys",
+        "outdoor toys",
+        "electronic toys",
+        "board games",
+        "action figures",
+        "dolls",
+        "toy vehicles",
+        "learning toys",
+        "baby toys",
+      ],
+      Transportation: [
+        "logistics",
+        "freight services",
+        "shipping",
+        "cargo handling",
+        "transportation equipment",
+        "fleet management",
+        "warehousing",
+        "delivery services",
+        "supply chain",
+        "vehicle rental",
+      ],
     };
-    
+
     // Combine suggestions from all selected categories
     let allSuggestions = [];
-    categories.forEach(category => {
+    categories.forEach((category) => {
       if (suggestions[category]) {
         allSuggestions = [...allSuggestions, ...suggestions[category]];
       }
     });
-    
+
     // Remove duplicates and return first 15
     return [...new Set(allSuggestions)].slice(0, 15);
   };
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
-    
+
     // Clear error when user starts typing
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: '' }));
+      setErrors((prev) => ({ ...prev, [field]: "" }));
     }
   };
 
   const handleProductKeywordsChange = (value) => {
     setProductKeywords(value);
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      productKeywords: value
+      productKeywords: value,
     }));
-    
+
     // Clear error when user starts typing
     if (errors.productKeywords) {
-      setErrors(prev => ({ ...prev, productKeywords: '' }));
+      setErrors((prev) => ({ ...prev, productKeywords: "" }));
     }
   };
 
   const addSuggestedKeyword = (keyword) => {
     const currentKeywords = productKeywords.trim();
-    const separator = currentKeywords ? ', ' : '';
+    const separator = currentKeywords ? ", " : "";
     const newValue = currentKeywords + separator + keyword;
     handleProductKeywordsChange(newValue);
   };
 
   const handleServiceToggle = (service) => {
     const newServices = selectedServices.includes(service)
-      ? selectedServices.filter(s => s !== service)
+      ? selectedServices.filter((s) => s !== service)
       : [...selectedServices, service];
-    
+
     setSelectedServices(newServices);
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      services: newServices
+      services: newServices,
     }));
   };
 
   const handleTargetCustomerToggle = (customer) => {
     const newCustomers = selectedTargetCustomers.includes(customer)
-      ? selectedTargetCustomers.filter(c => c !== customer)
+      ? selectedTargetCustomers.filter((c) => c !== customer)
       : [...selectedTargetCustomers, customer];
-    
+
     setSelectedTargetCustomers(newCustomers);
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      targetCustomers: newCustomers
+      targetCustomers: newCustomers,
     }));
   };
 
   const handleWorkingHoursChange = (day, field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       workingHours: {
         ...prev.workingHours,
         [day]: {
           ...prev.workingHours[day],
-          [field]: value
-        }
-      }
+          [field]: value,
+        },
+      },
     }));
   };
 
@@ -183,32 +677,43 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
     const file = e.target.files[0];
     if (file) {
       // Validate file type
-      const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "application/pdf",
+      ];
       if (!allowedTypes.includes(file.type)) {
-        setErrors(prev => ({ ...prev, crFile: 'Please upload a valid file (JPG, PNG, or PDF)' }));
+        setErrors((prev) => ({
+          ...prev,
+          crFile: "Please upload a valid file (JPG, PNG, or PDF)",
+        }));
         return;
       }
-      
+
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        setErrors(prev => ({ ...prev, crFile: 'File size must be less than 5MB' }));
+        setErrors((prev) => ({
+          ...prev,
+          crFile: "File size must be less than 5MB",
+        }));
         return;
       }
-      
+
       setCrFile(file);
-      
+
       // Show preview for images
-      if (file.type.startsWith('image/')) {
+      if (file.type.startsWith("image/")) {
         const reader = new FileReader();
         reader.onload = (e) => setCrPreview(e.target.result);
         reader.readAsDataURL(file);
       } else {
-        setCrPreview('');
+        setCrPreview("");
       }
-      
+
       // Clear error
       if (errors.crFile) {
-        setErrors(prev => ({ ...prev, crFile: '' }));
+        setErrors((prev) => ({ ...prev, crFile: "" }));
       }
     }
   };
@@ -217,7 +722,7 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
     // For demo purposes, allow progression without validation
     // Remove all validation requirements to allow easy navigation
     return true;
-    
+
     /* Original validation commented out for demo:
     const newErrors = {};
     
@@ -250,20 +755,19 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // For demo, allow submission without validation
     setIsSubmitting(true);
-    setSubmitStatus('Uploading documents and saving profile...');
-    
+    setSubmitStatus("Uploading documents and saving profile...");
+
     try {
       // Simulate API call for file upload and profile submission
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      
-      setSubmitStatus('Profile submitted successfully!');
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      setSubmitStatus("Profile submitted successfully!");
       setShowVerificationModal(true);
-      
     } catch (error) {
-      setSubmitStatus('Failed to save profile. Please try again.');
+      setSubmitStatus("Failed to save profile. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -281,50 +785,61 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
 
   const getBusinessTypeIcon = (type) => {
     switch (type) {
-      case 'Supplier': return 'ri-truck-line';
-      case 'Store': return 'ri-store-line';
-      case 'Office': return 'ri-building-line';
-      case 'Individual': return 'ri-user-line';
-      default: return 'ri-building-line';
+      case "Supplier":
+        return "ri-truck-line";
+      case "Store":
+        return "ri-store-line";
+      case "Office":
+        return "ri-building-line";
+      case "Individual":
+        return "ri-user-line";
+      default:
+        return "ri-building-line";
     }
   };
 
   const getStepTitle = (step) => {
     switch (step) {
-      case 1: return 'Business Information';
-      case 2: return 'Target Market & Services';
-      case 3: return 'Location & Contact';
-      case 4: return 'Working Hours & Branches';
-      case 5: return 'Document Verification';
-      default: return '';
+      case 1:
+        return t("completeProfile.steps.businessInfo");
+      case 2:
+        return t("completeProfile.steps.targetMarket");
+      case 3:
+        return t("completeProfile.steps.locationContact");
+      case 4:
+        return t("completeProfile.steps.hoursBranches");
+      case 5:
+        return t("completeProfile.steps.verification");
+      default:
+        return "";
     }
   };
 
   const getKeywordCount = () => {
     if (!productKeywords.trim()) return 0;
-    return productKeywords.split(',').filter(k => k.trim().length > 0).length;
+    return productKeywords.split(",").filter((k) => k.trim().length > 0).length;
   };
 
   const phoneTypes = [
-    'Sales Representative',
-    'Procurement Representative', 
-    'Technical Support',
-    'Customer Service',
-    'Manager',
-    'General Inquiry'
+    t("completeProfile.phoneTypes.sales"),
+    t("completeProfile.phoneTypes.procurement"),
+    t("completeProfile.phoneTypes.technical"),
+    t("completeProfile.phoneTypes.customer"),
+    t("completeProfile.phoneTypes.manager"),
+    t("completeProfile.phoneTypes.general"),
   ];
 
   const handleCategoryToggle = (category) => {
     const newCategories = selectedCategories.includes(category)
-      ? selectedCategories.filter(c => c !== category)
+      ? selectedCategories.filter((c) => c !== category)
       : [...selectedCategories, category];
-    
+
     setSelectedCategories(newCategories);
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      categories: newCategories
+      categories: newCategories,
     }));
-    
+
     // Update keyword suggestions based on selected categories
     if (newCategories.length > 0) {
       setKeywordSuggestions(getCategorySuggestions(newCategories));
@@ -335,31 +850,38 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
 
   const handleAddPhone = () => {
     if (additionalPhones.length < 4) {
-      setAdditionalPhones(prev => prev.concat({
-        id: Date.now(),
-        type: phoneTypes.find(type => !prev.some(phone => phone.type === type)) || 'General Inquiry',
-        number: '',
-        name: ''
-      }));
+      setAdditionalPhones((prev) =>
+        prev.concat({
+          id: Date.now(),
+          type:
+            phoneTypes.find(
+              (type) => !prev.some((phone) => phone.type === type)
+            ) || "General Inquiry",
+          number: "",
+          name: "",
+        })
+      );
     }
   };
 
   const handleRemovePhone = (id) => {
-    setAdditionalPhones(prev => prev.filter(phone => phone.id !== id));
+    setAdditionalPhones((prev) => prev.filter((phone) => phone.id !== id));
   };
 
   const handlePhoneChange = (id, field, value) => {
-    setAdditionalPhones(prev => prev.map(phone => 
-      phone.id === id ? { ...phone, [field]: value } : phone
-    ));
-    
+    setAdditionalPhones((prev) =>
+      prev.map((phone) =>
+        phone.id === id ? { ...phone, [field]: value } : phone
+      )
+    );
+
     // Update form data
-    const updatedPhones = additionalPhones.map(phone => 
+    const updatedPhones = additionalPhones.map((phone) =>
       phone.id === id ? { ...phone, [field]: value } : phone
     );
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      additionalPhones: updatedPhones
+      additionalPhones: updatedPhones,
     }));
   };
 
@@ -367,24 +889,30 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
     <div className="bg-white rounded-2xl shadow-xl p-8">
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold text-gray-800">Complete Your Profile</h2>
-          <span className="text-sm text-gray-500">Step {currentStep} of 5</span>
+          <h2 className="text-2xl font-bold text-gray-800">
+            {t("completeProfile.title")}
+          </h2>
+          <span className="text-sm text-gray-500">
+            {t("completeProfile.stepOf", { current: currentStep, total: 5 })}
+          </span>
         </div>
-        
+
         <div className="flex space-x-2 mb-4">
           {[1, 2, 3, 4, 5].map((step) => (
             <div
               key={step}
               className={`h-2 flex-1 rounded-full transition-all duration-300 ${
-                step <= currentStep ? 'bg-yellow-400' : 'bg-gray-200'
+                step <= currentStep ? "bg-yellow-400" : "bg-gray-200"
               }`}
             ></div>
           ))}
         </div>
-        
-        <h3 className="text-lg font-semibold text-gray-700 mb-2">{getStepTitle(currentStep)}</h3>
+
+        <h3 className="text-lg font-semibold text-gray-700 mb-2">
+          {getStepTitle(currentStep)}
+        </h3>
         <div className="w-full bg-gray-100 rounded-full h-1">
-          <div 
+          <div
             className="bg-yellow-400 h-1 rounded-full transition-all duration-300"
             style={{ width: `${(currentStep / 5) * 100}%` }}
           ></div>
@@ -395,19 +923,27 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
       <div className="bg-green-50 p-4 rounded-lg mb-6 border border-green-200">
         <div className="flex items-center space-x-2 mb-3">
           <i className="ri-check-line text-green-600"></i>
-          <h4 className="text-green-800 font-medium">Account Information (Verified)</h4>
+          <h4 className="text-green-800 font-medium">
+            {t("completeProfile.accountVerified")}
+          </h4>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <div>
-            <span className="text-green-700 font-medium">Business:</span>
+            <span className="text-green-700 font-medium">
+              {t("completeProfile.business")}:
+            </span>
             <p className="text-green-800">{formData.businessName}</p>
           </div>
           <div>
-            <span className="text-green-700 font-medium">Phone:</span>
+            <span className="text-green-700 font-medium">
+              {t("completeProfile.phone")}:
+            </span>
             <p className="text-green-800">{formData.contactPhone}</p>
           </div>
           <div>
-            <span className="text-green-700 font-medium">Email:</span>
+            <span className="text-green-700 font-medium">
+              {t("completeProfile.email")}:
+            </span>
             <p className="text-green-800">{formData.contactEmail}</p>
           </div>
         </div>
@@ -417,38 +953,67 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
         {currentStep === 1 && (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">What is your business type *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                {t("completeProfile.step1.businessTypeLabel")} *
+              </label>
               <div className="grid grid-cols-2 gap-3">
-                {businessTypes.map(type => (
-                  <label key={type} className={`flex items-center space-x-3 p-4 border-2 rounded-lg cursor-pointer transition-all ${
-                    formData.businessType === type ? 'border-yellow-400 bg-yellow-50' : 'border-gray-200 hover:border-gray-300'
-                  }`}>
+                {businessTypes.map((type) => (
+                  <label
+                    key={type}
+                    className={`flex items-center space-x-3 p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                      formData.businessType === type
+                        ? "border-yellow-400 bg-yellow-50"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
                     <input
                       type="radio"
                       name="businessType"
                       value={type}
                       checked={formData.businessType === type}
-                      onChange={(e) => handleInputChange('businessType', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("businessType", e.target.value)
+                      }
                       className="w-4 h-4 text-yellow-400 border-gray-300 focus:ring-yellow-400"
                       required
                     />
-                    <i className={`${getBusinessTypeIcon(type)} text-lg text-gray-600`}></i>
-                    <span className="text-sm font-medium text-gray-700">{type}</span>
+                    <i
+                      className={`${getBusinessTypeIcon(
+                        type
+                      )} text-lg text-gray-600`}
+                    ></i>
+                    <span className="text-sm font-medium text-gray-700">
+                      {type}
+                    </span>
                   </label>
                 ))}
               </div>
-              {errors.businessType && <p className="text-red-500 text-xs mt-1">{errors.businessType}</p>}
+              {errors.businessType && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.businessType}
+                </p>
+              )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">Business Categories *</label>
-              <p className="text-sm text-gray-600 mb-4">Select all categories that apply to your business. This helps customers find you more easily.</p>
-              
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                {t("completeProfile.step1.categoriesLabel")} *
+              </label>
+              <p className="text-sm text-gray-600 mb-4">
+                {t("completeProfile.step1.categoriesDesc")}
+                customers find you more easily.
+              </p>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-80 overflow-y-auto border border-gray-200 rounded-lg p-4">
-                {categories.map(category => (
-                  <label key={category} className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-all ${
-                    selectedCategories.includes(category) ? 'border-yellow-400 bg-yellow-50' : 'border-gray-200 hover:border-gray-300'
-                  }`}>
+                {categories.map((category) => (
+                  <label
+                    key={category}
+                    className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-all ${
+                      selectedCategories.includes(category)
+                        ? "border-yellow-400 bg-yellow-50"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
                     <input
                       type="checkbox"
                       checked={selectedCategories.includes(category)}
@@ -459,7 +1024,7 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                   </label>
                 ))}
               </div>
-              
+
               <div className="mt-3 flex items-center justify-between">
                 <span className="text-sm text-gray-500">
                   {selectedCategories.length} categories selected
@@ -469,23 +1034,30 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                     type="button"
                     onClick={() => {
                       setSelectedCategories([]);
-                      setFormData(prev => ({ ...prev, categories: [] }));
+                      setFormData((prev) => ({ ...prev, categories: [] }));
                     }}
                     className="text-sm text-red-600 hover:text-red-700"
                   >
-                    Clear all
+                    {t("completeProfile.step1.clearAll")}
                   </button>
                 )}
               </div>
-              
-              {errors.categories && <p className="text-red-500 text-xs mt-1">{errors.categories}</p>}
-              
+
+              {errors.categories && (
+                <p className="text-red-500 text-xs mt-1">{errors.categories}</p>
+              )}
+
               {selectedCategories.length > 0 && (
                 <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
-                  <p className="text-sm font-medium text-green-800 mb-2">Selected Categories:</p>
+                  <p className="text-sm font-medium text-green-800 mb-2">
+                    {t("completeProfile.step1.selectedCategories")}
+                  </p>
                   <div className="flex flex-wrap gap-2">
-                    {selectedCategories.map(category => (
-                      <span key={category} className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">
+                    {selectedCategories.map((category) => (
+                      <span
+                        key={category}
+                        className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs"
+                      >
                         {category}
                       </span>
                     ))}
@@ -499,7 +1071,9 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
                   <i className="ri-search-line text-blue-600 text-xl"></i>
-                  <h4 className="text-lg font-semibold text-blue-800">Products & Services Keywords *</h4>
+                  <h4 className="text-lg font-semibold text-blue-800">
+                    {t("completeProfile.step1.keywordsTitle")} *
+                  </h4>
                 </div>
                 <button
                   type="button"
@@ -507,7 +1081,7 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                   className="text-blue-600 hover:text-blue-700 text-sm font-medium"
                 >
                   <i className="ri-question-line mr-1"></i>
-                  How to optimize?
+                  {t("completeProfile.step1.howToOptimize")}
                 </button>
               </div>
 
@@ -515,34 +1089,50 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                 <div className="bg-white p-4 rounded-lg mb-4 border border-blue-200">
                   <h5 className="font-medium text-gray-800 mb-3">
                     <i className="ri-lightbulb-line text-yellow-500 mr-2"></i>
-                    How customers will find you
+                    {t("completeProfile.step1.searchMatching")}
                   </h5>
                   <div className="space-y-3 text-sm text-gray-700">
                     <div className="flex items-start space-x-3">
                       <i className="ri-search-2-line text-green-500 mt-0.5"></i>
                       <div>
-                        <p className="font-medium">Search Matching</p>
-                        <p>When customers search for "LED TV" or "office chairs", your business will appear if you include these keywords</p>
+                        <p className="font-medium">
+                          {t("completeProfile.step1.searchMatching")}
+                        </p>
+                        <p>
+                          {t("completeProfile.step1.searchMatchingDesc")}
+                          {t("completeProfile.step1.searchMatchingDesc")}
+                          {t("completeProfile.step1.searchMatchingDesc")}
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-start space-x-3">
                       <i className="ri-price-tag-3-line text-blue-500 mt-0.5"></i>
                       <div>
-                        <p className="font-medium">Be Specific</p>
-                        <p>Use exact product names: "iPhone 15", "Samsung TV", "wooden dining table" instead of just "electronics"</p>
+                        <p className="font-medium">
+                          {t("completeProfile.step1.beSpecific")}
+                        </p>
+                        <p>
+                          {t("completeProfile.step1.beSpecificDesc")}
+                          {t("completeProfile.step1.beSpecificDesc")}
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-start space-x-3">
                       <i className="ri-group-line text-purple-500 mt-0.5"></i>
                       <div>
-                        <p className="font-medium">Think Like Customers</p>
-                        <p>Add terms customers actually search for: "cheap laptops", "bulk printing", "emergency repair"</p>
+                        <p className="font-medium">
+                          {t("completeProfile.step1.thinkLikeCustomers")}
+                        </p>
+                        <p>
+                          {t("completeProfile.step1.thinkLikeCustomersDesc")}
+                          {t("completeProfile.step1.thinkLikeCustomersDesc")}
+                        </p>
                       </div>
                     </div>
                     <div className="bg-yellow-50 p-3 rounded border border-yellow-200">
                       <p className="text-yellow-800 font-medium text-xs">
                         <i className="ri-star-line mr-1"></i>
-                        Pro Tip: Add 15-30 keywords including product names, brands, services, and customer search terms
+                        {t("completeProfile.step1.proTip")}
                       </p>
                     </div>
                   </div>
@@ -555,42 +1145,62 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                   onChange={(e) => handleProductKeywordsChange(e.target.value)}
                   rows={4}
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm resize-none ${
-                    errors.productKeywords ? 'border-red-300' : 'border-gray-300'
+                    errors.productKeywords
+                      ? "border-red-300"
+                      : "border-gray-300"
                   }`}
                   placeholder="Enter products and services separated by commas. Example: LED TV, Samsung electronics, iPhone repair, laptop wholesale, gaming computers, mobile accessories, warranty service, bulk orders..."
                 />
                 <div className="flex justify-between items-center mt-2">
-                  <span className={`text-xs ${errors.productKeywords ? 'text-red-500' : 'text-gray-600'}`}>
-                    {errors.productKeywords || `${getKeywordCount()} keywords added (recommended: 15-30)`}
+                  <span
+                    className={`text-xs ${
+                      errors.productKeywords ? "text-red-500" : "text-gray-600"
+                    }`}
+                  >
+                    {errors.productKeywords ||
+                      `${getKeywordCount()} ${t(
+                        "completeProfile.step1.keywordsCount"
+                      )}`}
                   </span>
-                  <span className={`text-xs ${productKeywords.length >= 20 ? 'text-green-500' : 'text-gray-400'}`}>
-                    {productKeywords.length >= 20 ? '✓ Good' : `${productKeywords.length}/20 chars`}
+                  <span
+                    className={`text-xs ${
+                      productKeywords.length >= 20
+                        ? "text-green-500"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    {productKeywords.length >= 20
+                      ? t("completeProfile.step1.goodLength")
+                      : `${productKeywords.length}/${t(
+                          "completeProfile.step1.minChars"
+                        )}`}
                   </span>
                 </div>
               </div>
 
               {/* Keyword Suggestions */}
-              {selectedCategories.length > 0 && keywordSuggestions.length > 0 && (
-                <div>
-                  <p className="text-sm font-medium text-blue-700 mb-3">
-                    <i className="ri-magic-line mr-1"></i>
-                    Quick suggestions based on your categories:
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {keywordSuggestions.map((keyword, index) => (
-                      <button
-                        key={index}
-                        type="button"
-                        onClick={() => addSuggestedKeyword(keyword)}
-                        className="bg-white border border-blue-300 text-blue-700 px-3 py-1 rounded-full text-xs hover:bg-blue-50 transition-colors cursor-pointer"
-                      >
-                        <i className="ri-add-line mr-1"></i>
-                        {keyword}
-                      </button>
-                    ))}
+              {selectedCategories.length > 0 &&
+                keywordSuggestions.length > 0 && (
+                  <div>
+                    <p className="text-sm font-medium text-blue-700 mb-3">
+                      <i className="ri-magic-line mr-1"></i>
+                      {t("completeProfile.step1.quickSuggestions")}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {keywordSuggestions.map((keyword, index) => (
+                        <button
+                          key={index}
+                          type="button"
+                          onClick={() => addSuggestedKeyword(keyword)}
+                          className="bg-white border border-blue-300 text-blue-700 px-3 py-1 rounded-full text-xs hover:bg-blue-50 transition-colors cursor-pointer"
+                        >
+                          <i className="ri-add-line mr-1"></i>
+                          {keyword}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
             </div>
           </div>
         )}
@@ -598,12 +1208,19 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
         {currentStep === 2 && (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">Who do you serve? *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                {t("completeProfile.step2.whoServeLabel")} *
+              </label>
               <div className="space-y-3">
-                {targetCustomerOptions.map(customer => (
-                  <label key={customer} className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-all ${
-                    selectedTargetCustomers.includes(customer) ? 'border-yellow-400 bg-yellow-50' : 'border-gray-200 hover:border-gray-300'
-                  }`}>
+                {targetCustomerOptions.map((customer) => (
+                  <label
+                    key={customer}
+                    className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-all ${
+                      selectedTargetCustomers.includes(customer)
+                        ? "border-yellow-400 bg-yellow-50"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
                     <input
                       type="checkbox"
                       checked={selectedTargetCustomers.includes(customer)}
@@ -614,35 +1231,56 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                   </label>
                 ))}
               </div>
-              {errors.targetCustomers && <p className="text-red-500 text-xs mt-1">{errors.targetCustomers}</p>}
+              {errors.targetCustomers && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.targetCustomers}
+                </p>
+              )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Service Distance *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t("completeProfile.step2.serviceDistanceLabel")} *
+              </label>
               <select
                 name="serviceDistance"
                 value={formData.serviceDistance}
-                onChange={(e) => handleInputChange('serviceDistance', e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("serviceDistance", e.target.value)
+                }
                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm pr-8 ${
-                  errors.serviceDistance ? 'border-red-300' : 'border-gray-300'
+                  errors.serviceDistance ? "border-red-300" : "border-gray-300"
                 }`}
                 required
               >
                 <option value="">How far do you serve?</option>
-                {serviceDistanceOptions.map(distance => (
-                  <option key={distance} value={distance}>{distance}</option>
+                {serviceDistanceOptions.map((distance) => (
+                  <option key={distance} value={distance}>
+                    {distance}
+                  </option>
                 ))}
               </select>
-              {errors.serviceDistance && <p className="text-red-500 text-xs mt-1">{errors.serviceDistance}</p>}
+              {errors.serviceDistance && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.serviceDistance}
+                </p>
+              )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">Services Offered (Optional)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                {t("completeProfile.step2.servicesLabel")} (Optional)
+              </label>
               <div className="grid grid-cols-2 gap-3">
-                {serviceOptions.map(service => (
-                  <label key={service} className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-all ${
-                    selectedServices.includes(service) ? 'border-yellow-400 bg-yellow-50' : 'border-gray-200 hover:border-gray-300'
-                  }`}>
+                {serviceOptions.map((service) => (
+                  <label
+                    key={service}
+                    className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-all ${
+                      selectedServices.includes(service)
+                        ? "border-yellow-400 bg-yellow-50"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
                     <input
                       type="checkbox"
                       checked={selectedServices.includes(service)}
@@ -653,7 +1291,9 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                   </label>
                 ))}
               </div>
-              <p className="text-xs text-gray-500 mt-2">Select all services that apply to your business</p>
+              <p className="text-xs text-gray-500 mt-2">
+                {t("completeProfile.step2.servicesDesc")}
+              </p>
             </div>
           </div>
         )}
@@ -661,35 +1301,43 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
         {currentStep === 3 && (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Website (Optional)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t("completeProfile.step3.websiteLabel")} (Optional)
+              </label>
               <input
                 type="url"
                 name="website"
                 value={formData.website}
-                onChange={(e) => handleInputChange('website', e.target.value)}
+                onChange={(e) => handleInputChange("website", e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
                 placeholder="https://yourwebsite.com"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Business Phone *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t("completeProfile.step3.mainPhoneLabel")} *
+              </label>
               <input
                 type="tel"
                 name="mainPhone"
                 value={formData.mainPhone || formData.contactPhone}
-                onChange={(e) => handleInputChange('mainPhone', e.target.value)}
+                onChange={(e) => handleInputChange("mainPhone", e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
                 placeholder="+966 11 234 5678"
                 required
               />
-              <p className="text-xs text-gray-500 mt-1">Primary contact number for your business</p>
+              <p className="text-xs text-gray-500 mt-1">
+                {t("completeProfile.step3.mainPhoneDesc")}
+              </p>
             </div>
 
             {/* Additional Phone Numbers Section - Simplified */}
             <div>
               <div className="flex items-center justify-between mb-3">
-                <label className="block text-sm font-medium text-gray-700">Additional Contact Numbers (Optional)</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  {t("completeProfile.step3.additionalPhonesLabel")} (Optional)
+                </label>
                 {additionalPhones.length < 4 && (
                   <button
                     type="button"
@@ -697,43 +1345,56 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                     className="text-yellow-600 hover:text-yellow-700 text-sm font-medium cursor-pointer"
                   >
                     <i className="ri-add-line mr-1"></i>
-                    Add Number
+                    {t("completeProfile.step3.addNumber")}
                   </button>
                 )}
               </div>
-              
-              <p className="text-sm text-gray-600 mb-4">Add specialized contact numbers for different departments</p>
+
+              <p className="text-sm text-gray-600 mb-4">
+                {t("completeProfile.step3.additionalPhonesDesc")}
+              </p>
 
               <div className="space-y-3">
                 {additionalPhones.map((phone, index) => (
-                  <div key={phone.id} className="grid grid-cols-1 md:grid-cols-3 gap-3 p-3 bg-gray-50 rounded-lg">
+                  <div
+                    key={phone.id}
+                    className="grid grid-cols-1 md:grid-cols-3 gap-3 p-3 bg-gray-50 rounded-lg"
+                  >
                     <div>
                       <select
                         value={phone.type}
-                        onChange={(e) => handlePhoneChange(phone.id, 'type', e.target.value)}
+                        onChange={(e) =>
+                          handlePhoneChange(phone.id, "type", e.target.value)
+                        }
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm pr-8"
                       >
-                        {phoneTypes.map(type => (
-                          <option key={type} value={type}>{type}</option>
+                        {phoneTypes.map((type) => (
+                          <option key={type} value={type}>
+                            {type}
+                          </option>
                         ))}
                       </select>
                     </div>
-                    
+
                     <div>
                       <input
                         type="tel"
                         value={phone.number}
-                        onChange={(e) => handlePhoneChange(phone.id, 'number', e.target.value)}
+                        onChange={(e) =>
+                          handlePhoneChange(phone.id, "number", e.target.value)
+                        }
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
                         placeholder="+966 50 123 4567"
                       />
                     </div>
-                    
+
                     <div className="flex items-center space-x-2">
                       <input
                         type="text"
                         value={phone.name}
-                        onChange={(e) => handlePhoneChange(phone.id, 'name', e.target.value)}
+                        onChange={(e) =>
+                          handlePhoneChange(phone.id, "name", e.target.value)
+                        }
                         className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
                         placeholder="Contact name"
                       />
@@ -754,7 +1415,9 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
               {additionalPhones.length === 0 && (
                 <div className="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
                   <i className="ri-phone-line text-gray-400 text-2xl mb-2"></i>
-                  <p className="text-gray-600 text-sm mb-3">No additional numbers added</p>
+                  <p className="text-gray-600 text-sm mb-3">
+                    {t("completeProfile.step3.noAdditionalNumbers")}
+                  </p>
                   <button
                     type="button"
                     onClick={handleAddPhone}
@@ -768,28 +1431,34 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Business Address *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Business Address *
+              </label>
               <input
                 type="text"
                 name="address"
                 value={formData.address}
-                onChange={(e) => handleInputChange('address', e.target.value)}
+                onChange={(e) => handleInputChange("address", e.target.value)}
                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm ${
-                  errors.address ? 'border-red-300' : 'border-gray-300'
+                  errors.address ? "border-red-300" : "border-gray-300"
                 }`}
                 placeholder="Enter your complete business address"
                 required
               />
-              {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
+              {errors.address && (
+                <p className="text-red-500 text-xs mt-1">{errors.address}</p>
+              )}
             </div>
 
             <div className="bg-yellow-50 p-4 rounded-lg">
               <p className="text-sm text-yellow-800 mb-2">
                 <i className="ri-map-pin-line mr-2"></i>
-                Selected Location: Lat {selectedLocation.lat.toFixed(6)}, Lng {selectedLocation.lng.toFixed(6)}
+                Selected Location: Lat {selectedLocation.lat.toFixed(6)}, Lng{" "}
+                {selectedLocation.lng.toFixed(6)}
               </p>
               <p className="text-xs text-yellow-700">
-                Click on the map to adjust your business location pin for accurate positioning
+                Click on the map to adjust your business location pin for
+                accurate positioning
               </p>
             </div>
           </div>
@@ -804,41 +1473,68 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                   <i className="ri-time-line text-blue-600 text-lg"></i>
                 </div>
                 <div>
-                  <h4 className="text-base font-semibold text-blue-800">Working Hours</h4>
-                  <p className="text-blue-700 text-xs">Set your main business operating hours</p>
+                  <h4 className="text-base font-semibold text-blue-800">
+                    Working Hours
+                  </h4>
+                  <p className="text-blue-700 text-xs">
+                    Set your main business operating hours
+                  </p>
                 </div>
               </div>
-              
+
               <div className="space-y-2">
-                {Object.keys(formData.workingHours).map(day => (
-                  <div key={day} className="flex items-center space-x-3 p-2 bg-white rounded-lg border border-blue-200">
+                {Object.keys(formData.workingHours).map((day) => (
+                  <div
+                    key={day}
+                    className="flex items-center space-x-3 p-2 bg-white rounded-lg border border-blue-200"
+                  >
                     <div className="w-16">
-                      <span className="text-xs font-medium text-gray-700 capitalize">{day}</span>
+                      <span className="text-xs font-medium text-gray-700 capitalize">
+                        {day}
+                      </span>
                     </div>
-                    
+
                     <label className="flex items-center">
                       <input
                         type="checkbox"
                         checked={formData.workingHours[day].closed}
-                        onChange={(e) => handleWorkingHoursChange(day, 'closed', e.target.checked)}
+                        onChange={(e) =>
+                          handleWorkingHoursChange(
+                            day,
+                            "closed",
+                            e.target.checked
+                          )
+                        }
                         className="w-3 h-3 text-yellow-400 border-gray-300 rounded focus:ring-yellow-400 mr-1"
                       />
                       <span className="text-xs text-gray-600">Closed</span>
                     </label>
-                    
+
                     {!formData.workingHours[day].closed && (
                       <div className="flex items-center space-x-1">
                         <input
                           type="time"
                           value={formData.workingHours[day].open}
-                          onChange={(e) => handleWorkingHoursChange(day, 'open', e.target.value)}
+                          onChange={(e) =>
+                            handleWorkingHoursChange(
+                              day,
+                              "open",
+                              e.target.value
+                            )
+                          }
                           className="px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs"
                         />
                         <span className="text-gray-500 text-xs">to</span>
                         <input
                           type="time"
                           value={formData.workingHours[day].close}
-                          onChange={(e) => handleWorkingHoursChange(day, 'close', e.target.value)}
+                          onChange={(e) =>
+                            handleWorkingHoursChange(
+                              day,
+                              "close",
+                              e.target.value
+                            )
+                          }
                           className="px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs"
                         />
                       </div>
@@ -855,39 +1551,59 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                   <i className="ri-building-line text-green-600 text-lg"></i>
                 </div>
                 <div>
-                  <h4 className="text-base font-semibold text-green-800">Multiple Branches</h4>
-                  <p className="text-green-700 text-xs">Expand your business reach with multiple locations</p>
+                  <h4 className="text-base font-semibold text-green-800">
+                    Multiple Branches
+                  </h4>
+                  <p className="text-green-700 text-xs">
+                    Expand your business reach with multiple locations
+                  </p>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
                 <div className="bg-white p-3 rounded-lg border border-green-200">
                   <div className="flex items-center space-x-1 mb-1">
                     <i className="ri-map-pin-line text-green-500 text-sm"></i>
-                    <span className="font-medium text-gray-700 text-sm">Multiple Locations</span>
+                    <span className="font-medium text-gray-700 text-sm">
+                      Multiple Locations
+                    </span>
                   </div>
-                  <p className="text-xs text-gray-600">Serve customers across different areas</p>
+                  <p className="text-xs text-gray-600">
+                    Serve customers across different areas
+                  </p>
                 </div>
                 <div className="bg-white p-3 rounded-lg border border-blue-200">
                   <div className="flex items-center space-x-1 mb-1">
                     <i className="ri-time-line text-blue-500 text-sm"></i>
-                    <span className="font-medium text-gray-700 text-sm">Flexible Hours</span>
+                    <span className="font-medium text-gray-700 text-sm">
+                      Flexible Hours
+                    </span>
                   </div>
-                  <p className="text-xs text-gray-600">Different hours per branch</p>
+                  <p className="text-xs text-gray-600">
+                    Different hours per branch
+                  </p>
                 </div>
                 <div className="bg-white p-3 rounded-lg border border-purple-200">
                   <div className="flex items-center space-x-1 mb-1">
                     <i className="ri-team-line text-purple-500 text-sm"></i>
-                    <span className="font-medium text-gray-700 text-sm">Better Management</span>
+                    <span className="font-medium text-gray-700 text-sm">
+                      Better Management
+                    </span>
                   </div>
-                  <p className="text-xs text-gray-600">Track each location performance</p>
+                  <p className="text-xs text-gray-600">
+                    Track each location performance
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-green-800 font-medium text-sm">Ready to add branches?</p>
-                  <p className="text-green-600 text-xs">Skip this step and add branches later</p>
+                  <p className="text-green-800 font-medium text-sm">
+                    Ready to add branches?
+                  </p>
+                  <p className="text-green-600 text-xs">
+                    Skip this step and add branches later
+                  </p>
                 </div>
                 <button
                   type="button"
@@ -909,14 +1625,21 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {branches.slice(0, 4).map((branch) => (
-                    <div key={branch.id} className="bg-white p-3 rounded-lg border border-blue-200">
+                    <div
+                      key={branch.id}
+                      className="bg-white p-3 rounded-lg border border-blue-200"
+                    >
                       <div className="flex items-center space-x-2 mb-1">
-                        <h5 className="font-medium text-gray-800 text-sm">{branch.name}</h5>
-                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                          branch.status === 'active' 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-gray-100 text-gray-600'
-                        }`}>
+                        <h5 className="font-medium text-gray-800 text-sm">
+                          {branch.name}
+                        </h5>
+                        <span
+                          className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                            branch.status === "active"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-gray-100 text-gray-600"
+                          }`}
+                        >
                           {branch.status}
                         </span>
                       </div>
@@ -955,9 +1678,13 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
               <div className="flex items-start space-x-2">
                 <i className="ri-information-line text-yellow-600 text-lg mt-0.5"></i>
                 <div>
-                  <h4 className="text-yellow-800 font-semibold mb-1 text-sm">Branch Management Benefits</h4>
+                  <h4 className="text-yellow-800 font-semibold mb-1 text-sm">
+                    Branch Management Benefits
+                  </h4>
                   <ul className="text-xs text-gray-700 space-y-0.5">
-                    <li>• Customers find your nearest location automatically</li>
+                    <li>
+                      • Customers find your nearest location automatically
+                    </li>
                     <li>• Each branch has unique contact info and hours</li>
                     <li>• Track inquiries and performance by location</li>
                     <li>• Appear in more local search results</li>
@@ -976,17 +1703,27 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                   <i className="ri-shield-check-line text-red-600 text-xl"></i>
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-red-800">Business Verification Required</h4>
-                  <p className="text-red-700 text-sm">Upload your Commercial Registration to verify your business legitimacy</p>
+                  <h4 className="text-lg font-semibold text-red-800">
+                    Business Verification Required
+                  </h4>
+                  <p className="text-red-700 text-sm">
+                    Upload your Commercial Registration to verify your business
+                    legitimacy
+                  </p>
                 </div>
               </div>
-              
+
               <div className="bg-white p-4 rounded-lg border border-red-200">
-                <h5 className="font-medium text-gray-800 mb-3">Why is this required?</h5>
+                <h5 className="font-medium text-gray-800 mb-3">
+                  Why is this required?
+                </h5>
                 <ul className="text-sm text-gray-700 space-y-2">
                   <li className="flex items-start space-x-2">
                     <i className="ri-check-line text-green-500 mt-0.5"></i>
-                    <span>Ensures only legitimate businesses are listed on our platform</span>
+                    <span>
+                      Ensures only legitimate businesses are listed on our
+                      platform
+                    </span>
                   </li>
                   <li className="flex items-start space-x-2">
                     <i className="ri-check-line text-green-500 mt-0.5"></i>
@@ -998,7 +1735,9 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                   </li>
                   <li className="flex items-start space-x-2">
                     <i className="ri-check-line text-green-500 mt-0.5"></i>
-                    <span>Unlocks premium features and higher search ranking</span>
+                    <span>
+                      Unlocks premium features and higher search ranking
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -1008,9 +1747,15 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Commercial Registration Document *
               </label>
-              <div className={`border-2 border-dashed rounded-lg p-6 text-center transition-all ${
-                errors.crFile ? 'border-red-300 bg-red-50' : crFile ? 'border-green-300 bg-green-50' : 'border-gray-300 hover:border-yellow-400 hover:bg-yellow-50'
-              }`}>
+              <div
+                className={`border-2 border-dashed rounded-lg p-6 text-center transition-all ${
+                  errors.crFile
+                    ? "border-red-300 bg-red-50"
+                    : crFile
+                    ? "border-green-300 bg-green-50"
+                    : "border-gray-300 hover:border-yellow-400 hover:bg-yellow-50"
+                }`}
+              >
                 <input
                   type="file"
                   id="cr-upload"
@@ -1018,13 +1763,15 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                   onChange={handleCRFileChange}
                   className="hidden"
                 />
-                
+
                 {!crFile ? (
                   <label htmlFor="cr-upload" className="cursor-pointer">
                     <div className="space-y-3">
                       <i className="ri-upload-cloud-2-line text-4xl text-gray-400"></i>
                       <div>
-                        <p className="text-lg font-medium text-gray-700">Upload your Commercial Registration</p>
+                        <p className="text-lg font-medium text-gray-700">
+                          Upload your Commercial Registration
+                        </p>
                         <p className="text-sm text-gray-500">
                           Click to browse or drag and drop your CR document
                         </p>
@@ -1039,25 +1786,30 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                     <div className="flex items-center justify-center space-x-3">
                       <i className="ri-file-check-line text-3xl text-green-600"></i>
                       <div className="text-left">
-                        <p className="font-medium text-gray-800">{crFile.name}</p>
+                        <p className="font-medium text-gray-800">
+                          {crFile.name}
+                        </p>
                         <p className="text-sm text-gray-500">
                           {(crFile.size / 1024 / 1024).toFixed(2)} MB
                         </p>
                       </div>
                     </div>
-                    
+
                     {crPreview && (
                       <div className="max-w-sm mx-auto">
-                        <img 
-                          src={crPreview} 
-                          alt="CR Preview" 
+                        <img
+                          src={crPreview}
+                          alt="CR Preview"
                           className="w-full h-auto rounded-lg shadow-md"
                         />
                       </div>
                     )}
-                    
+
                     <div className="flex justify-center space-x-3">
-                      <label htmlFor="cr-upload" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 text-sm cursor-pointer">
+                      <label
+                        htmlFor="cr-upload"
+                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 text-sm cursor-pointer"
+                      >
                         <i className="ri-refresh-line mr-2"></i>
                         Replace File
                       </label>
@@ -1065,7 +1817,7 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                         type="button"
                         onClick={() => {
                           setCrFile(null);
-                          setCrPreview('');
+                          setCrPreview("");
                         }}
                         className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 text-sm cursor-pointer"
                       >
@@ -1076,7 +1828,9 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                   </div>
                 )}
               </div>
-              {errors.crFile && <p className="text-red-500 text-xs mt-1">{errors.crFile}</p>}
+              {errors.crFile && (
+                <p className="text-red-500 text-xs mt-1">{errors.crFile}</p>
+              )}
             </div>
 
             <div className="bg-blue-50 p-4 rounded-lg">
@@ -1086,15 +1840,25 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
               </h5>
               <ol className="text-sm text-blue-700 space-y-2">
                 <li className="flex items-start space-x-2">
-                  <span className="bg-blue-200 text-blue-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">1</span>
-                  <span>Your document will be reviewed by our verification team</span>
+                  <span className="bg-blue-200 text-blue-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">
+                    1
+                  </span>
+                  <span>
+                    Your document will be reviewed by our verification team
+                  </span>
                 </li>
                 <li className="flex items-start space-x-2">
-                  <span className="bg-blue-200 text-blue-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">2</span>
-                  <span>You'll receive a notification about verification status</span>
+                  <span className="bg-blue-200 text-blue-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">
+                    2
+                  </span>
+                  <span>
+                    You'll receive a notification about verification status
+                  </span>
                 </li>
                 <li className="flex items-start space-x-2">
-                  <span className="bg-blue-200 text-blue-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">3</span>
+                  <span className="bg-blue-200 text-blue-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">
+                    3
+                  </span>
                   <span>Once approved, your business profile will go live</span>
                 </li>
               </ol>
@@ -1105,19 +1869,45 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
 
             {/* Profile Summary */}
             <div className="bg-green-50 p-6 rounded-lg mt-6">
-              <h4 className="text-lg font-semibold text-green-800 mb-4">Profile Summary</h4>
+              <h4 className="text-lg font-semibold text-green-800 mb-4">
+                Profile Summary
+              </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p><span className="font-medium">Business:</span> {formData.businessName}</p>
-                  <p><span className="font-medium">Category:</span> {formData.category}</p>
-                  <p><span className="font-medium">Type:</span> {formData.businessType}</p>
-                  <p><span className="font-medium">Services:</span> {selectedServices.length} selected</p>
+                  <p>
+                    <span className="font-medium">Business:</span>{" "}
+                    {formData.businessName}
+                  </p>
+                  <p>
+                    <span className="font-medium">Category:</span>{" "}
+                    {formData.category}
+                  </p>
+                  <p>
+                    <span className="font-medium">Type:</span>{" "}
+                    {formData.businessType}
+                  </p>
+                  <p>
+                    <span className="font-medium">Services:</span>{" "}
+                    {selectedServices.length} selected
+                  </p>
                 </div>
                 <div>
-                  <p><span className="font-medium">Email:</span> {formData.contactEmail}</p>
-                  <p><span className="font-medium">Phone:</span> {formData.contactPhone}</p>
-                  <p><span className="font-medium">Target Customers:</span> {selectedTargetCustomers.length} types</p>
-                  <p><span className="font-medium">Keywords:</span> {getKeywordCount()} added</p>
+                  <p>
+                    <span className="font-medium">Email:</span>{" "}
+                    {formData.contactEmail}
+                  </p>
+                  <p>
+                    <span className="font-medium">Phone:</span>{" "}
+                    {formData.contactPhone}
+                  </p>
+                  <p>
+                    <span className="font-medium">Target Customers:</span>{" "}
+                    {selectedTargetCustomers.length} types
+                  </p>
+                  <p>
+                    <span className="font-medium">Keywords:</span>{" "}
+                    {getKeywordCount()} added
+                  </p>
                 </div>
               </div>
             </div>
@@ -1125,9 +1915,13 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
         )}
 
         {submitStatus && (
-          <div className={`p-4 rounded-lg ${
-            submitStatus.includes('Failed') ? 'bg-red-50 text-red-700' : 'bg-blue-50 text-blue-700'
-          }`}>
+          <div
+            className={`p-4 rounded-lg ${
+              submitStatus.includes("Failed")
+                ? "bg-red-50 text-red-700"
+                : "bg-blue-50 text-blue-700"
+            }`}
+          >
             <p className="text-sm">{submitStatus}</p>
           </div>
         )}
@@ -1139,8 +1933,8 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
             disabled={currentStep === 1}
             className={`px-6 py-3 rounded-lg font-medium whitespace-nowrap cursor-pointer transition-all ${
               currentStep === 1
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
             }`}
           >
             <i className="ri-arrow-left-line mr-2"></i>
@@ -1162,8 +1956,8 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
               disabled={isSubmitting}
               className={`px-6 py-3 rounded-lg font-medium whitespace-nowrap cursor-pointer transition-all ${
                 isSubmitting
-                  ? 'bg-gray-400 text-white cursor-not-allowed'
-                  : 'bg-green-500 text-white hover:bg-green-600'
+                  ? "bg-gray-400 text-white cursor-not-allowed"
+                  : "bg-green-500 text-white hover:bg-green-600"
               }`}
             >
               {isSubmitting ? (
@@ -1188,9 +1982,12 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <i className="ri-check-line text-green-600 text-2xl"></i>
             </div>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">Profile Completed!</h3>
+            <h3 className="text-xl font-bold text-gray-800 mb-2">
+              Profile Completed!
+            </h3>
             <p className="text-gray-600 mb-6">
-              Your business profile is now complete and will be visible to customers searching in your area.
+              Your business profile is now complete and will be visible to
+              customers searching in your area.
             </p>
             <div className="space-y-3">
               <Link
@@ -1217,14 +2014,19 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
             <div className="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <i className="ri-time-line text-yellow-600 text-3xl"></i>
             </div>
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">Profile Submitted Successfully!</h3>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+              Profile Submitted Successfully!
+            </h3>
             <p className="text-gray-600 mb-6">
-              Your business profile and Commercial Registration have been submitted for verification. 
-              Our team will review your documents and information within 1-2 business days.
+              Your business profile and Commercial Registration have been
+              submitted for verification. Our team will review your documents
+              and information within 1-2 business days.
             </p>
-            
+
             <div className="bg-blue-50 p-4 rounded-lg mb-6 text-left">
-              <h4 className="font-semibold text-blue-800 mb-2">What happens next:</h4>
+              <h4 className="font-semibold text-blue-800 mb-2">
+                What happens next:
+              </h4>
               <ul className="text-sm text-blue-700 space-y-1">
                 <li>✓ Document verification by our team</li>
                 <li>✓ Business information validation</li>
@@ -1232,7 +2034,7 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
                 <li>✓ Profile goes live once verified</li>
               </ul>
             </div>
-            
+
             <div className="space-y-3">
               <Link
                 href="/dashboard"
@@ -1258,7 +2060,9 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
           <div className="bg-white rounded-2xl max-w-7xl w-full max-h-screen overflow-y-auto">
             <div className="p-6 border-b border-gray-200">
               <div className="flex items-center justify-between">
-                <h3 className="text-2xl font-bold text-gray-800">Branch Management</h3>
+                <h3 className="text-2xl font-bold text-gray-800">
+                  Branch Management
+                </h3>
                 <button
                   onClick={() => setShowBranchManagement(false)}
                   className="text-gray-400 hover:text-gray-600 text-2xl"
@@ -1268,7 +2072,7 @@ export default function CompleteProfileForm({ formData, setFormData, selectedLoc
               </div>
             </div>
             <div className="p-6">
-              <BranchManagement 
+              <BranchManagement
                 branches={branches}
                 setBranches={setBranches}
                 mainBusinessData={formData}

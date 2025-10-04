@@ -1,34 +1,34 @@
 "use client";
 
+import { useLanguage } from "../lib/LanguageContext";
+
 export default function HowItWorks() {
+  const { t } = useLanguage();
+
   const steps = [
     {
       id: 1,
       icon: "ri-search-line",
-      title: "Search & Discover",
-      description:
-        "Search for suppliers or services by category, location, or specific needs. Browse through verified business profiles in your area.",
+      title: t("howItWorks.steps.step1.title"),
+      description: t("howItWorks.steps.step1.description"),
     },
     {
       id: 2,
       icon: "ri-notification-line",
-      title: "Get Notifications",
-      description:
-        "Businesses receive instant notifications when someone searches for their services. They can respond quickly with their profiles and offers.",
+      title: t("howItWorks.steps.step2.title"),
+      description: t("howItWorks.steps.step2.description"),
     },
     {
       id: 3,
       icon: "ri-user-add-line",
-      title: "Create Your Profile",
-      description:
-        "Set up your business profile with services, location, and contact information. Make it easy for customers to find and connect with you.",
+      title: t("howItWorks.steps.step3.title"),
+      description: t("howItWorks.steps.step3.description"),
     },
     {
       id: 4,
       icon: "ri-handshake-line",
-      title: "Connect & Grow",
-      description:
-        "Build relationships with local suppliers and customers. Expand your network and grow your business through meaningful connections.",
+      title: t("howItWorks.steps.step4.title"),
+      description: t("howItWorks.steps.step4.description"),
     },
   ];
 
@@ -37,11 +37,10 @@ export default function HowItWorks() {
       <div className="w-full px-3 sm:px-4 md:px-6">
         <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-16">
           <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">
-            How Supplier Works
+            {t("howItWorks.title")}
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-            Connect with local businesses in four simple steps and start
-            building your network today
+            {t("howItWorks.subtitle")}
           </p>
         </div>
 
@@ -81,18 +80,17 @@ export default function HowItWorks() {
         <div className="text-center mt-8 sm:mt-10 md:mt-12 lg:mt-16">
           <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 max-w-2xl mx-auto">
             <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
-              Ready to Get Started?
+              {t("howItWorks.cta.title")}
             </h3>
             <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">
-              Join thousands of businesses already using Supplier to connect and
-              grow their networks.
+              {t("howItWorks.cta.subtitle")}
             </p>
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4 justify-center">
               <button className="bg-yellow-400 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-full hover:bg-yellow-500 font-semibold text-sm sm:text-base md:text-lg whitespace-nowrap cursor-pointer">
-                Create Business Profile
+                {t("howItWorks.cta.createProfile")}
               </button>
               <button className="border-2 border-yellow-400 text-yellow-600 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-full hover:bg-yellow-50 font-semibold text-sm sm:text-base md:text-lg whitespace-nowrap cursor-pointer">
-                Start Searching
+                {t("howItWorks.cta.startSearching")}
               </button>
             </div>
           </div>

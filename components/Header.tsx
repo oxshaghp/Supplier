@@ -118,9 +118,9 @@ export default function Header() {
 
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="w-full px-3 sm:px-4 md:px-6">
-          <div className="flex items-center justify-between h-14 sm:h-16 md:h-20">
+          <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo Section */}
-            <div className="flex items-center justify-center lg:justify-center space-x-2 sm:space-x-3">
+            <div className="flex items-center space-x-2 sm:space-x-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
                 <svg
                   viewBox="0 0 24 24"
@@ -146,43 +146,43 @@ export default function Header() {
             </div>
 
             {/* Navigation - Desktop Only */}
-            <nav className="hidden lg:flex space-x-8">
+            <nav className="hidden lg:flex space-x-6 xl:space-x-8 gap-4">
               <Link
                 href="/"
-                className="text-gray-700 hover:text-yellow-600 font-medium transition-colors"
+                className="text-gray-700 hover:text-yellow-600 font-medium transition-colors text-sm xl:text-base"
               >
                 {t("nav.home")}
               </Link>
               <Link
                 href="/businesses"
-                className="text-gray-700 hover:text-yellow-600 font-medium transition-colors"
+                className="text-gray-700 hover:text-yellow-600 font-medium transition-colors text-sm xl:text-base"
               >
                 {t("nav.allSuppliers")}
               </Link>
               <Link
                 href="/subscription"
-                className="text-gray-700 hover:text-yellow-600 font-medium transition-colors"
+                className="text-gray-700 hover:text-yellow-600 font-medium transition-colors text-sm xl:text-base"
               >
                 {t("nav.subscription")}
               </Link>
               <Link
                 href="/about"
-                className="text-gray-700 hover:text-yellow-600 font-medium transition-colors"
+                className="text-gray-700 hover:text-yellow-600 font-medium transition-colors text-sm xl:text-base"
               >
                 {t("nav.aboutUs")}
               </Link>
               <button
                 onClick={() => setShowContactModal(true)}
-                className="text-gray-700 hover:text-yellow-600 font-medium transition-colors cursor-pointer"
+                className="text-gray-700 hover:text-yellow-600 font-medium transition-colors cursor-pointer text-sm xl:text-base"
               >
                 {t("nav.contact")}
               </button>
             </nav>
 
             {/* Right Side */}
-            <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-4">
-              {/* Language Switcher - Hidden on small screens */}
-              <div className="hidden sm:block">
+            <div className="flex items-center space-x-2 md:space-x-3">
+              {/* Language Switcher - Always Visible */}
+              <div className="flex-shrink-0">
                 <LanguageSwitcher />
               </div>
 
@@ -193,11 +193,11 @@ export default function Header() {
                   <div className="relative">
                     <button
                       onClick={() => setIsMessagesOpen(!isMessagesOpen)}
-                      className="relative text-gray-700 hover:text-yellow-600 transition-colors cursor-pointer"
+                      className="relative p-2 text-gray-700 hover:text-yellow-600 transition-colors cursor-pointer"
                     >
-                      <i className="ri-message-2-line text-lg md:text-xl"></i>
+                      <i className="ri-message-2-line text-xl md:text-2xl"></i>
                       {unreadCount > 0 && (
-                        <span className="absolute -top-1 -right-1 md:-top-2 md:-right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center">
+                        <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center font-medium">
                           {unreadCount}
                         </span>
                       )}
@@ -205,65 +205,73 @@ export default function Header() {
 
                     {/* Messages Dropdown */}
                     {isMessagesOpen && (
-                      <div className="absolute right-0 mt-2 w-72 sm:w-80 md:w-96 bg-white rounded-xl shadow-2xl border border-gray-200 py-3 z-50 max-h-80 md:max-h-96 overflow-hidden">
-                        <div className="px-4 py-2 border-b border-gray-100">
-                          <div className="flex items-center justify-between">
-                            <h3 className="font-semibold text-gray-800 text-sm md:text-base">
-                              {t("messages.recent")}
-                            </h3>
-                            <span className="bg-red-100 text-red-600 px-2 py-1 rounded-full text-xs font-medium">
-                              {unreadCount} {t("messages.newCountSuffix")}
-                            </span>
+                      <>
+                        {/* Backdrop for mobile */}
+                        <div
+                          className="fixed inset-0 bg-black bg-opacity-25 lg:hidden z-40"
+                          onClick={() => setIsMessagesOpen(false)}
+                        ></div>
+
+                        <div className="fixed lg:absolute left-0 right-0 lg:right-0 lg:left-auto top-16 lg:top-auto lg:mt-2 mx-4 lg:mx-0 w-auto lg:w-96 bg-white rounded-xl shadow-2xl border border-gray-200 py-3 z-50 max-h-[80vh] lg:max-h-96 overflow-hidden">
+                          <div className="px-4 py-2 border-b border-gray-100">
+                            <div className="flex items-center justify-between">
+                              <h3 className="font-semibold text-gray-800 text-base">
+                                {t("messages.recent")}
+                              </h3>
+                              <span className="bg-red-100 text-red-600 px-2 py-1 rounded-full text-xs font-medium">
+                                {unreadCount} {t("messages.newCountSuffix")}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="max-h-[60vh] lg:max-h-80 overflow-y-auto">
+                            {recentMessages.map((message) => (
+                              <div
+                                key={message.id}
+                                onClick={() => handleMessageClick(message.id)}
+                                className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-50 last:border-b-0"
+                              >
+                                <div className="flex items-start space-x-3">
+                                  <div className="w-10 h-10 bg-yellow-400 text-white rounded-full flex items-center justify-center font-medium text-sm flex-shrink-0">
+                                    {message.avatar}
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-center justify-between mb-1">
+                                      <h4 className="font-medium text-gray-800 text-sm truncate">
+                                        {message.from}
+                                      </h4>
+                                      <span className="text-xs text-gray-500 flex-shrink-0 ml-2">
+                                        {message.time}
+                                      </span>
+                                    </div>
+                                    <p className="text-xs text-gray-600 mb-1">
+                                      {message.company}
+                                    </p>
+                                    <p className="text-sm font-medium text-gray-800 mb-1 truncate">
+                                      {message.subject}
+                                    </p>
+                                    <p className="text-xs text-gray-500 line-clamp-2">
+                                      {message.preview}
+                                    </p>
+                                  </div>
+                                  {message.unread && (
+                                    <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-2"></div>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+
+                          <div className="px-4 py-3 border-t border-gray-100">
+                            <button
+                              onClick={handleViewAllMessages}
+                              className="w-full bg-yellow-400 text-white py-2 px-4 rounded-lg hover:bg-yellow-500 font-medium text-sm whitespace-nowrap cursor-pointer transition-colors"
+                            >
+                              {t("messages.viewAll")}
+                            </button>
                           </div>
                         </div>
-
-                        <div className="max-h-60 md:max-h-80 overflow-y-auto">
-                          {recentMessages.map((message) => (
-                            <div
-                              key={message.id}
-                              onClick={() => handleMessageClick(message.id)}
-                              className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-50 last:border-b-0"
-                            >
-                              <div className="flex items-start space-x-3">
-                                <div className="w-8 h-8 md:w-10 md:h-10 bg-yellow-400 text-white rounded-full flex items-center justify-center font-medium text-xs md:text-sm flex-shrink-0">
-                                  {message.avatar}
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <div className="flex items-center justify-between mb-1">
-                                    <h4 className="font-medium text-gray-800 text-sm truncate">
-                                      {message.from}
-                                    </h4>
-                                    <span className="text-xs text-gray-500 flex-shrink-0 ml-2">
-                                      {message.time}
-                                    </span>
-                                  </div>
-                                  <p className="text-xs text-gray-600 mb-1">
-                                    {message.company}
-                                  </p>
-                                  <p className="text-sm font-medium text-gray-800 mb-1 truncate">
-                                    {message.subject}
-                                  </p>
-                                  <p className="text-xs text-gray-500 line-clamp-2">
-                                    {message.preview}
-                                  </p>
-                                </div>
-                                {message.unread && (
-                                  <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-2"></div>
-                                )}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-
-                        <div className="px-4 py-3 border-t border-gray-100">
-                          <button
-                            onClick={handleViewAllMessages}
-                            className="w-full bg-yellow-400 text-white py-2 px-4 rounded-lg hover:bg-yellow-500 font-medium text-sm whitespace-nowrap cursor-pointer transition-colors"
-                          >
-                            {t("messages.viewAll")}
-                          </button>
-                        </div>
-                      </div>
+                      </>
                     )}
                   </div>
 
@@ -271,69 +279,191 @@ export default function Header() {
                   <div className="relative">
                     <button
                       onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                      className="flex items-center space-x-1 md:space-x-2 text-gray-700 hover:text-yellow-600 transition-colors cursor-pointer"
+                      className="flex items-center space-x-1 md:space-x-2 text-gray-700 hover:text-yellow-600 transition-colors cursor-pointer p-1"
                     >
-                      <div className="w-6 h-6 md:w-8 md:h-8 bg-yellow-400 text-white rounded-full flex items-center justify-center font-medium text-xs md:text-sm">
+                      <div className="w-8 h-8 md:w-9 md:h-9 bg-yellow-400 text-white rounded-full flex items-center justify-center font-medium text-sm">
                         {userInitials}
                       </div>
-                      <span className="hidden md:block font-medium text-sm md:text-base">
+                      <span className="hidden lg:block font-medium text-sm">
                         {userName}
                       </span>
-                      <i className="ri-arrow-down-s-line text-sm md:text-base"></i>
+                      <i className="ri-arrow-down-s-line hidden lg:block"></i>
                     </button>
 
                     {/* User Dropdown */}
                     {isUserMenuOpen && (
-                      <div className="absolute right-0 mt-2 w-40 sm:w-44 md:w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
-                        <Link
-                          href="/dashboard"
-                          className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-gray-50 text-sm"
+                      <>
+                        {/* Backdrop for mobile */}
+                        <div
+                          className="fixed inset-0 bg-black bg-opacity-25 lg:hidden z-40"
                           onClick={() => setIsUserMenuOpen(false)}
-                        >
-                          <i className="ri-dashboard-line"></i>
-                          <span>{t("userMenu.dashboard")}</span>
-                        </Link>
-                        <Link
-                          href="/add-business"
-                          className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-gray-50 text-sm"
-                          onClick={() => setIsUserMenuOpen(false)}
-                        >
-                          <i className="ri-building-2-line"></i>
-                          <span>{t("userMenu.addBusiness")}</span>
-                        </Link>
-                        <button
-                          onClick={handleSignOut}
-                          className="w-full flex items-center space-x-2 px-4 py-2 text-left text-gray-700 hover:bg-gray-50 text-sm cursor-pointer"
-                        >
-                          <i className="ri-logout-box-r-line"></i>
-                          <span>{t("userMenu.signOut")}</span>
-                        </button>
-                      </div>
+                        ></div>
+
+                        <div className="fixed lg:absolute right-4 lg:right-0 top-16 lg:top-auto lg:mt-2 w-56 bg-white rounded-xl shadow-2xl border border-gray-200 py-2 z-50">
+                          <div className="px-4 py-3 border-b border-gray-100 lg:hidden">
+                            <div className="flex items-center space-x-3">
+                              <div className="w-12 h-12 bg-yellow-400 text-white rounded-full flex items-center justify-center font-medium">
+                                {userInitials}
+                              </div>
+                              <div>
+                                <p className="font-semibold text-gray-800 text-sm">
+                                  {userName}
+                                </p>
+                                <p className="text-xs text-gray-500">
+                                  {t("userMenu.viewProfile")}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <Link
+                            href="/dashboard"
+                            className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                            onClick={() => setIsUserMenuOpen(false)}
+                          >
+                            <i className="ri-dashboard-line text-lg"></i>
+                            <span className="text-sm font-medium">
+                              {t("userMenu.dashboard")}
+                            </span>
+                          </Link>
+                          <Link
+                            href="/add-business"
+                            className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                            onClick={() => setIsUserMenuOpen(false)}
+                          >
+                            <i className="ri-building-2-line text-lg"></i>
+                            <span className="text-sm font-medium">
+                              {t("userMenu.addBusiness")}
+                            </span>
+                          </Link>
+
+                          <div className="border-t border-gray-100 my-2"></div>
+
+                          <button
+                            onClick={handleSignOut}
+                            className="w-full flex items-center space-x-3 px-4 py-3 text-left text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                          >
+                            <i className="ri-logout-box-r-line text-lg"></i>
+                            <span className="text-sm font-medium">
+                              {t("userMenu.signOut")}
+                            </span>
+                          </button>
+                        </div>
+                      </>
                     )}
                   </div>
+
+                  {/* Mobile Menu Button */}
+                  <button
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    className="lg:hidden p-2 text-gray-700 hover:text-yellow-600 transition-colors cursor-pointer"
+                  >
+                    <i
+                      className={`${
+                        mobileMenuOpen ? "ri-close-line" : "ri-menu-line"
+                      } text-2xl`}
+                    ></i>
+                  </button>
                 </>
               ) : (
                 <>
                   {/* If not logged in, show auth links */}
-                  <div className="hidden sm:flex items-center space-x-2 md:space-x-4">
+                  <div className="hidden sm:flex items-center space-x-2 md:space-x-3">
                     <Link
                       href="/register"
-                      className="text-gray-700 hover:text-yellow-600 font-medium transition-colors text-sm md:text-base"
+                      className="text-gray-700 hover:text-yellow-600 font-medium transition-colors text-sm"
                     >
                       {t("nav.register")}
                     </Link>
                     <Link
                       href="/login"
-                      className="bg-yellow-400 text-white px-3 md:px-4 py-2 rounded-lg hover:bg-yellow-500 transition-colors text-sm md:text-base"
+                      className="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 transition-colors text-sm font-medium"
                     >
                       {t("nav.login")}
                     </Link>
                   </div>
+
+                  {/* Mobile Menu Button for Guest */}
+                  <button
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    className="sm:hidden lg:hidden p-2 text-gray-700 hover:text-yellow-600 transition-colors cursor-pointer"
+                  >
+                    <i
+                      className={`${
+                        mobileMenuOpen ? "ri-close-line" : "ri-menu-line"
+                      } text-2xl`}
+                    ></i>
+                  </button>
                 </>
               )}
             </div>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden border-t border-gray-200 bg-white">
+            <nav className="px-4 py-4 space-y-3">
+              <Link
+                href="/"
+                className="block text-gray-700 hover:text-yellow-600 hover:bg-gray-50 font-medium transition-colors py-2 px-3 rounded-lg"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.home")}
+              </Link>
+              <Link
+                href="/businesses"
+                className="block text-gray-700 hover:text-yellow-600 hover:bg-gray-50 font-medium transition-colors py-2 px-3 rounded-lg"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.allSuppliers")}
+              </Link>
+              <Link
+                href="/subscription"
+                className="block text-gray-700 hover:text-yellow-600 hover:bg-gray-50 font-medium transition-colors py-2 px-3 rounded-lg"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.subscription")}
+              </Link>
+              <Link
+                href="/about"
+                className="block text-gray-700 hover:text-yellow-600 hover:bg-gray-50 font-medium transition-colors py-2 px-3 rounded-lg"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.aboutUs")}
+              </Link>
+              <button
+                onClick={() => {
+                  setShowContactModal(true);
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full text-left text-gray-700 hover:text-yellow-600 hover:bg-gray-50 font-medium transition-colors py-2 px-3 rounded-lg cursor-pointer"
+              >
+                {t("nav.contact")}
+              </button>
+
+              {/* Show Auth Links for Guest on Mobile */}
+              {!isLoggedIn && (
+                <div className="pt-4 border-t border-gray-200 space-y-2">
+                  <Link
+                    href="/register"
+                    className="block w-full text-center text-gray-700 hover:text-yellow-600 border border-gray-300 font-medium transition-colors py-2 px-3 rounded-lg"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {t("nav.register")}
+                  </Link>
+                  <Link
+                    href="/login"
+                    className="block w-full text-center bg-yellow-400 text-white font-medium transition-colors py-2 px-3 rounded-lg hover:bg-yellow-500"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {t("nav.login")}
+                  </Link>
+                </div>
+              )}
+            </nav>
+          </div>
+        )}
       </header>
 
       {/* Contact Modal */}

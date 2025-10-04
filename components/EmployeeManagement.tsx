@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "../lib/LanguageContext";
+
 type Employee = {
   id: number;
   name: string;
@@ -17,6 +19,8 @@ type RoleDef = { name: string; permissions: string[]; description: string };
 type PermissionDef = { id: string; name: string; category: string };
 
 export default function EmployeeManagement() {
+  const { t } = useLanguage();
+
   const [showAddEmployee, setShowAddEmployee] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
     null
@@ -115,12 +119,12 @@ export default function EmployeeManagement() {
 
   const roles: RoleDef[] = [
     {
-      name: "Content Moderator",
+      name: t("employeeManagement.roles.contentModerator"),
       permissions: ["content.read", "content.moderate", "content.delete"],
       description: "Review and moderate user-generated content",
     },
     {
-      name: "User Support Manager",
+      name: t("employeeManagement.roles.userSupportManager"),
       permissions: [
         "users.read",
         "users.edit",
@@ -130,12 +134,12 @@ export default function EmployeeManagement() {
       description: "Manage customer support and user issues",
     },
     {
-      name: "Analytics Specialist",
+      name: t("employeeManagement.roles.analyticsSpecialist"),
       permissions: ["analytics.read", "analytics.export", "reports.create"],
       description: "Analyze data and create reports",
     },
     {
-      name: "System Administrator",
+      name: t("employeeManagement.roles.systemAdministrator"),
       permissions: [
         "system.admin",
         "users.manage",
@@ -147,37 +151,81 @@ export default function EmployeeManagement() {
   ];
 
   const allPermissions: PermissionDef[] = [
-    { id: "users.read", name: "View Users", category: "User Management" },
-    { id: "users.edit", name: "Edit Users", category: "User Management" },
-    { id: "users.delete", name: "Delete Users", category: "User Management" },
+    {
+      id: "users.read",
+      name: t("employeeManagement.permissionsList.viewUsers"),
+      category: t("employeeManagement.permissionCategories.userManagement"),
+    },
+    {
+      id: "users.edit",
+      name: t("employeeManagement.permissionsList.editUsers"),
+      category: t("employeeManagement.permissionCategories.userManagement"),
+    },
+    {
+      id: "users.delete",
+      name: t("employeeManagement.permissionsList.deleteUsers"),
+      category: t("employeeManagement.permissionCategories.userManagement"),
+    },
     {
       id: "users.manage",
-      name: "Full User Management",
-      category: "User Management",
+      name: t("employeeManagement.permissionsList.fullUserManagement"),
+      category: t("employeeManagement.permissionCategories.userManagement"),
     },
     {
       id: "content.read",
-      name: "View Content",
-      category: "Content Management",
+      name: t("employeeManagement.permissionsList.viewContent"),
+      category: t("employeeManagement.permissionCategories.contentManagement"),
     },
     {
       id: "content.moderate",
-      name: "Moderate Content",
-      category: "Content Management",
+      name: t("employeeManagement.permissionsList.moderateContent"),
+      category: t("employeeManagement.permissionCategories.contentManagement"),
     },
     {
       id: "content.delete",
-      name: "Delete Content",
-      category: "Content Management",
+      name: t("employeeManagement.permissionsList.deleteContent"),
+      category: t("employeeManagement.permissionCategories.contentManagement"),
     },
-    { id: "analytics.read", name: "View Analytics", category: "Analytics" },
-    { id: "analytics.export", name: "Export Analytics", category: "Analytics" },
-    { id: "reports.view", name: "View Reports", category: "Reporting" },
-    { id: "reports.create", name: "Create Reports", category: "Reporting" },
-    { id: "system.admin", name: "System Administration", category: "System" },
-    { id: "settings.modify", name: "Modify Settings", category: "System" },
-    { id: "backup.manage", name: "Manage Backups", category: "System" },
-    { id: "support.manage", name: "Manage Support", category: "Support" },
+    {
+      id: "analytics.read",
+      name: t("employeeManagement.permissionsList.viewAnalytics"),
+      category: t("employeeManagement.permissionCategories.analytics"),
+    },
+    {
+      id: "analytics.export",
+      name: t("employeeManagement.permissionsList.exportAnalytics"),
+      category: t("employeeManagement.permissionCategories.analytics"),
+    },
+    {
+      id: "reports.view",
+      name: t("employeeManagement.permissionsList.viewReports"),
+      category: t("employeeManagement.permissionCategories.reporting"),
+    },
+    {
+      id: "reports.create",
+      name: t("employeeManagement.permissionsList.createReports"),
+      category: t("employeeManagement.permissionCategories.reporting"),
+    },
+    {
+      id: "system.admin",
+      name: t("employeeManagement.permissionsList.systemAdministration"),
+      category: t("employeeManagement.permissionCategories.system"),
+    },
+    {
+      id: "settings.modify",
+      name: t("employeeManagement.permissionsList.modifySettings"),
+      category: t("employeeManagement.permissionCategories.system"),
+    },
+    {
+      id: "backup.manage",
+      name: t("employeeManagement.permissionsList.manageBackups"),
+      category: t("employeeManagement.permissionCategories.system"),
+    },
+    {
+      id: "support.manage",
+      name: t("employeeManagement.permissionsList.manageSupport"),
+      category: t("employeeManagement.permissionCategories.support"),
+    },
   ];
 
   const getStatusColor = (status: Employee["status"]) => {
@@ -190,6 +238,19 @@ export default function EmployeeManagement() {
         return "bg-gray-100 text-gray-600";
       default:
         return "bg-gray-100 text-gray-600";
+    }
+  };
+
+  const getStatusText = (status: Employee["status"]) => {
+    switch (status) {
+      case "active":
+        return t("employeeManagement.active");
+      case "away":
+        return t("employeeManagement.away");
+      case "inactive":
+        return t("employeeManagement.inactive");
+      default:
+        return status;
     }
   };
 
@@ -254,7 +315,7 @@ export default function EmployeeManagement() {
   };
 
   const handleDeleteEmployee = (id: number) => {
-    if (!confirm("Are you sure you want to remove this employee?")) return;
+    if (!confirm(t("employeeManagement.confirmDelete"))) return;
     setEmployees(employees.filter((e: Employee) => e.id !== id));
   };
 
@@ -272,14 +333,14 @@ export default function EmployeeManagement() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-800">
-          Employee Management
+          {t("employeeManagement.title")}
         </h2>
         <button
           onClick={() => setShowAddEmployee(true)}
           className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 font-medium whitespace-nowrap cursor-pointer"
         >
           <i className="ri-add-line mr-2"></i>
-          Add Employee
+          {t("employeeManagement.addEmployee")}
         </button>
       </div>
 
@@ -294,7 +355,9 @@ export default function EmployeeManagement() {
               <h3 className="text-2xl font-bold text-gray-800">
                 {employees.length}
               </h3>
-              <p className="text-gray-600 text-sm">Total Employees</p>
+              <p className="text-gray-600 text-sm">
+                {t("employeeManagement.totalEmployees")}
+              </p>
             </div>
           </div>
         </div>
@@ -308,7 +371,9 @@ export default function EmployeeManagement() {
               <h3 className="text-2xl font-bold text-gray-800">
                 {employees.filter((e) => e.status === "active").length}
               </h3>
-              <p className="text-gray-600 text-sm">Active</p>
+              <p className="text-gray-600 text-sm">
+                {t("employeeManagement.active")}
+              </p>
             </div>
           </div>
         </div>
@@ -322,7 +387,9 @@ export default function EmployeeManagement() {
               <h3 className="text-2xl font-bold text-gray-800">
                 {employees.filter((e) => e.status === "away").length}
               </h3>
-              <p className="text-gray-600 text-sm">Away</p>
+              <p className="text-gray-600 text-sm">
+                {t("employeeManagement.away")}
+              </p>
             </div>
           </div>
         </div>
@@ -336,7 +403,9 @@ export default function EmployeeManagement() {
               <h3 className="text-2xl font-bold text-gray-800">
                 {roles.length}
               </h3>
-              <p className="text-gray-600 text-sm">Roles Defined</p>
+              <p className="text-gray-600 text-sm">
+                {t("employeeManagement.rolesDefined")}
+              </p>
             </div>
           </div>
         </div>
@@ -345,7 +414,9 @@ export default function EmployeeManagement() {
       {/* Employees List */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="p-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-800">Team Members</h3>
+          <h3 className="text-lg font-semibold text-gray-800">
+            {t("employeeManagement.teamMembers")}
+          </h3>
         </div>
 
         <div className="overflow-x-auto">
@@ -353,22 +424,22 @@ export default function EmployeeManagement() {
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
                 <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                  Employee
+                  {t("employeeManagement.employee")}
                 </th>
                 <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                  Role & Department
+                  {t("employeeManagement.roleDepartment")}
                 </th>
                 <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                  Status
+                  {t("employeeManagement.status")}
                 </th>
                 <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                  Permissions
+                  {t("employeeManagement.permissions")}
                 </th>
                 <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                  Last Active
+                  {t("employeeManagement.lastActive")}
                 </th>
                 <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                  Actions
+                  {t("employeeManagement.actions")}
                 </th>
               </tr>
             </thead>
@@ -404,7 +475,7 @@ export default function EmployeeManagement() {
                         employee.status
                       )}`}
                     >
-                      {employee.status}
+                      {getStatusText(employee.status)}
                     </span>
                   </td>
                   <td className="py-4 px-6">
@@ -436,21 +507,21 @@ export default function EmployeeManagement() {
                       <button
                         onClick={() => setSelectedEmployee(employee)}
                         className="text-blue-600 hover:text-blue-700 cursor-pointer"
-                        title="View Details"
+                        title={t("employeeManagement.viewDetails")}
                       >
                         <i className="ri-eye-line"></i>
                       </button>
                       <button
                         onClick={() => openEditEmployee(employee)}
                         className="text-green-600 hover:text-green-700 cursor-pointer"
-                        title="Edit Employee"
+                        title={t("employeeManagement.editEmployee")}
                       >
                         <i className="ri-edit-line"></i>
                       </button>
                       <button
                         onClick={() => handleDeleteEmployee(employee.id)}
                         className="text-red-600 hover:text-red-700 cursor-pointer"
-                        title="Remove Employee"
+                        title={t("employeeManagement.removeEmployee")}
                       >
                         <i className="ri-delete-bin-line"></i>
                       </button>
@@ -470,7 +541,7 @@ export default function EmployeeManagement() {
             <div className="p-6 border-b border-gray-200">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-800">
-                  Add New Employee
+                  {t("employeeManagement.addNewEmployee")}
                 </h3>
                 <button
                   onClick={() => setShowAddEmployee(false)}
@@ -485,7 +556,7 @@ export default function EmployeeManagement() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name
+                    {t("employeeManagement.fullName")}
                   </label>
                   <input
                     type="text"
@@ -494,13 +565,13 @@ export default function EmployeeManagement() {
                       setNewEmployee({ ...newEmployee, name: e.target.value })
                     }
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
-                    placeholder="Enter full name"
+                    placeholder={t("employeeManagement.enterFullName")}
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address
+                    {t("employeeManagement.emailAddress")}
                   </label>
                   <input
                     type="email"
@@ -509,20 +580,22 @@ export default function EmployeeManagement() {
                       setNewEmployee({ ...newEmployee, email: e.target.value })
                     }
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
-                    placeholder="Enter email address"
+                    placeholder={t("employeeManagement.enterEmailAddress")}
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Role
+                    {t("employeeManagement.role")}
                   </label>
                   <select
                     value={newEmployee.role}
                     onChange={(e) => handleRoleChange(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm pr-8"
                   >
-                    <option value="">Select Role</option>
+                    <option value="">
+                      {t("employeeManagement.selectRole")}
+                    </option>
                     {roles.map((role, index) => (
                       <option key={index} value={role.name}>
                         {role.name}
@@ -533,7 +606,7 @@ export default function EmployeeManagement() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Department
+                    {t("employeeManagement.department")}
                   </label>
                   <select
                     value={newEmployee.department}
@@ -545,21 +618,31 @@ export default function EmployeeManagement() {
                     }
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm pr-8"
                   >
-                    <option value="">Select Department</option>
-                    <option value="Content Management">
-                      Content Management
+                    <option value="">
+                      {t("employeeManagement.selectDepartment")}
                     </option>
-                    <option value="Customer Support">Customer Support</option>
-                    <option value="Data Analytics">Data Analytics</option>
-                    <option value="IT Operations">IT Operations</option>
-                    <option value="Marketing">Marketing</option>
+                    <option value="Content Management">
+                      {t("employeeManagement.contentManagement")}
+                    </option>
+                    <option value="Customer Support">
+                      {t("employeeManagement.customerSupport")}
+                    </option>
+                    <option value="Data Analytics">
+                      {t("employeeManagement.dataAnalytics")}
+                    </option>
+                    <option value="IT Operations">
+                      {t("employeeManagement.itOperations")}
+                    </option>
+                    <option value="Marketing">
+                      {t("employeeManagement.marketing")}
+                    </option>
                   </select>
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Permissions
+                  {t("employeeManagement.permissions")}
                 </label>
                 <div className="space-y-4 max-h-64 overflow-y-auto border border-gray-200 rounded-lg p-4">
                   {Object.entries(permissionsByCategory).map(
@@ -617,7 +700,7 @@ export default function EmployeeManagement() {
                   onClick={() => setShowAddEmployee(false)}
                   className="flex-1 px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 font-medium text-sm whitespace-nowrap cursor-pointer"
                 >
-                  Cancel
+                  {t("employeeManagement.cancel")}
                 </button>
                 <button
                   onClick={handleAddEmployee}
@@ -631,7 +714,7 @@ export default function EmployeeManagement() {
                   }`}
                 >
                   <i className="ri-add-line mr-2"></i>
-                  Add Employee
+                  {t("employeeManagement.addEmployee")}
                 </button>
               </div>
             </div>
@@ -646,7 +729,7 @@ export default function EmployeeManagement() {
             <div className="p-6 border-b border-gray-200">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-800">
-                  Edit Employee
+                  {t("employeeManagement.editEmployee")}
                 </h3>
                 <button
                   onClick={() => setShowEditEmployee(false)}
@@ -661,7 +744,7 @@ export default function EmployeeManagement() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name
+                    {t("employeeManagement.fullName")}
                   </label>
                   <input
                     type="text"
@@ -670,13 +753,13 @@ export default function EmployeeManagement() {
                       setEditEmployee({ ...editEmployee, name: e.target.value })
                     }
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
-                    placeholder="Enter full name"
+                    placeholder={t("employeeManagement.enterFullName")}
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address
+                    {t("employeeManagement.emailAddress")}
                   </label>
                   <input
                     type="email"
@@ -688,20 +771,22 @@ export default function EmployeeManagement() {
                       })
                     }
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
-                    placeholder="Enter email address"
+                    placeholder={t("employeeManagement.enterEmailAddress")}
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Role
+                    {t("employeeManagement.role")}
                   </label>
                   <select
                     value={editEmployee.role}
                     onChange={(e) => handleEditRoleChange(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm pr-8"
                   >
-                    <option value="">Select Role</option>
+                    <option value="">
+                      {t("employeeManagement.selectRole")}
+                    </option>
                     {roles.map((role, index) => (
                       <option key={index} value={role.name}>
                         {role.name}
@@ -712,7 +797,7 @@ export default function EmployeeManagement() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Department
+                    {t("employeeManagement.department")}
                   </label>
                   <select
                     value={editEmployee.department}
@@ -724,21 +809,31 @@ export default function EmployeeManagement() {
                     }
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm pr-8"
                   >
-                    <option value="">Select Department</option>
-                    <option value="Content Management">
-                      Content Management
+                    <option value="">
+                      {t("employeeManagement.selectDepartment")}
                     </option>
-                    <option value="Customer Support">Customer Support</option>
-                    <option value="Data Analytics">Data Analytics</option>
-                    <option value="IT Operations">IT Operations</option>
-                    <option value="Marketing">Marketing</option>
+                    <option value="Content Management">
+                      {t("employeeManagement.contentManagement")}
+                    </option>
+                    <option value="Customer Support">
+                      {t("employeeManagement.customerSupport")}
+                    </option>
+                    <option value="Data Analytics">
+                      {t("employeeManagement.dataAnalytics")}
+                    </option>
+                    <option value="IT Operations">
+                      {t("employeeManagement.itOperations")}
+                    </option>
+                    <option value="Marketing">
+                      {t("employeeManagement.marketing")}
+                    </option>
                   </select>
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Permissions
+                  {t("employeeManagement.permissions")}
                 </label>
                 <div className="space-y-4 max-h-64 overflow-y-auto border border-gray-200 rounded-lg p-4">
                   {Object.entries(permissionsByCategory).map(
@@ -796,7 +891,7 @@ export default function EmployeeManagement() {
                   onClick={() => setShowEditEmployee(false)}
                   className="flex-1 px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 font-medium text-sm whitespace-nowrap cursor-pointer"
                 >
-                  Cancel
+                  {t("employeeManagement.cancel")}
                 </button>
                 <button
                   onClick={saveEditedEmployee}
@@ -811,7 +906,7 @@ export default function EmployeeManagement() {
                       : "bg-gray-300 text-gray-500 cursor-not-allowed"
                   }`}
                 >
-                  Save Changes
+                  {t("employeeManagement.saveChanges")}
                 </button>
               </div>
             </div>
@@ -826,7 +921,7 @@ export default function EmployeeManagement() {
             <div className="p-6 border-b border-gray-200">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-800">
-                  Employee Details
+                  {t("employeeManagement.employeeDetails")}
                 </h3>
                 <button
                   onClick={() => setSelectedEmployee(null)}
@@ -856,7 +951,9 @@ export default function EmployeeManagement() {
               </div>
 
               <div>
-                <h4 className="font-medium text-gray-800 mb-3">Permissions</h4>
+                <h4 className="font-medium text-gray-800 mb-3">
+                  {t("employeeManagement.permissions")}
+                </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {Object.entries(permissionsByCategory).map(
                     ([category, permissions]) => {
@@ -896,15 +993,15 @@ export default function EmployeeManagement() {
               <div className="flex space-x-3">
                 <button className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 font-medium text-sm whitespace-nowrap cursor-pointer">
                   <i className="ri-edit-line mr-2"></i>
-                  Edit Employee
+                  {t("employeeManagement.editEmployee")}
                 </button>
                 <button className="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 font-medium text-sm whitespace-nowrap cursor-pointer">
                   <i className="ri-lock-line mr-2"></i>
-                  Change Permissions
+                  {t("employeeManagement.changePermissions")}
                 </button>
                 <button className="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 font-medium text-sm whitespace-nowrap cursor-pointer">
                   <i className="ri-delete-bin-line mr-2"></i>
-                  Remove
+                  {t("employeeManagement.remove")}
                 </button>
               </div>
             </div>
