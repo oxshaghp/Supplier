@@ -104,7 +104,8 @@ export default function TopSuppliers() {
   // Mobile and tablet responsive items to show
   const getItemsToShow = () => {
     if (typeof window !== "undefined") {
-      if (window.innerWidth < 768) return 1; // Mobile
+      if (window.innerWidth < 640) return 1; // Mobile
+      if (window.innerWidth < 768) return 1; // Small mobile
       if (window.innerWidth < 1024) return 2; // Tablet
       return 3; // Desktop - reduced from 4 to 3 for better mobile experience
     }
@@ -170,13 +171,13 @@ export default function TopSuppliers() {
   };
 
   return (
-    <section className="py-12 md:py-16 bg-gradient-to-b from-gray-50 to-white">
-      <div className="w-full px-4 md:px-6">
-        <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mb-4">
+    <section className="py-8 sm:py-10 md:py-12 lg:py-16 bg-gradient-to-b from-gray-50 to-white">
+      <div className="w-full px-3 sm:px-4 md:px-6">
+        <div className="text-center mb-6 sm:mb-8 md:mb-12">
+          <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">
             {t("topSuppliers.title")}
           </h2>
-          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
             {t("topSuppliers.subtitle")}
           </p>
         </div>
@@ -191,21 +192,21 @@ export default function TopSuppliers() {
             {topSuppliers.map((supplier) => (
               <div
                 key={supplier.id}
-                className="flex-shrink-0 px-2 md:px-3"
+                className="flex-shrink-0 px-1 sm:px-2 md:px-3"
                 style={{ width: `${100 / itemsToShow}%` }}
               >
                 <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 cursor-pointer h-full">
-                  <div className="relative h-48 md:h-56 overflow-hidden">
+                  <div className="relative h-40 sm:h-48 md:h-56 overflow-hidden">
                     <img
                       src={supplier.image}
                       alt={supplier.name}
                       className="w-full h-full object-cover object-top"
                     />
-                    <div className="absolute top-3 md:top-4 left-3 md:left-4">
+                    <div className="absolute top-2 sm:top-3 md:top-4 left-2 sm:left-3 md:left-4">
                       <div
                         className={`${getBadgeColor(
                           supplier.badge
-                        )} text-white px-2 md:px-3 py-1 rounded-full shadow-lg`}
+                        )} text-white px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded-full shadow-lg`}
                       >
                         <span className="text-xs font-bold">
                           {getBadgeKey(supplier.badge)
@@ -214,22 +215,22 @@ export default function TopSuppliers() {
                         </span>
                       </div>
                     </div>
-                    <div className="absolute top-3 md:top-4 right-3 md:right-4 bg-white rounded-full px-2 md:px-3 py-1 shadow-md">
+                    <div className="absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4 bg-white rounded-full px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 shadow-md">
                       <div className="flex items-center space-x-1">
-                        <i className="ri-star-fill text-yellow-400 text-sm"></i>
-                        <span className="text-sm font-bold text-gray-800">
+                        <i className="ri-star-fill text-yellow-400 text-xs sm:text-sm"></i>
+                        <span className="text-xs sm:text-sm font-bold text-gray-800">
                           {supplier.rating}
                         </span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="p-4 md:p-6">
-                    <div className="mb-3 md:mb-4">
-                      <h3 className="text-base md:text-lg font-bold text-gray-800 mb-1">
+                  <div className="p-3 sm:p-4 md:p-6">
+                    <div className="mb-2 sm:mb-3 md:mb-4">
+                      <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-800 mb-1">
                         {supplier.name}
                       </h3>
-                      <p className="text-yellow-600 font-medium text-sm">
+                      <p className="text-yellow-600 font-medium text-xs sm:text-sm">
                         {supplier.category}
                       </p>
                       <p className="text-gray-500 text-xs mt-1">
@@ -237,8 +238,8 @@ export default function TopSuppliers() {
                       </p>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3 md:gap-4 mb-3 md:mb-4 text-xs">
-                      <div className="text-center bg-gray-50 rounded-lg p-2">
+                    <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 mb-2 sm:mb-3 md:mb-4 text-xs">
+                      <div className="text-center bg-gray-50 rounded-lg p-1.5 sm:p-2">
                         <div className="font-bold text-gray-800">
                           {supplier.yearsInBusiness}+
                         </div>
@@ -246,7 +247,7 @@ export default function TopSuppliers() {
                           {t("topSuppliers.years")}
                         </div>
                       </div>
-                      <div className="text-center bg-gray-50 rounded-lg p-2">
+                      <div className="text-center bg-gray-50 rounded-lg p-1.5 sm:p-2">
                         <div className="font-bold text-gray-800">
                           {supplier.clientsServed}
                         </div>
@@ -256,12 +257,12 @@ export default function TopSuppliers() {
                       </div>
                     </div>
 
-                    <div className="flex items-center mb-3 md:mb-4">
+                    <div className="flex items-center mb-2 sm:mb-3 md:mb-4">
                       <div className="flex items-center space-x-1">
                         {[...Array(5)].map((_, i) => (
                           <i
                             key={i}
-                            className={`text-sm ${
+                            className={`text-xs sm:text-sm ${
                               i < Math.floor(supplier.rating)
                                 ? "ri-star-fill text-yellow-400"
                                 : "ri-star-line text-gray-300"
@@ -269,7 +270,7 @@ export default function TopSuppliers() {
                           ></i>
                         ))}
                       </div>
-                      <span className="text-sm text-gray-600 ml-2">
+                      <span className="text-xs sm:text-sm text-gray-600 ml-2">
                         {t("topSuppliers.reviews").replace(
                           "{{count}}",
                           String(supplier.reviews)
@@ -277,12 +278,12 @@ export default function TopSuppliers() {
                       </span>
                     </div>
 
-                    <div className="mb-3 md:mb-4">
+                    <div className="mb-2 sm:mb-3 md:mb-4">
                       <div className="flex flex-wrap gap-1">
                         {supplier.features.map((feature, index) => (
                           <span
                             key={index}
-                            className="bg-yellow-50 text-yellow-700 px-2 py-1 rounded-full text-xs font-medium"
+                            className="bg-yellow-50 text-yellow-700 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium"
                           >
                             {feature}
                           </span>
@@ -290,14 +291,14 @@ export default function TopSuppliers() {
                       </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-                      <button className="flex-1 bg-yellow-400 text-white py-2 px-3 md:px-4 rounded-lg hover:bg-yellow-500 font-medium text-sm whitespace-nowrap cursor-pointer">
-                        <i className="ri-message-line mr-1 md:mr-2"></i>
+                    <div className="flex flex-col sm:flex-row space-y-1 sm:space-y-0 sm:space-x-1 sm:space-x-2">
+                      <button className="flex-1 bg-yellow-400 text-white py-1.5 sm:py-2 px-2 sm:px-3 md:px-4 rounded-lg hover:bg-yellow-500 font-medium text-xs sm:text-sm whitespace-nowrap cursor-pointer">
+                        <i className="ri-message-line mr-1 sm:mr-1 md:mr-2"></i>
                         {t("topSuppliers.message")}
                       </button>
                       <Link
                         href={`/business/${supplier.id}`}
-                        className="flex-1 border border-yellow-400 text-yellow-600 py-2 px-3 md:px-4 rounded-lg hover:bg-yellow-50 font-medium text-sm whitespace-nowrap cursor-pointer text-center"
+                        className="flex-1 border border-yellow-400 text-yellow-600 py-1.5 sm:py-2 px-2 sm:px-3 md:px-4 rounded-lg hover:bg-yellow-50 font-medium text-xs sm:text-sm whitespace-nowrap cursor-pointer text-center"
                       >
                         {t("topSuppliers.viewDetails")}
                       </Link>
@@ -309,12 +310,12 @@ export default function TopSuppliers() {
           </div>
 
           {/* Navigation Dots */}
-          <div className="flex justify-center mt-6 md:mt-8 space-x-2">
+          <div className="flex justify-center mt-4 sm:mt-6 md:mt-8 space-x-1 sm:space-x-2">
             {Array.from({ length: maxIndex + 1 }).map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all cursor-pointer ${
+                className={`w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-3 md:h-3 rounded-full transition-all cursor-pointer ${
                   currentIndex === index
                     ? "bg-yellow-400"
                     : "bg-gray-300 hover:bg-gray-400"
@@ -346,8 +347,8 @@ export default function TopSuppliers() {
           )}
         </div>
 
-        <div className="text-center mt-8 md:mt-12">
-          <button className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 md:px-8 py-3 md:py-4 rounded-full hover:from-yellow-500 hover:to-orange-600 font-semibold text-base md:text-lg whitespace-nowrap cursor-pointer shadow-lg">
+        <div className="text-center mt-6 sm:mt-8 md:mt-12">
+          <button className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-full hover:from-yellow-500 hover:to-orange-600 font-semibold text-sm sm:text-base md:text-lg whitespace-nowrap cursor-pointer shadow-lg">
             {t("topSuppliers.viewAll")}
           </button>
         </div>

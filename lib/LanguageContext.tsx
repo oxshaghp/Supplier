@@ -1,10 +1,9 @@
+"use client";
 
-'use client';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { translations } from "./translations";
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { translations } from './translations';
-
-type Language = 'en' | 'ar';
+type Language = "en" | "ar";
 
 interface LanguageContextType {
   language: Language;
@@ -15,20 +14,20 @@ interface LanguageContextType {
 }
 
 export const LanguageContext = createContext<LanguageContextType>({
-  language: 'en',
+  language: "en",
   setLanguage: () => {},
   t: (key: string) => key,
   translations: translations,
-  isRTL: false
+  isRTL: false,
 });
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<Language>("en");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const savedLanguage = localStorage.getItem('language') as Language;
-    if (savedLanguage && (savedLanguage === 'en' || savedLanguage === 'ar')) {
+    const savedLanguage = localStorage.getItem("language") as Language;
+    if (savedLanguage && (savedLanguage === "en" || savedLanguage === "ar")) {
       setLanguage(savedLanguage);
     }
     setMounted(true);
@@ -36,20 +35,20 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (mounted) {
-      localStorage.setItem('language', language);
-      document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+      localStorage.setItem("language", language);
+      document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
       document.documentElement.lang = language;
     }
   }, [language, mounted]);
 
   const t = (key: string): string => {
-    const keys = key.split('.');
+    const keys = key.split(".");
     let value: any = translations[language];
-    
+
     for (const k of keys) {
       value = value?.[k];
     }
-    
+
     return value || key;
   };
 
@@ -57,20 +56,22 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     setLanguage(lang);
   };
 
-  const isRTL = language === 'ar';
+  const isRTL = language === "ar";
 
   if (!mounted) {
     return <div className="min-h-screen bg-white"></div>;
   }
 
   return (
-    <LanguageContext.Provider value={{
-      language,
-      setLanguage: changeLanguage,
-      t,
-      translations,
-      isRTL
-    }}>
+    <LanguageContext.Provider
+      value={{
+        language,
+        setLanguage: changeLanguage,
+        t,
+        translations,
+        isRTL,
+      }}
+    >
       {children}
     </LanguageContext.Provider>
   );
@@ -79,7 +80,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 export function useLanguage() {
   const context = useContext(LanguageContext);
   if (context === undefined) {
-    throw new Error('useLanguage must be used within a LanguageProvider');
+    throw new Error("useLanguage must be used within a LanguageProvider");
   }
   return context;
 }

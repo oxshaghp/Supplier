@@ -39,17 +39,17 @@ export default function Footer() {
       </div>
 
       {/* Main Footer Content */}
-      <div className="w-full px-6 py-16">
+      <div className="w-full px-3 sm:px-4 md:px-6 py-8 sm:py-12 md:py-16">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 sm:gap-10 md:gap-12">
             {/* Brand Section - Reorganized and Better Aligned */}
             <div className="lg:col-span-1 text-center lg:text-left">
               {/* Logo Section */}
-              <div className="flex items-center justify-center lg:justify-start space-x-3 mb-8">
-                <div className="w-10 h-10 flex items-center justify-center">
+              <div className="flex items-center justify-center lg:justify-start space-x-2 sm:space-x-3 mb-6 sm:mb-8">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
                   <svg
                     viewBox="0 0 24 24"
-                    className="w-10 h-10 text-yellow-400"
+                    className="w-8 h-8 sm:w-10 sm:h-10 text-yellow-400"
                     fill="currentColor"
                   >
                     <circle cx="7" cy="7" r="3" />
@@ -64,53 +64,53 @@ export default function Footer() {
                     />
                   </svg>
                 </div>
-                <div className="text-3xl font-bold">
+                <div className="text-2xl sm:text-3xl font-bold">
                   <span className="text-gray-800">Supplier</span>
                   <span className="text-green-400">.sa</span>
                 </div>
               </div>
 
               {/* 100% Saudi Made Badge - Centered */}
-              <div className="mb-8">
-                <div className="inline-flex items-center justify-center bg-gradient-to-r from-green-50 to-yellow-50 px-6 py-3 rounded-full border border-green-200">
-                  <span className="text-gray-800 text-xl font-bold">
+              <div className="mb-6 sm:mb-8">
+                <div className="inline-flex items-center justify-center bg-gradient-to-r from-green-50 to-yellow-50 px-4 sm:px-6 py-2 sm:py-3 rounded-full border border-green-200">
+                  <span className="text-gray-800 text-base sm:text-lg md:text-xl font-bold">
                     {t("footer.brandMadeInSaudi")}
                   </span>
                 </div>
               </div>
 
               {/* Social Media Icons - Centered */}
-              <div className="flex justify-center lg:justify-start space-x-4">
+              <div className="flex justify-center lg:justify-start space-x-3 sm:space-x-4">
                 <a
                   href="#"
-                  className="w-12 h-12 bg-blue-500 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors cursor-pointer"
+                  className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors cursor-pointer"
                 >
-                  <i className="ri-twitter-fill text-xl text-white"></i>
+                  <i className="ri-twitter-fill text-lg sm:text-xl text-white"></i>
                 </a>
                 <a
                   href="#"
-                  className="w-12 h-12 bg-blue-700 hover:bg-blue-800 rounded-lg flex items-center justify-center transition-colors cursor-pointer"
+                  className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-700 hover:bg-blue-800 rounded-lg flex items-center justify-center transition-colors cursor-pointer"
                 >
-                  <i className="ri-linkedin-fill text-xl text-white"></i>
+                  <i className="ri-linkedin-fill text-lg sm:text-xl text-white"></i>
                 </a>
                 <a
                   href="tel:+966542741977"
-                  className="w-12 h-12 bg-green-500 hover:bg-green-600 rounded-lg flex items-center justify-center transition-colors cursor-pointer"
+                  className="w-10 h-10 sm:w-12 sm:h-12 bg-green-500 hover:bg-green-600 rounded-lg flex items-center justify-center transition-colors cursor-pointer"
                 >
-                  <i className="ri-whatsapp-fill text-xl text-white"></i>
+                  <i className="ri-whatsapp-fill text-lg sm:text-xl text-white"></i>
                 </a>
               </div>
             </div>
 
             {/* Navigation Sections */}
-            <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {/* For Businesses */}
               <div>
-                <h4 className="text-lg font-bold text-gray-800 mb-6 flex items-center">
+                <h4 className="text-base sm:text-lg font-bold text-gray-800 mb-4 sm:mb-6 flex items-center">
                   <i className="ri-building-line text-yellow-600 mr-2"></i>
                   {t("footer.forBusinesses")}
                 </h4>
-                <ul className="space-y-4">
+                <ul className="space-y-3 sm:space-y-4">
                   <li>
                     <Link
                       href="/add-business"
@@ -152,11 +152,11 @@ export default function Footer() {
 
               {/* Resources & Support */}
               <div>
-                <h4 className="text-lg font-bold text-gray-800 mb-6 flex items-center">
+                <h4 className="text-base sm:text-lg font-bold text-gray-800 mb-4 sm:mb-6 flex items-center">
                   <i className="ri-book-line text-yellow-600 mr-2"></i>
                   {t("footer.resources")}
                 </h4>
-                <ul className="space-y-4">
+                <ul className="space-y-3 sm:space-y-4">
                   <li>
                     <Link
                       href="/help-center"
@@ -198,11 +198,11 @@ export default function Footer() {
 
               {/* Company */}
               <div>
-                <h4 className="text-lg font-bold text-gray-800 mb-6 flex items-center">
+                <h4 className="text-base sm:text-lg font-bold text-gray-800 mb-4 sm:mb-6 flex items-center">
                   <i className="ri-team-line text-yellow-600 mr-2"></i>
                   {t("footer.company")}
                 </h4>
-                <ul className="space-y-4">
+                <ul className="space-y-3 sm:space-y-4">
                   <li>
                     <Link
                       href="/about"
@@ -230,45 +230,53 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="bg-yellow-400 text-white">
-        <div className="w-full px-6 py-6">
+        <div className="w-full px-3 sm:px-4 md:px-6 py-4 sm:py-6">
           <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
+            <div className="flex flex-col lg:flex-row justify-between items-center space-y-3 sm:space-y-4 lg:space-y-0">
               {/* Copyright */}
               <div
-                className={`flex items-center ${
-                  isRTL ? "space-x-reverse space-x-4" : "space-x-4"
+                className={`flex flex-col sm:flex-row items-center ${
+                  isRTL
+                    ? "space-x-reverse space-x-2 sm:space-x-4"
+                    : "space-x-2 sm:space-x-4"
                 }`}
               >
-                <p className="text-white text-sm">{t("footer.copyright")}</p>
+                <p className="text-white text-xs sm:text-sm">
+                  {t("footer.copyright")}
+                </p>
                 <div
                   className={`flex items-center ${
-                    isRTL ? "space-x-reverse space-x-2" : "space-x-2"
+                    isRTL
+                      ? "space-x-reverse space-x-1 sm:space-x-2"
+                      : "space-x-1 sm:space-x-2"
                   } text-xs text-yellow-100`}
                 >
-                  <div className="w-4 h-3 bg-white rounded-sm flex items-center justify-center">
-                    <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                  <div className="w-3 h-2 sm:w-4 sm:h-3 bg-white rounded-sm flex items-center justify-center">
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-600 rounded-full"></div>
                   </div>
-                  <span>{t("footer.proudlyMadeInSaudi")}</span>
+                  <span className="text-xs">
+                    {t("footer.proudlyMadeInSaudi")}
+                  </span>
                 </div>
               </div>
 
               {/* Legal Links */}
-              <div className="flex items-center space-x-6">
+              <div className="flex flex-wrap items-center justify-center lg:justify-end space-x-3 sm:space-x-4 md:space-x-6 gap-2">
                 <Link
                   href="/privacy"
-                  className="text-white hover:text-yellow-100 text-sm transition-colors"
+                  className="text-white hover:text-yellow-100 text-xs sm:text-sm transition-colors"
                 >
                   {t("footer.privacyPolicy")}
                 </Link>
                 <Link
                   href="/terms"
-                  className="text-white hover:text-yellow-100 text-sm transition-colors"
+                  className="text-white hover:text-yellow-100 text-xs sm:text-sm transition-colors"
                 >
                   {t("footer.termsOfService")}
                 </Link>
                 <Link
                   href="/cookie-policy"
-                  className="text-white hover:text-yellow-100 text-sm transition-colors"
+                  className="text-white hover:text-yellow-100 text-xs sm:text-sm transition-colors"
                 >
                   {t("footer.cookiePolicy")}
                 </Link>

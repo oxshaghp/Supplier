@@ -1,7 +1,10 @@
-import { useLanguage } from "../../lib/LanguageContext";
+"use client";
+
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function Page() {
   const { t } = useLanguage();
+
   return (
     <main className="w-full px-6 py-16">
       <div className="max-w-7xl mx-auto">
@@ -11,6 +14,7 @@ export default function Page() {
           </h1>
           <p className="text-gray-600 max-w-2xl mx-auto">{t("help.intro")}</p>
         </section>
+
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="border rounded-xl p-6 hover:shadow-sm transition-shadow">
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
@@ -24,6 +28,7 @@ export default function Page() {
               {t("help.createAccountCta")}
             </a>
           </div>
+
           <div className="border rounded-xl p-6 hover:shadow-sm transition-shadow">
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
               {t("help.managingBusinessTitle")}
@@ -38,6 +43,7 @@ export default function Page() {
               {t("help.openDashboardCta")}
             </a>
           </div>
+
           <div className="border rounded-xl p-6 hover:shadow-sm transition-shadow">
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
               {t("help.plansBillingTitle")}

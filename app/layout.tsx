@@ -2,6 +2,7 @@ import { Inter, Roboto_Mono, Pacifico } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "../lib/LanguageContext";
 import { Metadata } from "next";
+import ClickPayIntegrationStatus from "../components/ClickPayIntegrationStatus";
 
 const pacifico = Pacifico({
   weight: "400",
@@ -124,6 +125,7 @@ export default function RootLayout({
         className={`${inter.className} ${robotoMono.variable} ${pacifico.variable} antialiased`}
       >
         <LanguageProvider>{children}</LanguageProvider>
+        <ClickPayIntegrationStatus />
       </body>
     </html>
   );

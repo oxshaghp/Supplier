@@ -1,7 +1,7 @@
 import { useLanguage } from "../../lib/LanguageContext";
 
 export default function Page() {
-  const { t } = useLanguage();
+  const { t } = useLanguage("cookie");
   return (
     <main className="w-full px-6 py-16">
       <div className="max-w-7xl mx-auto">

@@ -86,16 +86,16 @@ export default function DashboardStats() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Time Range Filter */}
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
           {t("dashboard.overview")}
         </h2>
         <select
           value={timeRange}
           onChange={(e) => setTimeRange(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm pr-8"
+          className="px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm pr-6 sm:pr-8 w-full sm:w-auto"
         >
           <option value="7days">{t("dashboard.last7")}</option>
           <option value="30days">{t("dashboard.last30")}</option>
@@ -104,14 +104,14 @@ export default function DashboardStats() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <i className="ri-eye-line text-blue-600 text-xl"></i>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="bg-white p-4 sm:p-6 rounded-xl border border-gray-100 shadow-sm">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+              <i className="ri-eye-line text-blue-600 text-lg sm:text-xl"></i>
             </div>
             <span
-              className={`text-sm font-medium ${
+              className={`text-xs sm:text-sm font-medium ${
                 stats.views.trend === "up" ? "text-green-600" : "text-red-600"
               }`}
             >
@@ -125,19 +125,21 @@ export default function DashboardStats() {
               {Math.abs(stats.views.change)}%
             </span>
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-1">
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
             {stats.views.current.toLocaleString()}
           </h3>
-          <p className="text-gray-600 text-sm">{t("dashboard.profileViews")}</p>
+          <p className="text-gray-600 text-xs sm:text-sm">
+            {t("dashboard.profileViews")}
+          </p>
         </div>
 
-        <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <i className="ri-contacts-line text-green-600 text-xl"></i>
+        <div className="bg-white p-4 sm:p-6 rounded-xl border border-gray-100 shadow-sm">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-lg flex items-center justify-center">
+              <i className="ri-contacts-line text-green-600 text-lg sm:text-xl"></i>
             </div>
             <span
-              className={`text-sm font-medium ${
+              className={`text-xs sm:text-sm font-medium ${
                 stats.contacts.trend === "up"
                   ? "text-green-600"
                   : "text-red-600"
@@ -153,21 +155,21 @@ export default function DashboardStats() {
               {Math.abs(stats.contacts.change)}%
             </span>
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-1">
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
             {stats.contacts.current}
           </h3>
-          <p className="text-gray-600 text-sm">
+          <p className="text-gray-600 text-xs sm:text-sm">
             {t("dashboard.contactRequests")}
           </p>
         </div>
 
-        <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-              <i className="ri-question-line text-yellow-600 text-xl"></i>
+        <div className="bg-white p-4 sm:p-6 rounded-xl border border-gray-100 shadow-sm">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+              <i className="ri-question-line text-yellow-600 text-lg sm:text-xl"></i>
             </div>
             <span
-              className={`text-sm font-medium ${
+              className={`text-xs sm:text-sm font-medium ${
                 stats.inquiries.trend === "up"
                   ? "text-green-600"
                   : "text-red-600"
@@ -183,21 +185,21 @@ export default function DashboardStats() {
               {Math.abs(stats.inquiries.change)}%
             </span>
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-1">
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
             {stats.inquiries.current}
           </h3>
-          <p className="text-gray-600 text-sm">
+          <p className="text-gray-600 text-xs sm:text-sm">
             {t("dashboard.businessInquiries")}
           </p>
         </div>
 
-        <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              <i className="ri-star-line text-purple-600 text-xl"></i>
+        <div className="bg-white p-4 sm:p-6 rounded-xl border border-gray-100 shadow-sm">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+              <i className="ri-star-line text-purple-600 text-lg sm:text-xl"></i>
             </div>
             <span
-              className={`text-sm font-medium ${
+              className={`text-xs sm:text-sm font-medium ${
                 stats.rating.trend === "up" ? "text-green-600" : "text-red-600"
               }`}
             >
@@ -211,10 +213,10 @@ export default function DashboardStats() {
               {Math.abs(stats.rating.change)}
             </span>
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-1">
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
             {stats.rating.current}
           </h3>
-          <p className="text-gray-600 text-sm">
+          <p className="text-gray-600 text-xs sm:text-sm">
             {t("dashboard.averageRating")}
           </p>
         </div>
@@ -222,21 +224,23 @@ export default function DashboardStats() {
 
       {/* Quick Actions */}
       <div>
-        <h3 className="text-xl font-bold text-gray-800 mb-6">
+        <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 sm:mb-6">
           {t("dashboard.quickActions")}
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {quickActions.map((action, index) => (
             <button
               key={index}
-              className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all text-left cursor-pointer group"
+              className="bg-white p-4 sm:p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all text-left cursor-pointer group"
             >
               <div
-                className={`w-12 h-12 ${action.color} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
+                className={`w-10 h-10 sm:w-12 sm:h-12 ${action.color} rounded-lg flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform`}
               >
-                <i className={`${action.icon} text-white text-xl`}></i>
+                <i
+                  className={`${action.icon} text-white text-lg sm:text-xl`}
+                ></i>
               </div>
-              <h4 className="font-semibold text-gray-800 mb-2">
+              <h4 className="font-semibold text-gray-800 mb-2 text-sm sm:text-base">
                 {index === 0
                   ? t("dashboard.updateHours")
                   : index === 1
@@ -245,7 +249,7 @@ export default function DashboardStats() {
                   ? t("dashboard.respondReviews")
                   : t("dashboard.uploadPhotos")}
               </h4>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-600 text-xs sm:text-sm">
                 {index === 0
                   ? t("dashboard.updateHoursDesc")
                   : index === 1
@@ -261,7 +265,7 @@ export default function DashboardStats() {
 
       {/* Recent Activity */}
       <div>
-        <h3 className="text-xl font-bold text-gray-800 mb-6">
+        <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 sm:mb-6">
           {t("dashboard.recentActivity")}
         </h3>
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm">
@@ -269,83 +273,83 @@ export default function DashboardStats() {
             {recentActivities.map((activity, index) => (
               <div
                 key={activity.id}
-                className={`p-6 ${
+                className={`p-4 sm:p-6 ${
                   index !== recentActivities.length - 1
                     ? "border-b border-gray-100"
                     : ""
                 }`}
               >
-                <div className="flex items-start space-x-4">
+                <div className="flex items-start space-x-3 sm:space-x-4">
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center ${activity.color}`}
+                    className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center ${activity.color}`}
                   >
-                    <i className={`${activity.icon} text-sm`}></i>
+                    <i className={`${activity.icon} text-xs sm:text-sm`}></i>
                   </div>
-                  <div className="flex-1">
-                    <h4 className="font-medium text-gray-800 mb-1">
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-medium text-gray-800 mb-1 text-sm sm:text-base">
                       {activity.title}
                     </h4>
-                    <p className="text-gray-600 text-sm mb-2">
+                    <p className="text-gray-600 text-xs sm:text-sm mb-2">
                       {activity.message}
                     </p>
                     <span className="text-gray-400 text-xs">
                       {activity.time}
                     </span>
                   </div>
-                  <button className="text-gray-400 hover:text-gray-600 cursor-pointer">
-                    <i className="ri-more-line"></i>
+                  <button className="text-gray-400 hover:text-gray-600 cursor-pointer flex-shrink-0">
+                    <i className="ri-more-line text-sm sm:text-base"></i>
                   </button>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="p-4 border-t border-gray-100">
+          <div className="p-3 sm:p-4 border-t border-gray-100">
             <button
               onClick={() => setShowAllActivity(true)}
-              className="w-full text-center py-2 text-gray-600 hover:text-gray-800 font-medium text-sm cursor-pointer"
+              className="w-full text-center py-2 text-gray-600 hover:text-gray-800 font-medium text-xs sm:text-sm cursor-pointer"
             >
               {t("dashboard.viewAllActivity")}
-              <i className="ri-arrow-right-line ml-2"></i>
+              <i className="ri-arrow-right-line ml-1 sm:ml-2"></i>
             </button>
           </div>
         </div>
       </div>
 
       {showAllActivity && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-3 sm:p-4 z-50">
           <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[80vh] overflow-hidden">
-            <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-gray-800">
+            <div className="p-4 sm:p-6 border-b border-gray-200 flex items-center justify-between">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-800">
                 {t("dashboard.allActivity")}
               </h3>
               <button
                 onClick={() => setShowAllActivity(false)}
-                className="text-gray-400 hover:text-gray-600 text-2xl cursor-pointer"
+                className="text-gray-400 hover:text-gray-600 text-xl sm:text-2xl cursor-pointer"
               >
                 <i className="ri-close-line"></i>
               </button>
             </div>
             <div
-              className="p-6 overflow-y-auto"
+              className="p-4 sm:p-6 overflow-y-auto"
               style={{ maxHeight: "calc(80vh - 88px)" }}
             >
               <div className="space-y-3">
                 {recentActivities.map((activity) => (
                   <div
                     key={`all-${activity.id}`}
-                    className="p-4 border border-gray-100 rounded-xl flex items-start space-x-4"
+                    className="p-3 sm:p-4 border border-gray-100 rounded-xl flex items-start space-x-3 sm:space-x-4"
                   >
                     <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center ${activity.color}`}
+                      className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center ${activity.color}`}
                     >
-                      <i className={`${activity.icon} text-sm`}></i>
+                      <i className={`${activity.icon} text-xs sm:text-sm`}></i>
                     </div>
-                    <div className="flex-1">
-                      <h4 className="font-medium text-gray-800 mb-1">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-gray-800 mb-1 text-sm sm:text-base">
                         {activity.title}
                       </h4>
-                      <p className="text-gray-600 text-sm mb-1">
+                      <p className="text-gray-600 text-xs sm:text-sm mb-1">
                         {activity.message}
                       </p>
                       <span className="text-gray-400 text-xs">
@@ -356,10 +360,10 @@ export default function DashboardStats() {
                 ))}
               </div>
             </div>
-            <div className="p-4 border-t border-gray-100 flex justify-end">
+            <div className="p-3 sm:p-4 border-t border-gray-100 flex justify-end">
               <button
                 onClick={() => setShowAllActivity(false)}
-                className="px-4 py-2 rounded border border-gray-300 text-gray-700 hover:bg-gray-50"
+                className="px-3 sm:px-4 py-2 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 text-sm sm:text-base"
               >
                 {t("dashboard.close")}
               </button>

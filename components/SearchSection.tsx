@@ -855,22 +855,22 @@ export default function SearchSection() {
 
   return (
     <>
-      <section className="py-4 bg-gradient-to-b from-yellow-50 to-white">
-        <div className="w-full px-4 md:px-6">
+      <section className="py-4 sm:py-6 md:py-8 bg-gradient-to-b from-yellow-50 to-white">
+        <div className="w-full px-3 sm:px-4 md:px-6">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
               {/* Categories Sidebar */}
               <div className="lg:col-span-1">
-                <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6">
-                  <h3 className="text-base md:text-lg font-semibold mb-4 text-gray-800">
+                <div className="bg-white rounded-2xl shadow-xl p-3 sm:p-4 md:p-6">
+                  <h3 className="text-sm sm:text-base md:text-lg font-semibold mb-3 sm:mb-4 text-gray-800">
                     {t("allCategories")}
                   </h3>
-                  <div className="space-y-2 max-h-[400px] md:max-h-[600px] overflow-y-auto">
+                  <div className="space-y-1 sm:space-y-2 max-h-[300px] sm:max-h-[400px] md:max-h-[600px] overflow-y-auto">
                     {categories.map((category) => (
                       <button
                         key={category.id}
                         onClick={() => setSelectedCategory(category.id)}
-                        className={`w-full flex items-center space-x-2 md:space-x-3 p-2 md:p-3 rounded-xl transition-all cursor-pointer ${
+                        className={`w-full flex items-center space-x-1 sm:space-x-2 md:space-x-3 p-1.5 sm:p-2 md:p-3 rounded-xl transition-all cursor-pointer ${
                           selectedCategory === category.id
                             ? "bg-yellow-400 text-white shadow-md"
                             : "hover:bg-gray-50 text-gray-700"
@@ -879,21 +879,23 @@ export default function SearchSection() {
                         }`}
                       >
                         <div
-                          className={`w-6 h-6 md:w-8 md:h-8 rounded-lg flex items-center justify-center ${
+                          className={`w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 rounded-lg flex items-center justify-center ${
                             selectedCategory === category.id
                               ? "bg-white/20"
                               : `bg-gradient-to-r ${category.color}`
                           }`}
                         >
                           <i
-                            className={`${category.icon} text-sm md:text-base ${
+                            className={`${
+                              category.icon
+                            } text-xs sm:text-sm md:text-base ${
                               selectedCategory === category.id
                                 ? "text-white"
                                 : "text-white"
                             }`}
                           ></i>
                         </div>
-                        <span className="font-medium text-xs md:text-sm">
+                        <span className="font-medium text-xs sm:text-xs md:text-sm">
                           {category.name}
                         </span>
                       </button>
@@ -905,31 +907,31 @@ export default function SearchSection() {
               {/* Search and Map Section */}
               <div className="lg:col-span-3">
                 {/* Search Form */}
-                <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6 mb-4 md:mb-6">
+                <div className="bg-white rounded-2xl shadow-xl p-3 sm:p-4 md:p-6 mb-3 sm:mb-4 md:mb-6">
                   {/* Search Guidelines */}
-                  <div className="mb-4 text-left">
-                    <p className="text-sm md:text-base font-bold text-gray-700">
-                      <i className="ri-lightbulb-line text-yellow-500 mr-2"></i>
+                  <div className="mb-3 sm:mb-4 text-left">
+                    <p className="text-xs sm:text-sm md:text-base font-bold text-gray-700">
+                      <i className="ri-lightbulb-line text-yellow-500 mr-1 sm:mr-2"></i>
                       {t("searchRequest.guideTitle")}
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 md:mb-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4 md:mb-6">
                     <div className="relative">
                       <input
                         type="text"
                         placeholder={t("searchPlaceholder")}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className={`w-full py-3 md:py-4 border-2 border-gray-200 rounded-xl focus:border-yellow-400 focus:outline-none text-sm ${
+                        className={`w-full py-2.5 sm:py-3 md:py-4 border-2 border-gray-200 rounded-xl focus:border-yellow-400 focus:outline-none text-xs sm:text-sm ${
                           isRTL
-                            ? "pr-10 md:pr-12 pl-4 text-right"
-                            : "pl-10 md:pl-12 pr-4"
+                            ? "pr-8 sm:pr-10 md:pr-12 pl-3 sm:pl-4 text-right"
+                            : "pl-8 sm:pl-10 md:pl-12 pr-3 sm:pr-4"
                         }`}
                       />
                       <i
-                        className={`ri-search-line absolute top-1/2 transform -translate-y-1/2 text-gray-400 text-sm ${
-                          isRTL ? "right-4" : "left-4"
+                        className={`ri-search-line absolute top-1/2 transform -translate-y-1/2 text-gray-400 text-xs sm:text-sm ${
+                          isRTL ? "right-3 sm:right-4" : "left-3 sm:left-4"
                         }`}
                       ></i>
                     </div>
@@ -940,15 +942,15 @@ export default function SearchSection() {
                         placeholder={t("locationPlaceholder")}
                         value={location}
                         onChange={(e) => setLocation(e.target.value)}
-                        className={`w-full py-3 md:py-4 border-2 border-gray-200 rounded-xl focus:border-yellow-400 focus:outline-none text-sm ${
+                        className={`w-full py-2.5 sm:py-3 md:py-4 border-2 border-gray-200 rounded-xl focus:border-yellow-400 focus:outline-none text-xs sm:text-sm ${
                           isRTL
-                            ? "pr-10 md:pr-12 pl-4 text-right"
-                            : "pl-10 md:pl-12 pr-4"
+                            ? "pr-8 sm:pr-10 md:pr-12 pl-3 sm:pl-4 text-right"
+                            : "pl-8 sm:pl-10 md:pl-12 pr-3 sm:pr-4"
                         }`}
                       />
                       <i
-                        className={`ri-map-pin-line absolute top-1/2 transform -translate-y-1/2 text-gray-400 text-sm ${
-                          isRTL ? "right-4" : "left-4"
+                        className={`ri-map-pin-line absolute top-1/2 transform -translate-y-1/2 text-gray-400 text-xs sm:text-sm ${
+                          isRTL ? "right-3 sm:right-4" : "left-3 sm:left-4"
                         }`}
                       ></i>
                     </div>
@@ -957,15 +959,15 @@ export default function SearchSection() {
                   <Link
                     href="/businesses"
                     onClick={handleSearch}
-                    className="w-full bg-yellow-400 text-white py-3 md:py-4 rounded-xl hover:bg-yellow-500 font-semibold text-base md:text-lg whitespace-nowrap cursor-pointer flex items-center justify-center"
+                    className="w-full bg-yellow-400 text-white py-2.5 sm:py-3 md:py-4 rounded-xl hover:bg-yellow-500 font-semibold text-sm sm:text-base md:text-lg whitespace-nowrap cursor-pointer flex items-center justify-center"
                   >
-                    <i className="ri-search-line mr-2"></i>
+                    <i className="ri-search-line mr-1 sm:mr-2"></i>
                     {t("searchBusinesses")}
                   </Link>
                 </div>
 
                 {/* Enhanced Map Section with Filtered Business Locations */}
-                <div className="bg-gray-100 rounded-2xl overflow-hidden shadow-xl relative h-64 md:h-96 mb-4 md:mb-6">
+                <div className="bg-gray-100 rounded-2xl overflow-hidden shadow-xl relative h-48 sm:h-64 md:h-96 mb-3 sm:mb-4 md:mb-6">
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7476794.374816895!2d39.857910156249994!3d23.885837699999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15e7b33fe7952a41%3A0x5960504bc21ab69b!2sSaudi%20Arabia!5e0!3m2!1sen!2sus!4v1647890123456!5m2!1sen!2sus&disableDefaultUI=true&gestureHandling=none&scrollwheel=false&disableDoubleClickZoom=true&clickableIcons=false"
                     width="100%"
@@ -995,11 +997,11 @@ export default function SearchSection() {
                         >
                           {/* Main Business Dot */}
                           <div
-                            className={`relative w-2 h-2 md:w-3 md:h-3 ${colorClass} rounded-full border-2 border-white shadow-lg`}
+                            className={`relative w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-3 md:h-3 ${colorClass} rounded-full border-2 border-white shadow-lg`}
                           ></div>
 
                           {/* Business Info Tooltip */}
-                          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-lg p-3 min-w-40 md:min-w-48 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-auto z-10">
+                          <div className="absolute bottom-3 sm:bottom-4 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-lg p-2 sm:p-3 min-w-32 sm:min-w-40 md:min-w-48 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-auto z-10">
                             <div className="text-xs">
                               <h4 className="font-semibold text-gray-800 mb-1">
                                 {business.name}
@@ -1008,7 +1010,7 @@ export default function SearchSection() {
                                 {business.address}
                               </p>
                               <span
-                                className={`inline-block px-2 py-1 rounded-full text-white text-xs ${colorClass}`}
+                                className={`inline-block px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-white text-xs ${colorClass}`}
                               >
                                 {business.type}
                               </span>
@@ -1023,10 +1025,10 @@ export default function SearchSection() {
 
                   {/* Category Filter Info */}
                   {selectedCategory !== "all" && (
-                    <div className="absolute top-4 left-4 bg-white rounded-lg shadow-lg p-2 md:p-3 z-10">
-                      <div className="flex items-center space-x-2">
+                    <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-white rounded-lg shadow-lg p-1.5 sm:p-2 md:p-3 z-10">
+                      <div className="flex items-center space-x-1 sm:space-x-2">
                         <div
-                          className={`w-2 h-2 md:w-3 md:h-3 ${
+                          className={`w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-3 md:h-3 ${
                             categories
                               .find((cat) => cat.id === selectedCategory)
                               ?.color.includes("yellow")
@@ -1034,7 +1036,7 @@ export default function SearchSection() {
                               : "bg-blue-500"
                           } rounded-full`}
                         ></div>
-                        <span className="text-xs md:text-sm font-medium text-gray-700">
+                        <span className="text-xs sm:text-xs md:text-sm font-medium text-gray-700">
                           Showing:{" "}
                           {
                             categories.find(

@@ -5,7 +5,7 @@ import Footer from "../../components/Footer";
 import { useLanguage } from "../../lib/LanguageContext";
 
 export default function AboutPage() {
-  const { t } = useLanguage();
+  const { t } = useLanguage("aboutPage");
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -41,7 +41,7 @@ export default function AboutPage() {
                 </div>
               </div>
               <div className="text-lg font-bold text-green-600">
-                {t("about.saudiMade")}
+                {t("aboutPage.saudiMade")}
               </div>
               <div className="w-12 h-8 bg-green-600 flex items-center justify-center relative overflow-hidden rounded">
                 <div className="w-full h-full bg-green-600 relative">
@@ -65,10 +65,10 @@ export default function AboutPage() {
           </div>
 
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            {t("about.heroTitle")}
+            {t("aboutPage.heroTitle")}
           </h1>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed mb-8">
-            {t("about.heroDesc")}
+            {t("aboutPage.heroDesc")}
           </p>
 
           {/* Saudi Pride Statement */}
@@ -76,12 +76,12 @@ export default function AboutPage() {
             <div className="flex items-center justify-center mb-4">
               <i className="ri-heart-fill text-3xl text-red-500 mr-3"></i>
               <h2 className="text-2xl font-bold text-green-600">
-                {t("about.proudSaudi")}
+                {t("aboutPage.proudSaudi")}
               </h2>
               <i className="ri-heart-fill text-3xl text-red-500 ml-3"></i>
             </div>
             <p className="text-lg text-gray-700 leading-relaxed">
-              {t("about.proudBody")}
+              {t("aboutPage.proudBody")}
             </p>
           </div>
         </div>
@@ -98,11 +98,11 @@ export default function AboutPage() {
                 className="h-16 object-contain mr-4"
               />
               <h2 className="text-4xl font-bold">
-                {t("about.supporting2030")}
+                {t("aboutPage.supporting2030")}
               </h2>
             </div>
             <p className="text-xl text-green-100 max-w-4xl mx-auto leading-relaxed">
-              {t("about.supporting2030Body")}
+              {t("aboutPage.supporting2030Body")}
             </p>
           </div>
 
@@ -112,10 +112,10 @@ export default function AboutPage() {
                 <i className="ri-building-2-line text-3xl text-white"></i>
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">
-                {t("about.econDiversification")}
+                {t("aboutPage.econDiversification")}
               </h3>
               <p className="text-green-100 leading-relaxed">
-                {t("about.econDiversificationBody")}
+                {t("aboutPage.econDiversificationBody")}
               </p>
             </div>
 
@@ -124,10 +124,10 @@ export default function AboutPage() {
                 <i className="ri-rocket-2-line text-3xl text-white"></i>
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">
-                {t("about.digitalTransformation")}
+                {t("aboutPage.digitalTransformation")}
               </h3>
               <p className="text-green-100 leading-relaxed">
-                {t("about.digitalTransformationBody")}
+                {t("aboutPage.digitalTransformationBody")}
               </p>
             </div>
 
@@ -136,10 +136,10 @@ export default function AboutPage() {
                 <i className="ri-team-line text-3xl text-white"></i>
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">
-                {t("about.localEmpowerment")}
+                {t("aboutPage.localEmpowerment")}
               </h3>
               <p className="text-green-100 leading-relaxed">
-                {t("about.localEmpowermentBody")}
+                {t("aboutPage.localEmpowermentBody")}
               </p>
             </div>
           </div>
@@ -165,11 +165,11 @@ export default function AboutPage() {
                   </div>
                 </div>
                 <h2 className="text-4xl font-bold text-gray-900">
-                  {t("about.missionTitle")}
+                  {t("aboutPage.missionTitle")}
                 </h2>
               </div>
               <p className="text-lg text-gray-700 mb-8 leading-relaxed">
-                {t("about.missionBody")}
+                {t("aboutPage.missionBody")}
               </p>
 
               {/* Local Impact Stats */}
@@ -179,14 +179,16 @@ export default function AboutPage() {
                     5000+
                   </div>
                   <div className="text-gray-600">
-                    {t("about.saudiBusinesses")}
+                    {t("aboutPage.saudiBusinesses")}
                   </div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-green-600 mb-2">
                     13
                   </div>
-                  <div className="text-gray-600">{t("about.saudiRegions")}</div>
+                  <div className="text-gray-600">
+                    {t("aboutPage.saudiRegions")}
+                  </div>
                 </div>
               </div>
 
@@ -195,11 +197,11 @@ export default function AboutPage() {
                 <div className="flex items-center mb-4">
                   <i className="ri-community-line text-2xl text-green-600 mr-3"></i>
                   <h3 className="text-xl font-bold text-gray-900">
-                    {t("about.communitySupport")}
+                    {t("aboutPage.communitySupport")}
                   </h3>
                 </div>
                 <p className="text-gray-700 leading-relaxed">
-                  {t("about.communitySupportBody")}
+                  {t("aboutPage.communitySupportBody")}
                 </p>
               </div>
             </div>
@@ -233,12 +235,12 @@ export default function AboutPage() {
             <div className="flex items-center justify-center mb-6">
               <i className="ri-map-pin-2-fill text-3xl text-green-600 mr-3"></i>
               <h2 className="text-4xl font-bold text-gray-900">
-                {t("about.whyChoose")}
+                {t("aboutPage.whyChoose")}
               </h2>
               <i className="ri-map-pin-2-fill text-3xl text-green-600 ml-3"></i>
             </div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {t("about.whyChooseBody")}
+              {t("aboutPage.whyChooseBody")}
             </p>
           </div>
 
@@ -248,7 +250,7 @@ export default function AboutPage() {
                 <i className="ri-flag-2-fill text-2xl text-green-600"></i>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                {t("about.saudiMade")}
+                {t("aboutPage.saudiMade")}
               </h3>
               <p className="text-gray-700 leading-relaxed">
                 Proudly developed in Saudi Arabia by Saudi talent, understanding
@@ -261,7 +263,7 @@ export default function AboutPage() {
                 <i className="ri-trophy-line text-2xl text-green-600"></i>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                {t("about.firstPlatform")}
+                {t("aboutPage.firstPlatform")}
               </h3>
               <p className="text-gray-700 leading-relaxed">
                 We are the first platform and website that gets B2B connected in
@@ -274,7 +276,7 @@ export default function AboutPage() {
                 <i className="ri-global-line text-2xl text-green-600"></i>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                {t("about.numberOne")}
+                {t("aboutPage.numberOne")}
               </h3>
               <p className="text-gray-700 leading-relaxed">
                 We are the number 1 website where all businesses meet, providing
@@ -287,7 +289,7 @@ export default function AboutPage() {
                 <i className="ri-eye-2-line text-2xl text-green-600"></i>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                {t("about.visionAligned")}
+                {t("aboutPage.visionAligned")}
               </h3>
               <p className="text-gray-700 leading-relaxed">
                 Supporting Saudi Arabia's Vision 2030 goals by driving digital
@@ -300,7 +302,7 @@ export default function AboutPage() {
                 <i className="ri-community-line text-2xl text-green-600"></i>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                {t("about.localFocus")}
+                {t("aboutPage.localFocus")}
               </h3>
               <p className="text-gray-700 leading-relaxed">
                 Dedicated to empowering Saudi businesses and supporting local
@@ -313,7 +315,7 @@ export default function AboutPage() {
                 <i className="ri-shield-check-line text-2xl text-green-600"></i>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                {t("about.verifiedSaudi")}
+                {t("aboutPage.verifiedSaudi")}
               </h3>
               <p className="text-gray-700 leading-relaxed">
                 All businesses undergo thorough verification with local
@@ -338,7 +340,7 @@ export default function AboutPage() {
                 </div>
               </div>
               <h2 className="text-4xl font-bold text-gray-900">
-                {t("about.saudiSuccessStories")}
+                {t("aboutPage.saudiSuccessStories")}
               </h2>
               <div className="w-8 h-6 bg-green-600 flex items-center justify-center relative overflow-hidden rounded ml-4">
                 <div className="w-full h-full bg-green-600 relative">
@@ -350,7 +352,7 @@ export default function AboutPage() {
               </div>
             </div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {t("about.successLead")}
+              {t("aboutPage.successLead")}
             </p>
           </div>
 
@@ -449,7 +451,7 @@ export default function AboutPage() {
               </div>
             </div>
             <h2 className="text-4xl font-bold text-white">
-              {t("about.ctaTitle")}
+              {t("aboutPage.ctaTitle")}
             </h2>
             <div className="w-12 h-8 bg-white rounded flex items-center justify-center ml-4">
               <div className="w-8 h-6 bg-green-600 flex items-center justify-center relative overflow-hidden rounded">
@@ -463,21 +465,21 @@ export default function AboutPage() {
             </div>
           </div>
           <p className="text-xl text-green-100 mb-8 max-w-4xl mx-auto">
-            {t("about.ctaBody")}
+            {t("aboutPage.ctaBody")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button className="bg-white text-green-600 px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition-colors whitespace-nowrap cursor-pointer">
-              {t("about.ctaRegister")}
+              {t("aboutPage.ctaRegister")}
             </button>
             <button className="border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-green-600 transition-colors whitespace-nowrap cursor-pointer">
-              {t("about.ctaBrowse")}
+              {t("aboutPage.ctaBrowse")}
             </button>
           </div>
 
           {/* Vision 2030 Support Note */}
           <div className="mt-8 flex items-center justify-center text-green-100">
             <i className="ri-heart-fill text-red-400 mr-2"></i>
-            <span className="text-lg">{t("about.ctaSupport")}</span>
+            <span className="text-lg">{t("aboutPage.ctaSupport")}</span>
             <i className="ri-heart-fill text-red-400 ml-2"></i>
           </div>
         </div>

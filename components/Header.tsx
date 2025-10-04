@@ -117,14 +117,14 @@ export default function Header() {
       </div>
 
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
-        <div className="w-full px-4 md:px-6">
-          <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="w-full px-3 sm:px-4 md:px-6">
+          <div className="flex items-center justify-between h-14 sm:h-16 md:h-20">
             {/* Logo Section */}
-            <div className="flex items-center justify-center lg:justify-center space-x-3">
-              <div className="w-10 h-10 flex items-center justify-center">
+            <div className="flex items-center justify-center lg:justify-center space-x-2 sm:space-x-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
                 <svg
                   viewBox="0 0 24 24"
-                  className="w-10 h-10 text-yellow-400"
+                  className="w-8 h-8 sm:w-10 sm:h-10 text-yellow-400"
                   fill="currentColor"
                 >
                   <circle cx="7" cy="7" r="3" />
@@ -139,7 +139,7 @@ export default function Header() {
                   />
                 </svg>
               </div>
-              <div className="text-3xl font-bold">
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold">
                 <span className="text-gray-800">Supplier</span>
                 <span className="text-green-400">.sa</span>
               </div>
@@ -180,9 +180,9 @@ export default function Header() {
             </nav>
 
             {/* Right Side */}
-            <div className="flex items-center space-x-2 md:space-x-4">
+            <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-4">
               {/* Language Switcher - Hidden on small screens */}
-              <div className="hidden md:block">
+              <div className="hidden sm:block">
                 <LanguageSwitcher />
               </div>
 
@@ -205,7 +205,7 @@ export default function Header() {
 
                     {/* Messages Dropdown */}
                     {isMessagesOpen && (
-                      <div className="absolute right-0 mt-2 w-80 md:w-96 bg-white rounded-xl shadow-2xl border border-gray-200 py-3 z-50 max-h-80 md:max-h-96 overflow-hidden">
+                      <div className="absolute right-0 mt-2 w-72 sm:w-80 md:w-96 bg-white rounded-xl shadow-2xl border border-gray-200 py-3 z-50 max-h-80 md:max-h-96 overflow-hidden">
                         <div className="px-4 py-2 border-b border-gray-100">
                           <div className="flex items-center justify-between">
                             <h3 className="font-semibold text-gray-800 text-sm md:text-base">
@@ -276,7 +276,7 @@ export default function Header() {
                       <div className="w-6 h-6 md:w-8 md:h-8 bg-yellow-400 text-white rounded-full flex items-center justify-center font-medium text-xs md:text-sm">
                         {userInitials}
                       </div>
-                      <span className="hidden sm:block font-medium text-sm md:text-base">
+                      <span className="hidden md:block font-medium text-sm md:text-base">
                         {userName}
                       </span>
                       <i className="ri-arrow-down-s-line text-sm md:text-base"></i>
@@ -284,7 +284,7 @@ export default function Header() {
 
                     {/* User Dropdown */}
                     {isUserMenuOpen && (
-                      <div className="absolute right-0 mt-2 w-44 md:w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                      <div className="absolute right-0 mt-2 w-40 sm:w-44 md:w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
                         <Link
                           href="/dashboard"
                           className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-gray-50 text-sm"
@@ -315,16 +315,16 @@ export default function Header() {
               ) : (
                 <>
                   {/* If not logged in, show auth links */}
-                  <div className="hidden md:flex items-center space-x-4">
+                  <div className="hidden sm:flex items-center space-x-2 md:space-x-4">
                     <Link
                       href="/register"
-                      className="text-gray-700 hover:text-yellow-600 font-medium transition-colors"
+                      className="text-gray-700 hover:text-yellow-600 font-medium transition-colors text-sm md:text-base"
                     >
                       {t("nav.register")}
                     </Link>
                     <Link
                       href="/login"
-                      className="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 transition-colors"
+                      className="bg-yellow-400 text-white px-3 md:px-4 py-2 rounded-lg hover:bg-yellow-500 transition-colors text-sm md:text-base"
                     >
                       {t("nav.login")}
                     </Link>
