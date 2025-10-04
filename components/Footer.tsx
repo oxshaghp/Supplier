@@ -212,15 +212,6 @@ export default function Footer() {
                       <span>{t("footer.aboutUs")}</span>
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      href="/vision-2030"
-                      className="text-gray-600 hover:text-yellow-600 transition-colors flex items-center"
-                    >
-                      <i className="ri-eye-line text-yellow-500 mr-2 w-4 h-4 flex items-center justify-center"></i>
-                      <span>{t("footer.vision2030")}</span>
-                    </Link>
-                  </li>
                 </ul>
               </div>
             </div>

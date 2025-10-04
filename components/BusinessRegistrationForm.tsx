@@ -371,14 +371,14 @@ export default function BusinessRegistrationForm() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            {t("business.form.profileChecklist", { returnObjects: true }).map(
-              (item, index) => (
-                <div key={index} className="flex items-center space-x-2">
-                  <i className="ri-check-line text-green-500 text-sm"></i>
-                  <span className="text-gray-700">{item}</span>
-                </div>
-              )
-            )}
+            {(
+              t("business.form.profileChecklist", { returnObjects: true }) || []
+            ).map((item, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <i className="ri-check-line text-green-500 text-sm"></i>
+                <span className="text-gray-700">{item}</span>
+              </div>
+            ))}
           </div>
         </div>
 

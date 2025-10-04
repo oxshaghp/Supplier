@@ -2,13 +2,15 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "../lib/LanguageContext";
 
 export default function AIChatWidget() {
+  const { t } = useLanguage();
   const [isMinimized, setIsMinimized] = useState(false);
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Hello! I'm your AI assistant. I can help you find suppliers and automatically filter businesses based on your specific needs. Just tell me what you're looking for!",
+      text: t("aiChat.initialMessage"),
       sender: "ai",
       timestamp: new Date(),
     },
@@ -233,65 +235,67 @@ export default function AIChatWidget() {
         navigateAndFilter(suggestions, userMessage);
       }, 2000);
 
-      let response = "🔍 **I found relevant suppliers for you!**\n\n";
+      let response = `🔍 **${t("aiChat.searching")}**\n\n`;
 
       if (suggestions.products.length > 0) {
-        response += `📦 **Products:** ${suggestions.products.join(", ")}\n`;
+        response += `📦 **${t(
+          "aiChat.products"
+        )}:** ${suggestions.products.join(", ")}\n`;
       }
 
       if (suggestions.categories.length > 0) {
-        response += `🏷️ **Category:** ${suggestions.categories.join(", ")}\n`;
+        response += `🏷️ **${t(
+          "aiChat.category"
+        )}:** ${suggestions.categories.join(", ")}\n`;
       }
 
       if (suggestions.locations.length > 0) {
-        response += `📍 **Location:** ${suggestions.locations.join(", ")}\n`;
+        response += `📍 **${t(
+          "aiChat.location"
+        )}:** ${suggestions.locations.join(", ")}\n`;
       }
 
       if (suggestions.businessTypes.length > 0) {
-        response += `🏢 **Business Type:** ${suggestions.businessTypes.join(
-          ", "
-        )}\n`;
+        response += `🏢 **${t(
+          "aiChat.businessType"
+        )}:** ${suggestions.businessTypes.join(", ")}\n`;
       }
 
       if (suggestions.rating) {
-        response += `⭐ **Minimum Rating:** ${suggestions.rating}+ stars\n`;
+        response += `⭐ **${t("aiChat.minRating")}:** ${
+          suggestions.rating
+        }+ ${t("aiChat.stars")}\n`;
       }
 
       if (suggestions.features.length > 0) {
-        response += `✨ **Features:** ${suggestions.features
+        response += `✨ **${t("aiChat.features")}:** ${suggestions.features
           .map((f) => f.replace("_", " "))
           .join(", ")}\n`;
       }
 
-      response += "\nTaking you to the filtered results now...";
+      response += `\n${t("aiChat.redirecting")}`;
 
       return response;
     }
 
     // If not enough information, ask for more details
-    let followUpQuestion =
-      "I'd love to help you find the perfect suppliers! To give you the best results, could you tell me:\n\n";
+    let followUpQuestion = `${t("aiChat.needMoreInfo")}\n\n`;
 
     const missingInfo = [];
     if (suggestions.categories.length === 0) {
-      missingInfo.push(
-        "• What type of product or service are you looking for? (e.g., glass, electronics, furniture)"
-      );
+      missingInfo.push(t("aiChat.missingProduct"));
     }
     if (suggestions.locations.length === 0) {
-      missingInfo.push("• Which city or region? (e.g., Riyadh, Jeddah)");
+      missingInfo.push(t("aiChat.missingLocation"));
     }
     if (suggestions.businessTypes.length === 0) {
-      missingInfo.push(
-        "• What type of business? (e.g., supplier, store, manufacturer)"
-      );
+      missingInfo.push(t("aiChat.missingBusinessType"));
     }
 
     if (missingInfo.length > 0) {
       followUpQuestion += missingInfo.join("\n");
     } else {
-      followUpQuestion =
-        "Great! I have enough information. Let me search for the best suppliers matching your criteria...";
+      followUpQuestion = t("aiChat.enoughInfo");
     }
 
     return followUpQuestion;
@@ -335,11 +339,11 @@ export default function AIChatWidget() {
 
   // Quick suggestions for common searches
   const quickSuggestions = [
-    "Glass suppliers in Jeddah",
-    "Electronics stores in Riyadh",
-    "Construction materials",
-    "Food suppliers with delivery",
-    "Medical equipment companies",
+    t("aiChat.quickSuggestions.glass"),
+    t("aiChat.quickSuggestions.electronics"),
+    t("aiChat.quickSuggestions.construction"),
+    t("aiChat.quickSuggestions.food"),
+    t("aiChat.quickSuggestions.medical"),
   ];
 
   return (
@@ -368,10 +372,10 @@ export default function AIChatWidget() {
                 </div>
                 <div>
                   <h3 className="text-white font-medium text-sm">
-                    AI Supplier Finder
+                    {t("aiChat.title")}
                   </h3>
                   <p className="text-yellow-100 text-xs">
-                    Find & Filter Instantly
+                    {t("aiChat.subtitle")}
                   </p>
                 </div>
               </div>
@@ -379,14 +383,14 @@ export default function AIChatWidget() {
                 <button
                   onClick={() => setIsMinimized(true)}
                   className="text-white hover:text-yellow-100 cursor-pointer p-1 rounded"
-                  title="Minimize"
+                  title={t("aiChat.minimize")}
                 >
                   <i className="ri-subtract-line text-lg"></i>
                 </button>
                 <button
                   onClick={() => setIsMinimized(true)}
                   className="text-white hover:text-yellow-100 cursor-pointer p-1 rounded"
-                  title="Close"
+                  title={t("aiChat.close")}
                 >
                   <i className="ri-close-line text-lg"></i>
                 </button>
@@ -448,7 +452,7 @@ export default function AIChatWidget() {
               {messages.length <= 2 && (
                 <div className="space-y-2 mt-4">
                   <p className="text-xs text-gray-500 text-center">
-                    Try asking about:
+                    {t("aiChat.tryAsking")}
                   </p>
                   <div className="flex flex-wrap gap-2 justify-center">
                     {quickSuggestions.map((suggestion, index) => (
@@ -475,7 +479,7 @@ export default function AIChatWidget() {
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="e.g., Glass supplier in Jeddah with delivery..."
+                  placeholder={t("aiChat.placeholder")}
                   className="flex-1 px-3 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
                 />
                 <button

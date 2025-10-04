@@ -162,22 +162,6 @@ export const translations = {
       cookiePolicy: "Cookie Policy",
     },
 
-    // Support Page
-    support: {
-      title: "Support",
-      description:
-        "We are here 24/7 to help you. Choose the option that suits you best.",
-      openTicketTitle: "Open a Ticket",
-      openTicketDesc: "Describe your issue and we’ll get back to you shortly.",
-      signInToCreate: "Sign in to create a ticket →",
-      knowledgeBaseTitle: "Knowledge Base",
-      knowledgeBaseDesc: "Browse articles and guides written by our team.",
-      browseArticles: "Browse help articles →",
-      contactUsTitle: "Contact Us",
-      contactUsDesc: "Prefer direct contact? Reach out to our support team.",
-      emailSupport: "Email support →",
-    },
-
     // Help Center Page
     help: {
       title: "Help Center",
@@ -303,24 +287,6 @@ export const translations = {
         "Reviews are subject to moderation and may take 24-48 hours to appear",
       submitReview: "Submit Review",
       ratingTexts: ["", "Poor", "Fair", "Good", "Very Good", "Excellent"],
-    },
-
-    // Business Filters
-    filters: {
-      searchTitle: "Search",
-      searchPlaceholder: "Search businesses...",
-      categoriesTitle: "Categories",
-      businessTypeTitle: "Business Type",
-      filtersTitle: "Filters",
-      verifiedOnly: "Verified Only",
-      openNow: "Open Now",
-      clearAll: "Clear All Filters",
-      quickStats: "Quick Stats",
-      totalBusinesses: "Total Businesses",
-      verified: "Verified",
-      newThisWeek: "New This Week",
-      allCategories: "All Categories",
-      allTypes: "All Types",
     },
 
     // Location Map
@@ -690,6 +656,32 @@ export const translations = {
       upgradeDesc:
         "Unlock advanced search placement, analytics, and messaging.",
     },
+    businessGuides: {
+      title: "Business Guides",
+      subtitle:
+        "Practical, step-by-step guides to help your business grow and reach more customers.",
+      guides: {
+        optimizeProfile: {
+          title: "Optimize Your Profile",
+          description:
+            "Tips for photos, descriptions, and categories to improve visibility.",
+        },
+        reviews: {
+          title: "Collect and Showcase Reviews",
+          description: "Build trust with verified reviews and testimonials.",
+        },
+        branchManagement: {
+          title: "Branch and Team Management",
+          description:
+            "Add branches, manage roles, and keep information up to date.",
+        },
+        premium: {
+          title: "Upgrading to Premium",
+          description:
+            "Unlock advanced search placement, analytics, and messaging.",
+        },
+      },
+    },
 
     // Success stories
     success: {
@@ -828,6 +820,225 @@ export const translations = {
       showing: "عرض:",
       locationsCount: "({{count}} موقع)",
     },
+    auth: {
+      tabs: {
+        signin: "Sign In",
+        signup: "Sign Up",
+      },
+      progress: {
+        register: "Register",
+        verify: "Verify",
+        code: "Code",
+        complete: "Complete",
+      },
+      demo: {
+        title: "Demo Sign In:",
+        email: "Email:",
+        password: "Password:",
+      },
+      demoNotice: {
+        title: "Demo Mode",
+        message:
+          "Click 'Continue Demo' to proceed without filling out the form",
+      },
+      signin: {
+        title: "Welcome Back",
+        subtitle: "Sign in to access your business dashboard",
+        emailLabel: "Email Address",
+        emailPlaceholder: "Enter your email",
+        passwordLabel: "Password",
+        passwordPlaceholder: "Enter your password",
+        rememberMe: "Remember me",
+        forgotPassword: "Forgot password?",
+        button: "Sign In",
+        signingIn: "Signing In...",
+        agreementText: "By signing in, you agree to our",
+        termsLink: "Terms of Service",
+        and: "and",
+        privacyLink: "Privacy Policy",
+      },
+      signup: {
+        step1: {
+          title: "Create Your Account",
+          subtitle: "Start by providing your basic business information",
+          businessNameLabel: "Business Name *",
+          businessNamePlaceholder: "Enter your business name",
+          phoneLabel: "Phone Number *",
+          phonePlaceholder: "+966 50 123 4567",
+          emailLabel: "Email Address *",
+          emailPlaceholder: "business@example.com",
+          passwordLabel: "Password *",
+          passwordPlaceholder: "Create a password",
+          button: "Continue Demo",
+          haveAccount: "Already have an account?",
+          signinLink: "Sign in here",
+        },
+        step2: {
+          title: "Verify Your Account",
+          subtitle: "Choose how you'd like to receive your verification code",
+          demoMessage: "Click any verification method to continue the demo",
+          phoneTitle: "Verify by Phone",
+          phoneSubtitle: "Send code to +966 50 123 4567",
+          emailTitle: "Verify by Email",
+          emailSubtitle: "Send code to demo@business.com",
+          sending: "Sending verification code...",
+          backButton: "Back to registration",
+        },
+        step3: {
+          title: "Enter Verification Code",
+          subtitle: "We sent a 4-digit code to your",
+          phone: "phone",
+          email: "email",
+          demoMessage: "Click 'Auto-Fill Demo Code' to proceed automatically",
+          autoFillButton: "Auto-Fill Demo Code",
+          verifyButton: "Verify Code",
+          resendCode: "Didn't receive the code? Resend",
+          backButton: "Change verification method",
+        },
+        step4: {
+          title: "Account Verified!",
+          subtitle:
+            "Congratulations! Your account has been successfully verified.",
+          completeTitle: "Complete Your Business Profile",
+          completeSubtitle:
+            "To get the most out of our platform, we recommend completing your full business profile with:",
+          checklist: [
+            "Business category and description",
+            "Target customers and service area",
+            "Business address and working hours",
+            "Services offered and contact details",
+          ],
+          completeButton: "Complete Profile Now",
+          skipButton: "Skip for Now",
+          note: "You can complete your profile anytime from your dashboard",
+        },
+      },
+      errors: {
+        codeIncomplete: "Please enter all 4 digits",
+      },
+    },
+    completeProfile: {
+      title: "Complete Your Business Profile",
+      subtitle:
+        "Add detailed information about your business to help customers find and connect with you.",
+    },
+    forgotPassword: {
+      title: "Reset Password",
+      subtitle: "Enter your email to receive a password reset link",
+      emailLabel: "Email Address",
+      emailPlaceholder: "Enter your email address",
+      sendButton: "Send Reset Link",
+      sendingButton: "Sending Reset Link...",
+      rememberPassword: "Remember your password?",
+      backToLoginLink: "Back to Login",
+      success: {
+        title: "Check Your Email",
+        message: "We've sent a password reset link to",
+        spamNotice:
+          "Check your spam folder if you don't see the email in your inbox",
+        backToLogin: "Back to Login",
+        tryDifferentEmail: "Try Different Email",
+      },
+      errors: {
+        emailRequired: "Email is required",
+        emailInvalid: "Please enter a valid email address",
+      },
+    },
+    login: {
+      title: "Welcome Back",
+      subtitle: "Sign in to access your business dashboard",
+      emailLabel: "Email Address",
+      emailPlaceholder: "Enter your email",
+      passwordLabel: "Password",
+      passwordPlaceholder: "Enter your password",
+      rememberMe: "Remember me",
+      forgotPassword: "Forgot password?",
+      button: "Sign In",
+      signingIn: "Signing In...",
+      noAccount: "Don't have an account?",
+      createAccountLink: "Create Account",
+      agreementText: "By signing in, you agree to our",
+      termsLink: "Terms of Service",
+      and: "and",
+      privacyLink: "Privacy Policy",
+      demoTitle: "Demo Login:",
+      demoEmail: "Email:",
+      demoPassword: "Password:",
+      errors: {
+        emailRequired: "Email is required",
+        emailInvalid: "Please enter a valid email address",
+        passwordRequired: "Password is required",
+        passwordTooShort: "Password must be at least 6 characters",
+      },
+    },
+    register: {
+      progress: {
+        register: "Register",
+        verify: "Verify",
+        code: "Code",
+        complete: "Complete",
+      },
+      demoNotice: {
+        title: "Demo Mode",
+        message:
+          "Click 'Continue Demo' to proceed without filling out the form",
+      },
+      step1: {
+        title: "Register Your Business",
+        subtitle: "Start by providing your basic business information",
+        businessNameLabel: "Business Name *",
+        businessNamePlaceholder: "Enter your business name",
+        phoneLabel: "Phone Number *",
+        phonePlaceholder: "+966 50 123 4567",
+        emailLabel: "Email Address *",
+        emailPlaceholder: "business@example.com",
+        button: "Continue Demo",
+        haveAccount: "Already have an account?",
+        signinLink: "Sign in here",
+      },
+      step2: {
+        title: "Verify Your Account",
+        subtitle: "Choose how you'd like to receive your verification code",
+        demoMessage: "Click any verification method to continue the demo",
+        phoneTitle: "Verify by Phone",
+        phoneSubtitle: "Send code to +966 50 123 4567",
+        emailTitle: "Verify by Email",
+        emailSubtitle: "Send code to demo@business.com",
+        sending: "Sending verification code...",
+        backButton: "Back to registration",
+      },
+      step3: {
+        title: "Enter Verification Code",
+        subtitle: "We sent a 4-digit code to your",
+        phone: "phone",
+        email: "email",
+        demoMessage: "Click 'Auto-Fill Demo Code' to proceed automatically",
+        autoFillButton: "Auto-Fill Demo Code",
+        verifyButton: "Verify Code",
+        resendCode: "Didn't receive the code? Resend",
+        backButton: "Change verification method",
+      },
+      step4: {
+        title: "Account Verified!",
+        subtitle:
+          "Congratulations! Your account has been successfully verified.",
+        completeTitle: "Complete Your Business Profile",
+        completeSubtitle:
+          "To get the most out of our platform, we recommend completing your full business profile with:",
+        checklist: [
+          "Business category and description",
+          "Target customers and service area",
+          "Business address and working hours",
+          "Services offered and contact details",
+        ],
+        completeButton: "Complete Profile Now",
+        skipButton: "Skip for Now",
+        note: "You can complete your profile anytime from your dashboard",
+      },
+      errors: {
+        codeIncomplete: "Please enter all 4 digits",
+      },
+    },
     business: {
       registerBusinessTitle: "Register Your Business",
       registerBusinessSubtitle:
@@ -839,23 +1050,34 @@ export const translations = {
         phoneLabel: "Phone Number *",
         emailLabel: "Email Address *",
         continueButton: "Continue to Verification",
+        continueButtonSubmitting: "Please wait...",
+        verifying: "Verifying...",
         alreadyAccount: "Already have an account?",
         signIn: "Sign In",
         verifyAccountTitle: "Verify Your Account",
         verifyAccountSubtitle:
           "We've sent a 4-digit verification code to verify your identity",
-        chooseVerificationMethod: "Choose verification method:",
+        chooseVerification: "Choose verification method:",
+        demoCode: "Demo code:",
         phone: "Phone",
         email: "Email",
         enterVerificationCode: "Enter 4-digit verification code",
+        verifyButton: "Verify Account",
         resendCode: "Didn't receive the code? Resend",
         backToRegistration: "Back to Registration",
-        accountVerifiedTitle: "Account Verified!",
-        accountVerifiedSubtitle:
+        accountVerified: "Account Verified!",
+        successMessage:
           "Great! Your account has been successfully verified. Now let's complete your business profile to help customers find you.",
         completeProfileTitle: "Complete Your Business Profile",
         completeProfileSubtitle:
           "To get the most out of our platform, please provide the following information:",
+        profileChecklist: [
+          // ← ده اللي ناقص
+          "Business information",
+          "Contact details",
+          "Bank account",
+          "Documents",
+        ],
         completeProfileButton: "Complete Business Profile",
         skipButton: "Skip for Now - Go to Homepage",
         whyCompleteTitle: "Why complete your profile?",
@@ -876,6 +1098,478 @@ export const translations = {
         verificationInvalid: "Invalid verification code. Please try again.",
       },
     },
+    businessManagement: {
+      title: "Business Management",
+      editProfile: "Edit Profile",
+      saveChanges: "Save Changes",
+      sections: {
+        profile: "Basic Info",
+        products: "Products & Services",
+        photos: "Photos",
+        hours: "Working Hours",
+      },
+      form: {
+        businessName: "Business Name",
+        category: "Category",
+        phone: "Phone",
+        email: "Email",
+        website: "Website",
+        serviceDistance: "Service Distance",
+        address: "Business Address",
+        description: "Business Description",
+        characters: "characters",
+      },
+      products: {
+        searchKeywords: "Search Keywords",
+        keywordsLabel: "Products & Services Keywords",
+        keywordsPlaceholder: "Separate keywords with commas...",
+        keywordsHelp:
+          "These keywords help customers find your business when they search for specific products or services",
+        currentKeywords: "Current Keywords:",
+        servicesOffered: "Services Offered",
+      },
+      services: {
+        wholesale: "Wholesale",
+        retail: "Retail",
+        repair: "Repair Services",
+        custom: "Custom Orders",
+        bulk: "Bulk Orders",
+        emergency: "Emergency Services",
+        installation: "Installation",
+        maintenance: "Maintenance",
+      },
+      photos: {
+        title: "Business Photos",
+        addPhotos: "Add Photos",
+        addMore: "Add More Photos",
+      },
+      hours: {
+        title: "Working Hours",
+        closed: "Closed",
+        to: "to",
+      },
+      days: {
+        monday: "Monday",
+        tuesday: "Tuesday",
+        wednesday: "Wednesday",
+        thursday: "Thursday",
+        friday: "Friday",
+        saturday: "Saturday",
+        sunday: "Sunday",
+      },
+      unsaved: {
+        message: "You have unsaved changes",
+        cancel: "Cancel",
+        save: "Save Changes",
+      },
+    },
+    branchManagement: {
+      title: "Branch Management",
+      subtitle: "Manage multiple locations for",
+      addNewBranch: "Add New Branch",
+      totalBranches: "Total Branches",
+      activeBranches: "Active Branches",
+      inactiveBranches: "Inactive Branches",
+      active: "Active",
+      inactive: "Inactive",
+      mainBranch: "Main Branch",
+      manager: "Manager",
+      deactivate: "Deactivate",
+      activate: "Activate",
+      edit: "Edit",
+      delete: "Delete",
+      workingHours: "Working Hours",
+      specialServices: "Special Services",
+      closed: "Closed",
+      to: "to",
+      noBranches: "No Branches Added Yet",
+      noBranchesDesc:
+        "Add your first branch location to expand your business reach",
+      addFirstBranch: "Add First Branch",
+      editBranch: "Edit Branch",
+      addBranch: "Add Branch",
+      updateBranch: "Update Branch",
+      cancel: "Cancel",
+      branchLocation: "Branch Location",
+      deleteConfirm: "Are you sure you want to delete this branch?",
+
+      days: {
+        monday: "Monday",
+        tuesday: "Tuesday",
+        wednesday: "Wednesday",
+        thursday: "Thursday",
+        friday: "Friday",
+        saturday: "Saturday",
+        sunday: "Sunday",
+      },
+
+      services: {
+        expressDelivery: "Express Delivery",
+        installation: "Installation Service",
+        technicalSupport: "Technical Support",
+        bulkOrders: "Bulk Orders",
+        emergency: "Emergency Service",
+        consultation: "Consultation",
+        training: "Training",
+        maintenance: "Maintenance",
+      },
+
+      form: {
+        branchName: "Branch Name",
+        branchNamePlaceholder: "e.g., Downtown Branch, Mall Location",
+        branchAddress: "Branch Address",
+        addressPlaceholder: "Complete branch address with landmarks",
+        branchPhone: "Branch Phone",
+        branchEmail: "Branch Email",
+        branchManager: "Branch Manager",
+        managerPlaceholder: "Manager's full name",
+        location: "Location",
+        selectCity: "Select city...",
+        specialServices: "Special Services (Optional)",
+      },
+
+      errors: {
+        nameRequired: "Branch name is required",
+        addressRequired: "Branch address is required",
+        phoneRequired: "Branch phone is required",
+        managerRequired: "Branch manager is required",
+        nameExists: "Branch name already exists",
+      },
+    },
+    filters: {
+      allCategories: "All Categories",
+      allTypes: "All Types",
+      searchTitle: "Search",
+      searchPlaceholder: "Search businesses, services, products...",
+      categoriesTitle: "Categories",
+      businessTypeTitle: "Business Type",
+      filtersTitle: "Filters",
+      verifiedOnly: "Verified Only",
+      openNow: "Open Now",
+      clearAll: "Clear All Filters",
+      quickStats: "Quick Stats",
+      totalBusinesses: "Total Businesses",
+      verified: "Verified",
+      newThisWeek: "New This Week",
+    },
+    cat: {
+      agriculture: "Agriculture",
+      apparelFashion: "Apparel & Fashion",
+      automobile: "Automobile",
+      brassHardware: "Brass Hardware & Components",
+      businessServices: "Business Services",
+      chemicals: "Chemicals",
+      computerHardware: "Computer Hardware & Software",
+      constructionRealEstate: "Construction & Real Estate",
+      consumerElectronics: "Consumer Electronics",
+      electronicsElectrical: "Electronics & Electrical Supplies",
+      energyPower: "Energy & Power",
+      environmentPollution: "Environment & Pollution",
+      foodBeverage: "Food & Beverage",
+      furniture: "Furniture",
+      giftsCrafts: "Gifts & Crafts",
+      healthBeauty: "Health & Beauty",
+      homeSupplies: "Home Supplies",
+      homeTextiles: "Home Textiles & Furnishings",
+      hospitalMedical: "Hospital & Medical Supplies",
+      hotelSupplies: "Hotel Supplies & Equipment",
+      industrialSupplies: "Industrial Supplies",
+      jewelryGemstones: "Jewelry & Gemstones",
+      leatherProducts: "Leather & Leather Products",
+      machinery: "Machinery",
+      mineralMetals: "Mineral & Metals",
+      officeSchool: "Office & School Supplies",
+      oilGas: "Oil and Gas",
+      packagingPaper: "Packaging & Paper",
+      pharmaceuticals: "Pharmaceuticals",
+      pipesTubes: "Pipes, Tubes & Fittings",
+      plasticsProducts: "Plastics & Products",
+      printingPublishing: "Printing & Publishing",
+      realEstate: "Real Estate",
+      scientificLaboratory: "Scientific & Laboratory Instruments",
+      securityProtection: "Security & Protection",
+      sportsEntertainment: "Sports & Entertainment",
+      telecommunications: "Telecommunications",
+      textilesFabrics: "Textiles & Fabrics",
+      toys: "Toys",
+      transportation: "Transportation",
+    },
+    subscriptionFAQ: {
+      title: "Frequently Asked Questions",
+      subtitle:
+        "Everything you need to know about our comprehensive business growth solution",
+      faqs: [
+        {
+          question: "What makes this different from free business listings?",
+          answer:
+            "Our premium subscription gives you everything needed to grow: direct customer communication, featured homepage placement, verified business badge, real-time lead alerts, professional quotation tools, and dedicated customer service. Free listings are basic profiles - our subscription transforms your business presence and actively generates leads.",
+        },
+        {
+          question:
+            "How does the direct messaging and contact request system work?",
+          answer:
+            "Customers can send direct contact requests through your profile, message you in real-time, and access your procurement/sales team numbers. You get instant notifications via email and SMS for every inquiry, ensuring you never miss a potential customer or business opportunity.",
+        },
+        {
+          question: 'What does "featured business placement" include?',
+          answer:
+            "Your business appears prominently on our homepage featured section, gets priority ranking in all search results, and shows up first when customers browse your category. This dramatically increases your visibility and attracts significantly more customers to your business.",
+        },
+        {
+          question:
+            "How does the special verification and recommended supplier status work?",
+          answer:
+            'You receive a special verified badge next to your business name, gain "Recommended Supplier" status in search results, and get enhanced credibility signals. This builds trust with customers and significantly increases your chances of being chosen over competitors.',
+        },
+        {
+          question: "What kind of analytics and insights do I get?",
+          answer:
+            "Comprehensive dashboard showing profile views, customer engagement, lead sources, conversion rates, response times, and growth trends. Plus real-time alerts for new leads, competitor analysis, and detailed reports to help you make data-driven business decisions.",
+        },
+        {
+          question: "How does the quotation generation system work?",
+          answer:
+            "Professional quotation builder with customizable templates, automated calculations, digital signatures, and quote tracking. Send professional proposals directly through the platform, track quote status, and get notified when customers view or respond to your quotations.",
+        },
+        {
+          question: "Can I manage multiple business locations?",
+          answer:
+            "Yes! Pin unlimited locations on the map, manage each branch separately with unique contact information and working hours, track performance by location, and help customers find your nearest branch automatically.",
+        },
+        {
+          question: "What kind of customer service support do I get?",
+          answer:
+            "24/7 priority support, dedicated account manager, lead generation assistance, business growth consulting, training sessions, and phone support. Our team actively helps you optimize your profile and generate more leads.",
+        },
+        {
+          question: "Is there a contract or can I cancel anytime?",
+          answer:
+            "No contracts required - cancel anytime with just one click. We offer a 30-day money-back guarantee, so you can try all features risk-free. Most businesses see significant results within the first month.",
+        },
+        {
+          question: "How quickly will I start seeing results?",
+          answer:
+            "Most businesses see increased inquiries within 24-48 hours of activation. Featured placement and verified status are applied immediately, and our customer service team helps optimize your profile for maximum lead generation from day one.",
+        },
+      ],
+      contact: {
+        title: "Still Have Questions?",
+        subtitle:
+          "Our business experts are here to help you understand how our platform can transform your business growth.",
+        chatButton: "Chat with Expert",
+        callButton: "Schedule Call",
+      },
+    },
+    notFound: {
+      title: "This page has not been generated",
+      message: "Tell me what you would like on this page",
+    },
+    businessCard: {
+      verified: "Verified",
+      openNow: "Open Now",
+      reviews: "reviews",
+      serves: "Serves",
+      serviceArea: "Service Area",
+      more: "more",
+      message: "Message",
+      viewProfile: "View Profile",
+    },
+    subscriptionTestimonials: {
+      title: "Success Stories from",
+      titleHighlight: "Real Businesses",
+      subtitle:
+        "See how businesses like yours have transformed their growth and success with our premium subscription plans.",
+      resultLabel: "Result:",
+      cta: {
+        title: "Join Over 10,000+ Successful Businesses",
+        subtitle:
+          "Start your free trial today and see the difference premium features can make for your business growth.",
+        button: "Start Your Success Story",
+      },
+    },
+    aiChat: {
+      title: "AI Supplier Finder",
+      subtitle: "Find & Filter Instantly",
+      initialMessage:
+        "Hello! I'm your AI assistant. I can help you find suppliers and automatically filter businesses based on your specific needs. Just tell me what you're looking for!",
+      searching: "I found relevant suppliers for you!",
+      products: "Products",
+      category: "Category",
+      location: "Location",
+      businessType: "Business Type",
+      minRating: "Minimum Rating",
+      features: "Features",
+      redirecting: "Taking you to the filtered results now...",
+      needMoreInfo:
+        "I'd love to help you find the perfect suppliers! To give you the best results, could you tell me:",
+      missingProduct:
+        "• What type of product or service are you looking for? (e.g., glass, electronics, furniture)",
+      missingLocation: "• Which city or region? (e.g., Riyadh, Jeddah)",
+      missingBusinessType:
+        "• What type of business? (e.g., supplier, store, manufacturer)",
+      enoughInfo:
+        "Great! I have enough information. Let me search for the best suppliers matching your criteria...",
+      tryAsking: "Try asking about:",
+      placeholder: "e.g., Glass supplier in Jeddah with delivery...",
+      quickSuggestions: {
+        glass: "Glass suppliers in Jeddah",
+        electronics: "Electronics stores in Riyadh",
+        construction: "Construction materials",
+        food: "Food suppliers with delivery",
+        medical: "Medical equipment companies",
+      },
+      minimize: "Minimize",
+      close: "Close",
+      stars: "stars",
+    },
+    subscriptionFeatures: {
+      title: "Everything You Need to",
+      titleHighlight: "Grow Your Business",
+      subtitle:
+        "Our comprehensive subscription includes every feature and tool your business needs to attract customers, generate leads, and increase sales.",
+      features: [
+        {
+          icon: "ri-customer-service-2-line",
+          title: "Direct Customer Communication",
+          description:
+            "Enable customers to send requests to be contacted directly. Get instant notifications when potential buyers want to connect with your business.",
+          benefits: [
+            "Request contact form integration",
+            "Direct messaging with customers",
+            "Procurement team contact numbers",
+            "Real-time communication alerts",
+          ],
+        },
+        {
+          icon: "ri-map-pin-line",
+          title: "Advanced Location Management",
+          description:
+            "Pin your business locations on the map and manage multiple branches. Help customers find you easily with precise location mapping.",
+          benefits: [
+            "Pin exact location on map",
+            "Add multiple business locations",
+            "Location-based customer targeting",
+            "Interactive map integration",
+          ],
+        },
+        {
+          icon: "ri-star-line",
+          title: "Featured Business Placement",
+          description:
+            "Appear prominently on the homepage featured businesses section. Get maximum visibility and attract more customers to your business.",
+          benefits: [
+            "Homepage featured placement",
+            "Priority in search results",
+            "Increased profile visibility",
+            "Higher customer engagement",
+          ],
+        },
+        {
+          icon: "ri-shield-star-line",
+          title: "Special Business Verification",
+          description:
+            "Get a special verified badge on your business name and become a recommended supplier in search results for enhanced credibility.",
+          benefits: [
+            "Verified business badge",
+            "Recommended supplier status",
+            "Enhanced trust signals",
+            "Premium business credibility",
+          ],
+        },
+        {
+          icon: "ri-bar-chart-box-line",
+          title: "Comprehensive Business Analytics",
+          description:
+            "Get detailed insights into your profile performance, customer engagement, and business growth with advanced analytics dashboard.",
+          benefits: [
+            "Profile performance tracking",
+            "Customer engagement metrics",
+            "Lead conversion analysis",
+            "Growth trend reports",
+          ],
+        },
+        {
+          icon: "ri-notification-badge-line",
+          title: "Real-Time Lead Alerts",
+          description:
+            "Receive instant notifications for new leads and customer inquiries. Never miss a business opportunity with our alert system.",
+          benefits: [
+            "Instant lead notifications",
+            "Email and SMS alerts",
+            "Lead priority scoring",
+            "Response time tracking",
+          ],
+        },
+        {
+          icon: "ri-headphone-line",
+          title: "Dedicated Customer Service",
+          description:
+            "Get dedicated customer service support to help generate leads, create professional quotations, and grow your business.",
+          benefits: [
+            "Lead generation assistance",
+            "Professional quotation tools",
+            "Business growth consulting",
+            "24/7 priority support",
+          ],
+        },
+        {
+          icon: "ri-file-text-line",
+          title: "Professional Quotation System",
+          description:
+            "Create and send professional quotations to customers directly through the platform. Streamline your sales process and close deals faster.",
+          benefits: [
+            "Quotation builder tools",
+            "Professional templates",
+            "Digital signature support",
+            "Quote tracking system",
+          ],
+        },
+      ],
+      cta: {
+        title: "Ready to Transform Your Business?",
+        subtitle:
+          "Join thousands of successful businesses that have accelerated their growth with our complete business solution. Get everything you need in one comprehensive plan.",
+        trialButton: "Start Your 30-Day Free Trial",
+        demoButton: "Schedule Demo Call",
+      },
+      stats: {
+        businesses: "10,000+",
+        businessesLabel: "Active Businesses",
+        leads: "500K+",
+        leadsLabel: "Monthly Leads Generated",
+        satisfaction: "98%",
+        satisfactionLabel: "Customer Satisfaction",
+      },
+    },
+    support: {
+      title: "Support Center",
+      description:
+        "Get help with your account, technical issues, or billing questions.",
+      openTicketTitle: "Open a Support Ticket",
+      openTicketDesc:
+        "Report technical issues or request assistance from our team.",
+      signInToCreate: "Sign in to create ticket →",
+      knowledgeBaseTitle: "Knowledge Base",
+      knowledgeBaseDesc: "Browse guides and FAQs to find quick answers.",
+      browseArticles: "Browse articles →",
+      contactUsTitle: "Contact Us",
+      contactUsDesc:
+        "Reach out directly via email or phone for urgent inquiries.",
+      emailSupport: "support@supplier.sa →",
+    },
+    successStories: {
+      title: "Success Stories",
+      subtitle: "Discover how local businesses grew faster with Supplier.sa.",
+      alNourTitle: "Al-Nour Catering",
+      alNourDesc:
+        "Increased B2B leads by 60% after optimizing their profile and upgrading to Premium.",
+      greenTechTitle: "GreenTech Supplies",
+      greenTechDesc:
+        "Expanded into two new regions using branch management and analytics.",
+      desertTitle: "Desert Logistics",
+      desertDesc:
+        "Streamlined client communication with the built-in messaging tools.",
+    },
   },
   ar: {
     // Navigation
@@ -892,6 +1586,339 @@ export const translations = {
       subscription: "الاشتراك",
       aboutUs: "من نحن",
     },
+    subscriptionFAQ: {
+      title: "الأسئلة الشائعة",
+      subtitle: "كل ما تحتاج معرفته عن حلول نمو الأعمال الشاملة لدينا",
+      faqs: [
+        {
+          question: "ما الذي يميز هذا عن القوائم المجانية؟",
+          answer:
+            "يمنحك الاشتراك المميز كل ما تحتاجه للنمو: التواصل المباشر مع العملاء، الظهور المميز في الصفحة الرئيسية، شارة التوثيق، تنبيهات فورية للعملاء المحتملين، أدوات عروض الأسعار الاحترافية، وخدمة عملاء مخصصة. القوائم المجانية هي ملفات أساسية فقط - اشتراكنا يحول حضور نشاطك التجاري ويولد عملاء محتملين بفعالية.",
+        },
+        {
+          question: "كيف يعمل نظام المراسلة المباشرة وطلبات التواصل؟",
+          answer:
+            "يمكن للعملاء إرسال طلبات تواصل مباشرة عبر ملفك، والمراسلة الفورية، والوصول لأرقام فريق المشتريات/المبيعات. تحصل على إشعارات فورية عبر البريد الإلكتروني والرسائل النصية لكل استفسار، مما يضمن عدم تفويت أي عميل محتمل أو فرصة عمل.",
+        },
+        {
+          question: 'ماذا يتضمن "الموضع المميز للنشاط التجاري"؟',
+          answer:
+            "يظهر نشاطك التجاري بشكل بارز في قسم المميزين بالصفحة الرئيسية، ويحصل على ترتيب أولوية في جميع نتائج البحث، ويظهر أولاً عندما يتصفح العملاء فئتك. هذا يزيد بشكل كبير من ظهورك ويجذب المزيد من العملاء لنشاطك التجاري.",
+        },
+        {
+          question: "كيف يعمل التوثيق الخاص وحالة المورد الموصى به؟",
+          answer:
+            'تحصل على شارة توثيق خاصة بجوار اسم نشاطك، وحالة "مورد موصى به" في نتائج البحث، وإشارات مصداقية معززة. هذا يبني الثقة مع العملاء ويزيد بشكل كبير من فرصك في الاختيار على المنافسين.',
+        },
+        {
+          question: "ما نوع التحليلات والإحصاءات التي أحصل عليها؟",
+          answer:
+            "لوحة تحكم شاملة تعرض مشاهدات الملف، تفاعل العملاء، مصادر العملاء المحتملين، معدلات التحويل، أوقات الاستجابة، واتجاهات النمو. بالإضافة لتنبيهات فورية للعملاء الجدد، تحليل المنافسين، وتقارير تفصيلية لمساعدتك على اتخاذ قرارات عمل قائمة على البيانات.",
+        },
+        {
+          question: "كيف يعمل نظام إنشاء عروض الأسعار؟",
+          answer:
+            "أداة احترافية لإنشاء عروض الأسعار مع قوالب قابلة للتخصيص، حسابات تلقائية، توقيعات رقمية، وتتبع العروض. أرسل مقترحات احترافية مباشرة عبر المنصة، تتبع حالة العرض، واحصل على إشعار عندما يشاهد العملاء عروضك أو يردون عليها.",
+        },
+        {
+          question: "هل يمكنني إدارة عدة مواقع للنشاط التجاري؟",
+          answer:
+            "نعم! ثبّت مواقع غير محدودة على الخريطة، أدر كل فرع بشكل منفصل مع معلومات تواصل وساعات عمل فريدة، تتبع الأداء حسب الموقع، وساعد العملاء على إيجاد أقرب فرع لهم تلقائياً.",
+        },
+        {
+          question: "ما نوع دعم خدمة العملاء الذي أحصل عليه؟",
+          answer:
+            "دعم ذو أولوية على مدار الساعة، مدير حساب مخصص، مساعدة في توليد العملاء المحتملين، استشارات نمو الأعمال، جلسات تدريب، ودعم هاتفي. فريقنا يساعدك بنشاط على تحسين ملفك وتوليد المزيد من العملاء.",
+        },
+        {
+          question: "هل هناك عقد أم يمكنني الإلغاء في أي وقت؟",
+          answer:
+            "لا يوجد عقود مطلوبة - ألغِ في أي وقت بنقرة واحدة فقط. نقدم ضمان استرداد الأموال لمدة 30 يوماً، لذا يمكنك تجربة جميع الميزات بدون مخاطر. معظم الشركات ترى نتائج كبيرة خلال الشهر الأول.",
+        },
+        {
+          question: "كم سرعة ظهور النتائج؟",
+          answer:
+            "معظم الشركات ترى زيادة في الاستفسارات خلال 24-48 ساعة من التفعيل. الموضع المميز وحالة التوثيق تطبق فوراً، وفريق خدمة العملاء لدينا يساعد في تحسين ملفك لتوليد أقصى عدد من العملاء من اليوم الأول.",
+        },
+      ],
+      contact: {
+        title: "لا تزال لديك أسئلة؟",
+        subtitle:
+          "خبراء الأعمال لدينا هنا لمساعدتك على فهم كيف يمكن لمنصتنا تحويل نمو نشاطك التجاري.",
+        chatButton: "تحدث مع خبير",
+        callButton: "حدد موعد مكالمة",
+      },
+    },
+    successStories: {
+      title: "قصص النجاح",
+      subtitle: "اكتشف كيف نمت الشركات المحلية بشكل أسرع مع Supplier.sa.",
+      alNourTitle: "مطاعم النور",
+      alNourDesc:
+        "زادت عملاء الشركات بنسبة 60% بعد تحسين ملفهم التعريفي والترقية للباقة المميزة.",
+      greenTechTitle: "مستلزمات جرين تيك",
+      greenTechDesc:
+        "توسعت في منطقتين جديدتين باستخدام إدارة الفروع والتحليلات.",
+      desertTitle: "لوجستيات الصحراء",
+      desertDesc: "بسّطت التواصل مع العملاء باستخدام أدوات المراسلة المدمجة.",
+    },
+    subscriptionTestimonials: {
+      title: "قصص نجاح من",
+      titleHighlight: "أنشطة تجارية حقيقية",
+      subtitle:
+        "شاهد كيف حولت أنشطة تجارية مثلك نموها ونجاحها مع خطط الاشتراك المميزة لدينا.",
+      resultLabel: "النتيجة:",
+      cta: {
+        title: "انضم لأكثر من 10,000+ نشاط تجاري ناجح",
+        subtitle:
+          "ابدأ تجربتك المجانية اليوم وشاهد الفرق الذي يمكن أن تحدثه الميزات المميزة لنمو نشاطك التجاري.",
+        button: "ابدأ قصة نجاحك",
+      },
+    },
+    subscriptionFeatures: {
+      title: "كل ما تحتاجه لـ",
+      titleHighlight: "تنمية نشاطك التجاري",
+      subtitle:
+        "يتضمن اشتراكنا الشامل كل ميزة وأداة يحتاجها نشاطك التجاري لجذب العملاء وتوليد عملاء محتملين وزيادة المبيعات.",
+      features: [
+        {
+          icon: "ri-customer-service-2-line",
+          title: "التواصل المباشر مع العملاء",
+          description:
+            "مكّن العملاء من إرسال طلبات للتواصل المباشر. احصل على إشعارات فورية عندما يريد المشترون المحتملون التواصل مع نشاطك.",
+          benefits: [
+            "نموذج طلب التواصل المدمج",
+            "المراسلة المباشرة مع العملاء",
+            "أرقام فريق المشتريات",
+            "تنبيهات التواصل الفورية",
+          ],
+        },
+        {
+          icon: "ri-map-pin-line",
+          title: "إدارة المواقع المتقدمة",
+          description:
+            "ثبّت مواقع نشاطك على الخريطة وأدر فروع متعددة. ساعد العملاء على إيجادك بسهولة من خلال خرائط دقيقة.",
+          benefits: [
+            "تثبيت الموقع الدقيق على الخريطة",
+            "إضافة مواقع متعددة للنشاط",
+            "استهداف العملاء حسب الموقع",
+            "تكامل الخرائط التفاعلية",
+          ],
+        },
+        {
+          icon: "ri-star-line",
+          title: "الموضع المميز للنشاط",
+          description:
+            "اظهر بشكل بارز في قسم الأنشطة المميزة بالصفحة الرئيسية. احصل على أقصى ظهور واجذب المزيد من العملاء لنشاطك.",
+          benefits: [
+            "موضع مميز في الصفحة الرئيسية",
+            "أولوية في نتائج البحث",
+            "زيادة ظهور الملف",
+            "تفاعل أعلى مع العملاء",
+          ],
+        },
+        {
+          icon: "ri-shield-star-line",
+          title: "التوثيق الخاص للنشاط",
+          description:
+            "احصل على شارة توثيق خاصة على اسم نشاطك وأصبح مورداً موصى به في نتائج البحث لمصداقية معززة.",
+          benefits: [
+            "شارة النشاط الموثق",
+            "حالة المورد الموصى به",
+            "إشارات ثقة معززة",
+            "مصداقية نشاط مميزة",
+          ],
+        },
+        {
+          icon: "ri-bar-chart-box-line",
+          title: "تحليلات شاملة للنشاط",
+          description:
+            "احصل على رؤى تفصيلية حول أداء ملفك وتفاعل العملاء ونمو النشاط من خلال لوحة تحكم تحليلات متقدمة.",
+          benefits: [
+            "تتبع أداء الملف",
+            "مقاييس تفاعل العملاء",
+            "تحليل تحويل العملاء المحتملين",
+            "تقارير اتجاهات النمو",
+          ],
+        },
+        {
+          icon: "ri-notification-badge-line",
+          title: "تنبيهات العملاء المحتملين الفورية",
+          description:
+            "احصل على إشعارات فورية للعملاء المحتملين الجدد واستفسارات العملاء. لا تفوت أي فرصة عمل مع نظام التنبيهات الخاص بنا.",
+          benefits: [
+            "إشعارات فورية للعملاء المحتملين",
+            "تنبيهات البريد والرسائل النصية",
+            "تقييم أولوية العملاء",
+            "تتبع وقت الاستجابة",
+          ],
+        },
+        {
+          icon: "ri-headphone-line",
+          title: "خدمة عملاء مخصصة",
+          description:
+            "احصل على دعم خدمة عملاء مخصصة لمساعدتك في توليد العملاء وإنشاء عروض أسعار احترافية وتنمية نشاطك.",
+          benefits: [
+            "مساعدة في توليد العملاء المحتملين",
+            "أدوات عروض الأسعار الاحترافية",
+            "استشارات نمو النشاط",
+            "دعم ذو أولوية 24/7",
+          ],
+        },
+        {
+          icon: "ri-file-text-line",
+          title: "نظام عروض الأسعار الاحترافي",
+          description:
+            "أنشئ وأرسل عروض أسعار احترافية للعملاء مباشرة عبر المنصة. سهّل عملية البيع وأغلق الصفقات بشكل أسرع.",
+          benefits: [
+            "أدوات بناء عروض الأسعار",
+            "قوالب احترافية",
+            "دعم التوقيع الرقمي",
+            "نظام تتبع العروض",
+          ],
+        },
+      ],
+      cta: {
+        title: "هل أنت مستعد لتحويل نشاطك التجاري؟",
+        subtitle:
+          "انضم لآلاف الأنشطة التجارية الناجحة التي عززت نموها بحلول الأعمال الكاملة لدينا. احصل على كل ما تحتاجه في خطة شاملة واحدة.",
+        trialButton: "ابدأ تجربتك المجانية لمدة 30 يوماً",
+        demoButton: "حدد موعد مكالمة تجريبية",
+      },
+      stats: {
+        businesses: "+10,000",
+        businessesLabel: "نشاط تجاري نشط",
+        leads: "+500 ألف",
+        leadsLabel: "عميل محتمل شهرياً",
+        satisfaction: "98%",
+        satisfactionLabel: "رضا العملاء",
+      },
+    },
+    branchManagement: {
+      title: "إدارة الفروع",
+      subtitle: "إدارة المواقع المتعددة لـ",
+      addNewBranch: "إضافة فرع جديد",
+      totalBranches: "إجمالي الفروع",
+      activeBranches: "الفروع النشطة",
+      inactiveBranches: "الفروع غير النشطة",
+      active: "نشط",
+      inactive: "غير نشط",
+      mainBranch: "الفرع الرئيسي",
+      manager: "المدير",
+      deactivate: "إيقاف",
+      activate: "تفعيل",
+      edit: "تعديل",
+      delete: "حذف",
+      workingHours: "ساعات العمل",
+      specialServices: "الخدمات الخاصة",
+      closed: "مغلق",
+      to: "إلى",
+      noBranches: "لم يتم إضافة فروع بعد",
+      noBranchesDesc: "أضف أول فرع لتوسيع نطاق عملك",
+      addFirstBranch: "إضافة أول فرع",
+      editBranch: "تعديل الفرع",
+      addBranch: "إضافة فرع",
+      updateBranch: "تحديث الفرع",
+      cancel: "إلغاء",
+      branchLocation: "موقع الفرع",
+      deleteConfirm: "هل أنت متأكد من حذف هذا الفرع؟",
+
+      days: {
+        monday: "الإثنين",
+        tuesday: "الثلاثاء",
+        wednesday: "الأربعاء",
+        thursday: "الخميس",
+        friday: "الجمعة",
+        saturday: "السبت",
+        sunday: "الأحد",
+      },
+
+      services: {
+        expressDelivery: "التوصيل السريع",
+        installation: "خدمة التركيب",
+        technicalSupport: "الدعم الفني",
+        bulkOrders: "طلبات الجملة",
+        emergency: "خدمة الطوارئ",
+        consultation: "الاستشارات",
+        training: "التدريب",
+        maintenance: "الصيانة",
+      },
+
+      form: {
+        branchName: "اسم الفرع",
+        branchNamePlaceholder: "مثل: فرع وسط المدينة، فرع المول",
+        branchAddress: "عنوان الفرع",
+        addressPlaceholder: "العنوان الكامل للفرع مع المعالم",
+        branchPhone: "هاتف الفرع",
+        branchEmail: "بريد الفرع الإلكتروني",
+        branchManager: "مدير الفرع",
+        managerPlaceholder: "الاسم الكامل للمدير",
+        location: "الموقع",
+        selectCity: "اختر المدينة...",
+        specialServices: "الخدمات الخاصة (اختياري)",
+      },
+
+      errors: {
+        nameRequired: "اسم الفرع مطلوب",
+        addressRequired: "عنوان الفرع مطلوب",
+        phoneRequired: "هاتف الفرع مطلوب",
+        managerRequired: "مدير الفرع مطلوب",
+        nameExists: "اسم الفرع موجود بالفعل",
+      },
+    },
+    aiChat: {
+      title: "مساعد البحث الذكي",
+      subtitle: "ابحث وفلتر فوراً",
+      initialMessage:
+        "مرحباً! أنا مساعدك الذكي. يمكنني مساعدتك في إيجاد الموردين وتصفية الشركات تلقائياً حسب احتياجاتك. فقط أخبرني بما تبحث عنه!",
+      searching: "وجدت موردين مناسبين لك!",
+      products: "المنتجات",
+      category: "الفئة",
+      location: "الموقع",
+      businessType: "نوع النشاط",
+      minRating: "الحد الأدنى للتقييم",
+      features: "المميزات",
+      redirecting: "جاري نقلك إلى النتائج المصفاة الآن...",
+      needMoreInfo:
+        "يسعدني مساعدتك في إيجاد الموردين المثاليين! للحصول على أفضل النتائج، هل يمكنك إخباري:",
+      missingProduct:
+        "• ما نوع المنتج أو الخدمة التي تبحث عنها؟ (مثل: زجاج، إلكترونيات، أثاث)",
+      missingLocation: "• في أي مدينة أو منطقة؟ (مثل: الرياض، جدة)",
+      missingBusinessType: "• ما نوع النشاط التجاري؟ (مثل: مورد، متجر، مصنع)",
+      enoughInfo:
+        "رائع! لدي معلومات كافية. دعني أبحث عن أفضل الموردين المطابقين لمعاييرك...",
+      tryAsking: "جرب السؤال عن:",
+      placeholder: "مثل: مورد زجاج في جدة مع التوصيل...",
+      quickSuggestions: {
+        glass: "موردي زجاج في جدة",
+        electronics: "متاجر إلكترونيات في الرياض",
+        construction: "مواد بناء",
+        food: "موردي أغذية مع التوصيل",
+        medical: "شركات معدات طبية",
+      },
+      minimize: "تصغير",
+      close: "إغلاق",
+      stars: "نجوم",
+    },
+    notFound: {
+      title: "هذه الصفحة لم يتم إنشاؤها بعد",
+      message: "أخبرنا بما تريد أن تراه في هذه الصفحة",
+    },
+    support: {
+      title: "مركز الدعم",
+      description:
+        "احصل على المساعدة بخصوص حسابك أو المشاكل التقنية أو الفواتير.",
+      openTicketTitle: "افتح تذكرة دعم",
+      openTicketDesc: "أبلغ عن المشاكل التقنية أو اطلب المساعدة من فريقنا.",
+      signInToCreate: "سجل دخول لإنشاء تذكرة ←",
+      knowledgeBaseTitle: "قاعدة المعرفة",
+      knowledgeBaseDesc:
+        "تصفح الأدلة والأسئلة الشائعة للحصول على إجابات سريعة.",
+      browseArticles: "تصفح المقالات ←",
+      contactUsTitle: "تواصل معنا",
+      contactUsDesc:
+        "تواصل معنا مباشرة عبر البريد الإلكتروني أو الهاتف للاستفسارات العاجلة.",
+      emailSupport: "support@supplier.sa ←",
+    },
     business: {
       registerBusinessTitle: "تسجيل شركتك",
       registerBusinessSubtitle:
@@ -906,18 +1933,35 @@ export const translations = {
         emailLabel: "البريد الإلكتروني *",
         emailPlaceholder: "example@business.com",
         continueButton: "الانتقال للتحقق",
-        continueButtonSubmitting: "جارٍ إنشاء الحساب...",
+        continueButtonSubmitting: "جارٍ الإرسال...",
         alreadyAccount: "هل لديك حساب بالفعل؟",
         signIn: "تسجيل الدخول",
         verifyAccountTitle: "تحقق من حسابك",
         verifyAccountSubtitle:
           "أرسلنا لك رمز تحقق مكون من 4 أرقام للتحقق من هويتك",
+        chooseVerification: "اختر طريقة التحقق:",
+        phone: "الهاتف",
+        email: "البريد الإلكتروني",
+        demoCode: "رمز التجربة:",
         enterVerificationCode: "أدخل رمز التحقق المكون من 4 أرقام",
+        verifyButton: "تحقق من الحساب",
+        verifying: "جارٍ التحقق...",
         resendCode: "لم تستلم الرمز؟ أعد الإرسال",
         backToRegistration: "العودة للتسجيل",
-        accountVerifiedTitle: "تم التحقق من الحساب!",
-        accountVerifiedSubtitle:
+        accountVerified: "تم التحقق من الحساب!",
+        successMessage:
           "رائع! تم التحقق من حسابك بنجاح. الآن أكمل ملف نشاطك التجاري لمساعدة العملاء على العثور عليك.",
+        completeProfileTitle: "أكمل ملف نشاطك التجاري",
+        completeProfileSubtitle:
+          "للحصول على أقصى استفادة من منصتنا، يرجى تقديم المعلومات التالية:",
+        profileChecklist: [
+          "معلومات النشاط التجاري",
+          "بيانات التواصل",
+          "الحساب البنكي",
+          "المستندات المطلوبة",
+        ],
+        completeProfileButton: "إكمال ملف النشاط التجاري",
+        skipButton: "تخطي الآن - الذهاب للصفحة الرئيسية",
       },
       errors: {
         businessNameRequired: "اسم النشاط التجاري مطلوب",
@@ -925,8 +1969,465 @@ export const translations = {
         phoneInvalid: "يرجى إدخال رقم هاتف صالح",
         emailRequired: "البريد الإلكتروني مطلوب",
         emailInvalid: "يرجى إدخال بريد إلكتروني صالح",
-        verificationIncomplete: "يرجى إدخال الرمز المكون من 4 أرقام",
+        verificationIncomplete: "يرجى إدخال الرمز المكون من 4 أرقام بالكامل",
         verificationInvalid: "رمز التحقق غير صحيح. حاول مرة أخرى.",
+      },
+    },
+    filters: {
+      allCategories: "كل الفئات",
+      allTypes: "كل الأنواع",
+      searchTitle: "بحث",
+      searchPlaceholder: "ابحث عن شركات، خدمات، منتجات...",
+      categoriesTitle: "الفئات",
+      businessTypeTitle: "نوع النشاط",
+      filtersTitle: "الفلاتر",
+      verifiedOnly: "الموثقة فقط",
+      openNow: "مفتوح الآن",
+      clearAll: "مسح كل الفلاتر",
+      quickStats: "إحصائيات سريعة",
+      totalBusinesses: "إجمالي الشركات",
+      verified: "موثقة",
+      newThisWeek: "جديد هذا الأسبوع",
+    },
+    cat: {
+      agriculture: "الزراعة",
+      apparelFashion: "الملابس والأزياء",
+      automobile: "السيارات",
+      brassHardware: "أدوات النحاس والمكونات",
+      businessServices: "خدمات الأعمال",
+      chemicals: "الكيماويات",
+      computerHardware: "الأجهزة والبرامج الحاسوبية",
+      constructionRealEstate: "البناء والعقارات",
+      consumerElectronics: "الإلكترونيات الاستهلاكية",
+      electronicsElectrical: "الإلكترونيات والمعدات الكهربائية",
+      energyPower: "الطاقة والكهرباء",
+      environmentPollution: "البيئة والتلوث",
+      foodBeverage: "الأغذية والمشروبات",
+      furniture: "الأثاث",
+      giftsCrafts: "الهدايا والحرف",
+      healthBeauty: "الصحة والجمال",
+      homeSupplies: "مستلزمات المنزل",
+      homeTextiles: "المنسوجات المنزلية والمفروشات",
+      hospitalMedical: "المستلزمات الطبية والمستشفيات",
+      hotelSupplies: "مستلزمات ومعدات الفنادق",
+      industrialSupplies: "المستلزمات الصناعية",
+      jewelryGemstones: "المجوهرات والأحجار الكريمة",
+      leatherProducts: "الجلود ومنتجاتها",
+      machinery: "الآلات",
+      mineralMetals: "المعادن والمعادن",
+      officeSchool: "مستلزمات المكاتب والمدارس",
+      oilGas: "النفط والغاز",
+      packagingPaper: "التعبئة والورق",
+      pharmaceuticals: "المستحضرات الصيدلانية",
+      pipesTubes: "الأنابيب والمواسير والتجهيزات",
+      plasticsProducts: "البلاستيك ومنتجاته",
+      printingPublishing: "الطباعة والنشر",
+      realEstate: "العقارات",
+      scientificLaboratory: "الأدوات العلمية والمخبرية",
+      securityProtection: "الأمن والحماية",
+      sportsEntertainment: "الرياضة والترفيه",
+      telecommunications: "الاتصالات",
+      textilesFabrics: "المنسوجات والأقمشة",
+      toys: "الألعاب",
+      transportation: "النقل",
+    },
+    businessManagement: {
+      title: "إدارة النشاط التجاري",
+      editProfile: "تعديل الملف",
+      saveChanges: "حفظ التغييرات",
+      sections: {
+        profile: "المعلومات الأساسية",
+        products: "المنتجات والخدمات",
+        photos: "الصور",
+        hours: "ساعات العمل",
+      },
+      form: {
+        businessName: "اسم النشاط",
+        category: "الفئة",
+        phone: "الهاتف",
+        email: "البريد الإلكتروني",
+        website: "الموقع الإلكتروني",
+        serviceDistance: "مسافة الخدمة",
+        address: "عنوان النشاط",
+        description: "وصف النشاط",
+        characters: "حرف",
+      },
+      products: {
+        searchKeywords: "كلمات البحث",
+        keywordsLabel: "كلمات المنتجات والخدمات",
+        keywordsPlaceholder: "افصل الكلمات بفاصلة...",
+        keywordsHelp:
+          "تساعد هذه الكلمات العملاء في إيجاد نشاطك عند البحث عن منتجات أو خدمات محددة",
+        currentKeywords: "الكلمات الحالية:",
+        servicesOffered: "الخدمات المقدمة",
+      },
+      services: {
+        wholesale: "بالجملة",
+        retail: "بالتجزئة",
+        repair: "خدمات الإصلاح",
+        custom: "طلبات مخصصة",
+        bulk: "طلبات كبيرة",
+        emergency: "خدمات الطوارئ",
+        installation: "التركيب",
+        maintenance: "الصيانة",
+      },
+      photos: {
+        title: "صور النشاط",
+        addPhotos: "إضافة صور",
+        addMore: "إضافة المزيد",
+      },
+      hours: {
+        title: "ساعات العمل",
+        closed: "مغلق",
+        to: "إلى",
+      },
+      days: {
+        monday: "الإثنين",
+        tuesday: "الثلاثاء",
+        wednesday: "الأربعاء",
+        thursday: "الخميس",
+        friday: "الجمعة",
+        saturday: "السبت",
+        sunday: "الأحد",
+      },
+      unsaved: {
+        message: "لديك تغييرات غير محفوظة",
+        cancel: "إلغاء",
+        save: "حفظ التغييرات",
+      },
+    },
+    manageBusinesses: {
+      title: "Manage Your Businesses",
+      subtitle:
+        "Control all your business profiles and branch locations from one central dashboard",
+      stats: {
+        totalBusinesses: "Total Businesses",
+        verified: "Verified",
+        pending: "Pending",
+        totalBranches: "Total Branches",
+      },
+      status: {
+        verified: "Verified",
+        pending: "Pending",
+        rejected: "Rejected",
+      },
+      branchStatus: {
+        active: "Active",
+        inactive: "Inactive",
+      },
+      buttons: {
+        addNewBusiness: "Add New Business",
+        quickSetup: "Quick Business Setup",
+        checkStatus: "Check Status",
+        manageBranches: "Manage Branches",
+        viewProfile: "View Profile",
+      },
+      branches: {
+        title: "Branches",
+        active: "active",
+        more: "more",
+        noBranches: "No branches added yet",
+        addFirst: "Add First Branch",
+      },
+      empty: {
+        title: "No Businesses Yet",
+        message:
+          "Start by adding your first business profile to begin reaching customers",
+        button: "Add Your First Business",
+      },
+      modal: {
+        title: "Manage Branches",
+      },
+    },
+    businessCard: {
+      verified: "موثق",
+      openNow: "مفتوح الآن",
+      reviews: "تقييم",
+      serves: "يخدم",
+      serviceArea: "منطقة الخدمة",
+      more: "المزيد",
+      message: "رسالة",
+      viewProfile: "عرض الملف",
+    },
+    login: {
+      title: "مرحباً بعودتك",
+      subtitle: "سجل الدخول للوصول إلى لوحة تحكم نشاطك التجاري",
+      emailLabel: "البريد الإلكتروني",
+      emailPlaceholder: "أدخل بريدك الإلكتروني",
+      passwordLabel: "كلمة المرور",
+      passwordPlaceholder: "أدخل كلمة المرور",
+      rememberMe: "تذكرني",
+      forgotPassword: "نسيت كلمة المرور؟",
+      button: "تسجيل الدخول",
+      signingIn: "جارٍ تسجيل الدخول...",
+      noAccount: "ليس لديك حساب؟",
+      createAccountLink: "إنشاء حساب",
+      agreementText: "بتسجيل الدخول، أنت توافق على",
+      termsLink: "شروط الخدمة",
+      and: "و",
+      privacyLink: "سياسة الخصوصية",
+      demoTitle: "تسجيل الدخول التجريبي:",
+      demoEmail: "البريد:",
+      demoPassword: "كلمة المرور:",
+      errors: {
+        emailRequired: "البريد الإلكتروني مطلوب",
+        emailInvalid: "يرجى إدخال بريد إلكتروني صالح",
+        passwordRequired: "كلمة المرور مطلوبة",
+        passwordTooShort: "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+      },
+    },
+    register: {
+      progress: {
+        register: "التسجيل",
+        verify: "التحقق",
+        code: "الرمز",
+        complete: "الإكمال",
+      },
+      demoNotice: {
+        title: "الوضع التجريبي",
+        message: "اضغط 'متابعة التجربة' للمتابعة بدون ملء النموذج",
+      },
+      step1: {
+        title: "سجل نشاطك التجاري",
+        subtitle: "ابدأ بتقديم معلومات نشاطك التجاري الأساسية",
+        businessNameLabel: "اسم النشاط التجاري *",
+        businessNamePlaceholder: "أدخل اسم نشاطك التجاري",
+        phoneLabel: "رقم الهاتف *",
+        phonePlaceholder: "+966 50 123 4567",
+        emailLabel: "البريد الإلكتروني *",
+        emailPlaceholder: "business@example.com",
+        button: "متابعة التجربة",
+        haveAccount: "لديك حساب بالفعل؟",
+        signinLink: "سجل الدخول هنا",
+      },
+      step2: {
+        title: "تحقق من حسابك",
+        subtitle: "اختر كيف تريد استلام رمز التحقق",
+        demoMessage: "اضغط على أي طريقة تحقق لمتابعة التجربة",
+        phoneTitle: "التحقق عبر الهاتف",
+        phoneSubtitle: "إرسال الرمز إلى +966 50 123 4567",
+        emailTitle: "التحقق عبر البريد",
+        emailSubtitle: "إرسال الرمز إلى demo@business.com",
+        sending: "جارٍ إرسال رمز التحقق...",
+        backButton: "العودة للتسجيل",
+      },
+      step3: {
+        title: "أدخل رمز التحقق",
+        subtitle: "أرسلنا رمزاً مكوناً من 4 أرقام إلى",
+        phone: "هاتفك",
+        email: "بريدك الإلكتروني",
+        demoMessage: "اضغط 'تعبئة الرمز تلقائياً' للمتابعة تلقائياً",
+        autoFillButton: "تعبئة الرمز تلقائياً",
+        verifyButton: "تحقق من الرمز",
+        resendCode: "لم تستلم الرمز؟ أعد الإرسال",
+        backButton: "تغيير طريقة التحقق",
+      },
+      step4: {
+        title: "تم التحقق من الحساب!",
+        subtitle: "تهانينا! تم التحقق من حسابك بنجاح.",
+        completeTitle: "أكمل ملف نشاطك التجاري",
+        completeSubtitle:
+          "للحصول على أقصى استفادة من منصتنا، ننصح بإكمال ملف نشاطك التجاري الكامل مع:",
+        checklist: [
+          "فئة ووصف النشاط التجاري",
+          "العملاء المستهدفين ومنطقة الخدمة",
+          "عنوان النشاط وساعات العمل",
+          "الخدمات المقدمة وبيانات التواصل",
+        ],
+        completeButton: "إكمال الملف الآن",
+        skipButton: "تخطي الآن",
+        note: "يمكنك إكمال ملفك في أي وقت من لوحة التحكم",
+      },
+      errors: {
+        codeIncomplete: "يرجى إدخال الأرقام الأربعة بالكامل",
+      },
+    },
+    manageBusinesses: {
+      title: "إدارة أنشطتك التجارية",
+      subtitle:
+        "تحكم في جميع ملفات أنشطتك التجارية ومواقع فروعها من لوحة تحكم واحدة",
+      stats: {
+        totalBusinesses: "إجمالي الأنشطة",
+        verified: "موثق",
+        pending: "قيد المراجعة",
+        totalBranches: "إجمالي الفروع",
+      },
+      status: {
+        verified: "موثق",
+        pending: "قيد المراجعة",
+        rejected: "مرفوض",
+      },
+      branchStatus: {
+        active: "نشط",
+        inactive: "غير نشط",
+      },
+      buttons: {
+        addNewBusiness: "إضافة نشاط تجاري جديد",
+        quickSetup: "إعداد سريع للنشاط",
+        checkStatus: "تحقق من الحالة",
+        manageBranches: "إدارة الفروع",
+        viewProfile: "عرض الملف",
+      },
+      branches: {
+        title: "الفروع",
+        active: "نشط",
+        more: "المزيد",
+        noBranches: "لم تتم إضافة فروع بعد",
+        addFirst: "إضافة الفرع الأول",
+      },
+      empty: {
+        title: "لا توجد أنشطة تجارية بعد",
+        message: "ابدأ بإضافة ملف نشاطك التجاري الأول للوصول إلى العملاء",
+        button: "أضف نشاطك التجاري الأول",
+      },
+      modal: {
+        title: "إدارة الفروع",
+      },
+    },
+    businessGuides: {
+      title: "دليل الأعمال",
+      subtitle:
+        "أدلة عملية خطوة بخطوة لمساعدة نشاطك التجاري على النمو والوصول لمزيد من العملاء.",
+      guides: {
+        optimizeProfile: {
+          title: "حسّن ملفك التجاري",
+          description: "نصائح للصور والأوصاف والفئات لتحسين ظهورك في البحث.",
+        },
+        reviews: {
+          title: "اجمع واعرض التقييمات",
+          description: "ابنِ الثقة مع التقييمات والشهادات الموثقة من العملاء.",
+        },
+        branchManagement: {
+          title: "إدارة الفروع والفريق",
+          description: "أضف الفروع، وأدر الصلاحيات، وحدّث المعلومات باستمرار.",
+        },
+        premium: {
+          title: "الترقية للباقة المميزة",
+          description:
+            "احصل على ترتيب متقدم في البحث وإحصائيات ونظام المراسلة.",
+        },
+      },
+    },
+    completeProfile: {
+      title: "أكمل ملف نشاطك التجاري",
+      subtitle:
+        "أضف معلومات تفصيلية عن نشاطك التجاري لمساعدة العملاء على إيجادك والتواصل معك.",
+    },
+    forgotPassword: {
+      title: "إعادة تعيين كلمة المرور",
+      subtitle: "أدخل بريدك الإلكتروني لاستلام رابط إعادة تعيين كلمة المرور",
+      emailLabel: "البريد الإلكتروني",
+      emailPlaceholder: "أدخل بريدك الإلكتروني",
+      sendButton: "إرسال رابط إعادة التعيين",
+      sendingButton: "جارٍ الإرسال...",
+      rememberPassword: "تذكرت كلمة المرور؟",
+      backToLoginLink: "العودة لتسجيل الدخول",
+      success: {
+        title: "تحقق من بريدك الإلكتروني",
+        message: "لقد أرسلنا رابط إعادة تعيين كلمة المرور إلى",
+        spamNotice:
+          "تحقق من مجلد البريد المزعج إذا لم تجد الرسالة في صندوق الوارد",
+        backToLogin: "العودة لتسجيل الدخول",
+        tryDifferentEmail: "جرب بريد إلكتروني آخر",
+      },
+      errors: {
+        emailRequired: "البريد الإلكتروني مطلوب",
+        emailInvalid: "يرجى إدخال بريد إلكتروني صالح",
+      },
+    },
+    auth: {
+      tabs: {
+        signin: "تسجيل الدخول",
+        signup: "إنشاء حساب",
+      },
+      progress: {
+        register: "التسجيل",
+        verify: "التحقق",
+        code: "الرمز",
+        complete: "الإكمال",
+      },
+      demo: {
+        title: "تسجيل الدخول التجريبي:",
+        email: "البريد الإلكتروني:",
+        password: "كلمة المرور:",
+      },
+      demoNotice: {
+        title: "الوضع التجريبي",
+        message: "اضغط 'متابعة التجربة' للمتابعة بدون ملء النموذج",
+      },
+      signin: {
+        title: "مرحباً بعودتك",
+        subtitle: "سجل الدخول للوصول إلى لوحة تحكم نشاطك التجاري",
+        emailLabel: "البريد الإلكتروني",
+        emailPlaceholder: "أدخل بريدك الإلكتروني",
+        passwordLabel: "كلمة المرور",
+        passwordPlaceholder: "أدخل كلمة المرور",
+        rememberMe: "تذكرني",
+        forgotPassword: "نسيت كلمة المرور؟",
+        button: "تسجيل الدخول",
+        signingIn: "جارٍ تسجيل الدخول...",
+        agreementText: "بتسجيل الدخول، أنت توافق على",
+        termsLink: "شروط الخدمة",
+        and: "و",
+        privacyLink: "سياسة الخصوصية",
+      },
+      signup: {
+        step1: {
+          title: "أنشئ حسابك",
+          subtitle: "ابدأ بتقديم معلومات نشاطك التجاري الأساسية",
+          businessNameLabel: "اسم النشاط التجاري *",
+          businessNamePlaceholder: "أدخل اسم نشاطك التجاري",
+          phoneLabel: "رقم الهاتف *",
+          phonePlaceholder: "+966 50 123 4567",
+          emailLabel: "البريد الإلكتروني *",
+          emailPlaceholder: "business@example.com",
+          passwordLabel: "كلمة المرور *",
+          passwordPlaceholder: "أنشئ كلمة مرور",
+          button: "متابعة التجربة",
+          haveAccount: "لديك حساب بالفعل؟",
+          signinLink: "سجل الدخول هنا",
+        },
+        step2: {
+          title: "تحقق من حسابك",
+          subtitle: "اختر كيف تريد استلام رمز التحقق",
+          demoMessage: "اضغط على أي طريقة تحقق لمتابعة التجربة",
+          phoneTitle: "التحقق عبر الهاتف",
+          phoneSubtitle: "إرسال الرمز إلى +966 50 123 4567",
+          emailTitle: "التحقق عبر البريد",
+          emailSubtitle: "إرسال الرمز إلى demo@business.com",
+          sending: "جارٍ إرسال رمز التحقق...",
+          backButton: "العودة للتسجيل",
+        },
+        step3: {
+          title: "أدخل رمز التحقق",
+          subtitle: "أرسلنا رمزاً مكوناً من 4 أرقام إلى",
+          phone: "هاتفك",
+          email: "بريدك الإلكتروني",
+          demoMessage: "اضغط 'تعبئة الرمز تلقائياً' للمتابعة تلقائياً",
+          autoFillButton: "تعبئة الرمز تلقائياً",
+          verifyButton: "تحقق من الرمز",
+          resendCode: "لم تستلم الرمز؟ أعد الإرسال",
+          backButton: "تغيير طريقة التحقق",
+        },
+        step4: {
+          title: "تم التحقق من الحساب!",
+          subtitle: "تهانينا! تم التحقق من حسابك بنجاح.",
+          completeTitle: "أكمل ملف نشاطك التجاري",
+          completeSubtitle:
+            "للحصول على أقصى استفادة من منصتنا، ننصح بإكمال ملف نشاطك التجاري الكامل مع:",
+          checklist: [
+            "فئة ووصف النشاط التجاري",
+            "العملاء المستهدفين ومنطقة الخدمة",
+            "عنوان النشاط وساعات العمل",
+            "الخدمات المقدمة وبيانات التواصل",
+          ],
+          completeButton: "إكمال الملف الآن",
+          skipButton: "تخطي الآن",
+          note: "يمكنك إكمال ملفك في أي وقت من لوحة التحكم",
+        },
+      },
+      errors: {
+        codeIncomplete: "يرجى إدخال الأرقام الأربعة بالكامل",
       },
     },
 
@@ -937,7 +2438,72 @@ export const translations = {
     services: "الخدمات",
     about: "حولنا",
     createProfile: "إنشاء ملف شخصي",
-    register: "تسجيل",
+    register: {
+      progress: {
+        register: "التسجيل",
+        verify: "التحقق",
+        code: "الرمز",
+        complete: "الإكمال",
+      },
+      demoNotice: {
+        title: "الوضع التجريبي",
+        message: "اضغط 'متابعة التجربة' للمتابعة بدون ملء النموذج",
+      },
+      step1: {
+        title: "سجل نشاطك التجاري",
+        subtitle: "ابدأ بتقديم معلومات نشاطك التجاري الأساسية",
+        businessNameLabel: "اسم النشاط التجاري *",
+        businessNamePlaceholder: "أدخل اسم نشاطك التجاري",
+        phoneLabel: "رقم الهاتف *",
+        phonePlaceholder: "+966 50 123 4567",
+        emailLabel: "البريد الإلكتروني *",
+        emailPlaceholder: "business@example.com",
+        button: "متابعة التجربة",
+        haveAccount: "لديك حساب بالفعل؟",
+        signinLink: "سجل الدخول هنا",
+      },
+      step2: {
+        title: "تحقق من حسابك",
+        subtitle: "اختر كيف تريد استلام رمز التحقق",
+        demoMessage: "اضغط على أي طريقة تحقق لمتابعة التجربة",
+        phoneTitle: "التحقق عبر الهاتف",
+        phoneSubtitle: "إرسال الرمز إلى +966 50 123 4567",
+        emailTitle: "التحقق عبر البريد",
+        emailSubtitle: "إرسال الرمز إلى demo@business.com",
+        sending: "جارٍ إرسال رمز التحقق...",
+        backButton: "العودة للتسجيل",
+      },
+      step3: {
+        title: "أدخل رمز التحقق",
+        subtitle: "أرسلنا رمزاً مكوناً من 4 أرقام إلى",
+        phone: "هاتفك",
+        email: "بريدك الإلكتروني",
+        demoMessage: "اضغط 'تعبئة الرمز تلقائياً' للمتابعة تلقائياً",
+        autoFillButton: "تعبئة الرمز تلقائياً",
+        verifyButton: "تحقق من الرمز",
+        resendCode: "لم تستلم الرمز؟ أعد الإرسال",
+        backButton: "تغيير طريقة التحقق",
+      },
+      step4: {
+        title: "تم التحقق من الحساب!",
+        subtitle: "تهانينا! تم التحقق من حسابك بنجاح.",
+        completeTitle: "أكمل ملف نشاطك التجاري",
+        completeSubtitle:
+          "للحصول على أقصى استفادة من منصتنا، ننصح بإكمال ملف نشاطك التجاري الكامل مع:",
+        checklist: [
+          "فئة ووصف النشاط التجاري",
+          "العملاء المستهدفين ومنطقة الخدمة",
+          "عنوان النشاط وساعات العمل",
+          "الخدمات المقدمة وبيانات التواصل",
+        ],
+        completeButton: "إكمال الملف الآن",
+        skipButton: "تخطي الآن",
+        note: "يمكنك إكمال ملفك في أي وقت من لوحة التحكم",
+      },
+      errors: {
+        codeIncomplete: "يرجى إدخال الأرقام الأربعة بالكامل",
+      },
+    },
     banner: {
       slogan1Long: "#1 موقع حيث تلتقي جميع الشركات",
       slogan1Short: "أفضل شبكة أعمال",
@@ -1207,24 +2773,6 @@ export const translations = {
       moderationNotice: "تخضع المراجعات للمراجعة وقد يستغرق ظهورها 24-48 ساعة",
       submitReview: "إرسال المراجعة",
       ratingTexts: ["", "سيئ", "مقبول", "جيد", "جيد جداً", "ممتاز"],
-    },
-
-    // Business Filters
-    filters: {
-      searchTitle: "بحث",
-      searchPlaceholder: "ابحث عن الأنشطة...",
-      categoriesTitle: "الفئات",
-      businessTypeTitle: "نوع النشاط",
-      filtersTitle: "عوامل التصفية",
-      verifiedOnly: "الموثّق فقط",
-      openNow: "مفتوح الآن",
-      clearAll: "مسح جميع الفلاتر",
-      quickStats: "إحصائيات سريعة",
-      totalBusinesses: "إجمالي الأنشطة",
-      verified: "موثّق",
-      newThisWeek: "جديد هذا الأسبوع",
-      allCategories: "كل الفئات",
-      allTypes: "كل الأنواع",
     },
 
     // Location Map

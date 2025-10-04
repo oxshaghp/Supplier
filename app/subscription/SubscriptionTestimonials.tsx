@@ -1,7 +1,10 @@
 "use client";
 
+import { useLanguage } from "@/lib/LanguageContext"; // عدل المسار حسب مكانك
+
 export default function SubscriptionTestimonials() {
-  // Keeping testimonial content as-is; headings and CTAs are translated
+  const { t } = useLanguage();
+
   const testimonials = [
     {
       name: "Sarah Johnson",
@@ -77,12 +80,13 @@ export default function SubscriptionTestimonials() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-              Success Stories from{" "}
-              <span className="text-yellow-600"> Real Businesses</span>
+              {t("subscriptionTestimonials.title")}{" "}
+              <span className="text-yellow-600">
+                {t("subscriptionTestimonials.titleHighlight")}
+              </span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              See how businesses like yours have transformed their growth and
-              success with our premium subscription plans.
+              {t("subscriptionTestimonials.subtitle")}
             </p>
           </div>
 
@@ -127,7 +131,7 @@ export default function SubscriptionTestimonials() {
                   <div className="flex items-center space-x-2">
                     <i className="ri-trophy-line text-green-600"></i>
                     <span className="font-semibold text-green-800">
-                      Result:
+                      {t("subscriptionTestimonials.resultLabel")}
                     </span>
                     <span className="text-green-700">
                       {testimonial.results}
@@ -141,14 +145,13 @@ export default function SubscriptionTestimonials() {
           <div className="text-center mt-16">
             <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-8">
               <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                Join Over 10,000+ Successful Businesses
+                {t("subscriptionTestimonials.cta.title")}
               </h3>
               <p className="text-gray-600 mb-6">
-                Start your free trial today and see the difference premium
-                features can make for your business growth.
+                {t("subscriptionTestimonials.cta.subtitle")}
               </p>
               <button className="bg-yellow-400 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-yellow-500 transition-all whitespace-nowrap cursor-pointer">
-                Start Your Success Story
+                {t("subscriptionTestimonials.cta.button")}
                 <i className="ri-arrow-right-line ml-2"></i>
               </button>
             </div>
