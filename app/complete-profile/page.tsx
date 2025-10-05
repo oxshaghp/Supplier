@@ -7,7 +7,7 @@ import CompleteProfileForm from "../../components/CompleteProfileForm";
 import BusinessLocationMap from "../../components/BusinessLocationMap";
 import { useLanguage } from "@/lib/LanguageContext";
 import { FormData } from "@/lib/types"; // استدعي الـ FormData
-import { initialFormData } from "@/lib/initialData"; // استدعي الـ initial data
+import { initialFormData } from "@/lib/initialData";
 
 export default function CompleteProfilePage() {
   const { t } = useLanguage();
@@ -38,7 +38,7 @@ export default function CompleteProfilePage() {
             {/* النموذج */}
             <div className="order-2 lg:order-1">
               <CompleteProfileForm
-                formData={formData} // أزل الـ `as any`
+                formData={formData}
                 setFormData={setFormData}
                 selectedLocation={selectedLocation}
               />

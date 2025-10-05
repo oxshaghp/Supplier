@@ -1,13 +1,27 @@
-import { FormData } from "./types";
+import { FormData } from "@/lib/types";
+type Day =
+  | "monday"
+  | "tuesday"
+  | "wednesday"
+  | "thursday"
+  | "friday"
+  | "saturday"
+  | "sunday";
+
+interface WorkingHoursDay {
+  open: string;
+  close: string;
+  closed: boolean;
+}
 
 export const initialFormData: FormData = {
-  businessName: "Metro Electronics Supply",
+  businessName: "",
   category: "",
   categories: [],
   description: "",
   services: [],
-  contactEmail: "info@metroelectronics.com",
-  contactPhone: "+966 50 123 4567",
+  contactEmail: "",
+  contactPhone: "",
   website: "",
   address: "",
   mainPhone: "",
@@ -17,12 +31,12 @@ export const initialFormData: FormData = {
   serviceDistance: 0,
   additionalPhones: [],
   workingHours: {
-    monday: { open: "09:00", close: "17:00", closed: false },
-    tuesday: { open: "09:00", close: "17:00", closed: false },
-    wednesday: { open: "09:00", close: "17:00", closed: false },
-    thursday: { open: "09:00", close: "17:00", closed: false },
-    friday: { open: "09:00", close: "17:00", closed: false },
-    saturday: { open: "10:00", close: "16:00", closed: false },
-    sunday: { open: "10:00", close: "16:00", closed: true },
+    monday: { open: "", close: "", closed: false },
+    tuesday: { open: "", close: "", closed: false },
+    wednesday: { open: "", close: "", closed: false },
+    thursday: { open: "", close: "", closed: false },
+    friday: { open: "", close: "", closed: false },
+    saturday: { open: "", close: "", closed: false },
+    sunday: { open: "", close: "", closed: false },
   },
 };

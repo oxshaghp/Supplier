@@ -673,8 +673,8 @@ export default function CompleteProfileForm({
   };
 
   const handleWorkingHoursChange = (
-    day: string,
-    field: string,
+    day: keyof typeof formData.workingHours,
+    field: "open" | "close" | "closed",
     value: string | boolean
   ): void => {
     setFormData((prev) => ({
@@ -1481,51 +1481,88 @@ export default function CompleteProfileForm({
                       </span>
                     </div>
 
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={formData.workingHours[day].closed}
-                        onChange={(e) =>
-                          handleWorkingHoursChange(
-                            day,
-                            "closed",
-                            e.target.checked
-                          )
-                        }
-                        className="w-3 h-3 text-yellow-400 border-gray-300 rounded focus:ring-yellow-400 mr-1"
-                      />
-                      <span className="text-xs text-gray-600">Closed</span>
-                    </label>
+                    {(
+                      Object.keys(formData.workingHours) as Array<
+                        keyof typeof formData.workingHours
+                      >
+                    ).map((day) => (
+                      <label key={day} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          checked={formData.workingHours[day].closed}
+                          onChange={(e) =>
+                            handleWorkingHoursChange(
+                              day,
+                              "closed",
+                              e.target.checked
+                            )
+                          }
+                          className="w-3 h-3 text-yellow-400 border-gray-300 rounded focus:ring-yellow-400 mr-1"
+                        />
+                        <span className="text-xs text-gray-600 capitalize">
+                          {day}
+                        </span>
+                      </label>
+                    ))}
 
-                    {!formData.workingHours[day].closed && (
-                      <div className="flex items-center space-x-1">
-                        <input
-                          type="time"
-                          value={formData.workingHours[day].open}
-                          onChange={(e) =>
-                            handleWorkingHoursChange(
-                              day,
-                              "open",
-                              e.target.value
-                            )
-                          }
-                          className="px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs"
-                        />
-                        <span className="text-gray-500 text-xs">to</span>
-                        <input
-                          type="time"
-                          value={formData.workingHours[day].close}
-                          onChange={(e) =>
-                            handleWorkingHoursChange(
-                              day,
-                              "close",
-                              e.target.value
-                            )
-                          }
-                          className="px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs"
-                        />
+                    {(
+                      Object.keys(formData.workingHours) as Array<
+                        keyof typeof formData.workingHours
+                      >
+                    ).map((day) => (
+                      <div
+                        key={day}
+                        className="flex items-center justify-between mb-2"
+                      >
+                        <label className="flex items-center space-x-1">
+                          <input
+                            type="checkbox"
+                            checked={formData.workingHours[day].closed}
+                            onChange={(e) =>
+                              handleWorkingHoursChange(
+                                day,
+                                "closed",
+                                e.target.checked
+                              )
+                            }
+                            className="w-3 h-3 text-yellow-400 border-gray-300 rounded focus:ring-yellow-400 mr-1"
+                          />
+                          <span className="text-xs text-gray-600 capitalize">
+                            {day}
+                          </span>
+                        </label>
+
+                        {!formData.workingHours[day].closed && (
+                          <div className="flex items-center space-x-1">
+                            <input
+                              type="time"
+                              value={formData.workingHours[day].open}
+                              onChange={(e) =>
+                                handleWorkingHoursChange(
+                                  day,
+                                  "open",
+                                  e.target.value
+                                )
+                              }
+                              className="px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs"
+                            />
+                            <span className="text-gray-500 text-xs">to</span>
+                            <input
+                              type="time"
+                              value={formData.workingHours[day].close}
+                              onChange={(e) =>
+                                handleWorkingHoursChange(
+                                  day,
+                                  "close",
+                                  e.target.value
+                                )
+                              }
+                              className="px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs"
+                            />
+                          </div>
+                        )}
                       </div>
-                    )}
+                    ))}
                   </div>
                 ))}
               </div>

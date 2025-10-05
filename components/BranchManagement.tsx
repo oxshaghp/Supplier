@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type React from "react";
 import { useLanguage } from "../lib/LanguageContext";
-
+import type { Branch } from "../lib/types";
 type BranchWorkingHoursDay = {
   open: string;
   close: string;
@@ -20,27 +20,13 @@ type WorkingHours = {
   sunday: BranchWorkingHoursDay;
 };
 
-export type Branch = {
-  id: string;
-  name: string;
-  address: string;
-  phone: string;
-  email: string;
-  manager: string;
-  location: { lat: number; lng: number };
-  workingHours: WorkingHours;
-  status: "active" | "inactive" | string;
-  specialServices: string[];
-  isMainBranch: boolean;
-};
-
 type BranchManagementProps = {
   branches: Branch[];
   setBranches: (branches: Branch[]) => void;
   mainBusinessData: {
     businessName: string;
     category: string;
-    businessType: string;
+    businessType?: string;
   };
 };
 

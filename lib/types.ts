@@ -13,30 +13,29 @@ export interface AdditionalPhone {
   name: string;
 }
 
-export interface Branch {
-  id: number;
+export type Branch = {
+  id: string;
   name: string;
   address: string;
   phone: string;
-  status: string;
-}
+  email: string;
+  manager: string;
+  location: { lat: number; lng: number };
+  workingHours: WorkingHours;
+  status: "active" | "inactive" | string;
+  specialServices: string[];
+  isMainBranch: boolean;
+};
 
 export interface FormData {
   businessName: string;
   category: string;
-  categories: string[];
   description: string;
   services: string[];
   contactEmail: string;
   contactPhone: string;
   website: string;
   address: string;
-  mainPhone: string;
-  businessType: string;
-  productKeywords: string[];
-  targetCustomers: string[];
-  serviceDistance: number;
-  additionalPhones: AdditionalPhone[];
   workingHours: {
     monday: { open: string; close: string; closed: boolean };
     tuesday: { open: string; close: string; closed: boolean };
@@ -46,6 +45,14 @@ export interface FormData {
     saturday: { open: string; close: string; closed: boolean };
     sunday: { open: string; close: string; closed: boolean };
   };
+
+  mainPhone?: string;
+  businessType?: string;
+  categories?: string[];
+  productKeywords?: string[];
+  targetCustomers?: string[];
+  serviceDistance?: number;
+  additionalPhones?: AdditionalPhone[];
 }
 
 export interface Location {
