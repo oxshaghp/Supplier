@@ -17,7 +17,6 @@ interface WorkingHoursDay {
 export const initialFormData: FormData = {
   businessName: "",
   category: "",
-  categories: [],
   description: "",
   services: [],
   contactEmail: "",
@@ -26,6 +25,7 @@ export const initialFormData: FormData = {
   address: "",
   mainPhone: "",
   businessType: "",
+  categories: [],
   productKeywords: [],
   targetCustomers: [],
   serviceDistance: 0,

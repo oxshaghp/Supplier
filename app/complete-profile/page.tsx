@@ -6,7 +6,7 @@ import Footer from "../../components/Footer";
 import CompleteProfileForm from "../../components/CompleteProfileForm";
 import BusinessLocationMap from "../../components/BusinessLocationMap";
 import { useLanguage } from "@/lib/LanguageContext";
-import { FormData } from "@/lib/types"; // استدعي الـ FormData
+import { FormData } from "@/lib/types";
 import { initialFormData } from "@/lib/initialData";
 
 export default function CompleteProfilePage() {
