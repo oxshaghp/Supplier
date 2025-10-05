@@ -2159,6 +2159,9 @@ video {
 .align-middle{
   vertical-align: middle;
 }
+.font-\[Pacifico\]{
+  font-family: Pacifico;
+}
 .font-mono{
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
@@ -2528,6 +2531,13 @@ video {
 }
 .ease-in-out{
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+@font-face {
+  font-family: "Pacifico";
+  src: url("/public/fonts/Pacifico-Regular.ttf") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 .placeholder\:text-gray-500::-moz-placeholder{
   --tw-text-opacity: 1;
