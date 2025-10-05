@@ -104,11 +104,14 @@ class ClickPayService {
     refundData: ClickPayRefundRequest
   ): Promise<PaymentResult> {
     try {
+      // نتجنب تكرار profile_id
+      const { profile_id, ...cleanRefundData } = refundData;
+
       const response = await axios.post(
         `${this.config.baseUrl}${CLICKPAY_ENDPOINTS.REFUND}`,
         {
-          profile_id: this.config.profileId,
-          ...refundData,
+          profile_id: this.config.profileId, // هذا الوحيد
+          ...cleanRefundData,
         },
         {
           headers: {

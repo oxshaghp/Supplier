@@ -28,29 +28,29 @@ export type Branch = {
 };
 
 export interface FormData {
-  businessName: "";
-  category: "";
-  description: "";
-  services: [];
-  contactEmail: "";
-  contactPhone: "";
-  website: "";
-  address: "";
-  mainPhone: "";
-  businessType: "";
-  categories: [];
-  productKeywords: [];
-  targetCustomers: [];
-  serviceDistance: 0;
-  additionalPhones: [];
+  businessName: string;
+  category: string;
+  categories: string[];
+  description: string;
+  services: string[];
+  contactEmail: string;
+  contactPhone: string;
+  website: string;
+  address: string;
+  mainPhone: string;
+  businessType: string;
+  productKeywords: string[];
+  targetCustomers: string[];
+  serviceDistance: number;
+  additionalPhones: AdditionalPhone[];
   workingHours: {
-    monday: { open: ""; close: ""; closed: false };
-    tuesday: { open: ""; close: ""; closed: false };
-    wednesday: { open: ""; close: ""; closed: false };
-    thursday: { open: ""; close: ""; closed: false };
-    friday: { open: ""; close: ""; closed: false };
-    saturday: { open: ""; close: ""; closed: false };
-    sunday: { open: ""; close: ""; closed: false };
+    monday: { open: string; close: string; closed: boolean };
+    tuesday: { open: string; close: string; closed: boolean };
+    wednesday: { open: string; close: string; closed: boolean };
+    thursday: { open: string; close: string; closed: boolean };
+    friday: { open: string; close: string; closed: boolean };
+    saturday: { open: string; close: string; closed: boolean };
+    sunday: { open: string; close: string; closed: boolean };
   };
 }
 
