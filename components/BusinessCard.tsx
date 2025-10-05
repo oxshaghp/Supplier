@@ -2,23 +2,7 @@
 
 import Link from "next/link";
 import { useLanguage } from "../lib/LanguageContext";
-
-interface Business {
-  id: string;
-  name: string;
-  image: string;
-  distance: string;
-  verified?: boolean;
-  businessType: string;
-  openNow?: boolean;
-  category: string;
-  location: string;
-  rating: number;
-  reviews: number;
-  targetCustomers: string[];
-  serviceDistance: string;
-  services: string[];
-}
+import type { Business } from "@/app/businesses/page";
 
 interface BusinessCardProps {
   business: Business;

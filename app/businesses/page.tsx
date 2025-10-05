@@ -11,7 +11,7 @@ import BusinessCard from "../../components/BusinessCard";
 import AIChatWidget from "../../components/AIChatWidget";
 import AIFilterBar from "../../components/AIFilterBar";
 
-type Business = {
+export interface Business {
   id: number;
   name: string;
   category: string;
@@ -23,7 +23,7 @@ type Business = {
     | "Individual"
     | string;
   location: string;
-  distance: string; // e.g. "2.1 km"
+  distance: string;
   rating: number;
   reviews: number;
   verified: boolean;
@@ -34,7 +34,7 @@ type Business = {
   services: string[];
   targetCustomers: string[];
   serviceDistance: string;
-};
+}
 
 type AISuggestions = {
   filters: {
