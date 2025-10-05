@@ -19,27 +19,21 @@ export default function Page() {
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="border rounded-xl p-6 hover:shadow-sm transition-shadow">
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              {t("successStories.stories.alNour.title")}
+              {t("successStories.alNourTitle")}
             </h3>
-            <p className="text-gray-600">
-              {t("successStories.stories.alNour.description")}
-            </p>
+            <p className="text-gray-600">{t("successStories.alNourDesc")}</p>
           </div>
           <div className="border rounded-xl p-6 hover:shadow-sm transition-shadow">
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              {t("successStories.stories.greenTech.title")}
+              {t("successStories.greenTechTitle")}
             </h3>
-            <p className="text-gray-600">
-              {t("successStories.stories.greenTech.description")}
-            </p>
+            <p className="text-gray-600">{t("successStories.greenTechDesc")}</p>
           </div>
           <div className="border rounded-xl p-6 hover:shadow-sm transition-shadow">
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              {t("successStories.stories.desertLogistics.title")}
+              {t("successStories.title")}
             </h3>
-            <p className="text-gray-600">
-              {t("successStories.stories.desertLogistics.description")}
-            </p>
+            <p className="text-gray-600">{t("successStories.desertDesc")}</p>
           </div>
         </section>
       </div>

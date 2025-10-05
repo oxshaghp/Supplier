@@ -49,7 +49,14 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       value = value?.[k];
     }
 
-    return value || key;
+    if (value === undefined || value === null) return key;
+    if (typeof value === "object") {
+      const candidate = value.title ?? value.text ?? value.value;
+      return candidate !== undefined && candidate !== null
+        ? String(candidate)
+        : key;
+    }
+    return String(value);
   };
 
   const changeLanguage = (lang: Language) => {
@@ -77,7 +84,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useLanguage(p0: string) {
+export function useLanguage(_unused?: string) {
   const context = useContext(LanguageContext);
   if (context === undefined) {
     throw new Error("useLanguage must be used within a LanguageProvider");

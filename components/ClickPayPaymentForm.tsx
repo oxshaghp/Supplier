@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { clickPayService } from "../lib/clickpay/service";
 import { PaymentPlan } from "../lib/clickpay/types";
 import {
   formatCurrency,
@@ -95,7 +94,9 @@ const ClickPayPaymentForm: React.FC<ClickPayPaymentFormProps> = ({
     setErrors({});
 
     try {
-      const cartId = clickPayService.generateCartId();
+      const cartId = `cart_${Date.now()}_${Math.random()
+        .toString(36)
+        .substr(2, 9)}`;
       const sanitizedCustomer = sanitizeCustomerData(customerData);
 
       const paymentData = {
@@ -107,7 +108,13 @@ const ClickPayPaymentForm: React.FC<ClickPayPaymentFormProps> = ({
         callback: `${window.location.origin}/api/payment/callback`,
       };
 
-      const result = await clickPayService.createPayment(paymentData);
+      const response = await fetch("/api/payment/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(paymentData),
+      });
+
+      const result = await response.json();
 
       if (result.success && result.redirectUrl) {
         // Redirect to ClickPay payment page

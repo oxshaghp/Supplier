@@ -92,11 +92,6 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center text-white mb-16">
             <div className="flex items-center justify-center mb-6">
-              <img
-                src="https://readdy.ai/api/search-image?query=Saudi%20Arabia%20Vision%202030%20logo%20design%20with%20modern%20geometric%20patterns%20in%20green%20and%20gold%20colors%2C%20clean%20white%20background%2C%20professional%20corporate%20branding%20style%20representing%20economic%20transformation%20and%20business%20growth&width=120&height=80&seq=vision-2030-logo&orientation=landscape"
-                alt="Vision 2030"
-                className="h-16 object-contain mr-4"
-              />
               <h2 className="text-4xl font-bold">
                 {t("aboutPage.supporting2030")}
               </h2>
