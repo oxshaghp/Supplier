@@ -1,23 +1,24 @@
-import { Inter, Roboto_Mono, Pacifico } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { LanguageProvider } from "../lib/LanguageContext";
 import { Metadata } from "next";
 
-const pacifico = Pacifico({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
+const pacifico = localFont({
+  src: "./fonts/Pacifico-Regular.ttf",
   variable: "--font-pacifico",
+  display: "swap",
 });
 
-const inter = Inter({
+const inter = localFont({
+  src: "./fonts/Inter-Italic-VariableFont_opsz_wght.ttf",
   variable: "--font-inter",
-  subsets: ["latin"],
+  display: "swap",
 });
 
-const robotoMono = Roboto_Mono({
+const robotoMono = localFont({
+  src: "./fonts/RobotoMono-Italic-VariableFont_wght.ttf",
   variable: "--font-roboto-mono",
-  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -72,7 +73,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "/",
+    canonical: "https://supplier.sa/",
   },
   openGraph: {
     type: "website",
@@ -115,12 +116,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
-      <body className="font-[Pacifico] antialiased">
+    <html lang="ar" dir="rtl" suppressHydrationWarning={true}>
+      <body
+        className={`${pacifico.variable} ${inter.variable} ${robotoMono.variable} antialiased`}
+      >
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>

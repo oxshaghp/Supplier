@@ -6,34 +6,13 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import BranchManagement from "../../components/BranchManagement";
 import Link from "next/link";
-import { useLanguage } from "@/lib/LanguageContext"; // عدل المسار حسب مكانك
+import { useLanguage } from "@/lib/LanguageContext";
+import { Branch } from "@/lib/types";
 
 type BranchWorkingHoursDay = {
   open: string;
   close: string;
   closed: boolean;
-};
-
-type Branch = {
-  id: string;
-  name: string;
-  address: string;
-  phone: string;
-  email: string;
-  manager: string;
-  location: { lat: number; lng: number };
-  status: "active" | "inactive" | string;
-  specialServices: string[];
-  isMainBranch: boolean;
-  workingHours: {
-    monday: BranchWorkingHoursDay;
-    tuesday: BranchWorkingHoursDay;
-    wednesday: BranchWorkingHoursDay;
-    thursday: BranchWorkingHoursDay;
-    friday: BranchWorkingHoursDay;
-    saturday: BranchWorkingHoursDay;
-    sunday: BranchWorkingHoursDay;
-  };
 };
 
 type BusinessStatus = "verified" | "pending" | "rejected" | string;
