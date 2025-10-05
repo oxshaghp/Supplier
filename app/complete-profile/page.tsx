@@ -6,6 +6,8 @@ import Footer from "../../components/Footer";
 import CompleteProfileForm from "../../components/CompleteProfileForm";
 import BusinessLocationMap from "../../components/BusinessLocationMap";
 import { useLanguage } from "@/lib/LanguageContext";
+import { FormData } from "@/lib/types"; // استدعي الـ FormData
+import { initialFormData } from "@/lib/initialData"; // استدعي الـ initial data
 
 export default function CompleteProfilePage() {
   const { t } = useLanguage();
@@ -13,32 +15,9 @@ export default function CompleteProfilePage() {
     lat: 24.7136,
     lng: 46.6753,
   });
-  const [formData, setFormData] = useState({
-    businessName: "Metro Electronics Supply",
-    category: "",
-    categories: [],
-    description: "",
-    services: [],
-    contactEmail: "info@metroelectronics.com",
-    contactPhone: "+966 50 123 4567",
-    website: "",
-    address: "",
-    mainPhone: "",
-    businessType: "",
-    productKeywords: [],
-    targetCustomers: [],
-    serviceDistance: 0,
-    additionalPhones: [],
-    workingHours: {
-      monday: { open: "09:00", close: "17:00", closed: false },
-      tuesday: { open: "09:00", close: "17:00", closed: false },
-      wednesday: { open: "09:00", close: "17:00", closed: false },
-      thursday: { open: "09:00", close: "17:00", closed: false },
-      friday: { open: "09:00", close: "17:00", closed: false },
-      saturday: { open: "10:00", close: "16:00", closed: false },
-      sunday: { open: "10:00", close: "16:00", closed: true },
-    },
-  });
+
+  // هذا هو السطر الصحيح - داخل الـ function
+  const [formData, setFormData] = useState<FormData>(initialFormData);
 
   return (
     <div className="min-h-screen bg-white">
@@ -59,10 +38,8 @@ export default function CompleteProfilePage() {
             {/* النموذج */}
             <div className="order-2 lg:order-1">
               <CompleteProfileForm
-                formData={formData}
-                setFormData={
-                  setFormData as React.Dispatch<React.SetStateAction<any>>
-                }
+                formData={formData} // أزل الـ `as any`
+                setFormData={setFormData}
                 selectedLocation={selectedLocation}
               />
             </div>

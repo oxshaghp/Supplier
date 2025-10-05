@@ -1,0 +1,64 @@
+export interface WorkingHours {
+  [key: string]: {
+    open: string;
+    close: string;
+    closed: boolean;
+  };
+}
+
+export interface AdditionalPhone {
+  id: number;
+  type: string;
+  number: string;
+  name: string;
+}
+
+export interface Branch {
+  id: number;
+  name: string;
+  address: string;
+  phone: string;
+  status: string;
+}
+
+export interface FormData {
+  businessName: string;
+  category: string;
+  categories: string[];
+  description: string;
+  services: string[];
+  contactEmail: string;
+  contactPhone: string;
+  website: string;
+  address: string;
+  mainPhone: string;
+  businessType: string;
+  productKeywords: string[];
+  targetCustomers: string[];
+  serviceDistance: number;
+  additionalPhones: AdditionalPhone[];
+  workingHours: {
+    monday: { open: string; close: string; closed: boolean };
+    tuesday: { open: string; close: string; closed: boolean };
+    wednesday: { open: string; close: string; closed: boolean };
+    thursday: { open: string; close: string; closed: boolean };
+    friday: { open: string; close: string; closed: boolean };
+    saturday: { open: string; close: string; closed: boolean };
+    sunday: { open: string; close: string; closed: boolean };
+  };
+}
+
+export interface Location {
+  lat: number;
+  lng: number;
+}
+
+export interface Errors {
+  [key: string]: string;
+}
+
+export interface CompleteProfileFormProps {
+  formData: FormData;
+  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+  selectedLocation: Location;
+}

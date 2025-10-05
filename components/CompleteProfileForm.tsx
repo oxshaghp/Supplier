@@ -4,70 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import BranchManagement from "./BranchManagement";
 import { useLanguage } from "./../lib/LanguageContext";
-
-interface WorkingHours {
-  [key: string]: {
-    open: string;
-    close: string;
-    closed: boolean;
-  };
-}
-
-interface FormData {
-  businessName: string;
-  category: string;
-  categories: string[];
-  description: string;
-  services: string[];
-  contactEmail: string;
-  contactPhone: string;
-  website: string;
-  address: string;
-  mainPhone: string;
-  businessType: string;
-  productKeywords: string[];
-  targetCustomers: string[];
-  serviceDistance: number;
-  additionalPhones: AdditionalPhone[];
-  workingHours: {
-    monday: { open: string; close: string; closed: boolean };
-    tuesday: { open: string; close: string; closed: boolean };
-    wednesday: { open: string; close: string; closed: boolean };
-    thursday: { open: string; close: string; closed: boolean };
-    friday: { open: string; close: string; closed: boolean };
-    saturday: { open: string; close: string; closed: boolean };
-    sunday: { open: string; close: string; closed: boolean };
-  };
-}
-interface AdditionalPhone {
-  id: number;
-  type: string;
-  number: string;
-  name: string;
-}
-
-interface Branch {
-  id: number;
-  name: string;
-  address: string;
-  phone: string;
-  status: string;
-}
-
-interface Location {
-  lat: number;
-  lng: number;
-}
-
-interface Errors {
-  [key: string]: string;
-}
-
-interface CompleteProfileFormProps {
-  formData: FormData;
-  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
-  selectedLocation: Location;
-}
+import {
+  FormData,
+  AdditionalPhone,
+  Location,
+  Errors,
+  CompleteProfileFormProps,
+  Branch,
+} from "./../lib/types";
 
 const categories = [
   "Agriculture",
@@ -153,7 +97,7 @@ export default function CompleteProfileForm({
     string[]
   >([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [productKeywords, setProductKeywords] = useState<string>("");
+  const [productKeywords, setProductKeywords] = useState<string[]>([]);
   const [keywordSuggestions, setKeywordSuggestions] = useState<string[]>([]);
   const [showKeywordGuide, setShowKeywordGuide] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -680,10 +624,14 @@ export default function CompleteProfileForm({
   };
 
   const handleProductKeywordsChange = (value: string): void => {
-    setProductKeywords(value);
+    const keywordsArray = value
+      .split(",")
+      .map((k) => k.trim())
+      .filter((k) => k.length > 0);
+    setProductKeywords(keywordsArray);
     setFormData((prev) => ({
       ...prev,
-      productKeywords: value,
+      productKeywords: keywordsArray,
     }));
 
     if (errors.productKeywords) {
@@ -692,10 +640,12 @@ export default function CompleteProfileForm({
   };
 
   const addSuggestedKeyword = (keyword: string): void => {
-    const currentKeywords = productKeywords.trim();
-    const separator = currentKeywords ? ", " : "";
-    const newValue = currentKeywords + separator + keyword;
-    handleProductKeywordsChange(newValue);
+    const newKeywords = [...productKeywords, keyword];
+    setProductKeywords(newKeywords);
+    setFormData((prev) => ({
+      ...prev,
+      productKeywords: newKeywords,
+    }));
   };
 
   const handleServiceToggle = (service: string): void => {
@@ -854,8 +804,7 @@ export default function CompleteProfileForm({
   };
 
   const getKeywordCount = (): number => {
-    if (!productKeywords.trim()) return 0;
-    return productKeywords.split(",").filter((k) => k.trim().length > 0).length;
+    return productKeywords.length;
   };
 
   const phoneTypes = [
@@ -920,6 +869,7 @@ export default function CompleteProfileForm({
       additionalPhones: updatedPhones,
     }));
   };
+
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8">
       <div className="mb-8">
@@ -1178,7 +1128,7 @@ export default function CompleteProfileForm({
 
               <div className="mb-4">
                 <textarea
-                  value={productKeywords}
+                  value={productKeywords.join(", ")}
                   onChange={(e) => handleProductKeywordsChange(e.target.value)}
                   rows={4}
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm resize-none ${
@@ -1201,14 +1151,14 @@ export default function CompleteProfileForm({
                   </span>
                   <span
                     className={`text-xs ${
-                      productKeywords.length >= 20
+                      productKeywords.join(", ").length >= 20
                         ? "text-green-500"
                         : "text-gray-400"
                     }`}
                   >
-                    {productKeywords.length >= 20
+                    {productKeywords.join(", ").length >= 20
                       ? t("completeProfile.step1.goodLength")
-                      : `${productKeywords.length}/${t(
+                      : `${productKeywords.join(", ").length}/${t(
                           "completeProfile.step1.minChars"
                         )}`}
                   </span>
@@ -2110,12 +2060,8 @@ export default function CompleteProfileForm({
             </div>
             <div className="p-6">
               <BranchManagement
-                branches={
-                  branches as unknown as import("./BranchManagement").Branch[]
-                }
-                setBranches={(
-                  updatedBranches: import("./BranchManagement").Branch[]
-                ) => setBranches(updatedBranches as unknown as typeof branches)}
+                branches={branches}
+                setBranches={setBranches}
                 mainBusinessData={formData}
               />
             </div>
