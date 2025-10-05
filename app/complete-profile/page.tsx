@@ -16,12 +16,19 @@ export default function CompleteProfilePage() {
   const [formData, setFormData] = useState({
     businessName: "Metro Electronics Supply",
     category: "",
+    categories: [],
     description: "",
     services: [],
     contactEmail: "info@metroelectronics.com",
     contactPhone: "+966 50 123 4567",
     website: "",
     address: "",
+    mainPhone: "",
+    businessType: "",
+    productKeywords: "",
+    targetCustomers: [],
+    serviceDistance: "",
+    additionalPhones: [],
     workingHours: {
       monday: { open: "09:00", close: "17:00", closed: false },
       tuesday: { open: "09:00", close: "17:00", closed: false },
@@ -47,15 +54,16 @@ export default function CompleteProfilePage() {
                 {t("completeProfile.subtitle")}
               </p>
             </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
-              <div className="order-2 lg:order-1">
-                <CompleteProfileForm
-                  formData={formData}
-                  setFormData={setFormData}
-                  selectedLocation={selectedLocation}
-                />
-              </div>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
+            <div className="order-2 lg:order-1">
+              <CompleteProfileForm
+                formData={formData}
+                setFormData={
+                  setFormData as React.Dispatch<React.SetStateAction<any>>
+                }
+                selectedLocation={selectedLocation}
+              />
 
               <div className="order-1 lg:order-2">
                 <BusinessLocationMap
