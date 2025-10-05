@@ -124,7 +124,7 @@ export default function FeaturedBusinesses() {
     },
   ];
 
-  const getBusinessTypeIcon = (type) => {
+  const getBusinessTypeIcon = (type: string) => {
     switch (type) {
       case "Supplier":
         return "ri-truck-line";
@@ -139,7 +139,7 @@ export default function FeaturedBusinesses() {
     }
   };
 
-  const getBusinessTypeColor = (type) => {
+  const getBusinessTypeColor = (type: string) => {
     switch (type) {
       case "Supplier":
         return "bg-blue-100 text-blue-700";

@@ -25,7 +25,7 @@ export default function VerificationPendingStatus() {
     },
   });
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case "pending":
         return "bg-yellow-100 text-yellow-700 border-yellow-200";
@@ -40,7 +40,7 @@ export default function VerificationPendingStatus() {
     }
   };
 
-  const getStatusIcon = (status) => {
+  const getStatusIcon = (status: string) => {
     switch (status) {
       case "pending":
         return "ri-time-line";
@@ -55,7 +55,7 @@ export default function VerificationPendingStatus() {
     }
   };
 
-  const getStatusMessage = (status) => {
+  const getStatusMessage = (status: string) => {
     switch (status) {
       case "pending":
         return t("verification.msgPending");

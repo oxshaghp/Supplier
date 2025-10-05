@@ -1,17 +1,58 @@
 "use client";
 
 import { useState } from "react";
+import type React from "react";
 import { useLanguage } from "../lib/LanguageContext";
+
+type BranchWorkingHoursDay = {
+  open: string;
+  close: string;
+  closed: boolean;
+};
+
+type WorkingHours = {
+  monday: BranchWorkingHoursDay;
+  tuesday: BranchWorkingHoursDay;
+  wednesday: BranchWorkingHoursDay;
+  thursday: BranchWorkingHoursDay;
+  friday: BranchWorkingHoursDay;
+  saturday: BranchWorkingHoursDay;
+  sunday: BranchWorkingHoursDay;
+};
+
+export type Branch = {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+  manager: string;
+  location: { lat: number; lng: number };
+  workingHours: WorkingHours;
+  status: "active" | "inactive" | string;
+  specialServices: string[];
+  isMainBranch: boolean;
+};
+
+type BranchManagementProps = {
+  branches: Branch[];
+  setBranches: (branches: Branch[]) => void;
+  mainBusinessData: {
+    businessName: string;
+    category: string;
+    businessType: string;
+  };
+};
 
 export default function BranchManagement({
   branches,
   setBranches,
   mainBusinessData,
-}) {
+}: BranchManagementProps) {
   const { t } = useLanguage();
-  const [showAddBranch, setShowAddBranch] = useState(false);
-  const [editingBranch, setEditingBranch] = useState(null);
-  const [newBranch, setNewBranch] = useState({
+  const [showAddBranch, setShowAddBranch] = useState<boolean>(false);
+  const [editingBranch, setEditingBranch] = useState<Branch | null>(null);
+  const [newBranch, setNewBranch] = useState<Branch>({
     id: "",
     name: "",
     address: "",
@@ -32,8 +73,11 @@ export default function BranchManagement({
     specialServices: [],
     isMainBranch: false,
   });
-  const [errors, setErrors] = useState({});
-  const [selectedLocation, setSelectedLocation] = useState({
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [selectedLocation, setSelectedLocation] = useState<{
+    lat: number;
+    lng: number;
+  }>({
     lat: 24.7136,
     lng: 46.6753,
   });
@@ -58,7 +102,7 @@ export default function BranchManagement({
     t("branchManagement.services.maintenance"),
   ];
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: keyof Branch, value: any) => {
     setNewBranch((prev) => ({
       ...prev,
       [field]: value,
@@ -69,7 +113,7 @@ export default function BranchManagement({
     }
   };
 
-  const handleLocationSelect = (city) => {
+  const handleLocationSelect = (city: string) => {
     const selectedCity = saudiCities.find((c) => c.name === city);
     if (selectedCity) {
       setSelectedLocation(selectedCity);
@@ -80,7 +124,11 @@ export default function BranchManagement({
     }
   };
 
-  const handleWorkingHoursChange = (day, field, value) => {
+  const handleWorkingHoursChange = (
+    day: keyof WorkingHours,
+    field: keyof BranchWorkingHoursDay,
+    value: string | boolean
+  ) => {
     setNewBranch((prev) => ({
       ...prev,
       workingHours: {
@@ -93,7 +141,7 @@ export default function BranchManagement({
     }));
   };
 
-  const handleServiceToggle = (service) => {
+  const handleServiceToggle = (service: string) => {
     setNewBranch((prev) => ({
       ...prev,
       specialServices: prev.specialServices.includes(service)
@@ -102,8 +150,8 @@ export default function BranchManagement({
     }));
   };
 
-  const validateBranch = () => {
-    const newErrors = {};
+  const validateBranch = (): boolean => {
+    const newErrors: Record<string, string> = {};
 
     if (!newBranch.name.trim())
       newErrors.name = t("branchManagement.errors.nameRequired");
@@ -134,29 +182,32 @@ export default function BranchManagement({
       ...newBranch,
       id: editingBranch ? editingBranch.id : Date.now().toString(),
       location: selectedLocation,
-    };
+    } as Branch;
 
     if (editingBranch) {
-      setBranches((prev) =>
-        prev.map((b) => (b.id === editingBranch.id ? branchData : b))
+      const updated = branches.map((b) =>
+        b.id === editingBranch.id ? branchData : b
       );
+      setBranches(updated);
     } else {
-      setBranches((prev) => [...prev, branchData]);
+      const updated = [...branches, branchData];
+      setBranches(updated);
     }
 
     handleCancelAdd();
   };
 
-  const handleEditBranch = (branch) => {
+  const handleEditBranch = (branch: Branch) => {
     setEditingBranch(branch);
     setNewBranch({ ...branch });
     setSelectedLocation(branch.location);
     setShowAddBranch(true);
   };
 
-  const handleDeleteBranch = (branchId) => {
+  const handleDeleteBranch = (branchId: string) => {
     if (window.confirm(t("branchManagement.deleteConfirm"))) {
-      setBranches((prev) => prev.filter((b) => b.id !== branchId));
+      const updated = branches.filter((b) => b.id !== branchId);
+      setBranches(updated);
     }
   };
 
@@ -188,14 +239,13 @@ export default function BranchManagement({
     setErrors({});
   };
 
-  const toggleBranchStatus = (branchId) => {
-    setBranches((prev) =>
-      prev.map((b) =>
-        b.id === branchId
-          ? { ...b, status: b.status === "active" ? "inactive" : "active" }
-          : b
-      )
+  const toggleBranchStatus = (branchId: string) => {
+    const updated = branches.map((b) =>
+      b.id === branchId
+        ? { ...b, status: b.status === "active" ? "inactive" : "active" }
+        : b
     );
+    setBranches(updated);
   };
 
   return (
@@ -622,68 +672,71 @@ export default function BranchManagement({
                     {t("branchManagement.workingHours")}
                   </h4>
                   <div className="space-y-4">
-                    {Object.keys(newBranch.workingHours).map((day) => (
-                      <div
-                        key={day}
-                        className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg"
-                      >
-                        <div className="w-20">
-                          <span className="text-sm font-medium text-gray-700 capitalize">
-                            {t(`branchManagement.days.${day}`)}
-                          </span>
-                        </div>
-
-                        <label className="flex items-center">
-                          <input
-                            type="checkbox"
-                            checked={newBranch.workingHours[day].closed}
-                            onChange={(e) =>
-                              handleWorkingHoursChange(
-                                day,
-                                "closed",
-                                e.target.checked
-                              )
-                            }
-                            className="w-4 h-4 text-yellow-400 border-gray-300 rounded focus:ring-yellow-400 mr-2"
-                          />
-                          <span className="text-sm text-gray-600">
-                            {t("branchManagement.closed")}
-                          </span>
-                        </label>
-
-                        {!newBranch.workingHours[day].closed && (
-                          <div className="flex items-center space-x-2 flex-1">
-                            <input
-                              type="time"
-                              value={newBranch.workingHours[day].open}
-                              onChange={(e) =>
-                                handleWorkingHoursChange(
-                                  day,
-                                  "open",
-                                  e.target.value
-                                )
-                              }
-                              className="px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
-                            />
-                            <span className="text-gray-500">
-                              {t("branchManagement.to")}
+                    {Object.keys(newBranch.workingHours).map((day) => {
+                      const typedDay = day as keyof WorkingHours;
+                      return (
+                        <div
+                          key={typedDay}
+                          className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg"
+                        >
+                          <div className="w-20">
+                            <span className="text-sm font-medium text-gray-700 capitalize">
+                              {t(`branchManagement.days.${typedDay}`)}
                             </span>
+                          </div>
+
+                          <label className="flex items-center">
                             <input
-                              type="time"
-                              value={newBranch.workingHours[day].close}
+                              type="checkbox"
+                              checked={newBranch.workingHours[typedDay].closed}
                               onChange={(e) =>
                                 handleWorkingHoursChange(
-                                  day,
-                                  "close",
-                                  e.target.value
+                                  typedDay,
+                                  "closed",
+                                  e.target.checked
                                 )
                               }
-                              className="px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
+                              className="w-4 h-4 text-yellow-400 border-gray-300 rounded focus:ring-yellow-400 mr-2"
                             />
-                          </div>
-                        )}
-                      </div>
-                    ))}
+                            <span className="text-sm text-gray-600">
+                              {t("branchManagement.closed")}
+                            </span>
+                          </label>
+
+                          {!newBranch.workingHours[typedDay].closed && (
+                            <div className="flex items-center space-x-2 flex-1">
+                              <input
+                                type="time"
+                                value={newBranch.workingHours[typedDay].open}
+                                onChange={(e) =>
+                                  handleWorkingHoursChange(
+                                    typedDay,
+                                    "open",
+                                    e.target.value
+                                  )
+                                }
+                                className="px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
+                              />
+                              <span className="text-gray-500">
+                                {t("branchManagement.to")}
+                              </span>
+                              <input
+                                type="time"
+                                value={newBranch.workingHours[typedDay].close}
+                                onChange={(e) =>
+                                  handleWorkingHoursChange(
+                                    typedDay,
+                                    "close",
+                                    e.target.value
+                                  )
+                                }
+                                className="px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
+                              />
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 

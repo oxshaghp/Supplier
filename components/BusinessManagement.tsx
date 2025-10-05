@@ -72,7 +72,7 @@ export default function BusinessManagement() {
     setIsEditing(false);
   };
 
-  const handleImageUpload = (event) => {
+  const handleImageUpload = (event: { target: { files: any } }) => {
     const files = event.target.files;
     if (files) {
       const newImageUrl = `https://readdy.ai/api/search-image?query=Business%20interior%20modern%20professional%20clean%20lighting%20organized%20workspace%20commercial%20space%20design&width=400&height=300&seq=new-upload-${Date.now()}&orientation=landscape`;
@@ -80,7 +80,7 @@ export default function BusinessManagement() {
     }
   };
 
-  const removeImage = (index) => {
+  const removeImage = (index: number) => {
     setBusinessImages(businessImages.filter((_, i) => i !== index));
   };
 

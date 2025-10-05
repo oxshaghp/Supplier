@@ -1,13 +1,159 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLanguage } from "@/lib/LanguageContext";
+
+interface Business {
+  id: number;
+  name: string;
+  owner: string;
+  category: string;
+  status: string;
+  crStatus: string;
+  views: number;
+  createdDate: string;
+}
+
+interface Review {
+  id: number;
+  businessName: string;
+  customerName: string;
+  rating: number;
+  reviewText: string;
+  submissionDate: string;
+  status: string;
+  flagged: boolean;
+}
+
+interface DocumentVerification {
+  id: number;
+  businessName: string;
+  ownerName: string;
+  documentType: string;
+  crNumber: string;
+  uploadDate: string;
+  issueDate: string;
+  expiryDate: string;
+  status: string;
+  reviewer: string | null;
+  notes: string | null;
+}
+
+interface ReportedContent {
+  id: number;
+  business: string;
+  type: string;
+  reportedBy: string;
+  reportDate: string;
+  reason: string;
+  content: string;
+  status: string;
+}
+
+interface Tab {
+  id: string;
+  name: string;
+  icon: string;
+}
 
 export default function ContentManagement() {
   const { t } = useLanguage();
-  // ... باقي الـ state variables كما هي ...
 
-  // في بداية الـ return:
+  const [activeTab, setActiveTab] = useState<string>("businesses");
+  const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [businesses, setBusinesses] = useState<Business[]>([]);
+  const [pendingReviews, setPendingReviews] = useState<Review[]>([]);
+  const [documentVerifications, setDocumentVerifications] = useState<
+    DocumentVerification[]
+  >([]);
+  const [reportedContent, setReportedContent] = useState<ReportedContent[]>([]);
+  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
+  const [showEditBusiness, setShowEditBusiness] = useState<boolean>(false);
+  const [editingBusiness, setEditingBusiness] = useState<Business | null>(null);
+
+  const tabs: Tab[] = [
+    { id: "businesses", name: "Business Listings", icon: "ri-store-line" },
+    { id: "reviews", name: "Pending Reviews", icon: "ri-star-line" },
+    {
+      id: "verification",
+      name: "Doc Verification",
+      icon: "ri-shield-check-line",
+    },
+    { id: "reports", name: "Reported Content", icon: "ri-flag-line" },
+  ];
+
+  const businessListings = businesses;
+  const filteredBusinesses =
+    filterStatus === "all"
+      ? businesses
+      : businesses.filter((b) => b.status === filterStatus);
+
+  const handleBulkAction = (action: string): void => {
+    console.log(`Bulk action: ${action} on items:`, selectedItems);
+    setSelectedItems([]);
+  };
+
+  const getStatusColor = (status: string): string => {
+    switch (status) {
+      case "approved":
+      case "verified":
+        return "bg-green-100 text-green-600";
+      case "pending_verification":
+      case "pending_review":
+      case "under_review":
+        return "bg-yellow-100 text-yellow-600";
+      case "flagged":
+      case "rejected":
+        return "bg-red-100 text-red-600";
+      default:
+        return "bg-gray-100 text-gray-600";
+    }
+  };
+
+  const getCRStatusIcon = (status: string): string => {
+    switch (status) {
+      case "verified":
+        return "ri-checkbox-circle-line text-green-500";
+      case "under_review":
+        return "ri-time-line text-yellow-500";
+      case "pending_review":
+        return "ri-hourglass-line text-orange-500";
+      case "rejected":
+        return "ri-close-circle-line text-red-500";
+      default:
+        return "ri-question-line text-gray-500";
+    }
+  };
+
+  const handleReviewAction = (action: string, reviewId: number): void => {
+    setPendingReviews((prev) =>
+      prev.filter((review) => review.id !== reviewId)
+    );
+    console.log(`Review ${action}ed:`, reviewId);
+  };
+
+  const handleDocumentAction = (action: string, docId: number): void => {
+    if (action === "view") {
+      console.log("View document:", docId);
+    } else {
+      setDocumentVerifications((prev) =>
+        prev.filter((doc) => doc.id !== docId)
+      );
+      console.log(`Document ${action}ed:`, docId);
+    }
+  };
+
+  const handleContentAction = (
+    action: string,
+    reportId: number,
+    type: string
+  ): void => {
+    setReportedContent((prev) =>
+      prev.filter((report) => report.id !== reportId)
+    );
+    console.log(`${type} ${action}ed:`, reportId);
+  };
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">

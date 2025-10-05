@@ -7,7 +7,7 @@ export default function SubscriptionFAQ() {
   const { t } = useLanguage();
   const [openFAQ, setOpenFAQ] = useState(0);
 
-  const faqs = t("subscriptionFAQ.faqs", { returnObjects: true });
+  const faqs = t("subscriptionFAQ.faqs");
 
   return (
     <section id="how-it-works" className="py-20 bg-gray-50">

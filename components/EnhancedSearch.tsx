@@ -1,35 +1,43 @@
+"use client";
 
-'use client';
+import { useState } from "react";
 
-import { useState } from 'react';
+interface EnhancedSearchProps {
+  onSearch: (term: string) => void;
+}
 
-export default function EnhancedSearch({ onSearch }) {
-  const [searchTerm, setSearchTerm] = useState('');
+export default function EnhancedSearch({ onSearch }: EnhancedSearchProps) {
+  const [searchTerm, setSearchTerm] = useState("");
   const [isVoiceSearch, setIsVoiceSearch] = useState(false);
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const popularSearches = [
-    'Glass suppliers in Jeddah',
-    'Construction materials Riyadh',
-    'Electronics suppliers with delivery',
-    'Medical equipment suppliers',
-    'Automotive parts Dammam',
-    'Food suppliers near me',
-    'Industrial machinery',
-    'Office furniture suppliers'
+    "Glass suppliers in Jeddah",
+    "Construction materials Riyadh",
+    "Electronics suppliers with delivery",
+    "Medical equipment suppliers",
+    "Automotive parts Dammam",
+    "Food suppliers near me",
+    "Industrial machinery",
+    "Office furniture suppliers",
   ];
 
   const handleVoiceSearch = () => {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      alert('Voice search is not supported in your browser');
+    if (
+      !("webkitSpeechRecognition" in window) &&
+      !("SpeechRecognition" in window)
+    ) {
+      alert("Voice search is not supported in your browser");
       return;
     }
 
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
 
-    recognition.lang = 'ar-SA,en-US';
+    recognition.lang = "ar-SA,en-US";
     recognition.continuous = false;
     recognition.interimResults = false;
 
@@ -39,17 +47,17 @@ export default function EnhancedSearch({ onSearch }) {
       setIsVoiceSearch(true);
     };
 
-    recognition.onresult = (event) => {
+    recognition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript;
       setSearchTerm(transcript);
       handleSearch(transcript);
       setIsVoiceSearch(false);
     };
 
-    recognition.onerror = (event) => {
-      console.error('Speech recognition error:', event.error);
+    recognition.onerror = (event: any) => {
+      console.error("Speech recognition error:", event.error);
       setIsVoiceSearch(false);
-      alert('Voice search failed. Please try again.');
+      alert("Voice search failed. Please try again.");
     };
 
     recognition.onend = () => {
@@ -59,11 +67,11 @@ export default function EnhancedSearch({ onSearch }) {
     recognition.start();
   };
 
-  const handleInputChange = (value) => {
+  const handleInputChange = (value: string) => {
     setSearchTerm(value);
-    
+
     if (value.length > 2) {
-      const filteredSuggestions = popularSearches.filter(search =>
+      const filteredSuggestions = popularSearches.filter((search) =>
         search.toLowerCase().includes(value.toLowerCase())
       );
       setSuggestions(filteredSuggestions.slice(0, 5));
@@ -73,21 +81,21 @@ export default function EnhancedSearch({ onSearch }) {
     }
   };
 
-  const handleSearch = (term = searchTerm) => {
+  const handleSearch = (term: string = searchTerm) => {
     if (term.trim()) {
       onSearch(term.trim());
       setShowSuggestions(false);
     }
   };
 
-  const handleSuggestionClick = (suggestion) => {
+  const handleSuggestionClick = (suggestion: string) => {
     setSearchTerm(suggestion);
     handleSearch(suggestion);
     setShowSuggestions(false);
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
@@ -100,7 +108,7 @@ export default function EnhancedSearch({ onSearch }) {
           <div className="pl-6">
             <i className="ri-search-line text-xl text-gray-400"></i>
           </div>
-          
+
           <input
             type="text"
             value={searchTerm}
@@ -117,13 +125,17 @@ export default function EnhancedSearch({ onSearch }) {
             onClick={handleVoiceSearch}
             disabled={isVoiceSearch}
             className={`p-3 mx-2 rounded-full transition-all ${
-              isVoiceSearch 
-                ? 'bg-red-100 text-red-600 animate-pulse' 
-                : 'hover:bg-gray-100 text-gray-600'
+              isVoiceSearch
+                ? "bg-red-100 text-red-600 animate-pulse"
+                : "hover:bg-gray-100 text-gray-600"
             }`}
             title="Voice Search (Arabic & English)"
           >
-            <i className={`ri-${isVoiceSearch ? 'mic-fill' : 'mic-line'} text-xl`}></i>
+            <i
+              className={`ri-${
+                isVoiceSearch ? "mic-fill" : "mic-line"
+              } text-xl`}
+            ></i>
           </button>
 
           {/* Search Button */}
@@ -141,7 +153,9 @@ export default function EnhancedSearch({ onSearch }) {
           <div className="absolute top-full left-0 right-0 mt-2 bg-red-50 border border-red-200 rounded-xl p-4 flex items-center justify-center">
             <div className="flex items-center space-x-3">
               <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-              <span className="text-red-700 font-medium">Listening... Speak now in Arabic or English</span>
+              <span className="text-red-700 font-medium">
+                Listening... Speak now in Arabic or English
+              </span>
               <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
             </div>
           </div>
@@ -151,7 +165,9 @@ export default function EnhancedSearch({ onSearch }) {
         {showSuggestions && suggestions.length > 0 && (
           <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-lg border border-gray-200 z-50">
             <div className="p-2">
-              <p className="text-xs text-gray-500 px-3 py-2 border-b border-gray-100">Suggestions:</p>
+              <p className="text-xs text-gray-500 px-3 py-2 border-b border-gray-100">
+                Suggestions:
+              </p>
               {suggestions.map((suggestion, index) => (
                 <button
                   key={index}

@@ -132,7 +132,7 @@ export default function TopSuppliers() {
     };
   }, [maxIndex]);
 
-  const getBadgeColor = (badge) => {
+  const getBadgeColor = (badge: string) => {
     switch (badge) {
       case "Premium Supplier":
         return "bg-gradient-to-r from-purple-500 to-purple-700";
@@ -151,7 +151,7 @@ export default function TopSuppliers() {
     }
   };
 
-  const getBadgeKey = (badge) => {
+  const getBadgeKey = (badge: string) => {
     switch (badge) {
       case "Premium Supplier":
         return "topSuppliers.badgePremium";
@@ -291,7 +291,7 @@ export default function TopSuppliers() {
                       </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row space-y-1 sm:space-y-0 sm:space-x-1 sm:space-x-2">
+                    <div className="flex flex-col sm:flex-row space-y-1 sm:space-y-0 sm:space-x-1 ">
                       <button className="flex-1 bg-yellow-400 text-white py-1.5 sm:py-2 px-2 sm:px-3 md:px-4 rounded-lg hover:bg-yellow-500 font-medium text-xs sm:text-sm whitespace-nowrap cursor-pointer">
                         <i className="ri-message-line mr-1 sm:mr-1 md:mr-2"></i>
                         {t("topSuppliers.message")}

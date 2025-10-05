@@ -3,10 +3,35 @@
 import Link from "next/link";
 import { useLanguage } from "../lib/LanguageContext";
 
-export default function BusinessCard({ business, viewMode = "grid" }) {
+interface Business {
+  id: string;
+  name: string;
+  image: string;
+  distance: string;
+  verified?: boolean;
+  businessType: string;
+  openNow?: boolean;
+  category: string;
+  location: string;
+  rating: number;
+  reviews: number;
+  targetCustomers: string[];
+  serviceDistance: string;
+  services: string[];
+}
+
+interface BusinessCardProps {
+  business: Business;
+  viewMode?: "grid" | "list";
+}
+
+export default function BusinessCard({
+  business,
+  viewMode = "grid",
+}: BusinessCardProps) {
   const { t } = useLanguage();
 
-  const getBusinessTypeIcon = (type) => {
+  const getBusinessTypeIcon = (type: string): string => {
     switch (type) {
       case "Supplier":
         return "ri-truck-line";
@@ -21,7 +46,7 @@ export default function BusinessCard({ business, viewMode = "grid" }) {
     }
   };
 
-  const getBusinessTypeColor = (type) => {
+  const getBusinessTypeColor = (type: string): string => {
     switch (type) {
       case "Supplier":
         return "bg-blue-100 text-blue-700";

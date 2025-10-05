@@ -1,15 +1,57 @@
 "use client";
 
 import { useState } from "react";
+import type React from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import BranchManagement from "../../components/BranchManagement";
 import Link from "next/link";
 import { useLanguage } from "@/lib/LanguageContext"; // عدل المسار حسب مكانك
 
+type BranchWorkingHoursDay = {
+  open: string;
+  close: string;
+  closed: boolean;
+};
+
+type Branch = {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+  manager: string;
+  location: { lat: number; lng: number };
+  status: "active" | "inactive" | string;
+  specialServices: string[];
+  isMainBranch: boolean;
+  workingHours: {
+    monday: BranchWorkingHoursDay;
+    tuesday: BranchWorkingHoursDay;
+    wednesday: BranchWorkingHoursDay;
+    thursday: BranchWorkingHoursDay;
+    friday: BranchWorkingHoursDay;
+    saturday: BranchWorkingHoursDay;
+    sunday: BranchWorkingHoursDay;
+  };
+};
+
+type BusinessStatus = "verified" | "pending" | "rejected" | string;
+
+type Business = {
+  id: string;
+  businessName: string;
+  category: string;
+  businessType: string;
+  contactEmail: string;
+  contactPhone: string;
+  status: BusinessStatus;
+  branches: Branch[];
+};
+
 export default function ManageBusinessesPage() {
   const { t } = useLanguage();
-  const [businesses, setBusinesses] = useState([
+  const [businesses, setBusinesses] = useState<Business[]>([
     {
       id: "1",
       businessName: "Metro Electronics Supply",
@@ -107,10 +149,12 @@ export default function ManageBusinessesPage() {
     },
   ]);
 
-  const [selectedBusiness, setSelectedBusiness] = useState(null);
-  const [showAddBusiness, setShowAddBusiness] = useState(false);
+  const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(
+    null
+  );
+  const [showAddBusiness, setShowAddBusiness] = useState<boolean>(false);
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: BusinessStatus) => {
     switch (status) {
       case "verified":
         return "bg-green-100 text-green-800";
@@ -123,7 +167,7 @@ export default function ManageBusinessesPage() {
     }
   };
 
-  const getStatusIcon = (status) => {
+  const getStatusIcon = (status: BusinessStatus) => {
     switch (status) {
       case "verified":
         return "ri-check-line";
@@ -136,11 +180,14 @@ export default function ManageBusinessesPage() {
     }
   };
 
-  const getStatusText = (status) => {
+  const getStatusText = (status: BusinessStatus) => {
     return t(`manageBusinesses.status.${status}`);
   };
 
-  const updateBusinessBranches = (businessId, updatedBranches) => {
+  const updateBusinessBranches = (
+    businessId: string,
+    updatedBranches: Branch[]
+  ) => {
     setBusinesses((prev) =>
       prev.map((business) =>
         business.id === businessId
@@ -478,7 +525,7 @@ export default function ManageBusinessesPage() {
             <div className="p-6">
               <BranchManagement
                 branches={selectedBusiness.branches}
-                setBranches={(branches) =>
+                setBranches={(branches: Branch[]) =>
                   updateBusinessBranches(selectedBusiness.id, branches)
                 }
                 mainBusinessData={selectedBusiness}

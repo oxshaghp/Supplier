@@ -3,7 +3,19 @@
 import { useState } from "react";
 import { useLanguage } from "@/lib/LanguageContext";
 
-export default function DashboardSettings({ user }) {
+interface User {
+  name: string;
+  email: string;
+  phone: string;
+  businessName: string;
+  plan: string;
+}
+
+interface DashboardSettingsProps {
+  user: User;
+}
+
+export default function DashboardSettings({ user }: DashboardSettingsProps) {
   const { t } = useLanguage();
   const [activeSection, setActiveSection] = useState("profile");
   const [settings, setSettings] = useState({
@@ -73,31 +85,28 @@ export default function DashboardSettings({ user }) {
     {
       name: t("settings.plans.basic.name"),
       price: t("settings.plans.basic.price"),
-      features:
-        t("settings.plans.basic.features", { returnObjects: true }) || [],
+      features: t("settings.plans.basic.features") || [],
       current: user.plan === "Basic",
     },
     {
       name: t("settings.plans.premium.name"),
       price: t("settings.plans.premium.price"),
-      features:
-        t("settings.plans.premium.features", { returnObjects: true }) || [],
+      features: t("settings.plans.premium.features") || [],
       current: user.plan === "Premium",
     },
     {
       name: t("settings.plans.enterprise.name"),
       price: t("settings.plans.enterprise.price"),
-      features:
-        t("settings.plans.enterprise.features", { returnObjects: true }) || [],
+      features: t("settings.plans.enterprise.features") || [],
       current: user.plan === "Enterprise",
     },
   ];
 
-  const handleSettingChange = (section, key, value) => {
+  const handleSettingChange = (section: string, key: string, value: any) => {
     setSettings((prev) => ({
       ...prev,
       [section]: {
-        ...prev[section],
+        ...prev[section as keyof typeof prev],
         [key]: value,
       },
     }));

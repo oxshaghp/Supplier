@@ -123,10 +123,6 @@ export const translations = {
     openNow: "Open Now",
     closed: "Closed",
 
-    // How It Works
-    howItWorks: "How It Works",
-    howItWorksDescription:
-      "Getting started is simple. Follow these three easy steps to connect with local businesses.",
     searchStep: "Search & Discover",
     searchStepDesc:
       "Use our powerful search tools to find exactly what you need in your area.",
@@ -3981,10 +3977,6 @@ export const translations = {
     openNow: "مفتوح الآن",
     closed: "مغلق",
 
-    // How It Works
-    howItWorks: "كيف يعمل",
-    howItWorksDescription:
-      "البدء بسيط. اتبع هذه الخطوات الثلاث السهلة للتواصل مع الشركات المحلية.",
     searchStep: "البحث والاكتشاف",
     searchStepDesc:
       "استخدم أدوات البحث القوية للعثور على ما تحتاجه بالضبط في منطقتك.",

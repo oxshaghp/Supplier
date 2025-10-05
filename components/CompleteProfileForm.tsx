@@ -5,6 +5,63 @@ import Link from "next/link";
 import BranchManagement from "./BranchManagement";
 import { useLanguage } from "./../lib/LanguageContext";
 
+interface WorkingHours {
+  [key: string]: {
+    open: string;
+    close: string;
+    closed: boolean;
+  };
+}
+
+interface FormData {
+  businessName: string;
+  contactPhone: string;
+  contactEmail: string;
+  businessType: string;
+  category: string;
+  categories: string[];
+  description: string;
+  productKeywords: string;
+  targetCustomers: string[];
+  serviceDistance: string;
+  services: string[];
+  website: string;
+  mainPhone: string;
+  address: string;
+  workingHours: WorkingHours;
+  additionalPhones: AdditionalPhone[];
+}
+
+interface AdditionalPhone {
+  id: number;
+  type: string;
+  number: string;
+  name: string;
+}
+
+interface Branch {
+  id: number;
+  name: string;
+  address: string;
+  phone: string;
+  status: string;
+}
+
+interface Location {
+  lat: number;
+  lng: number;
+}
+
+interface Errors {
+  [key: string]: string;
+}
+
+interface CompleteProfileFormProps {
+  formData: FormData;
+  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+  selectedLocation: Location;
+}
+
 const categories = [
   "Agriculture",
   "Apparel & Fashion",
@@ -82,34 +139,36 @@ export default function CompleteProfileForm({
   formData,
   setFormData,
   selectedLocation,
-}) {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [selectedServices, setSelectedServices] = useState([]);
-  const [selectedTargetCustomers, setSelectedTargetCustomers] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [productKeywords, setProductKeywords] = useState("");
-  const [keywordSuggestions, setKeywordSuggestions] = useState([]);
-  const [showKeywordGuide, setShowKeywordGuide] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [submitStatus, setSubmitStatus] = useState("");
-  const [crFile, setCrFile] = useState(null);
-  const [crPreview, setCrPreview] = useState("");
-  const [showVerificationModal, setShowVerificationModal] = useState(false);
+}: CompleteProfileFormProps) {
+  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [selectedTargetCustomers, setSelectedTargetCustomers] = useState<
+    string[]
+  >([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [productKeywords, setProductKeywords] = useState<string>("");
+  const [keywordSuggestions, setKeywordSuggestions] = useState<string[]>([]);
+  const [showKeywordGuide, setShowKeywordGuide] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [showSuccess, setShowSuccess] = useState<boolean>(false);
+  const [errors, setErrors] = useState<Errors>({});
+  const [submitStatus, setSubmitStatus] = useState<string>("");
+  const [crFile, setCrFile] = useState<File | null>(null);
+  const [crPreview, setCrPreview] = useState<string>("");
+  const [showVerificationModal, setShowVerificationModal] =
+    useState<boolean>(false);
   const { t } = useLanguage();
-  // Additional phone numbers state
-  const [additionalPhones, setAdditionalPhones] = useState([
+
+  const [additionalPhones, setAdditionalPhones] = useState<AdditionalPhone[]>([
     { id: 1, type: "Sales Representative", number: "", name: "" },
   ]);
 
-  // Branch management state
-  const [branches, setBranches] = useState([]);
-  const [showBranchManagement, setShowBranchManagement] = useState(false);
+  const [branches, setBranches] = useState<Branch[]>([]);
+  const [showBranchManagement, setShowBranchManagement] =
+    useState<boolean>(false);
 
-  // Keyword suggestions based on category
-  const getCategorySuggestions = (categories) => {
-    const suggestions = {
+  const getCategorySuggestions = (categories: string[]): string[] => {
+    const suggestions: Record<string, string[]> = {
       Agriculture: [
         "seeds",
         "fertilizers",
@@ -592,51 +651,47 @@ export default function CompleteProfileForm({
       ],
     };
 
-    // Combine suggestions from all selected categories
-    let allSuggestions = [];
+    let allSuggestions: string[] = [];
     categories.forEach((category) => {
       if (suggestions[category]) {
         allSuggestions = [...allSuggestions, ...suggestions[category]];
       }
     });
 
-    // Remove duplicates and return first 15
     return [...new Set(allSuggestions)].slice(0, 15);
   };
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: keyof FormData, value: string): void => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
 
-    // Clear error when user starts typing
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
     }
   };
 
-  const handleProductKeywordsChange = (value) => {
+  const handleProductKeywordsChange = (value: string): void => {
     setProductKeywords(value);
     setFormData((prev) => ({
       ...prev,
       productKeywords: value,
     }));
 
-    // Clear error when user starts typing
     if (errors.productKeywords) {
       setErrors((prev) => ({ ...prev, productKeywords: "" }));
     }
   };
 
-  const addSuggestedKeyword = (keyword) => {
+  const addSuggestedKeyword = (keyword: string): void => {
     const currentKeywords = productKeywords.trim();
     const separator = currentKeywords ? ", " : "";
     const newValue = currentKeywords + separator + keyword;
     handleProductKeywordsChange(newValue);
   };
 
-  const handleServiceToggle = (service) => {
+  const handleServiceToggle = (service: string): void => {
     const newServices = selectedServices.includes(service)
       ? selectedServices.filter((s) => s !== service)
       : [...selectedServices, service];
@@ -648,7 +703,7 @@ export default function CompleteProfileForm({
     }));
   };
 
-  const handleTargetCustomerToggle = (customer) => {
+  const handleTargetCustomerToggle = (customer: string): void => {
     const newCustomers = selectedTargetCustomers.includes(customer)
       ? selectedTargetCustomers.filter((c) => c !== customer)
       : [...selectedTargetCustomers, customer];
@@ -660,7 +715,11 @@ export default function CompleteProfileForm({
     }));
   };
 
-  const handleWorkingHoursChange = (day, field, value) => {
+  const handleWorkingHoursChange = (
+    day: string,
+    field: string,
+    value: string | boolean
+  ): void => {
     setFormData((prev) => ({
       ...prev,
       workingHours: {
@@ -673,10 +732,9 @@ export default function CompleteProfileForm({
     }));
   };
 
-  const handleCRFileChange = (e) => {
-    const file = e.target.files[0];
+  const handleCRFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const file = e.target.files?.[0];
     if (file) {
-      // Validate file type
       const allowedTypes = [
         "image/jpeg",
         "image/png",
@@ -691,7 +749,6 @@ export default function CompleteProfileForm({
         return;
       }
 
-      // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         setErrors((prev) => ({
           ...prev,
@@ -702,66 +759,40 @@ export default function CompleteProfileForm({
 
       setCrFile(file);
 
-      // Show preview for images
       if (file.type.startsWith("image/")) {
         const reader = new FileReader();
-        reader.onload = (e) => setCrPreview(e.target.result);
+        reader.onload = (e) => {
+          const result = e.target?.result;
+          if (typeof result === "string") {
+            setCrPreview(result);
+          } else {
+            setCrPreview("");
+          }
+        };
         reader.readAsDataURL(file);
       } else {
         setCrPreview("");
       }
 
-      // Clear error
       if (errors.crFile) {
         setErrors((prev) => ({ ...prev, crFile: "" }));
       }
     }
   };
 
-  const validateStep = (step) => {
-    // For demo purposes, allow progression without validation
-    // Remove all validation requirements to allow easy navigation
+  const validateStep = (_step: number): boolean => {
     return true;
-
-    /* Original validation commented out for demo:
-    const newErrors = {};
-    
-    if (step === 1) {
-      if (!formData.category) newErrors.category = 'Please select a category';
-      if (!formData.businessType) newErrors.businessType = 'Please select a business type';
-      if (!formData.description.trim()) newErrors.description = 'Business description is required';
-      if (formData.description.length < 50) newErrors.description = 'Description must be at least 50 characters';
-      if (!productKeywords.trim()) newErrors.productKeywords = 'Please add products/services keywords to help customers find you';
-      if (productKeywords.trim().length < 20) newErrors.productKeywords = 'Add more keywords (minimum: 20 characters) to improve search visibility';
-    }
-    
-    if (step === 2) {
-      if (selectedTargetCustomers.length === 0) newErrors.targetCustomers = 'Please select at least one target customer type';
-      if (!formData.serviceDistance) newErrors.serviceDistance = 'Please select service distance';
-    }
-    
-    if (step === 3) {
-      if (!formData.address.trim()) newErrors.address = 'Business address is required';
-    }
-    
-    if (step === 4) {
-      if (!crFile) newErrors.crFile = 'Commercial Registration document is required for verification';
-    }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-    */
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
 
-    // For demo, allow submission without validation
     setIsSubmitting(true);
     setSubmitStatus("Uploading documents and saving profile...");
 
     try {
-      // Simulate API call for file upload and profile submission
       await new Promise((resolve) => setTimeout(resolve, 3000));
 
       setSubmitStatus("Profile submitted successfully!");
@@ -773,17 +804,17 @@ export default function CompleteProfileForm({
     }
   };
 
-  const nextStep = () => {
+  const nextStep = (): void => {
     if (validateStep(currentStep)) {
       if (currentStep < 5) setCurrentStep(currentStep + 1);
     }
   };
 
-  const prevStep = () => {
+  const prevStep = (): void => {
     if (currentStep > 1) setCurrentStep(currentStep - 1);
   };
 
-  const getBusinessTypeIcon = (type) => {
+  const getBusinessTypeIcon = (type: string): string => {
     switch (type) {
       case "Supplier":
         return "ri-truck-line";
@@ -798,7 +829,7 @@ export default function CompleteProfileForm({
     }
   };
 
-  const getStepTitle = (step) => {
+  const getStepTitle = (step: number): string => {
     switch (step) {
       case 1:
         return t("completeProfile.steps.businessInfo");
@@ -815,7 +846,7 @@ export default function CompleteProfileForm({
     }
   };
 
-  const getKeywordCount = () => {
+  const getKeywordCount = (): number => {
     if (!productKeywords.trim()) return 0;
     return productKeywords.split(",").filter((k) => k.trim().length > 0).length;
   };
@@ -829,7 +860,7 @@ export default function CompleteProfileForm({
     t("completeProfile.phoneTypes.general"),
   ];
 
-  const handleCategoryToggle = (category) => {
+  const handleCategoryToggle = (category: string): void => {
     const newCategories = selectedCategories.includes(category)
       ? selectedCategories.filter((c) => c !== category)
       : [...selectedCategories, category];
@@ -840,7 +871,6 @@ export default function CompleteProfileForm({
       categories: newCategories,
     }));
 
-    // Update keyword suggestions based on selected categories
     if (newCategories.length > 0) {
       setKeywordSuggestions(getCategorySuggestions(newCategories));
     } else {
@@ -848,7 +878,7 @@ export default function CompleteProfileForm({
     }
   };
 
-  const handleAddPhone = () => {
+  const handleAddPhone = (): void => {
     if (additionalPhones.length < 4) {
       setAdditionalPhones((prev) =>
         prev.concat({
@@ -864,18 +894,21 @@ export default function CompleteProfileForm({
     }
   };
 
-  const handleRemovePhone = (id) => {
+  const handleRemovePhone = (id: number): void => {
     setAdditionalPhones((prev) => prev.filter((phone) => phone.id !== id));
   };
 
-  const handlePhoneChange = (id, field, value) => {
+  const handlePhoneChange = (
+    id: number,
+    field: keyof AdditionalPhone,
+    value: string
+  ): void => {
     setAdditionalPhones((prev) =>
       prev.map((phone) =>
         phone.id === id ? { ...phone, [field]: value } : phone
       )
     );
 
-    // Update form data
     const updatedPhones = additionalPhones.map((phone) =>
       phone.id === id ? { ...phone, [field]: value } : phone
     );
@@ -884,7 +917,6 @@ export default function CompleteProfileForm({
       additionalPhones: updatedPhones,
     }));
   };
-
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8">
       <div className="mb-8">
@@ -893,7 +925,9 @@ export default function CompleteProfileForm({
             {t("completeProfile.title")}
           </h2>
           <span className="text-sm text-gray-500">
-            {t("completeProfile.stepOf", { current: currentStep, total: 5 })}
+            {t("completeProfile.stepOf")
+              .replace("{current}", String(currentStep))
+              .replace("{total}", "5")}
           </span>
         </div>
 
@@ -2073,8 +2107,12 @@ export default function CompleteProfileForm({
             </div>
             <div className="p-6">
               <BranchManagement
-                branches={branches}
-                setBranches={setBranches}
+                branches={
+                  branches as unknown as import("./BranchManagement").Branch[]
+                }
+                setBranches={(
+                  updatedBranches: import("./BranchManagement").Branch[]
+                ) => setBranches(updatedBranches as unknown as typeof branches)}
                 mainBusinessData={formData}
               />
             </div>

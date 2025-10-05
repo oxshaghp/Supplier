@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type React from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Link from "next/link";
@@ -8,20 +9,31 @@ import { useRouter } from "next/navigation";
 import { useLanguage } from "@/lib/LanguageContext"; // عدل المسار حسب مكانك
 
 export default function RegisterPage() {
-  const { t } = useLanguage();
-  const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
+  const { t, translations, language } = useLanguage();
+  const [step, setStep] = useState<number>(1);
+  const [formData, setFormData] = useState<{
+    businessName: string;
+    phone: string;
+    email: string;
+  }>({
     businessName: "",
     phone: "",
     email: "",
   });
-  const [verificationMethod, setVerificationMethod] = useState("");
-  const [verificationCode, setVerificationCode] = useState(["", "", "", ""]);
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [verificationMethod, setVerificationMethod] = useState<
+    "phone" | "email" | ""
+  >("");
+  const [verificationCode, setVerificationCode] = useState<string[]>([
+    "",
+    "",
+    "",
+    "",
+  ]);
+  const [isVerifying, setIsVerifying] = useState<boolean>(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const router = useRouter();
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
@@ -37,12 +49,12 @@ export default function RegisterPage() {
     setStep(2);
   };
 
-  const handleStep1Submit = (e) => {
+  const handleStep1Submit = (e: React.FormEvent) => {
     e.preventDefault();
     handleDemoStep1();
   };
 
-  const handleVerificationMethodSelect = (method) => {
+  const handleVerificationMethodSelect = (method: "phone" | "email") => {
     setVerificationMethod(method);
     setIsVerifying(true);
 
@@ -59,7 +71,7 @@ export default function RegisterPage() {
     }, 500);
   };
 
-  const handleCodeChange = (index, value) => {
+  const handleCodeChange = (index: number, value: string) => {
     if (value.length <= 1 && /^\d*$/.test(value)) {
       const newCode = [...verificationCode];
       newCode[index] = value;
@@ -72,7 +84,10 @@ export default function RegisterPage() {
     }
   };
 
-  const handleCodeKeyDown = (index, e) => {
+  const handleCodeKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     if (e.key === "Backspace" && !verificationCode[index] && index > 0) {
       const prevInput = document.getElementById(`code-${index - 1}`);
       if (prevInput) prevInput.focus();
@@ -350,8 +365,14 @@ export default function RegisterPage() {
 
         <div className="text-center">
           <button
-            onClick={() => handleVerificationMethodSelect(verificationMethod)}
-            className="text-yellow-600 hover:text-yellow-700 font-medium text-sm"
+            onClick={() =>
+              verificationMethod &&
+              handleVerificationMethodSelect(
+                verificationMethod as "phone" | "email"
+              )
+            }
+            disabled={!verificationMethod}
+            className="text-yellow-600 hover:text-yellow-700 font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {t("register.step3.resendCode")}
           </button>
@@ -389,16 +410,15 @@ export default function RegisterPage() {
           {t("register.step4.completeSubtitle")}
         </p>
         <ul className="space-y-2 text-sm text-gray-600">
-          {Array.isArray(t("register.step4.checklist", { returnObjects: true }))
-            ? t("register.step4.checklist", { returnObjects: true }).map(
-                (item, index) => (
-                  <li key={index} className="flex items-center space-x-2">
-                    <i className="ri-check-line text-green-600"></i>
-                    <span>{item}</span>
-                  </li>
-                )
-              )
-            : null}
+          {(
+            ((translations as any)[language]?.register?.step4
+              ?.checklist as string[]) || []
+          ).map((item: string, index: number) => (
+            <li key={index} className="flex items-center space-x-2">
+              <i className="ri-check-line text-green-600"></i>
+              <span>{item}</span>
+            </li>
+          ))}
         </ul>
       </div>
 

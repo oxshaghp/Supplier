@@ -1,21 +1,38 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useLanguage } from "@/lib/LanguageContext"; // عدل المسار حسب مكانك
+import { useLanguage } from "@/lib/LanguageContext";
 
-export default function ContactModal({ isOpen, onClose }) {
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+}
+
+interface Errors {
+  [key: string]: string;
+}
+
+interface ContactModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const { t } = useLanguage();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     phone: "",
     subject: "general",
     message: "",
   });
-  const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submitUrl, setSubmitUrl] = useState("");
+  const [errors, setErrors] = useState<Errors>({});
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [submitUrl, setSubmitUrl] = useState<string>("");
 
   useEffect(() => {
     if (isOpen && !submitUrl) {
@@ -23,7 +40,7 @@ export default function ContactModal({ isOpen, onClose }) {
     }
   }, [isOpen, submitUrl]);
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: keyof FormData, value: string): void => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -33,8 +50,8 @@ export default function ContactModal({ isOpen, onClose }) {
     }
   };
 
-  const validateForm = () => {
-    const newErrors = {};
+  const validateForm = (): boolean => {
+    const newErrors: Errors = {};
 
     if (!formData.name.trim()) {
       newErrors.name = t("contactModal.errors.nameRequired");
@@ -59,7 +76,9 @@ export default function ContactModal({ isOpen, onClose }) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
 
     if (!validateForm()) return;
@@ -84,7 +103,7 @@ export default function ContactModal({ isOpen, onClose }) {
     }
   };
 
-  const resetForm = () => {
+  const resetForm = (): void => {
     setFormData({
       name: "",
       email: "",
@@ -97,7 +116,7 @@ export default function ContactModal({ isOpen, onClose }) {
     setIsSubmitting(false);
   };
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     resetForm();
     onClose();
   };

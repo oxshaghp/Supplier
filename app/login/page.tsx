@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type React from "react";
 import Link from "next/link";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
@@ -13,11 +14,11 @@ export default function LoginPage() {
     password: "",
     rememberMe: false,
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -27,8 +28,8 @@ export default function LoginPage() {
     }
   };
 
-  const validateForm = () => {
-    const newErrors = {};
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {};
 
     if (!formData.email.trim()) {
       newErrors.email = t("login.errors.emailRequired");
@@ -49,7 +50,7 @@ export default function LoginPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validateForm()) return;

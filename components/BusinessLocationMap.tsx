@@ -1,9 +1,27 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLanguage } from "../lib/LanguageContext";
 
-const saudiCities = [
+interface City {
+  name: string;
+  lat: number;
+  lng: number;
+}
+
+interface Location {
+  lat: number;
+  lng: number;
+}
+
+interface BusinessLocationMapProps {
+  selectedLocation: Location;
+  setSelectedLocation: (location: Location) => void;
+}
+
+type LocationMethod = "map" | "city" | "address";
+
+const saudiCities: City[] = [
   { name: "Riyadh", lat: 24.7136, lng: 46.6753 },
   { name: "Jeddah", lat: 21.4858, lng: 39.1925 },
   { name: "Mecca", lat: 21.3891, lng: 39.8579 },
@@ -24,14 +42,13 @@ const saudiCities = [
 export default function BusinessLocationMap({
   selectedLocation,
   setSelectedLocation,
-}) {
+}: BusinessLocationMapProps) {
   const { t } = useLanguage();
-  const [mapCenter, setMapCenter] = useState(selectedLocation);
-  const [selectedCity, setSelectedCity] = useState("");
-  const [customAddress, setCustomAddress] = useState("");
-  const [locationMethod, setLocationMethod] = useState("map"); // 'map', 'city', 'address'
+  const [selectedCity, setSelectedCity] = useState<string>("");
+  const [customAddress, setCustomAddress] = useState<string>("");
+  const [locationMethod, setLocationMethod] = useState<LocationMethod>("map");
 
-  const handleMapClick = (event) => {
+  const handleMapClick = (): void => {
     // In a real implementation, you would get coordinates from the map click event
     // For now, we'll simulate with a small random offset within Saudi Arabia bounds
     const newLat = 24.7136 + (Math.random() - 0.5) * 10; // Approximate Saudi Arabia lat range
@@ -47,7 +64,7 @@ export default function BusinessLocationMap({
     });
   };
 
-  const handleCitySelect = (cityName) => {
+  const handleCitySelect = (cityName: string): void => {
     const city = saudiCities.find((c) => c.name === cityName);
     if (city) {
       setSelectedLocation({
@@ -58,7 +75,7 @@ export default function BusinessLocationMap({
     }
   };
 
-  const handleAddressGeocode = async () => {
+  const handleAddressGeocode = async (): Promise<void> => {
     if (!customAddress.trim()) return;
 
     // In a real implementation, you would use a geocoding service
@@ -74,7 +91,7 @@ export default function BusinessLocationMap({
     });
   };
 
-  const getCurrentLocation = () => {
+  const getCurrentLocation = (): void => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -223,7 +240,6 @@ export default function BusinessLocationMap({
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             title="Business Location Map"
-            onClick={locationMethod === "map" ? handleMapClick : undefined}
             className={locationMethod === "map" ? "cursor-crosshair" : ""}
           ></iframe>
 
@@ -241,7 +257,7 @@ export default function BusinessLocationMap({
 
           {/* Saudi Arabia city markers */}
           <div className="absolute inset-0 pointer-events-none">
-            {saudiCities.slice(0, 6).map((city, index) => {
+            {saudiCities.slice(0, 6).map((city) => {
               // Calculate approximate position based on map bounds
               const xPercent = ((city.lng - 34) / (55 - 34)) * 100;
               const yPercent = ((32 - city.lat) / (32 - 16)) * 100;

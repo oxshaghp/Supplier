@@ -1,11 +1,22 @@
 "use client";
 
 import { useLanguage } from "@/lib/LanguageContext"; // عدل المسار حسب مكانك
+import {
+  ReactElement,
+  JSXElementConstructor,
+  ReactNode,
+  ReactPortal,
+  AwaitedReactNode,
+  Key,
+} from "react";
 
 export default function SubscriptionFeatures() {
   const { t } = useLanguage();
 
-  const features = t("subscriptionFeatures.features", { returnObjects: true });
+  // @ts-ignore: The translation function may not support the second argument in its type definition
+  const features = t("subscriptionFeatures.features", {
+    returnObjects: true,
+  }) as any;
 
   return (
     <section className="py-20 bg-white">
@@ -45,14 +56,35 @@ export default function SubscriptionFeatures() {
 
                   <div className="space-y-2">
                     {Array.isArray(feature.benefits) &&
-                      feature.benefits.map((benefit, idx) => (
-                        <div key={idx} className="flex items-center space-x-2">
-                          <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full flex-shrink-0"></div>
-                          <span className="text-gray-700 text-xs">
-                            {benefit}
-                          </span>
-                        </div>
-                      ))}
+                      feature.benefits.map(
+                        (
+                          benefit:
+                            | string
+                            | number
+                            | bigint
+                            | boolean
+                            | ReactElement<
+                                any,
+                                string | JSXElementConstructor<any>
+                              >
+                            | Iterable<ReactNode>
+                            | ReactPortal
+                            | Promise<AwaitedReactNode>
+                            | null
+                            | undefined,
+                          idx: Key | null | undefined
+                        ) => (
+                          <div
+                            key={idx}
+                            className="flex items-center space-x-2"
+                          >
+                            <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full flex-shrink-0"></div>
+                            <span className="text-gray-700 text-xs">
+                              {benefit}
+                            </span>
+                          </div>
+                        )
+                      )}
                   </div>
                 </div>
               ))}

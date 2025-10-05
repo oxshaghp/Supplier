@@ -1,14 +1,44 @@
 "use client";
 
 import { useState } from "react";
+import type React from "react";
 import { useLanguage } from "../lib/LanguageContext";
+
+type TimeRange = "7days" | "30days" | "90days" | "1year";
+type ChartKey = "revenue" | "users" | "businesses" | "subscriptions";
+
+type AnalyticsSeries = {
+  current: number;
+  previous: number;
+  growth: number;
+  data: number[];
+};
+
+type RevenuePlan = {
+  plan: string;
+  revenue: number;
+  users: number;
+  color: string;
+};
+type CategoryRow = {
+  name: string;
+  businesses: number;
+  revenue: string;
+  growth: number;
+};
+type ActivityRow = {
+  date: string;
+  newUsers: number;
+  activeUsers: number;
+  revenue: number;
+};
 
 export default function AdminAnalytics() {
   const { t } = useLanguage();
-  const [timeRange, setTimeRange] = useState("30days");
-  const [chartType, setChartType] = useState("revenue");
+  const [timeRange, setTimeRange] = useState<TimeRange>("30days");
+  const [chartType, setChartType] = useState<ChartKey>("revenue");
 
-  const analyticsData = {
+  const analyticsData: Record<ChartKey, AnalyticsSeries> = {
     revenue: {
       current: 45678,
       previous: 38940,
@@ -35,7 +65,7 @@ export default function AdminAnalytics() {
     },
   };
 
-  const topCategories = [
+  const topCategories: CategoryRow[] = [
     { name: "Technology", businesses: 324, revenue: "$12,450", growth: 18.5 },
     { name: "Electronics", businesses: 289, revenue: "$9,870", growth: 12.3 },
     { name: "Healthcare", businesses: 156, revenue: "$7,230", growth: 9.8 },
@@ -43,13 +73,13 @@ export default function AdminAnalytics() {
     { name: "Retail", businesses: 132, revenue: "$4,920", growth: 8.2 },
   ];
 
-  const revenueByPlan = [
+  const revenueByPlan: RevenuePlan[] = [
     { plan: "Enterprise", revenue: 22890, users: 89, color: "bg-purple-500" },
     { plan: "Premium", revenue: 15640, users: 234, color: "bg-blue-500" },
     { plan: "Basic", revenue: 7148, users: 533, color: "bg-green-500" },
   ];
 
-  const userActivity = [
+  const userActivity: ActivityRow[] = [
     { date: "2024-01-14", newUsers: 45, activeUsers: 1230, revenue: 2340 },
     { date: "2024-01-15", newUsers: 52, activeUsers: 1278, revenue: 2890 },
     { date: "2024-01-16", newUsers: 38, activeUsers: 1156, revenue: 1980 },
@@ -59,15 +89,15 @@ export default function AdminAnalytics() {
     { date: "2024-01-20", newUsers: 49, activeUsers: 1423, revenue: 2980 },
   ];
 
-  const getGrowthColor = (growth) => {
+  const getGrowthColor = (growth: number) => {
     return growth > 0 ? "text-green-600" : "text-red-600";
   };
 
-  const formatNumber = (num) => {
+  const formatNumber = (num: number) => {
     return new Intl.NumberFormat().format(num);
   };
 
-  const formatCurrency = (amount) => {
+  const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
@@ -83,7 +113,7 @@ export default function AdminAnalytics() {
         <div className="flex space-x-3">
           <select
             value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value)}
+            onChange={(e) => setTimeRange(e.target.value as TimeRange)}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm pr-8"
           >
             <option value="7days">{t("adminAnalytics.timeRange7")}</option>
@@ -100,87 +130,89 @@ export default function AdminAnalytics() {
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {Object.entries(analyticsData).map(([key, data]) => (
-          <div
-            key={key}
-            className="bg-white p-6 rounded-xl shadow-sm border border-gray-100"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <div
-                className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                  key === "revenue"
-                    ? "bg-green-100"
-                    : key === "users"
-                    ? "bg-blue-100"
-                    : key === "businesses"
-                    ? "bg-purple-100"
-                    : "bg-yellow-100"
-                }`}
-              >
-                <i
-                  className={`text-xl ${
-                    key === "revenue"
-                      ? "ri-money-dollar-circle-line text-green-600"
-                      : key === "users"
-                      ? "ri-user-line text-blue-600"
-                      : key === "businesses"
-                      ? "ri-store-line text-purple-600"
-                      : "ri-vip-crown-line text-yellow-600"
-                  }`}
-                ></i>
-              </div>
-              <span
-                className={`text-sm font-medium px-2 py-1 rounded-full ${
-                  data.growth > 0
-                    ? "bg-green-100 text-green-600"
-                    : "bg-red-100 text-red-600"
-                }`}
-              >
-                {data.growth > 0 ? "+" : ""}
-                {data.growth}%
-              </span>
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold text-gray-800">
-                {key === "revenue"
-                  ? formatCurrency(data.current)
-                  : formatNumber(data.current)}
-              </h3>
-              <p className="text-gray-600 text-sm capitalize">
-                {key === "businesses"
-                  ? t("adminAnalytics.totalBusinesses")
-                  : key === "subscriptions"
-                  ? t("adminAnalytics.paidSubscriptions")
-                  : key === "revenue"
-                  ? t("adminAnalytics.totalRevenue")
-                  : key === "users"
-                  ? t("adminAnalytics.totalUsers")
-                  : `Total ${key}`}
-              </p>
-            </div>
-
-            {/* Mini Chart */}
-            <div className="mt-4 h-8 flex items-end space-x-1">
-              {data.data.map((value, index) => (
+        {(Object.entries(analyticsData) as [ChartKey, AnalyticsSeries][]).map(
+          ([key, data]) => (
+            <div
+              key={key}
+              className="bg-white p-6 rounded-xl shadow-sm border border-gray-100"
+            >
+              <div className="flex items-center justify-between mb-4">
                 <div
-                  key={index}
-                  className={`flex-1 rounded-t ${
+                  className={`w-12 h-12 rounded-lg flex items-center justify-center ${
                     key === "revenue"
-                      ? "bg-green-200"
+                      ? "bg-green-100"
                       : key === "users"
-                      ? "bg-blue-200"
+                      ? "bg-blue-100"
                       : key === "businesses"
-                      ? "bg-purple-200"
-                      : "bg-yellow-200"
+                      ? "bg-purple-100"
+                      : "bg-yellow-100"
                   }`}
-                  style={{
-                    height: `${(value / Math.max(...data.data)) * 100}%`,
-                  }}
-                ></div>
-              ))}
+                >
+                  <i
+                    className={`text-xl ${
+                      key === "revenue"
+                        ? "ri-money-dollar-circle-line text-green-600"
+                        : key === "users"
+                        ? "ri-user-line text-blue-600"
+                        : key === "businesses"
+                        ? "ri-store-line text-purple-600"
+                        : "ri-vip-crown-line text-yellow-600"
+                    }`}
+                  ></i>
+                </div>
+                <span
+                  className={`text-sm font-medium px-2 py-1 rounded-full ${
+                    data.growth > 0
+                      ? "bg-green-100 text-green-600"
+                      : "bg-red-100 text-red-600"
+                  }`}
+                >
+                  {data.growth > 0 ? "+" : ""}
+                  {data.growth}%
+                </span>
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-gray-800">
+                  {key === "revenue"
+                    ? formatCurrency(data.current)
+                    : formatNumber(data.current)}
+                </h3>
+                <p className="text-gray-600 text-sm capitalize">
+                  {key === "businesses"
+                    ? t("adminAnalytics.totalBusinesses")
+                    : key === "subscriptions"
+                    ? t("adminAnalytics.paidSubscriptions")
+                    : key === "revenue"
+                    ? t("adminAnalytics.totalRevenue")
+                    : key === "users"
+                    ? t("adminAnalytics.totalUsers")
+                    : `Total ${key}`}
+                </p>
+              </div>
+
+              {/* Mini Chart */}
+              <div className="mt-4 h-8 flex items-end space-x-1">
+                {data.data.map((value: number, index: number) => (
+                  <div
+                    key={index}
+                    className={`flex-1 rounded-t ${
+                      key === "revenue"
+                        ? "bg-green-200"
+                        : key === "users"
+                        ? "bg-blue-200"
+                        : key === "businesses"
+                        ? "bg-purple-200"
+                        : "bg-yellow-200"
+                    }`}
+                    style={{
+                      height: `${(value / Math.max(...data.data)) * 100}%`,
+                    }}
+                  ></div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        )}
       </div>
 
       {/* Charts Section */}

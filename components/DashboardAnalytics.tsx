@@ -3,12 +3,14 @@
 import { useState } from "react";
 import { useLanguage } from "@/lib/LanguageContext"; // عدل المسار حسب مكانك
 
-export default function DashboardAnalytics() {
-  const { t } = useLanguage();
-  const [timeRange, setTimeRange] = useState("30days");
-  const [chartType, setChartType] = useState("views");
+type ChartKey = "views" | "contacts" | "inquiries";
 
-  const chartData = {
+export default function DashboardAnalytics() {
+  const { t, translations, language } = useLanguage();
+  const [timeRange, setTimeRange] = useState("30days");
+  const [chartType, setChartType] = useState<ChartKey>("views");
+
+  const chartData: Record<ChartKey, number[]> = {
     views: [
       120, 180, 250, 200, 300, 280, 350, 400, 380, 450, 420, 500, 480, 550, 520,
       600, 580, 650, 620, 700, 680, 750, 720, 800, 780, 850, 820, 900, 880, 950,
@@ -72,6 +74,10 @@ export default function DashboardAnalytics() {
     },
   ];
 
+  const recommendationItems: string[] =
+    ((translations as any)[language]?.dashboardAnalytics?.recommendations
+      ?.items as string[]) || [];
+
   return (
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -131,26 +137,28 @@ export default function DashboardAnalytics() {
               {t("dashboardAnalytics.charts.title")}
             </h3>
             <div className="flex space-x-2">
-              {["views", "contacts", "inquiries"].map((type) => (
-                <button
-                  key={type}
-                  onClick={() => setChartType(type)}
-                  className={`px-3 py-1 rounded-full text-sm font-medium cursor-pointer capitalize transition-all ${
-                    chartType === type
-                      ? "bg-yellow-400 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
-                >
-                  {t(`dashboardAnalytics.charts.${type}`)}
-                </button>
-              ))}
+              {(["views", "contacts", "inquiries"] as ChartKey[]).map(
+                (type) => (
+                  <button
+                    key={type}
+                    onClick={() => setChartType(type)}
+                    className={`px-3 py-1 rounded-full text-sm font-medium cursor-pointer capitalize transition-all ${
+                      chartType === type
+                        ? "bg-yellow-400 text-white"
+                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    }`}
+                  >
+                    {t(`dashboardAnalytics.charts.${type}`)}
+                  </button>
+                )
+              )}
             </div>
           </div>
         </div>
 
         <div className="p-6">
           <div className="h-64 flex items-end space-x-1">
-            {chartData[chartType].map((value, index) => (
+            {chartData[chartType].map((value: number, index: number) => (
               <div
                 key={index}
                 className="bg-yellow-400 rounded-t flex-1 transition-all duration-300 hover:bg-yellow-500"
@@ -225,11 +233,7 @@ export default function DashboardAnalytics() {
               {t("dashboardAnalytics.recommendations.title")}
             </h3>
             <ul className="space-y-2 text-sm text-gray-700">
-              {(
-                t("dashboardAnalytics.recommendations.items", {
-                  returnObjects: true,
-                }) || []
-              ).map((item, index) => (
+              {recommendationItems.map((item: string, index: number) => (
                 <li key={index} className="flex items-start space-x-2">
                   <i className="ri-check-line text-green-500 mt-0.5"></i>
                   <span>{item}</span>

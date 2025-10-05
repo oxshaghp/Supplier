@@ -1,13 +1,31 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import type React from "react";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "../lib/LanguageContext";
 
+type ChatSender = "ai" | "user";
+type ChatMessage = {
+  id: number;
+  text: string;
+  sender: ChatSender;
+  timestamp: Date;
+};
+
+type AISuggestions = {
+  categories: string[];
+  locations: string[];
+  rating: number | null;
+  features: string[];
+  businessTypes: string[];
+  products: string[];
+};
+
 export default function AIChatWidget() {
   const { t } = useLanguage();
-  const [isMinimized, setIsMinimized] = useState(false);
-  const [messages, setMessages] = useState([
+  const [isMinimized, setIsMinimized] = useState<boolean>(false);
+  const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 1,
       text: t("aiChat.initialMessage"),
@@ -15,9 +33,9 @@ export default function AIChatWidget() {
       timestamp: new Date(),
     },
   ]);
-  const [inputMessage, setInputMessage] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef(null);
+  const [inputMessage, setInputMessage] = useState<string>("");
+  const [isTyping, setIsTyping] = useState<boolean>(false);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
 
   const scrollToBottom = () => {
@@ -28,10 +46,10 @@ export default function AIChatWidget() {
     scrollToBottom();
   }, [messages]);
 
-  const generateAISuggestions = (query) => {
+  const generateAISuggestions = (query: string): AISuggestions => {
     const lowerQuery = query.toLowerCase();
 
-    const suggestions = {
+    const suggestions: AISuggestions = {
       categories: [],
       locations: [],
       rating: null,
@@ -41,7 +59,7 @@ export default function AIChatWidget() {
     };
 
     // Enhanced product/service recognition and category mapping
-    const categoryMappings = {
+    const categoryMappings: Record<string, string> = {
       "glass|window|door|construction|building|cement|concrete|marble|tile|paint|steel|metal|iron":
         "construction-real-estate",
       "electronic|computer|tech|software|hardware|smartphone|laptop|tablet":
@@ -75,7 +93,7 @@ export default function AIChatWidget() {
     };
 
     // Product-specific detection
-    const productMappings = {
+    const productMappings: Record<string, string> = {
       "glass|window|mirror": "Glass & Windows",
       "door|gate|entrance": "Doors & Gates",
       "cement|concrete|building material": "Construction Materials",
@@ -113,7 +131,7 @@ export default function AIChatWidget() {
     });
 
     // Enhanced location detection
-    const locationMappings = {
+    const locationMappings: Record<string, string> = {
       "riyadh|riyad|الرياض": "Riyadh",
       "jeddah|jidda|jedda|جدة": "Jeddah",
       "makkah|mecca|maka|مكة": "Makkah",
@@ -137,7 +155,7 @@ export default function AIChatWidget() {
     });
 
     // Business type detection
-    const businessTypeMappings = {
+    const businessTypeMappings: Record<string, string> = {
       "supplier|supply|supplying|distribute|distributor|manufacturer|factory":
         "Supplier",
       "store|shop|retail|market|outlet|showroom": "Store",
@@ -155,7 +173,7 @@ export default function AIChatWidget() {
     });
 
     // Quality indicators
-    const qualityIndicators = {
+    const qualityIndicators: Record<string, number> = {
       "best|top|excellent|premium|high quality|superior|quality|جودة|أفضل": 4,
       "good|reliable|trusted|trustworthy|موثوق|جيد": 3,
       "average|decent|okay|متوسط": 2,
@@ -190,7 +208,7 @@ export default function AIChatWidget() {
     return suggestions;
   };
 
-  const navigateAndFilter = (suggestions, query) => {
+  const navigateAndFilter = (suggestions: AISuggestions, query: string) => {
     // Create URL with search parameters for filtering
     const params = new URLSearchParams();
 
@@ -201,10 +219,10 @@ export default function AIChatWidget() {
       params.set("location", suggestions.locations[0]);
     }
     if (suggestions.businessTypes.length > 0) {
-      params.set("businessType", suggestions.businessTypes[0]);
+      params.set("type", suggestions.businessTypes[0]);
     }
     if (suggestions.rating) {
-      params.set("minRating", suggestions.rating.toString());
+      params.set("rating", suggestions.rating.toString());
     }
     if (suggestions.features.length > 0) {
       params.set("features", suggestions.features.join(","));
@@ -217,7 +235,7 @@ export default function AIChatWidget() {
     router.push(`/businesses?${params.toString()}`);
   };
 
-  const simulateAIResponse = (userMessage) => {
+  const simulateAIResponse = (userMessage: string): string => {
     const lowerMessage = userMessage.toLowerCase();
 
     // Always generate suggestions for any user query
@@ -304,7 +322,7 @@ export default function AIChatWidget() {
   const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
 
-    const userMessage = {
+    const userMessage: ChatMessage = {
       id: Date.now(),
       text: inputMessage,
       sender: "user",
@@ -318,7 +336,7 @@ export default function AIChatWidget() {
 
     // Simulate AI response delay
     setTimeout(() => {
-      const aiResponse = {
+      const aiResponse: ChatMessage = {
         id: Date.now() + 1,
         text: simulateAIResponse(currentMessage),
         sender: "ai",
@@ -330,7 +348,7 @@ export default function AIChatWidget() {
     }, 1500);
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
@@ -338,7 +356,7 @@ export default function AIChatWidget() {
   };
 
   // Quick suggestions for common searches
-  const quickSuggestions = [
+  const quickSuggestions: string[] = [
     t("aiChat.quickSuggestions.glass"),
     t("aiChat.quickSuggestions.electronics"),
     t("aiChat.quickSuggestions.construction"),

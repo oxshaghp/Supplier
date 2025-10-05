@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
+import type React from "react";
 import { useSearchParams } from "next/navigation";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
@@ -10,20 +11,59 @@ import BusinessCard from "../../components/BusinessCard";
 import AIChatWidget from "../../components/AIChatWidget";
 import AIFilterBar from "../../components/AIFilterBar";
 
+type Business = {
+  id: number;
+  name: string;
+  category: string;
+  businessType:
+    | "Supplier"
+    | "Store"
+    | "Office"
+    | "Manufacturer"
+    | "Individual"
+    | string;
+  location: string;
+  distance: string; // e.g. "2.1 km"
+  rating: number;
+  reviews: number;
+  verified: boolean;
+  openNow: boolean;
+  lat: number;
+  lng: number;
+  image: string;
+  services: string[];
+  targetCustomers: string[];
+  serviceDistance: string;
+};
+
+type AISuggestions = {
+  filters: {
+    categories: string[];
+    locations: string[];
+    rating: number | null;
+    features: string[];
+    businessTypes: string[];
+  };
+};
+
 // Suspense wrapper for useSearchParams
 function BusinessesContent() {
   const { t } = useLanguage();
   const searchParams = useSearchParams();
-  const [businesses, setBusinesses] = useState(allBusinesses);
-  const [filteredBusinesses, setFilteredBusinesses] = useState(allBusinesses);
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedLocation, setSelectedLocation] = useState("");
-  const [selectedRating, setSelectedRating] = useState("");
-  const [selectedBusinessType, setSelectedBusinessType] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState("rating");
-  const [viewMode, setViewMode] = useState("grid");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [filteredBusinesses, setFilteredBusinesses] = useState<Business[]>(
+    allBusinesses as Business[]
+  );
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedLocation, setSelectedLocation] = useState<string>("");
+  const [selectedRating, setSelectedRating] = useState<string>("");
+  const [selectedBusinessType, setSelectedBusinessType] =
+    useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [sortBy, setSortBy] = useState<
+    "rating" | "distance" | "reviews" | "name"
+  >("rating");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 12;
 
   // Apply filters from URL parameters when component mounts
@@ -57,14 +97,14 @@ function BusinessesContent() {
     }
   }, [searchParams]);
 
-  const handleAIFilter = (aiSuggestions) => {
-    let filtered = [...allBusinesses];
+  const handleAIFilter = (aiSuggestions: AISuggestions) => {
+    let filtered: Business[] = [...(allBusinesses as Business[])];
 
     // Apply AI-generated filters
     if (aiSuggestions.filters.categories.length > 0) {
       filtered = filtered.filter((business) =>
         aiSuggestions.filters.categories.some((cat) => {
-          const categoryMap = {
+          const categoryMap: Record<string, string> = {
             "construction-real-estate": "Construction & Real Estate",
             "consumer-electronics": "Consumer Electronics",
             "food-beverage": "Food & Beverage",
@@ -98,8 +138,8 @@ function BusinessesContent() {
     }
 
     if (aiSuggestions.filters.locations.length > 0) {
-      filtered = filtered.filter((business) =>
-        aiSuggestions.filters.locations.some((loc) =>
+      filtered = filtered.filter((business: Business) =>
+        aiSuggestions.filters.locations.some((loc: string) =>
           business.location.toLowerCase().includes(loc.toLowerCase())
         )
       );
@@ -107,16 +147,17 @@ function BusinessesContent() {
 
     if (aiSuggestions.filters.rating) {
       filtered = filtered.filter(
-        (business) => business.rating >= aiSuggestions.filters.rating
+        (business: Business) =>
+          business.rating >= (aiSuggestions.filters.rating as number)
       );
     }
 
     if (aiSuggestions.filters.features.length > 0) {
-      filtered = filtered.filter((business) =>
+      filtered = filtered.filter((business: Business) =>
         aiSuggestions.filters.features.some(
-          (feature) =>
+          (feature: string) =>
             business.services &&
-            business.services.some((service) =>
+            business.services.some((service: string) =>
               service.toLowerCase().includes(feature.toLowerCase())
             )
         )
@@ -124,9 +165,10 @@ function BusinessesContent() {
     }
 
     if (aiSuggestions.filters.businessTypes.length > 0) {
-      filtered = filtered.filter((business) =>
+      filtered = filtered.filter((business: Business) =>
         aiSuggestions.filters.businessTypes.some(
-          (type) => business.businessType.toLowerCase() === type.toLowerCase()
+          (type: string) =>
+            business.businessType.toLowerCase() === type.toLowerCase()
         )
       );
     }
@@ -134,11 +176,11 @@ function BusinessesContent() {
     // Apply search query if provided
     if (searchQuery) {
       filtered = filtered.filter(
-        (business) =>
+        (business: Business) =>
           business.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           business.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
           business.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          business.services.some((service) =>
+          business.services.some((service: string) =>
             service.toLowerCase().includes(searchQuery.toLowerCase())
           )
       );
@@ -150,16 +192,16 @@ function BusinessesContent() {
 
   // Apply regular filters
   useEffect(() => {
-    let filtered = [...allBusinesses];
+    let filtered: Business[] = [...(allBusinesses as Business[])];
 
     // Apply search filter
     if (searchQuery) {
       filtered = filtered.filter(
-        (business) =>
+        (business: Business) =>
           business.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           business.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
           business.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          business.services.some((service) =>
+          business.services.some((service: string) =>
             service.toLowerCase().includes(searchQuery.toLowerCase())
           )
       );
@@ -167,7 +209,7 @@ function BusinessesContent() {
 
     // Apply category filter
     if (selectedCategory && selectedCategory !== "all") {
-      const categoryMap = {
+      const categoryMap: Record<string, string> = {
         "construction-real-estate": "Construction & Real Estate",
         "consumer-electronics": "Consumer Electronics",
         "food-beverage": "Food & Beverage",
@@ -190,7 +232,7 @@ function BusinessesContent() {
       };
 
       const mappedCategory = categoryMap[selectedCategory] || selectedCategory;
-      filtered = filtered.filter((business) =>
+      filtered = filtered.filter((business: Business) =>
         business.category.toLowerCase().includes(mappedCategory.toLowerCase())
       );
     }
@@ -198,13 +240,13 @@ function BusinessesContent() {
     // Apply business type filter
     if (selectedBusinessType && selectedBusinessType !== "all") {
       filtered = filtered.filter(
-        (business) => business.businessType === selectedBusinessType
+        (business: Business) => business.businessType === selectedBusinessType
       );
     }
 
     // Apply location filter
     if (selectedLocation) {
-      filtered = filtered.filter((business) =>
+      filtered = filtered.filter((business: Business) =>
         business.location.toLowerCase().includes(selectedLocation.toLowerCase())
       );
     }
@@ -212,7 +254,7 @@ function BusinessesContent() {
     // Apply rating filter
     if (selectedRating) {
       filtered = filtered.filter(
-        (business) => business.rating >= parseFloat(selectedRating)
+        (business: Business) => business.rating >= parseFloat(selectedRating)
       );
     }
 
@@ -225,23 +267,25 @@ function BusinessesContent() {
     selectedRating,
   ]);
 
-  const sortedBusinesses = [...filteredBusinesses].sort((a, b) => {
-    switch (sortBy) {
-      case "rating":
-        return b.rating - a.rating;
-      case "distance":
-        return parseFloat(a.distance) - parseFloat(b.distance);
-      case "reviews":
-        return b.reviews - a.reviews;
-      case "name":
-        return a.name.localeCompare(b.name);
-      default:
-        return 0;
+  const sortedBusinesses = [...filteredBusinesses].sort(
+    (a: Business, b: Business) => {
+      switch (sortBy) {
+        case "rating":
+          return b.rating - a.rating;
+        case "distance":
+          return parseFloat(a.distance) - parseFloat(b.distance);
+        case "reviews":
+          return b.reviews - a.reviews;
+        case "name":
+          return a.name.localeCompare(b.name);
+        default:
+          return 0;
+      }
     }
-  });
+  );
 
   // Function to get map position based on coordinates
-  const getMapPosition = (lat, lng) => {
+  const getMapPosition = (lat: number, lng: number) => {
     // Saudi Arabia bounds for Google Maps embed view
     // These bounds are adjusted for the specific Google Maps embed viewport
     const mapBounds = {
@@ -268,7 +312,7 @@ function BusinessesContent() {
   };
 
   // Function to get business type color for map markers
-  const getBusinessTypeColor = (type) => {
+  const getBusinessTypeColor = (type: Business["businessType"]) => {
     switch (type) {
       case "Supplier":
         return "bg-blue-500";
@@ -345,7 +389,15 @@ function BusinessesContent() {
 
                   <select
                     value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
+                    onChange={(e) =>
+                      setSortBy(
+                        e.target.value as
+                          | "rating"
+                          | "distance"
+                          | "reviews"
+                          | "name"
+                      )
+                    }
                     className="border border-gray-300 rounded-lg px-4 py-2 bg-white focus:border-yellow-400 focus:outline-none pr-8"
                   >
                     <option value="rating">

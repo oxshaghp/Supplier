@@ -4,23 +4,45 @@ import { useState } from "react";
 import Link from "next/link";
 import { useLanguage } from "../lib/LanguageContext";
 
+interface RegistrationData {
+  businessName: string;
+  phone: string;
+  email: string;
+}
+
+interface Errors {
+  [key: string]: string;
+}
+
+type CurrentStep = "register" | "verify" | "success";
+type VerificationMethod = "phone" | "email";
+
 export default function BusinessRegistrationForm() {
   const { t } = useLanguage();
-  const [currentStep, setCurrentStep] = useState("register"); // 'register', 'verify', 'success'
-  const [registrationData, setRegistrationData] = useState({
+  const [currentStep, setCurrentStep] = useState<CurrentStep>("register");
+  const [registrationData, setRegistrationData] = useState<RegistrationData>({
     businessName: "",
     phone: "",
     email: "",
   });
-  const [verificationCode, setVerificationCode] = useState(["", "", "", ""]);
-  const [verificationMethod, setVerificationMethod] = useState("phone"); // 'phone' or 'email'
-  const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [generatedCode] = useState(
+  const [verificationCode, setVerificationCode] = useState<string[]>([
+    "",
+    "",
+    "",
+    "",
+  ]);
+  const [verificationMethod, setVerificationMethod] =
+    useState<VerificationMethod>("phone");
+  const [errors, setErrors] = useState<Errors>({});
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [generatedCode] = useState<string>(
     Math.floor(1000 + Math.random() * 9000).toString()
   );
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (
+    field: keyof RegistrationData,
+    value: string
+  ): void => {
     setRegistrationData((prev) => ({
       ...prev,
       [field]: value,
@@ -30,8 +52,8 @@ export default function BusinessRegistrationForm() {
     }
   };
 
-  const validateRegistration = () => {
-    const newErrors = {};
+  const validateRegistration = (): boolean => {
+    const newErrors: Errors = {};
     if (!registrationData.businessName.trim()) {
       newErrors.businessName = t("business.errors.businessNameRequired");
     }
@@ -55,7 +77,9 @@ export default function BusinessRegistrationForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleRegistrationSubmit = async (e) => {
+  const handleRegistrationSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
     if (!validateRegistration()) return;
     setIsSubmitting(true);
@@ -64,13 +88,13 @@ export default function BusinessRegistrationForm() {
     setIsSubmitting(false);
   };
 
-  const handleVerificationCodeChange = (index, value) => {
+  const handleVerificationCodeChange = (index: number, value: string): void => {
     if (value.length <= 1 && /^\d*$/.test(value)) {
       const newCode = [...verificationCode];
       newCode[index] = value;
       setVerificationCode(newCode);
       if (value && index < 3) {
-        const nextInput = document.querySelector(
+        const nextInput = document.querySelector<HTMLInputElement>(
           `input[name="code-${index + 1}"]`
         );
         if (nextInput) nextInput.focus();
@@ -78,7 +102,9 @@ export default function BusinessRegistrationForm() {
     }
   };
 
-  const handleVerificationSubmit = async (e) => {
+  const handleVerificationSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
     const enteredCode = verificationCode.join("");
     if (enteredCode.length !== 4) {
@@ -95,7 +121,7 @@ export default function BusinessRegistrationForm() {
     setIsSubmitting(false);
   };
 
-  const resendCode = () => {
+  const resendCode = (): void => {
     setVerificationCode(["", "", "", ""]);
     setErrors({});
   };
@@ -347,6 +373,9 @@ export default function BusinessRegistrationForm() {
 
   // SUCCESS STEP
   if (currentStep === "success") {
+    const checklist = t("business.form.profileChecklist") as unknown;
+    const checklistArray = Array.isArray(checklist) ? checklist : [];
+
     return (
       <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
         <div className="text-center mb-8">
@@ -371,12 +400,10 @@ export default function BusinessRegistrationForm() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            {(
-              t("business.form.profileChecklist", { returnObjects: true }) || []
-            ).map((item, index) => (
+            {checklistArray.map((item, index) => (
               <div key={index} className="flex items-center space-x-2">
                 <i className="ri-check-line text-green-500 text-sm"></i>
-                <span className="text-gray-700">{item}</span>
+                <span className="text-gray-700">{String(item)}</span>
               </div>
             ))}
           </div>

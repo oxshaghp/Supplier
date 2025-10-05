@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type React from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Link from "next/link";
@@ -8,9 +9,9 @@ import { useRouter } from "next/navigation";
 import { useLanguage } from "@/lib/LanguageContext"; // عدل المسار حسب مكانك
 
 export default function AuthPage() {
-  const { t } = useLanguage();
-  const [step, setStep] = useState(1);
-  const [activeTab, setActiveTab] = useState("signin");
+  const { t, translations, language } = useLanguage();
+  const [step, setStep] = useState<number>(1);
+  const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
   const [formData, setFormData] = useState({
     businessName: "",
     phone: "",
@@ -18,15 +19,17 @@ export default function AuthPage() {
     password: "",
     rememberMe: false,
   });
-  const [verificationMethod, setVerificationMethod] = useState("");
+  const [verificationMethod, setVerificationMethod] = useState<
+    "phone" | "email" | ""
+  >("");
   const [verificationCode, setVerificationCode] = useState(["", "", "", ""]);
   const [isVerifying, setIsVerifying] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
@@ -44,7 +47,7 @@ export default function AuthPage() {
     setStep(2);
   };
 
-  const handleSignIn = async (e) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -58,12 +61,12 @@ export default function AuthPage() {
     }
   };
 
-  const handleStep1Submit = (e) => {
+  const handleStep1Submit = (e: React.FormEvent) => {
     e.preventDefault();
     handleDemoStep1();
   };
 
-  const handleVerificationMethodSelect = (method) => {
+  const handleVerificationMethodSelect = (method: "phone" | "email") => {
     setVerificationMethod(method);
     setIsVerifying(true);
 
@@ -80,7 +83,7 @@ export default function AuthPage() {
     }, 500);
   };
 
-  const handleCodeChange = (index, value) => {
+  const handleCodeChange = (index: number, value: string) => {
     if (value.length <= 1 && /^\d*$/.test(value)) {
       const newCode = [...verificationCode];
       newCode[index] = value;
@@ -93,7 +96,10 @@ export default function AuthPage() {
     }
   };
 
-  const handleCodeKeyDown = (index, e) => {
+  const handleCodeKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     if (e.key === "Backspace" && !verificationCode[index] && index > 0) {
       const prevInput = document.getElementById(`code-${index - 1}`);
       if (prevInput) prevInput.focus();
@@ -593,8 +599,14 @@ export default function AuthPage() {
 
         <div className="text-center">
           <button
-            onClick={() => handleVerificationMethodSelect(verificationMethod)}
-            className="text-yellow-600 hover:text-yellow-700 font-medium text-sm cursor-pointer"
+            onClick={() =>
+              verificationMethod &&
+              handleVerificationMethodSelect(
+                verificationMethod as "phone" | "email"
+              )
+            }
+            disabled={!verificationMethod}
+            className="text-yellow-600 hover:text-yellow-700 font-medium text-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {t("auth.signup.step3.resendCode")}
           </button>
@@ -633,8 +645,9 @@ export default function AuthPage() {
         </p>
         <ul className="space-y-2 text-sm text-gray-600">
           {(
-            t("auth.signup.step4.checklist", { returnObjects: true }) || []
-          ).map((item, index) => (
+            ((translations as any)[language]?.auth?.signup?.step4
+              ?.checklist as string[]) || []
+          ).map((item: string, index: number) => (
             <li key={index} className="flex items-center space-x-2">
               <i className="ri-check-line text-green-600"></i>
               <span>{item}</span>

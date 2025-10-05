@@ -3,6 +3,27 @@
 import { useState } from "react";
 import { useLanguage } from "../lib/LanguageContext";
 
+interface Category {
+  id: string;
+  name: string;
+  icon: string;
+}
+
+interface BusinessType {
+  id: string;
+  name: string;
+  icon: string;
+}
+
+interface BusinessFiltersProps {
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  selectedCategory: string;
+  setSelectedCategory: (category: string) => void;
+  selectedBusinessType: string;
+  setSelectedBusinessType: (type: string) => void;
+}
+
 export default function BusinessFilters({
   searchQuery,
   setSearchQuery,
@@ -10,12 +31,12 @@ export default function BusinessFilters({
   setSelectedCategory,
   selectedBusinessType,
   setSelectedBusinessType,
-}) {
+}: BusinessFiltersProps) {
   const { t } = useLanguage();
-  const [showVerified, setShowVerified] = useState(false);
-  const [showOpenNow, setShowOpenNow] = useState(false);
+  const [showVerified, setShowVerified] = useState<boolean>(false);
+  const [showOpenNow, setShowOpenNow] = useState<boolean>(false);
 
-  const categories = [
+  const categories: Category[] = [
     { id: "all", name: t("filters.allCategories"), icon: "ri-apps-2-line" },
     { id: "agriculture", name: t("cat.agriculture"), icon: "ri-plant-line" },
     {
@@ -167,7 +188,7 @@ export default function BusinessFilters({
     },
   ];
 
-  const businessTypes = [
+  const businessTypes: BusinessType[] = [
     { id: "all", name: t("filters.allTypes"), icon: "ri-building-line" },
     { id: "Supplier", name: "Supplier", icon: "ri-truck-line" },
     { id: "Store", name: "Store", icon: "ri-store-line" },
@@ -175,7 +196,7 @@ export default function BusinessFilters({
     { id: "Individual", name: "Individual", icon: "ri-user-line" },
   ];
 
-  const clearAllFilters = () => {
+  const clearAllFilters = (): void => {
     setSearchQuery("");
     setSelectedCategory("all");
     setSelectedBusinessType("all");
