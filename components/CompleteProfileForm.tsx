@@ -25,10 +25,10 @@ interface FormData {
   address: string;
   mainPhone: string;
   businessType: string;
-  productKeywords: string;
+  productKeywords: string[];
   targetCustomers: string[];
-  serviceDistance: string;
-  additionalPhones: string[];
+  serviceDistance: number;
+  additionalPhones: AdditionalPhone[];
   workingHours: {
     monday: { open: string; close: string; closed: boolean };
     tuesday: { open: string; close: string; closed: boolean };
@@ -39,7 +39,6 @@ interface FormData {
     sunday: { open: string; close: string; closed: boolean };
   };
 }
-
 interface AdditionalPhone {
   id: number;
   type: string;
@@ -911,15 +910,11 @@ export default function CompleteProfileForm({
     field: keyof AdditionalPhone,
     value: string
   ): void => {
-    setAdditionalPhones((prev) =>
-      prev.map((phone) =>
-        phone.id === id ? { ...phone, [field]: value } : phone
-      )
-    );
-
     const updatedPhones = additionalPhones.map((phone) =>
       phone.id === id ? { ...phone, [field]: value } : phone
     );
+
+    setAdditionalPhones(updatedPhones);
     setFormData((prev) => ({
       ...prev,
       additionalPhones: updatedPhones,

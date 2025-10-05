@@ -25,9 +25,9 @@ export default function CompleteProfilePage() {
     address: "",
     mainPhone: "",
     businessType: "",
-    productKeywords: "",
+    productKeywords: [],
     targetCustomers: [],
-    serviceDistance: "",
+    serviceDistance: 0,
     additionalPhones: [],
     workingHours: {
       monday: { open: "09:00", close: "17:00", closed: false },
@@ -56,21 +56,21 @@ export default function CompleteProfilePage() {
             </div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
+            {/* النموذج */}
             <div className="order-2 lg:order-1">
               <CompleteProfileForm
                 formData={formData}
-                setFormData={
-                  setFormData as React.Dispatch<React.SetStateAction<any>>
-                }
+                setFormData={setFormData}
                 selectedLocation={selectedLocation}
               />
+            </div>
 
-              <div className="order-1 lg:order-2">
-                <BusinessLocationMap
-                  selectedLocation={selectedLocation}
-                  setSelectedLocation={setSelectedLocation}
-                />
-              </div>
+            {/* الخريطة */}
+            <div className="order-1 lg:order-2">
+              <BusinessLocationMap
+                selectedLocation={selectedLocation}
+                setSelectedLocation={setSelectedLocation}
+              />
             </div>
           </div>
         </section>
