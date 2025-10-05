@@ -5,7 +5,7 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import CompleteProfileForm from "../../components/CompleteProfileForm";
 import BusinessLocationMap from "../../components/BusinessLocationMap";
-import { useLanguage } from "@/lib/LanguageContext"; // عدل المسار حسب مكانك
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function CompleteProfilePage() {
   const { t } = useLanguage();
@@ -60,7 +60,9 @@ export default function CompleteProfilePage() {
             <div className="order-2 lg:order-1">
               <CompleteProfileForm
                 formData={formData}
-                setFormData={setFormData}
+                setFormData={
+                  setFormData as React.Dispatch<React.SetStateAction<any>>
+                }
                 selectedLocation={selectedLocation}
               />
             </div>
