@@ -871,31 +871,31 @@ export default function CompleteProfileForm({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8">
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold text-gray-800">
+    <div className="bg-white rounded-xl md:rounded-2xl shadow-xl p-4 md:p-6 lg:p-8 mx-2 md:mx-0">
+      <div className="mb-6 md:mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 md:mb-4 gap-2">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800">
             {t("completeProfile.title")}
           </h2>
-          <span className="text-sm text-gray-500">
+          <span className="text-xs md:text-sm text-gray-500">
             {t("completeProfile.stepOf")
               .replace("{current}", String(currentStep))
               .replace("{total}", "5")}
           </span>
         </div>
 
-        <div className="flex space-x-2 mb-4">
+        <div className="flex space-x-1 md:space-x-2 mb-3 md:mb-4">
           {[1, 2, 3, 4, 5].map((step) => (
             <div
               key={step}
-              className={`h-2 flex-1 rounded-full transition-all duration-300 ${
+              className={`h-1.5 md:h-2 flex-1 rounded-full transition-all duration-300 ${
                 step <= currentStep ? "bg-yellow-400" : "bg-gray-200"
               }`}
             ></div>
           ))}
         </div>
 
-        <h3 className="text-lg font-semibold text-gray-700 mb-2">
+        <h3 className="text-base md:text-lg font-semibold text-gray-700 mb-1 md:mb-2">
           {getStepTitle(currentStep)}
         </h3>
         <div className="w-full bg-gray-100 rounded-full h-1">
@@ -907,19 +907,19 @@ export default function CompleteProfileForm({
       </div>
 
       {/* Pre-filled Account Info */}
-      <div className="bg-green-50 p-4 rounded-lg mb-6 border border-green-200">
-        <div className="flex items-center space-x-2 mb-3">
-          <i className="ri-check-line text-green-600"></i>
-          <h4 className="text-green-800 font-medium">
+      <div className="bg-green-50 p-3 md:p-4 rounded-lg mb-4 md:mb-6 border border-green-200">
+        <div className="flex items-center space-x-2 mb-2 md:mb-3">
+          <i className="ri-check-line text-green-600 text-sm md:text-base"></i>
+          <h4 className="text-green-800 font-medium text-sm md:text-base">
             {t("completeProfile.accountVerified")}
           </h4>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 text-xs md:text-sm">
           <div>
             <span className="text-green-700 font-medium">
               {t("completeProfile.business")}:
             </span>
-            <p className="text-green-800">{formData.businessName}</p>
+            <p className="text-green-800 truncate">{formData.businessName}</p>
           </div>
           <div>
             <span className="text-green-700 font-medium">
@@ -931,23 +931,23 @@ export default function CompleteProfileForm({
             <span className="text-green-700 font-medium">
               {t("completeProfile.email")}:
             </span>
-            <p className="text-green-800">{formData.contactEmail}</p>
+            <p className="text-green-800 truncate">{formData.contactEmail}</p>
           </div>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
         {currentStep === 1 && (
-          <div className="space-y-6">
+          <div className="space-y-4 md:space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-700 mb-2 md:mb-3">
                 {t("completeProfile.step1.businessTypeLabel")} *
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
                 {businessTypes.map((type) => (
                   <label
                     key={type}
-                    className={`flex items-center space-x-3 p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                    className={`flex items-center space-x-2 md:space-x-3 p-3 md:p-4 border-2 rounded-lg cursor-pointer transition-all ${
                       formData.businessType === type
                         ? "border-yellow-400 bg-yellow-50"
                         : "border-gray-200 hover:border-gray-300"
@@ -967,7 +967,7 @@ export default function CompleteProfileForm({
                     <i
                       className={`${getBusinessTypeIcon(
                         type
-                      )} text-lg text-gray-600`}
+                      )} text-base md:text-lg text-gray-600`}
                     ></i>
                     <span className="text-sm font-medium text-gray-700">
                       {type}
@@ -983,19 +983,19 @@ export default function CompleteProfileForm({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-700 mb-2 md:mb-3">
                 {t("completeProfile.step1.categoriesLabel")} *
               </label>
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="text-xs md:text-sm text-gray-600 mb-3 md:mb-4">
                 {t("completeProfile.step1.categoriesDesc")}
                 customers find you more easily.
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-80 overflow-y-auto border border-gray-200 rounded-lg p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 max-h-60 md:max-h-80 overflow-y-auto border border-gray-200 rounded-lg p-3 md:p-4">
                 {categories.map((category) => (
                   <label
                     key={category}
-                    className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-all ${
+                    className={`flex items-center space-x-2 md:space-x-3 p-2 md:p-3 border rounded-lg cursor-pointer transition-all ${
                       selectedCategories.includes(category)
                         ? "border-yellow-400 bg-yellow-50"
                         : "border-gray-200 hover:border-gray-300"
@@ -1007,13 +1007,15 @@ export default function CompleteProfileForm({
                       onChange={() => handleCategoryToggle(category)}
                       className="w-4 h-4 text-yellow-400 border-gray-300 rounded focus:ring-yellow-400"
                     />
-                    <span className="text-sm text-gray-700">{category}</span>
+                    <span className="text-xs md:text-sm text-gray-700">
+                      {category}
+                    </span>
                   </label>
                 ))}
               </div>
 
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm text-gray-500">
+              <div className="mt-2 md:mt-3 flex items-center justify-between">
+                <span className="text-xs md:text-sm text-gray-500">
                   {selectedCategories.length} categories selected
                 </span>
                 {selectedCategories.length > 0 && (
@@ -1023,7 +1025,7 @@ export default function CompleteProfileForm({
                       setSelectedCategories([]);
                       setFormData((prev) => ({ ...prev, categories: [] }));
                     }}
-                    className="text-sm text-red-600 hover:text-red-700"
+                    className="text-xs md:text-sm text-red-600 hover:text-red-700"
                   >
                     {t("completeProfile.step1.clearAll")}
                   </button>
@@ -1035,11 +1037,11 @@ export default function CompleteProfileForm({
               )}
 
               {selectedCategories.length > 0 && (
-                <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
-                  <p className="text-sm font-medium text-green-800 mb-2">
+                <div className="mt-3 md:mt-4 p-2 md:p-3 bg-green-50 rounded-lg border border-green-200">
+                  <p className="text-xs md:text-sm font-medium text-green-800 mb-1 md:mb-2">
                     {t("completeProfile.step1.selectedCategories")}
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1 md:gap-2">
                     {selectedCategories.map((category) => (
                       <span
                         key={category}
@@ -1054,18 +1056,18 @@ export default function CompleteProfileForm({
             </div>
 
             {/* Products/Services Keywords Section */}
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
-              <div className="flex items-center justify-between mb-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg md:rounded-xl p-4 md:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 md:mb-4 gap-2">
                 <div className="flex items-center space-x-2">
-                  <i className="ri-search-line text-blue-600 text-xl"></i>
-                  <h4 className="text-lg font-semibold text-blue-800">
+                  <i className="ri-search-line text-blue-600 text-lg md:text-xl"></i>
+                  <h4 className="text-base md:text-lg font-semibold text-blue-800">
                     {t("completeProfile.step1.keywordsTitle")} *
                   </h4>
                 </div>
                 <button
                   type="button"
                   onClick={() => setShowKeywordGuide(!showKeywordGuide)}
-                  className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                  className="text-blue-600 hover:text-blue-700 text-xs md:text-sm font-medium"
                 >
                   <i className="ri-question-line mr-1"></i>
                   {t("completeProfile.step1.howToOptimize")}
@@ -1073,50 +1075,42 @@ export default function CompleteProfileForm({
               </div>
 
               {showKeywordGuide && (
-                <div className="bg-white p-4 rounded-lg mb-4 border border-blue-200">
-                  <h5 className="font-medium text-gray-800 mb-3">
+                <div className="bg-white p-3 md:p-4 rounded-lg mb-3 md:mb-4 border border-blue-200">
+                  <h5 className="font-medium text-gray-800 mb-2 md:mb-3 text-sm md:text-base">
                     <i className="ri-lightbulb-line text-yellow-500 mr-2"></i>
                     {t("completeProfile.step1.searchMatching")}
                   </h5>
-                  <div className="space-y-3 text-sm text-gray-700">
-                    <div className="flex items-start space-x-3">
-                      <i className="ri-search-2-line text-green-500 mt-0.5"></i>
+                  <div className="space-y-2 md:space-y-3 text-xs md:text-sm text-gray-700">
+                    <div className="flex items-start space-x-2 md:space-x-3">
+                      <i className="ri-search-2-line text-green-500 mt-0.5 text-sm md:text-base"></i>
                       <div>
                         <p className="font-medium">
                           {t("completeProfile.step1.searchMatching")}
                         </p>
-                        <p>
-                          {t("completeProfile.step1.searchMatchingDesc")}
-                          {t("completeProfile.step1.searchMatchingDesc")}
-                          {t("completeProfile.step1.searchMatchingDesc")}
-                        </p>
+                        <p>{t("completeProfile.step1.searchMatchingDesc")}</p>
                       </div>
                     </div>
-                    <div className="flex items-start space-x-3">
-                      <i className="ri-price-tag-3-line text-blue-500 mt-0.5"></i>
+                    <div className="flex items-start space-x-2 md:space-x-3">
+                      <i className="ri-price-tag-3-line text-blue-500 mt-0.5 text-sm md:text-base"></i>
                       <div>
                         <p className="font-medium">
                           {t("completeProfile.step1.beSpecific")}
                         </p>
-                        <p>
-                          {t("completeProfile.step1.beSpecificDesc")}
-                          {t("completeProfile.step1.beSpecificDesc")}
-                        </p>
+                        <p>{t("completeProfile.step1.beSpecificDesc")}</p>
                       </div>
                     </div>
-                    <div className="flex items-start space-x-3">
-                      <i className="ri-group-line text-purple-500 mt-0.5"></i>
+                    <div className="flex items-start space-x-2 md:space-x-3">
+                      <i className="ri-group-line text-purple-500 mt-0.5 text-sm md:text-base"></i>
                       <div>
                         <p className="font-medium">
                           {t("completeProfile.step1.thinkLikeCustomers")}
                         </p>
                         <p>
                           {t("completeProfile.step1.thinkLikeCustomersDesc")}
-                          {t("completeProfile.step1.thinkLikeCustomersDesc")}
                         </p>
                       </div>
                     </div>
-                    <div className="bg-yellow-50 p-3 rounded border border-yellow-200">
+                    <div className="bg-yellow-50 p-2 md:p-3 rounded border border-yellow-200">
                       <p className="text-yellow-800 font-medium text-xs">
                         <i className="ri-star-line mr-1"></i>
                         {t("completeProfile.step1.proTip")}
@@ -1126,19 +1120,19 @@ export default function CompleteProfileForm({
                 </div>
               )}
 
-              <div className="mb-4">
+              <div className="mb-3 md:mb-4">
                 <textarea
                   value={productKeywords.join(", ")}
                   onChange={(e) => handleProductKeywordsChange(e.target.value)}
-                  rows={4}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm resize-none ${
+                  rows={3}
+                  className={`w-full px-3 md:px-4 py-2 md:py-3 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm resize-none ${
                     errors.productKeywords
                       ? "border-red-300"
                       : "border-gray-300"
                   }`}
                   placeholder="Enter products and services separated by commas. Example: LED TV, Samsung electronics, iPhone repair, laptop wholesale, gaming computers, mobile accessories, warranty service, bulk orders..."
                 />
-                <div className="flex justify-between items-center mt-2">
+                <div className="flex justify-between items-center mt-1 md:mt-2">
                   <span
                     className={`text-xs ${
                       errors.productKeywords ? "text-red-500" : "text-gray-600"
@@ -1169,17 +1163,17 @@ export default function CompleteProfileForm({
               {selectedCategories.length > 0 &&
                 keywordSuggestions.length > 0 && (
                   <div>
-                    <p className="text-sm font-medium text-blue-700 mb-3">
+                    <p className="text-xs md:text-sm font-medium text-blue-700 mb-2 md:mb-3">
                       <i className="ri-magic-line mr-1"></i>
                       {t("completeProfile.step1.quickSuggestions")}
                     </p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1 md:gap-2">
                       {keywordSuggestions.map((keyword, index) => (
                         <button
                           key={index}
                           type="button"
                           onClick={() => addSuggestedKeyword(keyword)}
-                          className="bg-white border border-blue-300 text-blue-700 px-3 py-1 rounded-full text-xs hover:bg-blue-50 transition-colors cursor-pointer"
+                          className="bg-white border border-blue-300 text-blue-700 px-2 md:px-3 py-1 rounded-full text-xs hover:bg-blue-50 transition-colors cursor-pointer"
                         >
                           <i className="ri-add-line mr-1"></i>
                           {keyword}
@@ -1193,16 +1187,16 @@ export default function CompleteProfileForm({
         )}
 
         {currentStep === 2 && (
-          <div className="space-y-6">
+          <div className="space-y-4 md:space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-700 mb-2 md:mb-3">
                 {t("completeProfile.step2.whoServeLabel")} *
               </label>
-              <div className="space-y-3">
+              <div className="space-y-2 md:space-y-3">
                 {targetCustomerOptions.map((customer) => (
                   <label
                     key={customer}
-                    className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-all ${
+                    className={`flex items-center space-x-2 md:space-x-3 p-2 md:p-3 border rounded-lg cursor-pointer transition-all ${
                       selectedTargetCustomers.includes(customer)
                         ? "border-yellow-400 bg-yellow-50"
                         : "border-gray-200 hover:border-gray-300"
@@ -1235,7 +1229,7 @@ export default function CompleteProfileForm({
                 onChange={(e) =>
                   handleInputChange("serviceDistance", e.target.value)
                 }
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm pr-8 ${
+                className={`w-full px-3 md:px-4 py-2 md:py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm pr-8 ${
                   errors.serviceDistance ? "border-red-300" : "border-gray-300"
                 }`}
                 required
@@ -1255,14 +1249,14 @@ export default function CompleteProfileForm({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-700 mb-2 md:mb-3">
                 {t("completeProfile.step2.servicesLabel")} (Optional)
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
                 {serviceOptions.map((service) => (
                   <label
                     key={service}
-                    className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-all ${
+                    className={`flex items-center space-x-2 md:space-x-3 p-2 md:p-3 border rounded-lg cursor-pointer transition-all ${
                       selectedServices.includes(service)
                         ? "border-yellow-400 bg-yellow-50"
                         : "border-gray-200 hover:border-gray-300"
@@ -1278,7 +1272,7 @@ export default function CompleteProfileForm({
                   </label>
                 ))}
               </div>
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-gray-500 mt-1 md:mt-2">
                 {t("completeProfile.step2.servicesDesc")}
               </p>
             </div>
@@ -1286,7 +1280,7 @@ export default function CompleteProfileForm({
         )}
 
         {currentStep === 3 && (
-          <div className="space-y-6">
+          <div className="space-y-4 md:space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 {t("completeProfile.step3.websiteLabel")} (Optional)
@@ -1296,7 +1290,7 @@ export default function CompleteProfileForm({
                 name="website"
                 value={formData.website}
                 onChange={(e) => handleInputChange("website", e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
+                className="w-full px-3 md:px-4 py-2 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
                 placeholder="https://yourwebsite.com"
               />
             </div>
@@ -1310,7 +1304,7 @@ export default function CompleteProfileForm({
                 name="mainPhone"
                 value={formData.mainPhone || formData.contactPhone}
                 onChange={(e) => handleInputChange("mainPhone", e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
+                className="w-full px-3 md:px-4 py-2 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
                 placeholder="+966 11 234 5678"
                 required
               />
@@ -1321,7 +1315,7 @@ export default function CompleteProfileForm({
 
             {/* Additional Phone Numbers Section - Simplified */}
             <div>
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 md:mb-3 gap-2">
                 <label className="block text-sm font-medium text-gray-700">
                   {t("completeProfile.step3.additionalPhonesLabel")} (Optional)
                 </label>
@@ -1329,7 +1323,7 @@ export default function CompleteProfileForm({
                   <button
                     type="button"
                     onClick={handleAddPhone}
-                    className="text-yellow-600 hover:text-yellow-700 text-sm font-medium cursor-pointer"
+                    className="text-yellow-600 hover:text-yellow-700 text-xs md:text-sm font-medium cursor-pointer"
                   >
                     <i className="ri-add-line mr-1"></i>
                     {t("completeProfile.step3.addNumber")}
@@ -1337,15 +1331,15 @@ export default function CompleteProfileForm({
                 )}
               </div>
 
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="text-xs md:text-sm text-gray-600 mb-3 md:mb-4">
                 {t("completeProfile.step3.additionalPhonesDesc")}
               </p>
 
-              <div className="space-y-3">
+              <div className="space-y-2 md:space-y-3">
                 {additionalPhones.map((phone, index) => (
                   <div
                     key={phone.id}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-3 p-3 bg-gray-50 rounded-lg"
+                    className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-3 p-2 md:p-3 bg-gray-50 rounded-lg"
                   >
                     <div>
                       <select
@@ -1353,7 +1347,7 @@ export default function CompleteProfileForm({
                         onChange={(e) =>
                           handlePhoneChange(phone.id, "type", e.target.value)
                         }
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm pr-8"
+                        className="w-full px-2 md:px-3 py-1 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm pr-8"
                       >
                         {phoneTypes.map((type) => (
                           <option key={type} value={type}>
@@ -1370,28 +1364,28 @@ export default function CompleteProfileForm({
                         onChange={(e) =>
                           handlePhoneChange(phone.id, "number", e.target.value)
                         }
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
+                        className="w-full px-2 md:px-3 py-1 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
                         placeholder="+966 50 123 4567"
                       />
                     </div>
 
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-1 md:space-x-2">
                       <input
                         type="text"
                         value={phone.name}
                         onChange={(e) =>
                           handlePhoneChange(phone.id, "name", e.target.value)
                         }
-                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
+                        className="flex-1 px-2 md:px-3 py-1 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
                         placeholder="Contact name"
                       />
                       {additionalPhones.length > 1 && (
                         <button
                           type="button"
                           onClick={() => handleRemovePhone(phone.id)}
-                          className="w-8 h-8 flex items-center justify-center text-red-600 hover:text-red-700 hover:bg-red-50 rounded cursor-pointer"
+                          className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center text-red-600 hover:text-red-700 hover:bg-red-50 rounded cursor-pointer"
                         >
-                          <i className="ri-close-line"></i>
+                          <i className="ri-close-line text-sm md:text-base"></i>
                         </button>
                       )}
                     </div>
@@ -1400,17 +1394,17 @@ export default function CompleteProfileForm({
               </div>
 
               {additionalPhones.length === 0 && (
-                <div className="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-                  <i className="ri-phone-line text-gray-400 text-2xl mb-2"></i>
-                  <p className="text-gray-600 text-sm mb-3">
+                <div className="text-center py-4 md:py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                  <i className="ri-phone-line text-gray-400 text-xl md:text-2xl mb-1 md:mb-2"></i>
+                  <p className="text-gray-600 text-xs md:text-sm mb-2 md:mb-3">
                     {t("completeProfile.step3.noAdditionalNumbers")}
                   </p>
                   <button
                     type="button"
                     onClick={handleAddPhone}
-                    className="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 text-sm font-medium whitespace-nowrap cursor-pointer"
+                    className="bg-yellow-400 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-lg hover:bg-yellow-500 text-xs md:text-sm font-medium whitespace-nowrap cursor-pointer"
                   >
-                    <i className="ri-add-line mr-2"></i>
+                    <i className="ri-add-line mr-1 md:mr-2"></i>
                     Add Contact Number
                   </button>
                 </div>
@@ -1426,7 +1420,7 @@ export default function CompleteProfileForm({
                 name="address"
                 value={formData.address}
                 onChange={(e) => handleInputChange("address", e.target.value)}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm ${
+                className={`w-full px-3 md:px-4 py-2 md:py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm ${
                   errors.address ? "border-red-300" : "border-gray-300"
                 }`}
                 placeholder="Enter your complete business address"
@@ -1437,9 +1431,9 @@ export default function CompleteProfileForm({
               )}
             </div>
 
-            <div className="bg-yellow-50 p-4 rounded-lg">
-              <p className="text-sm text-yellow-800 mb-2">
-                <i className="ri-map-pin-line mr-2"></i>
+            <div className="bg-yellow-50 p-3 md:p-4 rounded-lg">
+              <p className="text-xs md:text-sm text-yellow-800 mb-1 md:mb-2">
+                <i className="ri-map-pin-line mr-1 md:mr-2"></i>
                 Selected Location: Lat {selectedLocation.lat.toFixed(6)}, Lng{" "}
                 {selectedLocation.lng.toFixed(6)}
               </p>
@@ -1452,15 +1446,15 @@ export default function CompleteProfileForm({
         )}
 
         {currentStep === 4 && (
-          <div className="space-y-6">
+          <div className="space-y-4 md:space-y-6">
             {/* Working Hours Section - Compact */}
-            <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
-              <div className="flex items-center space-x-2 mb-3">
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <i className="ri-time-line text-blue-600 text-lg"></i>
+            <div className="bg-blue-50 p-3 md:p-4 rounded-lg md:rounded-xl border border-blue-200">
+              <div className="flex items-center space-x-2 mb-2 md:mb-3">
+                <div className="w-6 h-6 md:w-8 md:h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                  <i className="ri-time-line text-blue-600 text-sm md:text-lg"></i>
                 </div>
                 <div>
-                  <h4 className="text-base font-semibold text-blue-800">
+                  <h4 className="text-sm md:text-base font-semibold text-blue-800">
                     Working Hours
                   </h4>
                   <p className="text-blue-700 text-xs">
@@ -1469,11 +1463,11 @@ export default function CompleteProfileForm({
                 </div>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-1 md:space-y-2">
                 {Object.keys(formData.workingHours).map((day) => (
                   <div
                     key={day}
-                    className="flex items-center space-x-3 p-2 bg-white rounded-lg border border-blue-200"
+                    className="flex flex-col sm:flex-row sm:items-center justify-between p-2 bg-white rounded-lg border border-blue-200 gap-1 md:gap-2"
                   >
                     <div className="w-16">
                       <span className="text-xs font-medium text-gray-700 capitalize">
@@ -1481,101 +1475,78 @@ export default function CompleteProfileForm({
                       </span>
                     </div>
 
-                    {(
-                      Object.keys(formData.workingHours) as Array<
-                        keyof typeof formData.workingHours
-                      >
-                    ).map((day) => (
-                      <label key={day} className="flex items-center">
+                    <label className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={
+                          formData.workingHours[
+                            day as keyof typeof formData.workingHours
+                          ].closed
+                        }
+                        onChange={(e) =>
+                          handleWorkingHoursChange(
+                            day as keyof typeof formData.workingHours,
+                            "closed",
+                            e.target.checked
+                          )
+                        }
+                        className="w-3 h-3 text-yellow-400 border-gray-300 rounded focus:ring-yellow-400 mr-1"
+                      />
+                      <span className="text-xs text-gray-600">Closed</span>
+                    </label>
+
+                    {!formData.workingHours[
+                      day as keyof typeof formData.workingHours
+                    ].closed && (
+                      <div className="flex items-center space-x-1 md:space-x-2">
                         <input
-                          type="checkbox"
-                          checked={formData.workingHours[day].closed}
+                          type="time"
+                          value={
+                            formData.workingHours[
+                              day as keyof typeof formData.workingHours
+                            ].open
+                          }
                           onChange={(e) =>
                             handleWorkingHoursChange(
-                              day,
-                              "closed",
-                              e.target.checked
+                              day as keyof typeof formData.workingHours,
+                              "open",
+                              e.target.value
                             )
                           }
-                          className="w-3 h-3 text-yellow-400 border-gray-300 rounded focus:ring-yellow-400 mr-1"
+                          className="px-1 md:px-2 py-0.5 md:py-1 border border-gray-300 rounded focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs"
                         />
-                        <span className="text-xs text-gray-600 capitalize">
-                          {day}
-                        </span>
-                      </label>
-                    ))}
-
-                    {(
-                      Object.keys(formData.workingHours) as Array<
-                        keyof typeof formData.workingHours
-                      >
-                    ).map((day) => (
-                      <div
-                        key={day}
-                        className="flex items-center justify-between mb-2"
-                      >
-                        <label className="flex items-center space-x-1">
-                          <input
-                            type="checkbox"
-                            checked={formData.workingHours[day].closed}
-                            onChange={(e) =>
-                              handleWorkingHoursChange(
-                                day,
-                                "closed",
-                                e.target.checked
-                              )
-                            }
-                            className="w-3 h-3 text-yellow-400 border-gray-300 rounded focus:ring-yellow-400 mr-1"
-                          />
-                          <span className="text-xs text-gray-600 capitalize">
-                            {day}
-                          </span>
-                        </label>
-
-                        {!formData.workingHours[day].closed && (
-                          <div className="flex items-center space-x-1">
-                            <input
-                              type="time"
-                              value={formData.workingHours[day].open}
-                              onChange={(e) =>
-                                handleWorkingHoursChange(
-                                  day,
-                                  "open",
-                                  e.target.value
-                                )
-                              }
-                              className="px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs"
-                            />
-                            <span className="text-gray-500 text-xs">to</span>
-                            <input
-                              type="time"
-                              value={formData.workingHours[day].close}
-                              onChange={(e) =>
-                                handleWorkingHoursChange(
-                                  day,
-                                  "close",
-                                  e.target.value
-                                )
-                              }
-                              className="px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs"
-                            />
-                          </div>
-                        )}
+                        <span className="text-gray-500 text-xs">to</span>
+                        <input
+                          type="time"
+                          value={
+                            formData.workingHours[
+                              day as keyof typeof formData.workingHours
+                            ].close
+                          }
+                          onChange={(e) =>
+                            handleWorkingHoursChange(
+                              day as keyof typeof formData.workingHours,
+                              "close",
+                              e.target.value
+                            )
+                          }
+                          className="px-1 md:px-2 py-0.5 md:py-1 border border-gray-300 rounded focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs"
+                        />
                       </div>
-                    ))}
+                    )}
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Branch Management Section - Compact */}
-            <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-4">
-              <div className="flex items-center space-x-2 mb-3">
-                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                  <i className="ri-building-line text-green-600 text-lg"></i>
+            <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg md:rounded-xl p-3 md:p-4">
+              <div className="flex items-center space-x-2 mb-2 md:mb-3">
+                <div className="w-6 h-6 md:w-8 md:h-8 bg-green-100 rounded-full flex items-center justify-center">
+                  <i className="ri-building-line text-green-600 text-sm md:text-lg"></i>
                 </div>
                 <div>
-                  <h4 className="text-base font-semibold text-green-800">
+                  <h4 className="text-sm md:text-base font-semibold text-green-800">
                     Multiple Branches
                   </h4>
                   <p className="text-green-700 text-xs">
@@ -1584,11 +1555,11 @@ export default function CompleteProfileForm({
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
-                <div className="bg-white p-3 rounded-lg border border-green-200">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-3 mb-3 md:mb-4">
+                <div className="bg-white p-2 md:p-3 rounded-lg border border-green-200">
                   <div className="flex items-center space-x-1 mb-1">
-                    <i className="ri-map-pin-line text-green-500 text-sm"></i>
-                    <span className="font-medium text-gray-700 text-sm">
+                    <i className="ri-map-pin-line text-green-500 text-xs md:text-sm"></i>
+                    <span className="font-medium text-gray-700 text-xs md:text-sm">
                       Multiple Locations
                     </span>
                   </div>
@@ -1596,10 +1567,10 @@ export default function CompleteProfileForm({
                     Serve customers across different areas
                   </p>
                 </div>
-                <div className="bg-white p-3 rounded-lg border border-blue-200">
+                <div className="bg-white p-2 md:p-3 rounded-lg border border-blue-200">
                   <div className="flex items-center space-x-1 mb-1">
-                    <i className="ri-time-line text-blue-500 text-sm"></i>
-                    <span className="font-medium text-gray-700 text-sm">
+                    <i className="ri-time-line text-blue-500 text-xs md:text-sm"></i>
+                    <span className="font-medium text-gray-700 text-xs md:text-sm">
                       Flexible Hours
                     </span>
                   </div>
@@ -1607,10 +1578,10 @@ export default function CompleteProfileForm({
                     Different hours per branch
                   </p>
                 </div>
-                <div className="bg-white p-3 rounded-lg border border-purple-200">
+                <div className="bg-white p-2 md:p-3 rounded-lg border border-purple-200">
                   <div className="flex items-center space-x-1 mb-1">
-                    <i className="ri-team-line text-purple-500 text-sm"></i>
-                    <span className="font-medium text-gray-700 text-sm">
+                    <i className="ri-team-line text-purple-500 text-xs md:text-sm"></i>
+                    <span className="font-medium text-gray-700 text-xs md:text-sm">
                       Better Management
                     </span>
                   </div>
@@ -1620,9 +1591,9 @@ export default function CompleteProfileForm({
                 </div>
               </div>
 
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                  <p className="text-green-800 font-medium text-sm">
+                  <p className="text-green-800 font-medium text-xs md:text-sm">
                     Ready to add branches?
                   </p>
                   <p className="text-green-600 text-xs">
@@ -1632,7 +1603,7 @@ export default function CompleteProfileForm({
                 <button
                   type="button"
                   onClick={() => setShowBranchManagement(true)}
-                  className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 font-medium text-sm whitespace-nowrap cursor-pointer transition-all"
+                  className="bg-green-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-lg hover:bg-green-600 font-medium text-xs md:text-sm whitespace-nowrap cursor-pointer transition-all"
                 >
                   <i className="ri-add-line mr-1"></i>
                   Add Branches
@@ -1642,23 +1613,23 @@ export default function CompleteProfileForm({
 
             {/* Current Branches Summary - Compact */}
             {branches.length > 0 && (
-              <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
-                <h4 className="text-base font-semibold text-blue-800 mb-3">
+              <div className="bg-blue-50 p-3 md:p-4 rounded-lg md:rounded-xl border border-blue-200">
+                <h4 className="text-sm md:text-base font-semibold text-blue-800 mb-2 md:mb-3">
                   <i className="ri-building-line mr-1"></i>
                   Your Branches ({branches.length})
                 </h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                   {branches.slice(0, 4).map((branch) => (
                     <div
                       key={branch.id}
-                      className="bg-white p-3 rounded-lg border border-blue-200"
+                      className="bg-white p-2 md:p-3 rounded-lg border border-blue-200"
                     >
-                      <div className="flex items-center space-x-2 mb-1">
-                        <h5 className="font-medium text-gray-800 text-sm">
+                      <div className="flex items-center space-x-1 md:space-x-2 mb-1">
+                        <h5 className="font-medium text-gray-800 text-xs md:text-sm">
                           {branch.name}
                         </h5>
                         <span
-                          className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                          className={`px-1.5 md:px-2 py-0.5 rounded-full text-xs font-medium ${
                             branch.status === "active"
                               ? "bg-green-100 text-green-800"
                               : "bg-gray-100 text-gray-600"
@@ -1680,8 +1651,8 @@ export default function CompleteProfileForm({
                     </div>
                   ))}
                   {branches.length > 4 && (
-                    <div className="bg-gray-100 p-3 rounded-lg border border-gray-200 flex items-center justify-center">
-                      <span className="text-gray-600 font-medium text-sm">
+                    <div className="bg-gray-100 p-2 md:p-3 rounded-lg border border-gray-200 flex items-center justify-center">
+                      <span className="text-gray-600 font-medium text-xs md:text-sm">
                         +{branches.length - 4} more branches
                       </span>
                     </div>
@@ -1690,7 +1661,7 @@ export default function CompleteProfileForm({
                 <button
                   type="button"
                   onClick={() => setShowBranchManagement(true)}
-                  className="mt-3 bg-blue-500 text-white px-3 py-1.5 rounded-lg hover:bg-blue-600 text-xs font-medium whitespace-nowrap cursor-pointer transition-all"
+                  className="mt-2 md:mt-3 bg-blue-500 text-white px-2 md:px-3 py-1 md:py-1.5 rounded-lg hover:bg-blue-600 text-xs font-medium whitespace-nowrap cursor-pointer transition-all"
                 >
                   <i className="ri-edit-line mr-1"></i>
                   Manage Branches
@@ -1698,11 +1669,11 @@ export default function CompleteProfileForm({
               </div>
             )}
 
-            <div className="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
-              <div className="flex items-start space-x-2">
-                <i className="ri-information-line text-yellow-600 text-lg mt-0.5"></i>
+            <div className="bg-yellow-50 p-2 md:p-3 rounded-lg border border-yellow-200">
+              <div className="flex items-start space-x-1 md:space-x-2">
+                <i className="ri-information-line text-yellow-600 text-base md:text-lg mt-0.5"></i>
                 <div>
-                  <h4 className="text-yellow-800 font-semibold mb-1 text-sm">
+                  <h4 className="text-yellow-800 font-semibold mb-1 text-xs md:text-sm">
                     Branch Management Benefits
                   </h4>
                   <ul className="text-xs text-gray-700 space-y-0.5">
@@ -1720,45 +1691,45 @@ export default function CompleteProfileForm({
         )}
 
         {currentStep === 5 && (
-          <div className="space-y-6">
-            <div className="bg-gradient-to-r from-red-50 to-red-100 border border-red-200 rounded-xl p-6">
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                  <i className="ri-shield-check-line text-red-600 text-xl"></i>
+          <div className="space-y-4 md:space-y-6">
+            <div className="bg-gradient-to-r from-red-50 to-red-100 border border-red-200 rounded-lg md:rounded-xl p-4 md:p-6">
+              <div className="flex items-center space-x-2 md:space-x-3 mb-3 md:mb-4">
+                <div className="w-8 h-8 md:w-12 md:h-12 bg-red-100 rounded-full flex items-center justify-center">
+                  <i className="ri-shield-check-line text-red-600 text-lg md:text-xl"></i>
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-red-800">
+                  <h4 className="text-base md:text-lg font-semibold text-red-800">
                     Business Verification Required
                   </h4>
-                  <p className="text-red-700 text-sm">
+                  <p className="text-red-700 text-xs md:text-sm">
                     Upload your Commercial Registration to verify your business
                     legitimacy
                   </p>
                 </div>
               </div>
 
-              <div className="bg-white p-4 rounded-lg border border-red-200">
-                <h5 className="font-medium text-gray-800 mb-3">
+              <div className="bg-white p-3 md:p-4 rounded-lg border border-red-200">
+                <h5 className="font-medium text-gray-800 mb-2 md:mb-3 text-sm md:text-base">
                   Why is this required?
                 </h5>
-                <ul className="text-sm text-gray-700 space-y-2">
-                  <li className="flex items-start space-x-2">
-                    <i className="ri-check-line text-green-500 mt-0.5"></i>
+                <ul className="text-xs md:text-sm text-gray-700 space-y-1 md:space-y-2">
+                  <li className="flex items-start space-x-1 md:space-x-2">
+                    <i className="ri-check-line text-green-500 mt-0.5 text-sm md:text-base"></i>
                     <span>
                       Ensures only legitimate businesses are listed on our
                       platform
                     </span>
                   </li>
-                  <li className="flex items-start space-x-2">
-                    <i className="ri-check-line text-green-500 mt-0.5"></i>
+                  <li className="flex items-start space-x-1 md:space-x-2">
+                    <i className="ri-check-line text-green-500 mt-0.5 text-sm md:text-base"></i>
                     <span>Build trust with potential customers</span>
                   </li>
-                  <li className="flex items-start space-x-2">
-                    <i className="ri-check-line text-green-500 mt-0.5"></i>
+                  <li className="flex items-start space-x-1 md:space-x-2">
+                    <i className="ri-check-line text-green-500 mt-0.5 text-sm md:text-base"></i>
                     <span>Provides legal protection and compliance</span>
                   </li>
-                  <li className="flex items-start space-x-2">
-                    <i className="ri-check-line text-green-500 mt-0.5"></i>
+                  <li className="flex items-start space-x-1 md:space-x-2">
+                    <i className="ri-check-line text-green-500 mt-0.5 text-sm md:text-base"></i>
                     <span>
                       Unlocks premium features and higher search ranking
                     </span>
@@ -1772,7 +1743,7 @@ export default function CompleteProfileForm({
                 Commercial Registration Document *
               </label>
               <div
-                className={`border-2 border-dashed rounded-lg p-6 text-center transition-all ${
+                className={`border-2 border-dashed rounded-lg p-4 md:p-6 text-center transition-all ${
                   errors.crFile
                     ? "border-red-300 bg-red-50"
                     : crFile
@@ -1790,37 +1761,37 @@ export default function CompleteProfileForm({
 
                 {!crFile ? (
                   <label htmlFor="cr-upload" className="cursor-pointer">
-                    <div className="space-y-3">
-                      <i className="ri-upload-cloud-2-line text-4xl text-gray-400"></i>
+                    <div className="space-y-2 md:space-y-3">
+                      <i className="ri-upload-cloud-2-line text-2xl md:text-4xl text-gray-400"></i>
                       <div>
-                        <p className="text-lg font-medium text-gray-700">
+                        <p className="text-base md:text-lg font-medium text-gray-700">
                           Upload your Commercial Registration
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-xs md:text-sm text-gray-500">
                           Click to browse or drag and drop your CR document
                         </p>
-                        <p className="text-xs text-gray-400 mt-2">
+                        <p className="text-xs text-gray-400 mt-1 md:mt-2">
                           Supported formats: JPG, PNG, PDF (Max 5MB)
                         </p>
                       </div>
                     </div>
                   </label>
                 ) : (
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-center space-x-3">
-                      <i className="ri-file-check-line text-3xl text-green-600"></i>
+                  <div className="space-y-3 md:space-y-4">
+                    <div className="flex items-center justify-center space-x-2 md:space-x-3">
+                      <i className="ri-file-check-line text-xl md:text-3xl text-green-600"></i>
                       <div className="text-left">
-                        <p className="font-medium text-gray-800">
+                        <p className="font-medium text-gray-800 text-sm md:text-base">
                           {crFile.name}
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-xs md:text-sm text-gray-500">
                           {(crFile.size / 1024 / 1024).toFixed(2)} MB
                         </p>
                       </div>
                     </div>
 
                     {crPreview && (
-                      <div className="max-w-sm mx-auto">
+                      <div className="max-w-xs md:max-w-sm mx-auto">
                         <img
                           src={crPreview}
                           alt="CR Preview"
@@ -1829,12 +1800,12 @@ export default function CompleteProfileForm({
                       </div>
                     )}
 
-                    <div className="flex justify-center space-x-3">
+                    <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-2 md:space-x-3">
                       <label
                         htmlFor="cr-upload"
-                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 text-sm cursor-pointer"
+                        className="bg-blue-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-lg hover:bg-blue-600 text-xs md:text-sm cursor-pointer text-center"
                       >
-                        <i className="ri-refresh-line mr-2"></i>
+                        <i className="ri-refresh-line mr-1 md:mr-2"></i>
                         Replace File
                       </label>
                       <button
@@ -1843,9 +1814,9 @@ export default function CompleteProfileForm({
                           setCrFile(null);
                           setCrPreview("");
                         }}
-                        className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 text-sm cursor-pointer"
+                        className="bg-red-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-lg hover:bg-red-600 text-xs md:text-sm cursor-pointer text-center"
                       >
-                        <i className="ri-delete-bin-line mr-2"></i>
+                        <i className="ri-delete-bin-line mr-1 md:mr-2"></i>
                         Remove
                       </button>
                     </div>
@@ -1857,46 +1828,46 @@ export default function CompleteProfileForm({
               )}
             </div>
 
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <h5 className="font-medium text-blue-800 mb-2">
-                <i className="ri-information-line mr-2"></i>
+            <div className="bg-blue-50 p-3 md:p-4 rounded-lg">
+              <h5 className="font-medium text-blue-800 mb-1 md:mb-2 text-sm md:text-base">
+                <i className="ri-information-line mr-1 md:mr-2"></i>
                 What happens next?
               </h5>
-              <ol className="text-sm text-blue-700 space-y-2">
-                <li className="flex items-start space-x-2">
-                  <span className="bg-blue-200 text-blue-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">
+              <ol className="text-xs md:text-sm text-blue-700 space-y-1 md:space-y-2">
+                <li className="flex items-start space-x-1 md:space-x-2">
+                  <span className="bg-blue-200 text-blue-800 rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center text-xs font-bold mt-0.5">
                     1
                   </span>
                   <span>
                     Your document will be reviewed by our verification team
                   </span>
                 </li>
-                <li className="flex items-start space-x-2">
-                  <span className="bg-blue-200 text-blue-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">
+                <li className="flex items-start space-x-1 md:space-x-2">
+                  <span className="bg-blue-200 text-blue-800 rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center text-xs font-bold mt-0.5">
                     2
                   </span>
                   <span>
                     You'll receive a notification about verification status
                   </span>
                 </li>
-                <li className="flex items-start space-x-2">
-                  <span className="bg-blue-200 text-blue-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">
+                <li className="flex items-start space-x-1 md:space-x-2">
+                  <span className="bg-blue-200 text-blue-800 rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center text-xs font-bold mt-0.5">
                     3
                   </span>
                   <span>Once approved, your business profile will go live</span>
                 </li>
               </ol>
-              <p className="text-xs text-blue-600 mt-3">
+              <p className="text-xs text-blue-600 mt-2 md:mt-3">
                 Verification typically takes 1-2 business days
               </p>
             </div>
 
             {/* Profile Summary */}
-            <div className="bg-green-50 p-6 rounded-lg mt-6">
-              <h4 className="text-lg font-semibold text-green-800 mb-4">
+            <div className="bg-green-50 p-4 md:p-6 rounded-lg mt-4 md:mt-6">
+              <h4 className="text-base md:text-lg font-semibold text-green-800 mb-3 md:mb-4">
                 Profile Summary
               </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 text-xs md:text-sm">
                 <div>
                   <p>
                     <span className="font-medium">Business:</span>{" "}
@@ -1940,28 +1911,28 @@ export default function CompleteProfileForm({
 
         {submitStatus && (
           <div
-            className={`p-4 rounded-lg ${
+            className={`p-3 md:p-4 rounded-lg ${
               submitStatus.includes("Failed")
                 ? "bg-red-50 text-red-700"
                 : "bg-blue-50 text-blue-700"
             }`}
           >
-            <p className="text-sm">{submitStatus}</p>
+            <p className="text-xs md:text-sm">{submitStatus}</p>
           </div>
         )}
 
-        <div className="flex justify-between pt-6 border-t border-gray-200">
+        <div className="flex flex-col sm:flex-row justify-between pt-4 md:pt-6 border-t border-gray-200 gap-3">
           <button
             type="button"
             onClick={prevStep}
             disabled={currentStep === 1}
-            className={`px-6 py-3 rounded-lg font-medium whitespace-nowrap cursor-pointer transition-all ${
+            className={`px-4 md:px-6 py-2 md:py-3 rounded-lg font-medium whitespace-nowrap cursor-pointer transition-all text-sm md:text-base ${
               currentStep === 1
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                 : "bg-gray-200 text-gray-700 hover:bg-gray-300"
             }`}
           >
-            <i className="ri-arrow-left-line mr-2"></i>
+            <i className="ri-arrow-left-line mr-1 md:mr-2"></i>
             Previous
           </button>
 
@@ -1969,16 +1940,16 @@ export default function CompleteProfileForm({
             <button
               type="button"
               onClick={nextStep}
-              className="bg-yellow-400 text-white px-6 py-3 rounded-lg hover:bg-yellow-500 font-medium whitespace-nowrap cursor-pointer transition-all"
+              className="bg-yellow-400 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-yellow-500 font-medium whitespace-nowrap cursor-pointer transition-all text-sm md:text-base"
             >
               Next Step
-              <i className="ri-arrow-right-line ml-2"></i>
+              <i className="ri-arrow-right-line ml-1 md:ml-2"></i>
             </button>
           ) : (
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`px-6 py-3 rounded-lg font-medium whitespace-nowrap cursor-pointer transition-all ${
+              className={`px-4 md:px-6 py-2 md:py-3 rounded-lg font-medium whitespace-nowrap cursor-pointer transition-all text-sm md:text-base ${
                 isSubmitting
                   ? "bg-gray-400 text-white cursor-not-allowed"
                   : "bg-green-500 text-white hover:bg-green-600"
@@ -1986,12 +1957,12 @@ export default function CompleteProfileForm({
             >
               {isSubmitting ? (
                 <>
-                  <i className="ri-loader-4-line animate-spin mr-2"></i>
+                  <i className="ri-loader-4-line animate-spin mr-1 md:mr-2"></i>
                   Submitting Profile...
                 </>
               ) : (
                 <>
-                  <i className="ri-send-plane-line mr-2"></i>
+                  <i className="ri-send-plane-line mr-1 md:mr-2"></i>
                   Submit for Verification
                 </>
               )}
@@ -2001,28 +1972,28 @@ export default function CompleteProfileForm({
       </form>
 
       {showSuccess && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl p-8 max-w-md mx-4 text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i className="ri-check-line text-green-600 text-2xl"></i>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl md:rounded-2xl p-6 md:p-8 max-w-md w-full mx-2 text-center">
+            <div className="w-12 h-12 md:w-16 md:h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+              <i className="ri-check-line text-green-600 text-xl md:text-2xl"></i>
             </div>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">
+            <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
               Profile Completed!
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 text-sm md:text-base mb-4 md:mb-6">
               Your business profile is now complete and will be visible to
               customers searching in your area.
             </p>
-            <div className="space-y-3">
+            <div className="space-y-2 md:space-y-3">
               <Link
                 href="/"
-                className="block bg-yellow-400 text-white px-6 py-3 rounded-lg hover:bg-yellow-500 font-medium whitespace-nowrap cursor-pointer w-full"
+                className="block bg-yellow-400 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-yellow-500 font-medium whitespace-nowrap cursor-pointer w-full text-sm md:text-base"
               >
                 View Your Listing
               </Link>
               <button
                 onClick={() => setShowSuccess(false)}
-                className="block border border-gray-300 text-gray-600 px-6 py-3 rounded-lg hover:bg-gray-50 font-medium whitespace-nowrap cursor-pointer w-full"
+                className="block border border-gray-300 text-gray-600 px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-gray-50 font-medium whitespace-nowrap cursor-pointer w-full text-sm md:text-base"
               >
                 Continue Editing
               </button>
@@ -2033,25 +2004,25 @@ export default function CompleteProfileForm({
 
       {/* Verification Pending Modal */}
       {showVerificationModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl p-8 max-w-lg mx-4 text-center">
-            <div className="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <i className="ri-time-line text-yellow-600 text-3xl"></i>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl md:rounded-2xl p-6 md:p-8 max-w-lg w-full mx-2 text-center">
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+              <i className="ri-time-line text-yellow-600 text-2xl md:text-3xl"></i>
             </div>
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+            <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-3 md:mb-4">
               Profile Submitted Successfully!
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 text-sm md:text-base mb-4 md:mb-6">
               Your business profile and Commercial Registration have been
               submitted for verification. Our team will review your documents
               and information within 1-2 business days.
             </p>
 
-            <div className="bg-blue-50 p-4 rounded-lg mb-6 text-left">
-              <h4 className="font-semibold text-blue-800 mb-2">
+            <div className="bg-blue-50 p-3 md:p-4 rounded-lg mb-4 md:mb-6 text-left">
+              <h4 className="font-semibold text-blue-800 mb-1 md:mb-2 text-sm md:text-base">
                 What happens next:
               </h4>
-              <ul className="text-sm text-blue-700 space-y-1">
+              <ul className="text-xs md:text-sm text-blue-700 space-y-1">
                 <li>✓ Document verification by our team</li>
                 <li>✓ Business information validation</li>
                 <li>✓ Email notification of approval status</li>
@@ -2059,17 +2030,17 @@ export default function CompleteProfileForm({
               </ul>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2 md:space-y-3">
               <Link
                 href="/dashboard"
-                className="block bg-yellow-400 text-white px-6 py-3 rounded-lg hover:bg-yellow-500 font-medium whitespace-nowrap cursor-pointer w-full"
+                className="block bg-yellow-400 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-yellow-500 font-medium whitespace-nowrap cursor-pointer w-full text-sm md:text-base"
               >
-                <i className="ri-user-line mr-2"></i>
+                <i className="ri-user-line mr-1 md:mr-2"></i>
                 View Profile
               </Link>
               <Link
                 href="/"
-                className="block border border-gray-300 text-gray-600 px-6 py-3 rounded-lg hover:bg-gray-50 font-medium whitespace-nowrap cursor-pointer w-full"
+                className="block border border-gray-300 text-gray-600 px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-gray-50 font-medium whitespace-nowrap cursor-pointer w-full text-sm md:text-base"
               >
                 Close
               </Link>
@@ -2080,22 +2051,22 @@ export default function CompleteProfileForm({
 
       {/* Branch Management Modal */}
       {showBranchManagement && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl max-w-7xl w-full max-h-screen overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 md:p-4">
+          <div className="bg-white rounded-xl md:rounded-2xl max-w-7xl w-full max-h-screen overflow-y-auto">
+            <div className="p-4 md:p-6 border-b border-gray-200">
               <div className="flex items-center justify-between">
-                <h3 className="text-2xl font-bold text-gray-800">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-800">
                   Branch Management
                 </h3>
                 <button
                   onClick={() => setShowBranchManagement(false)}
-                  className="text-gray-400 hover:text-gray-600 text-2xl"
+                  className="text-gray-400 hover:text-gray-600 text-xl md:text-2xl"
                 >
                   <i className="ri-close-line"></i>
                 </button>
               </div>
             </div>
-            <div className="p-6">
+            <div className="p-4 md:p-6">
               <BranchManagement
                 branches={branches}
                 setBranches={setBranches}

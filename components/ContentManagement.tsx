@@ -73,14 +73,26 @@ export default function ContentManagement() {
   const [editingBusiness, setEditingBusiness] = useState<Business | null>(null);
 
   const tabs: Tab[] = [
-    { id: "businesses", name: "Business Listings", icon: "ri-store-line" },
-    { id: "reviews", name: "Pending Reviews", icon: "ri-star-line" },
+    {
+      id: "businesses",
+      name: t("contentManagement.tabs.businesses"),
+      icon: "ri-store-line",
+    },
+    {
+      id: "reviews",
+      name: t("contentManagement.tabs.reviews"),
+      icon: "ri-star-line",
+    },
     {
       id: "verification",
-      name: "Doc Verification",
+      name: t("contentManagement.tabs.verification"),
       icon: "ri-shield-check-line",
     },
-    { id: "reports", name: "Reported Content", icon: "ri-flag-line" },
+    {
+      id: "reports",
+      name: t("contentManagement.tabs.reports"),
+      icon: "ri-flag-line",
+    },
   ];
 
   const businessListings = businesses;
@@ -154,15 +166,17 @@ export default function ContentManagement() {
     );
     console.log(`${type} ${action}ed:`, reportId);
   };
+
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">
+    <div className="space-y-6 p-4 sm:p-6 lg:p-8">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
           {t("contentManagement.title")}
         </h2>
-        <div className="flex space-x-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           {selectedItems.length > 0 && (
-            <div className="flex space-x-2">
+            <div className="flex gap-2">
               <button
                 onClick={() => handleBulkAction("approve")}
                 className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 font-medium text-sm whitespace-nowrap cursor-pointer"
@@ -184,7 +198,7 @@ export default function ContentManagement() {
             onClick={() => {
               /* export logic */
             }}
-            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 font-medium text-sm whitespace-nowrap cursor-pointer"
+            className="bg-blue-500 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-blue-600 font-medium text-sm whitespace-nowrap cursor-pointer"
           >
             <i className="ri-download-line mr-2"></i>
             {t("contentManagement.buttons.exportReport")}
@@ -193,77 +207,83 @@ export default function ContentManagement() {
       </div>
 
       {/* Content Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <i className="ri-store-line text-blue-600 text-xl"></i>
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <i className="ri-store-line text-blue-600 text-lg sm:text-xl"></i>
             </div>
-            <div>
-              <h3 className="text-2xl font-bold text-gray-800">
+            <div className="min-w-0">
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
                 {businessListings.length}
               </h3>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-600 text-xs sm:text-sm">
                 {t("contentManagement.stats.totalBusinesses")}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-              <i className="ri-star-line text-orange-600 text-xl"></i>
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <i className="ri-star-line text-orange-600 text-lg sm:text-xl"></i>
             </div>
-            <div>
-              <h3 className="text-2xl font-bold text-gray-800">
+            <div className="min-w-0">
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
                 {pendingReviews.length}
               </h3>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-600 text-xs sm:text-sm">
                 {t("contentManagement.stats.pendingReviews")}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-              <i className="ri-shield-check-line text-yellow-600 text-xl"></i>
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-yellow-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <i className="ri-shield-check-line text-yellow-600 text-lg sm:text-xl"></i>
             </div>
-            <div>
-              <h3 className="text-2xl font-bold text-gray-800">
+            <div className="min-w-0">
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
                 {documentVerifications.length}
               </h3>
-              <p className="text-gray-600 text-sm">Doc Verification</p>
+              <p className="text-gray-600 text-xs sm:text-sm">
+                {t("contentManagement.stats.docVerification")}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-              <i className="ri-flag-line text-red-600 text-xl"></i>
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <i className="ri-flag-line text-red-600 text-lg sm:text-xl"></i>
             </div>
-            <div>
-              <h3 className="text-2xl font-bold text-gray-800">
+            <div className="min-w-0">
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
                 {reportedContent.length}
               </h3>
-              <p className="text-gray-600 text-sm">Reported Content</p>
+              <p className="text-gray-600 text-xs sm:text-sm">
+                {t("contentManagement.stats.reportedContent")}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <i className="ri-check-line text-green-600 text-xl"></i>
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 col-span-2 lg:col-span-1">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <i className="ri-check-line text-green-600 text-lg sm:text-xl"></i>
             </div>
-            <div>
-              <h3 className="text-2xl font-bold text-gray-800">
+            <div className="min-w-0">
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
                 {businessListings.filter((b) => b.status === "approved").length}
               </h3>
-              <p className="text-gray-600 text-sm">Approved Today</p>
+              <p className="text-gray-600 text-xs sm:text-sm">
+                {t("contentManagement.stats.approvedToday")}
+              </p>
             </div>
           </div>
         </div>
@@ -271,13 +291,13 @@ export default function ContentManagement() {
 
       {/* Content Tabs */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-        <div className="border-b border-gray-200">
-          <nav className="flex space-x-6 px-6">
+        <div className="border-b border-gray-200 overflow-x-auto">
+          <nav className="flex space-x-4 sm:space-x-6 px-4 sm:px-6 min-w-max">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap cursor-pointer transition-all ${
+                className={`py-3 sm:py-4 px-2 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap cursor-pointer transition-all ${
                   activeTab === tab.id
                     ? "border-red-500 text-red-600"
                     : "border-transparent text-gray-500 hover:text-gray-700"
@@ -295,30 +315,36 @@ export default function ContentManagement() {
           </nav>
         </div>
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {/* Business Listings Tab */}
           {activeTab === "businesses" && (
             <div className="space-y-4">
-              <div className="flex items-center space-x-4">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                 <select
                   value={filterStatus}
                   onChange={(e) => setFilterStatus(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm pr-8"
+                  className="px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm w-full sm:w-auto"
                 >
-                  <option value="all">All Status</option>
-                  <option value="approved">Approved</option>
-                  <option value="pending_verification">
-                    Pending Verification
+                  <option value="all">
+                    {t("contentManagement.filters.allStatus")}
                   </option>
-                  <option value="flagged">Flagged</option>
+                  <option value="approved">
+                    {t("contentManagement.filters.approved")}
+                  </option>
+                  <option value="pending_verification">
+                    {t("contentManagement.filters.pendingVerification")}
+                  </option>
+                  <option value="flagged">
+                    {t("contentManagement.filters.flagged")}
+                  </option>
                 </select>
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full">
+                <table className="w-full min-w-[800px]">
                   <thead className="bg-gray-50 border-b border-gray-200">
                     <tr>
-                      <th className="text-left py-3 px-6">
+                      <th className="text-left py-3 px-4 sm:px-6">
                         <input
                           type="checkbox"
                           className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
@@ -338,33 +364,33 @@ export default function ContentManagement() {
                           }
                         />
                       </th>
-                      <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                        Business
+                      <th className="text-left py-3 px-4 sm:px-6 text-sm font-medium text-gray-700">
+                        {t("contentManagement.table.business")}
                       </th>
-                      <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                        Owner
+                      <th className="text-left py-3 px-4 sm:px-6 text-sm font-medium text-gray-700">
+                        {t("contentManagement.table.owner")}
                       </th>
-                      <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                        Category
+                      <th className="text-left py-3 px-4 sm:px-6 text-sm font-medium text-gray-700">
+                        {t("contentManagement.table.category")}
                       </th>
-                      <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                        Status
+                      <th className="text-left py-3 px-4 sm:px-6 text-sm font-medium text-gray-700">
+                        {t("contentManagement.table.status")}
                       </th>
-                      <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                        CR Status
+                      <th className="text-left py-3 px-4 sm:px-6 text-sm font-medium text-gray-700">
+                        {t("contentManagement.table.crStatus")}
                       </th>
-                      <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                        Views
+                      <th className="text-left py-3 px-4 sm:px-6 text-sm font-medium text-gray-700">
+                        {t("contentManagement.table.views")}
                       </th>
-                      <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                        Actions
+                      <th className="text-left py-3 px-4 sm:px-6 text-sm font-medium text-gray-700">
+                        {t("contentManagement.table.actions")}
                       </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100">
                     {filteredBusinesses.map((business) => (
                       <tr key={business.id} className="hover:bg-gray-50">
-                        <td className="py-4 px-6">
+                        <td className="py-4 px-4 sm:px-6">
                           <input
                             type="checkbox"
                             checked={selectedItems.includes(business.id)}
@@ -385,35 +411,37 @@ export default function ContentManagement() {
                             className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
                           />
                         </td>
-                        <td className="py-4 px-6">
-                          <p className="font-medium text-gray-800">
+                        <td className="py-4 px-4 sm:px-6">
+                          <p className="font-medium text-gray-800 text-sm sm:text-base">
                             {business.name}
                           </p>
-                          <p className="text-sm text-gray-600">
-                            Created:{" "}
+                          <p className="text-xs sm:text-sm text-gray-600">
+                            {t("contentManagement.table.created")}:{" "}
                             {new Date(
                               business.createdDate
                             ).toLocaleDateString()}
                           </p>
                         </td>
-                        <td className="py-4 px-6">
-                          <p className="text-gray-800">{business.owner}</p>
+                        <td className="py-4 px-4 sm:px-6">
+                          <p className="text-gray-800 text-sm sm:text-base">
+                            {business.owner}
+                          </p>
                         </td>
-                        <td className="py-4 px-6">
-                          <span className="bg-blue-100 text-blue-600 px-2 py-1 rounded text-sm">
+                        <td className="py-4 px-4 sm:px-6">
+                          <span className="bg-blue-100 text-blue-600 px-2 py-1 rounded text-xs sm:text-sm">
                             {business.category}
                           </span>
                         </td>
-                        <td className="py-4 px-6">
+                        <td className="py-4 px-4 sm:px-6">
                           <span
-                            className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${getStatusColor(
+                            className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium capitalize ${getStatusColor(
                               business.status
                             )}`}
                           >
                             {business.status.replace("_", " ")}
                           </span>
                         </td>
-                        <td className="py-4 px-6">
+                        <td className="py-4 px-4 sm:px-6">
                           <div className="flex items-center space-x-2">
                             <i
                               className={getCRStatusIcon(business.crStatus)}
@@ -427,18 +455,18 @@ export default function ContentManagement() {
                             </span>
                           </div>
                         </td>
-                        <td className="py-4 px-6">
-                          <span className="font-medium text-gray-800">
+                        <td className="py-4 px-4 sm:px-6">
+                          <span className="font-medium text-gray-800 text-sm sm:text-base">
                             {business.views}
                           </span>
                         </td>
-                        <td className="py-4 px-6">
-                          <div className="flex items-center space-x-2">
+                        <td className="py-4 px-4 sm:px-6">
+                          <div className="flex items-center space-x-1 sm:space-x-2">
                             <button
                               className="text-blue-600 hover:text-blue-700 cursor-pointer"
-                              title="View Details"
+                              title={t("contentManagement.actions.viewDetails")}
                             >
-                              <i className="ri-eye-line"></i>
+                              <i className="ri-eye-line text-sm sm:text-base"></i>
                             </button>
                             <button
                               onClick={() => {
@@ -446,9 +474,9 @@ export default function ContentManagement() {
                                 setShowEditBusiness(true);
                               }}
                               className="text-indigo-600 hover:text-indigo-700 cursor-pointer"
-                              title="Edit"
+                              title={t("contentManagement.actions.edit")}
                             >
-                              <i className="ri-edit-line"></i>
+                              <i className="ri-edit-line text-sm sm:text-base"></i>
                             </button>
                             <button
                               onClick={() => {
@@ -461,9 +489,9 @@ export default function ContentManagement() {
                                 );
                               }}
                               className="text-green-600 hover:text-green-700 cursor-pointer"
-                              title="Approve"
+                              title={t("contentManagement.actions.approve")}
                             >
-                              <i className="ri-check-line"></i>
+                              <i className="ri-check-line text-sm sm:text-base"></i>
                             </button>
                             <button
                               onClick={() => {
@@ -476,13 +504,20 @@ export default function ContentManagement() {
                                 );
                               }}
                               className="text-yellow-600 hover:text-yellow-700 cursor-pointer"
-                              title="Flag"
+                              title={t("contentManagement.actions.flag")}
                             >
-                              <i className="ri-flag-line"></i>
+                              <i className="ri-flag-line text-sm sm:text-base"></i>
                             </button>
                             <button
                               onClick={() => {
-                                if (!confirm("Delete this business?")) return;
+                                if (
+                                  !confirm(
+                                    t(
+                                      "contentManagement.messages.deleteConfirm"
+                                    )
+                                  )
+                                )
+                                  return;
                                 setBusinesses((prev) =>
                                   prev.filter((b) => b.id !== business.id)
                                 );
@@ -491,9 +526,9 @@ export default function ContentManagement() {
                                 );
                               }}
                               className="text-red-600 hover:text-red-700 cursor-pointer"
-                              title="Delete"
+                              title={t("contentManagement.actions.delete")}
                             >
-                              <i className="ri-delete-bin-line"></i>
+                              <i className="ri-delete-bin-line text-sm sm:text-base"></i>
                             </button>
                           </div>
                         </td>
@@ -507,21 +542,20 @@ export default function ContentManagement() {
 
           {/* Pending Reviews Tab */}
           {activeTab === "reviews" && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    Review Approval Queue
+            <div className="space-y-4 sm:space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="min-w-0">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-800">
+                    {t("contentManagement.reviews.title")}
                   </h3>
-                  <p className="text-sm text-gray-600">
-                    Reviews awaiting admin approval before appearing on business
-                    profiles
+                  <p className="text-xs sm:text-sm text-gray-600">
+                    {t("contentManagement.reviews.description")}
                   </p>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <span className="text-sm text-gray-600">
-                    {pendingReviews.filter((r) => r.flagged).length} flagged for
-                    review
+                  <span className="text-xs sm:text-sm text-gray-600">
+                    {pendingReviews.filter((r) => r.flagged).length}{" "}
+                    {t("contentManagement.reviews.flagged")}
                   </span>
                 </div>
               </div>
@@ -529,38 +563,39 @@ export default function ContentManagement() {
               {pendingReviews.map((review) => (
                 <div
                   key={review.id}
-                  className={`border rounded-lg p-6 ${
+                  className={`border rounded-lg p-4 sm:p-6 ${
                     review.flagged
                       ? "border-red-200 bg-red-50"
                       : "border-gray-200 bg-white"
                   }`}
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-4">
-                        <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                          <i className="ri-star-line text-orange-600 text-xl"></i>
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start space-x-3 mb-4">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <i className="ri-star-line text-orange-600 text-lg sm:text-xl"></i>
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-800">
+                        <div className="min-w-0 flex-1">
+                          <h4 className="font-semibold text-gray-800 text-sm sm:text-base truncate">
                             {review.businessName}
                           </h4>
-                          <p className="text-sm text-gray-600">
-                            Submitted by: {review.customerName}
+                          <p className="text-xs sm:text-sm text-gray-600">
+                            {t("contentManagement.reviews.submittedBy")}:{" "}
+                            {review.customerName}
                           </p>
                         </div>
                         {review.flagged && (
-                          <span className="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-medium">
+                          <span className="bg-red-100 text-red-600 px-2 sm:px-3 py-1 rounded-full text-xs font-medium flex-shrink-0">
                             <i className="ri-flag-line mr-1"></i>
-                            Flagged
+                            {t("contentManagement.reviews.flagged")}
                           </span>
                         )}
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4">
                         <div>
-                          <span className="font-medium text-gray-700">
-                            Rating:
+                          <span className="font-medium text-gray-700 text-sm">
+                            {t("contentManagement.reviews.rating")}:
                           </span>
                           <div className="flex items-center space-x-2 mt-1">
                             <div className="flex text-yellow-400">
@@ -571,28 +606,28 @@ export default function ContentManagement() {
                                     star <= review.rating
                                       ? "ri-star-fill"
                                       : "ri-star-line text-gray-300"
-                                  }`}
+                                  } text-sm`}
                                 ></i>
                               ))}
                             </div>
-                            <span className="text-sm text-gray-600">
+                            <span className="text-xs sm:text-sm text-gray-600">
                               ({review.rating}/5)
                             </span>
                           </div>
                         </div>
                         <div>
-                          <span className="font-medium text-gray-700">
-                            Submission Date:
+                          <span className="font-medium text-gray-700 text-sm">
+                            {t("contentManagement.reviews.submissionDate")}:
                           </span>
-                          <p className="text-gray-600">
+                          <p className="text-gray-600 text-sm">
                             {new Date(
                               review.submissionDate
                             ).toLocaleDateString()}
                           </p>
                         </div>
                         <div>
-                          <span className="font-medium text-gray-700">
-                            Status:
+                          <span className="font-medium text-gray-700 text-sm">
+                            {t("contentManagement.reviews.status")}:
                           </span>
                           <span className="bg-yellow-100 text-yellow-600 px-2 py-1 rounded text-xs ml-2">
                             {review.status.replace("_", " ")}
@@ -600,11 +635,11 @@ export default function ContentManagement() {
                         </div>
                       </div>
 
-                      <div className="bg-gray-50 p-4 rounded-lg mb-4">
-                        <span className="font-medium text-gray-700">
-                          Review Content:
+                      <div className="bg-gray-50 p-3 sm:p-4 rounded-lg mb-4">
+                        <span className="font-medium text-gray-700 text-sm">
+                          {t("contentManagement.reviews.content")}:
                         </span>
-                        <p className="text-gray-700 mt-2 leading-relaxed">
+                        <p className="text-gray-700 mt-2 leading-relaxed text-sm sm:text-base">
                           {review.reviewText}
                         </p>
                       </div>
@@ -613,47 +648,46 @@ export default function ContentManagement() {
                         <div className="bg-red-100 border border-red-200 rounded-lg p-3 mb-4">
                           <div className="flex items-center space-x-2">
                             <i className="ri-alert-line text-red-600"></i>
-                            <span className="font-medium text-red-800">
-                              Review Flagged
+                            <span className="font-medium text-red-800 text-sm">
+                              {t("contentManagement.reviews.flaggedTitle")}
                             </span>
                           </div>
-                          <p className="text-sm text-red-700 mt-1">
-                            This review has been flagged for potential policy
-                            violations. Please review carefully before approval.
+                          <p className="text-xs sm:text-sm text-red-700 mt-1">
+                            {t("contentManagement.reviews.flaggedDescription")}
                           </p>
                         </div>
                       )}
                     </div>
 
-                    <div className="flex flex-col space-y-2 ml-6">
+                    <div className="flex flex-col space-y-2 lg:ml-4 lg:w-auto w-full">
                       <button
                         onClick={() => setSelectedReview(review)}
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm cursor-pointer whitespace-nowrap"
+                        className="bg-blue-500 text-white px-3 sm:px-4 py-2 rounded hover:bg-blue-600 text-xs sm:text-sm cursor-pointer whitespace-nowrap"
                       >
                         <i className="ri-eye-line mr-2"></i>
-                        View Details
+                        {t("contentManagement.actions.viewDetails")}
                       </button>
                       <button
                         onClick={() => handleReviewAction("approve", review.id)}
-                        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 text-sm cursor-pointer whitespace-nowrap"
+                        className="bg-green-500 text-white px-3 sm:px-4 py-2 rounded hover:bg-green-600 text-xs sm:text-sm cursor-pointer whitespace-nowrap"
                       >
                         <i className="ri-check-line mr-2"></i>
-                        Approve
+                        {t("contentManagement.actions.approve")}
                       </button>
                       <button
                         onClick={() => handleReviewAction("reject", review.id)}
-                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 text-sm cursor-pointer whitespace-nowrap"
+                        className="bg-red-500 text-white px-3 sm:px-4 py-2 rounded hover:bg-red-600 text-xs sm:text-sm cursor-pointer whitespace-nowrap"
                       >
                         <i className="ri-close-line mr-2"></i>
-                        Reject
+                        {t("contentManagement.actions.reject")}
                       </button>
                       {!review.flagged && (
                         <button
                           onClick={() => handleReviewAction("flag", review.id)}
-                          className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 text-sm cursor-pointer whitespace-nowrap"
+                          className="bg-orange-500 text-white px-3 sm:px-4 py-2 rounded hover:bg-orange-600 text-xs sm:text-sm cursor-pointer whitespace-nowrap"
                         >
                           <i className="ri-flag-line mr-2"></i>
-                          Flag
+                          {t("contentManagement.actions.flag")}
                         </button>
                       )}
                     </div>
@@ -662,9 +696,11 @@ export default function ContentManagement() {
               ))}
 
               {pendingReviews.length === 0 && (
-                <div className="text-center py-12 text-gray-500">
-                  <i className="ri-star-line text-4xl mb-4"></i>
-                  <p>No reviews pending approval</p>
+                <div className="text-center py-8 sm:py-12 text-gray-500">
+                  <i className="ri-star-line text-3xl sm:text-4xl mb-3 sm:mb-4"></i>
+                  <p className="text-sm sm:text-base">
+                    {t("contentManagement.reviews.noPending")}
+                  </p>
                 </div>
               )}
             </div>
@@ -672,122 +708,130 @@ export default function ContentManagement() {
 
           {/* Document Verification Tab */}
           {activeTab === "verification" && (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {documentVerifications.map((doc) => (
                 <div
                   key={doc.id}
-                  className="bg-yellow-50 border border-yellow-200 rounded-lg p-6"
+                  className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 sm:p-6"
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-4">
-                        <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                          <i className="ri-file-shield-line text-yellow-600 text-xl"></i>
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start space-x-3 mb-4">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <i className="ri-file-shield-line text-yellow-600 text-lg sm:text-xl"></i>
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-800">
+                        <div className="min-w-0 flex-1">
+                          <h4 className="font-semibold text-gray-800 text-sm sm:text-base truncate">
                             {doc.businessName}
                           </h4>
-                          <p className="text-sm text-gray-600">
-                            Owner: {doc.ownerName}
+                          <p className="text-xs sm:text-sm text-gray-600">
+                            {t("contentManagement.verification.owner")}:{" "}
+                            {doc.ownerName}
                           </p>
                         </div>
                         <span
-                          className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
+                          className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
                             doc.status
-                          )}`}
+                          )} flex-shrink-0`}
                         >
                           {doc.status.replace("_", " ")}
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4">
                         <div>
-                          <span className="font-medium text-gray-700">
-                            Document Type:
+                          <span className="font-medium text-gray-700 text-sm">
+                            {t("contentManagement.verification.documentType")}:
                           </span>
-                          <p className="text-gray-600">{doc.documentType}</p>
+                          <p className="text-gray-600 text-sm">
+                            {doc.documentType}
+                          </p>
                         </div>
                         <div>
-                          <span className="font-medium text-gray-700">
-                            CR Number:
+                          <span className="font-medium text-gray-700 text-sm">
+                            {t("contentManagement.verification.crNumber")}:
                           </span>
-                          <p className="text-gray-600">{doc.crNumber}</p>
+                          <p className="text-gray-600 text-sm">
+                            {doc.crNumber}
+                          </p>
                         </div>
                         <div>
-                          <span className="font-medium text-gray-700">
-                            Upload Date:
+                          <span className="font-medium text-gray-700 text-sm">
+                            {t("contentManagement.verification.uploadDate")}:
                           </span>
-                          <p className="text-gray-600">
+                          <p className="text-gray-600 text-sm">
                             {new Date(doc.uploadDate).toLocaleDateString()}
                           </p>
                         </div>
                         <div>
-                          <span className="font-medium text-gray-700">
-                            Issue Date:
+                          <span className="font-medium text-gray-700 text-sm">
+                            {t("contentManagement.verification.issueDate")}:
                           </span>
-                          <p className="text-gray-600">
+                          <p className="text-gray-600 text-sm">
                             {new Date(doc.issueDate).toLocaleDateString()}
                           </p>
                         </div>
                         <div>
-                          <span className="font-medium text-gray-700">
-                            Expiry Date:
+                          <span className="font-medium text-gray-700 text-sm">
+                            {t("contentManagement.verification.expiryDate")}:
                           </span>
-                          <p className="text-gray-600">
+                          <p className="text-gray-600 text-sm">
                             {new Date(doc.expiryDate).toLocaleDateString()}
                           </p>
                         </div>
                         <div>
-                          <span className="font-medium text-gray-700">
-                            Reviewer:
+                          <span className="font-medium text-gray-700 text-sm">
+                            {t("contentManagement.verification.reviewer")}:
                           </span>
-                          <p className="text-gray-600">
-                            {doc.reviewer || "Not assigned"}
+                          <p className="text-gray-600 text-sm">
+                            {doc.reviewer ||
+                              t("contentManagement.verification.notAssigned")}
                           </p>
                         </div>
                       </div>
 
                       {doc.notes && (
                         <div className="bg-white p-3 rounded border border-yellow-200 mb-4">
-                          <span className="font-medium text-gray-700">
-                            Review Notes:
+                          <span className="font-medium text-gray-700 text-sm">
+                            {t("contentManagement.verification.reviewNotes")}:
                           </span>
-                          <p className="text-gray-600 mt-1">{doc.notes}</p>
+                          <p className="text-gray-600 mt-1 text-sm">
+                            {doc.notes}
+                          </p>
                         </div>
                       )}
                     </div>
 
-                    <div className="flex flex-col space-y-2 ml-4">
+                    <div className="flex flex-col space-y-2 lg:ml-4 lg:w-auto w-full">
                       <button
                         onClick={() => handleDocumentAction("view", doc.id)}
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm cursor-pointer whitespace-nowrap"
+                        className="bg-blue-500 text-white px-3 sm:px-4 py-2 rounded hover:bg-blue-600 text-xs sm:text-sm cursor-pointer whitespace-nowrap"
                       >
                         <i className="ri-eye-line mr-2"></i>
-                        View Document
+                        {t("contentManagement.actions.viewDocument")}
                       </button>
                       <button
                         onClick={() => handleDocumentAction("approve", doc.id)}
-                        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 text-sm cursor-pointer whitespace-nowrap"
+                        className="bg-green-500 text-white px-3 sm:px-4 py-2 rounded hover:bg-green-600 text-xs sm:text-sm cursor-pointer whitespace-nowrap"
                       >
                         <i className="ri-check-line mr-2"></i>
-                        Approve
+                        {t("contentManagement.actions.approve")}
                       </button>
                       <button
                         onClick={() => handleDocumentAction("reject", doc.id)}
-                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 text-sm cursor-pointer whitespace-nowrap"
+                        className="bg-red-500 text-white px-3 sm:px-4 py-2 rounded hover:bg-red-600 text-xs sm:text-sm cursor-pointer whitespace-nowrap"
                       >
                         <i className="ri-close-line mr-2"></i>
-                        Reject
+                        {t("contentManagement.actions.reject")}
                       </button>
                       <button
                         onClick={() =>
                           handleDocumentAction("request_resubmit", doc.id)
                         }
-                        className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 text-sm cursor-pointer whitespace-nowrap"
+                        className="bg-orange-500 text-white px-3 sm:px-4 py-2 rounded hover:bg-orange-600 text-xs sm:text-sm cursor-pointer whitespace-nowrap"
                       >
                         <i className="ri-refresh-line mr-2"></i>
-                        Request Resubmit
+                        {t("contentManagement.actions.requestResubmit")}
                       </button>
                     </div>
                   </div>
@@ -795,9 +839,11 @@ export default function ContentManagement() {
               ))}
 
               {documentVerifications.length === 0 && (
-                <div className="text-center py-12 text-gray-500">
-                  <i className="ri-file-check-line text-4xl mb-4"></i>
-                  <p>No documents pending verification</p>
+                <div className="text-center py-8 sm:py-12 text-gray-500">
+                  <i className="ri-file-check-line text-3xl sm:text-4xl mb-3 sm:mb-4"></i>
+                  <p className="text-sm sm:text-base">
+                    {t("contentManagement.verification.noPending")}
+                  </p>
                 </div>
               )}
             </div>
@@ -809,65 +855,73 @@ export default function ContentManagement() {
               {reportedContent.map((report) => (
                 <div
                   key={report.id}
-                  className="bg-red-50 border border-red-200 rounded-lg p-6"
+                  className="bg-red-50 border border-red-200 rounded-lg p-4 sm:p-6"
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                    <div className="flex-1 min-w-0">
                       <div className="flex items-center space-x-3 mb-2">
-                        <h4 className="font-semibold text-gray-800">
+                        <h4 className="font-semibold text-gray-800 text-sm sm:text-base truncate">
                           {report.business}
                         </h4>
                         <span
-                          className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
+                          className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
                             report.status
-                          )}`}
+                          )} flex-shrink-0`}
                         >
                           {report.status}
                         </span>
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600 mb-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs sm:text-sm text-gray-600 mb-3">
                         <div>
-                          <span className="font-medium">Type:</span>{" "}
+                          <span className="font-medium">
+                            {t("contentManagement.reports.type")}:
+                          </span>{" "}
                           {report.type.replace("_", " ")}
                         </div>
                         <div>
-                          <span className="font-medium">Reported by:</span>{" "}
+                          <span className="font-medium">
+                            {t("contentManagement.reports.reportedBy")}:
+                          </span>{" "}
                           {report.reportedBy}
                         </div>
                         <div>
-                          <span className="font-medium">Date:</span>{" "}
+                          <span className="font-medium">
+                            {t("contentManagement.reports.date")}:
+                          </span>{" "}
                           {new Date(report.reportDate).toLocaleDateString()}
                         </div>
                       </div>
                       <div className="mb-3">
-                        <span className="font-medium text-gray-700">
-                          Reason:
+                        <span className="font-medium text-gray-700 text-sm">
+                          {t("contentManagement.reports.reason")}:
                         </span>{" "}
                         {report.reason}
                       </div>
                       <div className="bg-white p-3 rounded border border-red-200">
-                        <span className="font-medium text-gray-700">
-                          Content:
+                        <span className="font-medium text-gray-700 text-sm">
+                          {t("contentManagement.reports.content")}:
                         </span>
-                        <p className="text-gray-600 mt-1">{report.content}</p>
+                        <p className="text-gray-600 mt-1 text-sm">
+                          {report.content}
+                        </p>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2 ml-4">
+                    <div className="flex items-center space-x-2 lg:ml-4 lg:flex-col lg:space-x-0 lg:space-y-2 w-full lg:w-auto">
                       <button
                         onClick={() =>
                           handleContentAction("approve", report.id, "report")
                         }
-                        className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 text-sm cursor-pointer"
+                        className="bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600 text-xs sm:text-sm cursor-pointer w-full lg:w-auto"
                       >
-                        Approve
+                        {t("contentManagement.actions.approve")}
                       </button>
                       <button
                         onClick={() =>
                           handleContentAction("takedown", report.id, "report")
                         }
-                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm cursor-pointer"
+                        className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600 text-xs sm:text-sm cursor-pointer w-full lg:w-auto"
                       >
-                        Take Down
+                        {t("contentManagement.actions.takeDown")}
                       </button>
                     </div>
                   </div>
@@ -882,15 +936,15 @@ export default function ContentManagement() {
       {selectedReview && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
+            <div className="p-4 sm:p-6 border-b border-gray-200">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                    <i className="ri-star-line text-orange-600 text-xl"></i>
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                    <i className="ri-star-line text-orange-600 text-lg sm:text-xl"></i>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-800">
-                      Review Details
+                    <h3 className="font-semibold text-gray-800 text-base sm:text-lg">
+                      {t("contentManagement.reviewModal.title")}
                     </h3>
                     <p className="text-sm text-gray-600">
                       {selectedReview.businessName}
@@ -906,23 +960,27 @@ export default function ContentManagement() {
               </div>
             </div>
 
-            <div className="p-6 space-y-6">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div>
                   <label className="text-sm font-medium text-gray-700">
-                    Business
+                    {t("contentManagement.reviewModal.business")}
                   </label>
-                  <p className="text-gray-800">{selectedReview.businessName}</p>
+                  <p className="text-gray-800 text-sm sm:text-base">
+                    {selectedReview.businessName}
+                  </p>
                 </div>
                 <div>
                   <label className="text-sm font-medium text-gray-700">
-                    Submitted By
+                    {t("contentManagement.reviewModal.submittedBy")}
                   </label>
-                  <p className="text-gray-800">{selectedReview.customerName}</p>
+                  <p className="text-gray-800 text-sm sm:text-base">
+                    {selectedReview.customerName}
+                  </p>
                 </div>
                 <div>
                   <label className="text-sm font-medium text-gray-700">
-                    Rating
+                    {t("contentManagement.reviewModal.rating")}
                   </label>
                   <div className="flex items-center space-x-2">
                     <div className="flex text-yellow-400">
@@ -933,7 +991,7 @@ export default function ContentManagement() {
                             star <= selectedReview.rating
                               ? "ri-star-fill"
                               : "ri-star-line text-gray-300"
-                          }`}
+                          } text-sm`}
                         ></i>
                       ))}
                     </div>
@@ -944,9 +1002,9 @@ export default function ContentManagement() {
                 </div>
                 <div>
                   <label className="text-sm font-medium text-gray-700">
-                    Submission Date
+                    {t("contentManagement.reviewModal.submissionDate")}
                   </label>
-                  <p className="text-gray-800">
+                  <p className="text-gray-800 text-sm sm:text-base">
                     {new Date(
                       selectedReview.submissionDate
                     ).toLocaleDateString()}
@@ -956,76 +1014,82 @@ export default function ContentManagement() {
 
               <div>
                 <label className="text-sm font-medium text-gray-700">
-                  Review Content
+                  {t("contentManagement.reviewModal.reviewContent")}
                 </label>
-                <div className="bg-gray-50 p-4 rounded-lg mt-2">
-                  <p className="text-gray-700 leading-relaxed">
+                <div className="bg-gray-50 p-3 sm:p-4 rounded-lg mt-2">
+                  <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
                     {selectedReview.reviewText}
                   </p>
                 </div>
               </div>
 
               {selectedReview.flagged && (
-                <div className="bg-red-100 border border-red-200 rounded-lg p-4">
+                <div className="bg-red-100 border border-red-200 rounded-lg p-3 sm:p-4">
                   <div className="flex items-center space-x-2 mb-2">
                     <i className="ri-alert-line text-red-600"></i>
-                    <span className="font-medium text-red-800">
-                      Flagged Review
+                    <span className="font-medium text-red-800 text-sm sm:text-base">
+                      {t("contentManagement.reviewModal.flaggedTitle")}
                     </span>
                   </div>
-                  <p className="text-sm text-red-700">
-                    This review has been flagged for potential policy
-                    violations. Consider the following before approval:
+                  <p className="text-xs sm:text-sm text-red-700">
+                    {t("contentManagement.reviewModal.flaggedDescription")}
                   </p>
-                  <ul className="text-sm text-red-700 mt-2 list-disc list-inside">
-                    <li>Check for inappropriate language</li>
-                    <li>Verify authenticity of the review</li>
-                    <li>Ensure compliance with community guidelines</li>
+                  <ul className="text-xs sm:text-sm text-red-700 mt-2 list-disc list-inside space-y-1">
+                    <li>{t("contentManagement.reviewModal.checkLanguage")}</li>
+                    <li>
+                      {t("contentManagement.reviewModal.verifyAuthenticity")}
+                    </li>
+                    <li>
+                      {t("contentManagement.reviewModal.ensureCompliance")}
+                    </li>
                   </ul>
                 </div>
               )}
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h4 className="font-medium text-blue-800 mb-2">
-                  Approval Process
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4">
+                <h4 className="font-medium text-blue-800 text-sm sm:text-base mb-2">
+                  {t("contentManagement.reviewModal.approvalProcess")}
                 </h4>
-                <ul className="text-sm text-blue-700 space-y-1">
+                <ul className="text-xs sm:text-sm text-blue-700 space-y-1">
+                  <li>• {t("contentManagement.reviewModal.approvedAppear")}</li>
                   <li>
-                    • Approved reviews will appear on the business public
-                    profile
+                    • {t("contentManagement.reviewModal.ownerNotification")}
                   </li>
-                  <li>• Business owner will receive an email notification</li>
-                  <li>• Review will contribute to overall business rating</li>
-                  <li>• Action is permanent and cannot be easily undone</li>
+                  <li>
+                    • {t("contentManagement.reviewModal.contributeRating")}
+                  </li>
+                  <li>
+                    • {t("contentManagement.reviewModal.actionPermanent")}
+                  </li>
                 </ul>
               </div>
 
-              <div className="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
+              <div className="flex flex-col sm:flex-row items-center justify-end space-y-3 sm:space-y-0 sm:space-x-3 pt-4 border-t border-gray-200">
                 <button
                   onClick={() => setSelectedReview(null)}
-                  className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium cursor-pointer"
+                  className="px-4 sm:px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium text-sm cursor-pointer w-full sm:w-auto order-2 sm:order-1"
                 >
-                  Close
+                  {t("contentManagement.actions.close")}
                 </button>
                 <button
                   onClick={() => {
                     handleReviewAction("reject", selectedReview.id);
                     setSelectedReview(null);
                   }}
-                  className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 font-medium cursor-pointer"
+                  className="px-4 sm:px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 font-medium text-sm cursor-pointer w-full sm:w-auto order-3 sm:order-2"
                 >
                   <i className="ri-close-line mr-2"></i>
-                  Reject Review
+                  {t("contentManagement.actions.rejectReview")}
                 </button>
                 <button
                   onClick={() => {
                     handleReviewAction("approve", selectedReview.id);
                     setSelectedReview(null);
                   }}
-                  className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 font-medium cursor-pointer"
+                  className="px-4 sm:px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 font-medium text-sm cursor-pointer w-full sm:w-auto order-1 sm:order-3"
                 >
                   <i className="ri-check-line mr-2"></i>
-                  Approve Review
+                  {t("contentManagement.actions.approveReview")}
                 </button>
               </div>
             </div>
@@ -1037,9 +1101,9 @@ export default function ContentManagement() {
       {showEditBusiness && editingBusiness && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-xl w-full max-h-screen overflow-y-auto">
-            <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-800">
-                Edit Business
+            <div className="p-4 sm:p-6 border-b border-gray-200 flex items-center justify-between">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-800">
+                {t("contentManagement.editBusiness.title")}
               </h3>
               <button
                 onClick={() => setShowEditBusiness(false)}
@@ -1048,10 +1112,10 @@ export default function ContentManagement() {
                 <i className="ri-close-line text-xl"></i>
               </button>
             </div>
-            <div className="p-6 space-y-4">
+            <div className="p-4 sm:p-6 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Name
+                  {t("contentManagement.editBusiness.name")}
                 </label>
                 <input
                   type="text"
@@ -1067,7 +1131,7 @@ export default function ContentManagement() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Owner
+                  {t("contentManagement.editBusiness.owner")}
                 </label>
                 <input
                   type="text"
@@ -1081,10 +1145,10 @@ export default function ContentManagement() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Category
+                    {t("contentManagement.editBusiness.category")}
                   </label>
                   <input
                     type="text"
@@ -1100,7 +1164,7 @@ export default function ContentManagement() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Status
+                    {t("contentManagement.editBusiness.status")}
                   </label>
                   <select
                     value={editingBusiness.status}
@@ -1112,18 +1176,22 @@ export default function ContentManagement() {
                     }
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   >
-                    <option value="approved">Approved</option>
-                    <option value="pending_verification">
-                      Pending Verification
+                    <option value="approved">
+                      {t("contentManagement.editBusiness.approved")}
                     </option>
-                    <option value="flagged">Flagged</option>
+                    <option value="pending_verification">
+                      {t("contentManagement.editBusiness.pendingVerification")}
+                    </option>
+                    <option value="flagged">
+                      {t("contentManagement.editBusiness.flagged")}
+                    </option>
                   </select>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    CR Status
+                    {t("contentManagement.editBusiness.crStatus")}
                   </label>
                   <select
                     value={editingBusiness.crStatus}
@@ -1135,15 +1203,23 @@ export default function ContentManagement() {
                     }
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   >
-                    <option value="verified">Verified</option>
-                    <option value="under_review">Under Review</option>
-                    <option value="pending_review">Pending Review</option>
-                    <option value="rejected">Rejected</option>
+                    <option value="verified">
+                      {t("contentManagement.editBusiness.verified")}
+                    </option>
+                    <option value="under_review">
+                      {t("contentManagement.editBusiness.underReview")}
+                    </option>
+                    <option value="pending_review">
+                      {t("contentManagement.editBusiness.pendingReview")}
+                    </option>
+                    <option value="rejected">
+                      {t("contentManagement.editBusiness.rejected")}
+                    </option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Views
+                    {t("contentManagement.editBusiness.views")}
                   </label>
                   <input
                     type="number"
@@ -1159,12 +1235,12 @@ export default function ContentManagement() {
                 </div>
               </div>
             </div>
-            <div className="p-6 border-t border-gray-200 flex justify-end space-x-3">
+            <div className="p-4 sm:p-6 border-t border-gray-200 flex flex-col sm:flex-row justify-end gap-3">
               <button
                 onClick={() => setShowEditBusiness(false)}
-                className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 font-medium text-sm cursor-pointer"
+                className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 font-medium text-sm cursor-pointer order-2 sm:order-1"
               >
-                Cancel
+                {t("contentManagement.actions.cancel")}
               </button>
               <button
                 onClick={() => {
@@ -1177,9 +1253,9 @@ export default function ContentManagement() {
                   );
                   setShowEditBusiness(false);
                 }}
-                className="px-6 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 font-medium text-sm cursor-pointer"
+                className="px-6 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 font-medium text-sm cursor-pointer order-1 sm:order-2"
               >
-                Save
+                {t("contentManagement.actions.save")}
               </button>
             </div>
           </div>

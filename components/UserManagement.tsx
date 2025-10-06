@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "../lib/LanguageContext";
 
 type User = {
   id: number;
@@ -9,14 +10,15 @@ type User = {
   businessName: string;
   plan: "Basic" | "Premium" | "Enterprise";
   status: "active" | "suspended" | "pending" | "inactive";
-  joinDate: string; // ISO or date-like string
-  lastActive: string; // ISO or date-like string
-  revenue: string; // e.g. "$290"
-  profileCompletion: number; // 0-100
+  joinDate: string;
+  lastActive: string;
+  revenue: string;
+  profileCompletion: number;
   avatar: string;
 };
 
 export default function UserManagement() {
+  const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filterStatus, setFilterStatus] = useState<"all" | User["status"]>(
     "all"
@@ -218,11 +220,9 @@ export default function UserManagement() {
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.businessName.toLowerCase().includes(searchTerm.toLowerCase());
-
     const matchesStatus =
       filterStatus === "all" || user.status === filterStatus;
     const matchesPlan = filterPlan === "all" || user.plan === filterPlan;
-
     return matchesSearch && matchesStatus && matchesPlan;
   });
 
@@ -284,44 +284,52 @@ export default function UserManagement() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 sm:p-6 lg:p-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <h2 className="text-2xl font-bold text-gray-800">User Management</h2>
-        <div className="flex space-x-3">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
+          {t("userManagement.title")}
+        </h2>
+        <div className="flex flex-col sm:flex-row gap-3">
           {selectedUsers.length > 0 && (
-            <div className="flex space-x-2">
+            <div className="flex gap-2">
               <button
                 onClick={() => handleBulkAction("suspend")}
                 className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 font-medium text-sm whitespace-nowrap cursor-pointer"
               >
                 <i className="ri-pause-circle-line mr-2"></i>
-                Suspend ({selectedUsers.length})
+                {t("userManagement.bulkSuspend").replace(
+                  "{count}",
+                  selectedUsers.length.toString()
+                )}
               </button>
               <button
                 onClick={() => handleBulkAction("delete")}
                 className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 font-medium text-sm whitespace-nowrap cursor-pointer"
               >
                 <i className="ri-delete-bin-line mr-2"></i>
-                Delete ({selectedUsers.length})
+                {t("userManagement.bulkDelete").replace(
+                  "{count}",
+                  selectedUsers.length.toString()
+                )}
               </button>
             </div>
           )}
           <button
             onClick={openAddUser}
-            className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 font-medium text-sm whitespace-nowrap cursor-pointer"
+            className="bg-green-500 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-green-600 font-medium text-sm whitespace-nowrap cursor-pointer"
           >
             <i className="ri-add-line mr-2"></i>
-            Add User
+            {t("userManagement.addUser")}
           </button>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+      <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Search Users
+              {t("userManagement.searchUsers")}
             </label>
             <div className="relative">
               <i className="ri-search-line absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
@@ -329,7 +337,7 @@ export default function UserManagement() {
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search by name, email, or business..."
+                placeholder={t("userManagement.searchPlaceholder")}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
               />
             </div>
@@ -337,38 +345,40 @@ export default function UserManagement() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Status
+              {t("userManagement.status")}
             </label>
             <select
               value={filterStatus}
               onChange={(e) =>
                 setFilterStatus(e.target.value as "all" | User["status"])
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm pr-8"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
             >
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="suspended">Suspended</option>
-              <option value="pending">Pending</option>
-              <option value="inactive">Inactive</option>
+              <option value="all">{t("userManagement.allStatus")}</option>
+              <option value="active">{t("userManagement.active")}</option>
+              <option value="suspended">{t("userManagement.suspended")}</option>
+              <option value="pending">{t("userManagement.pending")}</option>
+              <option value="inactive">{t("userManagement.inactive")}</option>
             </select>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Plan
+              {t("userManagement.plan")}
             </label>
             <select
               value={filterPlan}
               onChange={(e) =>
                 setFilterPlan(e.target.value as "all" | User["plan"])
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm pr-8"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
             >
-              <option value="all">All Plans</option>
-              <option value="Basic">Basic</option>
-              <option value="Premium">Premium</option>
-              <option value="Enterprise">Enterprise</option>
+              <option value="all">{t("userManagement.allPlans")}</option>
+              <option value="Basic">{t("userManagement.basic")}</option>
+              <option value="Premium">{t("userManagement.premium")}</option>
+              <option value="Enterprise">
+                {t("userManagement.enterprise")}
+              </option>
             </select>
           </div>
 
@@ -378,7 +388,7 @@ export default function UserManagement() {
               className="w-full bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 font-medium text-sm whitespace-nowrap cursor-pointer"
             >
               <i className="ri-download-line mr-2"></i>
-              Export Data
+              {t("userManagement.exportData")}
             </button>
           </div>
         </div>
@@ -390,7 +400,7 @@ export default function UserManagement() {
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                <th className="text-left py-3 px-6">
+                <th className="text-left py-3 px-4 sm:px-6">
                   <input
                     type="checkbox"
                     className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
@@ -403,33 +413,33 @@ export default function UserManagement() {
                     }}
                   />
                 </th>
-                <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                  User
+                <th className="text-left py-3 px-4 sm:px-6 text-sm font-medium text-gray-700">
+                  {t("userManagement.user")}
                 </th>
-                <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                  Business
+                <th className="text-left py-3 px-4 sm:px-6 text-sm font-medium text-gray-700">
+                  {t("userManagement.business")}
                 </th>
-                <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                  Plan
+                <th className="text-left py-3 px-4 sm:px-6 text-sm font-medium text-gray-700">
+                  {t("userManagement.plan")}
                 </th>
-                <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                  Status
+                <th className="text-left py-3 px-4 sm:px-6 text-sm font-medium text-gray-700">
+                  {t("userManagement.status")}
                 </th>
-                <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                  Revenue
+                <th className="text-left py-3 px-4 sm:px-6 text-sm font-medium text-gray-700">
+                  {t("userManagement.revenue")}
                 </th>
-                <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                  Last Active
+                <th className="text-left py-3 px-4 sm:px-6 text-sm font-medium text-gray-700">
+                  {t("userManagement.lastActive")}
                 </th>
-                <th className="text-left py-3 px-6 text-sm font-medium text-gray-700">
-                  Actions
+                <th className="text-left py-3 px-4 sm:px-6 text-sm font-medium text-gray-700">
+                  {t("userManagement.actions")}
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {filteredUsers.map((user) => (
                 <tr key={user.id} className="hover:bg-gray-50">
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-4 sm:px-6">
                     <input
                       type="checkbox"
                       checked={selectedUsers.includes(user.id)}
@@ -445,23 +455,29 @@ export default function UserManagement() {
                       className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
                     />
                   </td>
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-4 sm:px-6">
                     <div className="flex items-center space-x-3">
                       <img
                         src={user.avatar}
                         alt={user.name}
-                        className="w-10 h-10 rounded-full object-cover"
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover"
                       />
-                      <div>
-                        <p className="font-medium text-gray-800">{user.name}</p>
-                        <p className="text-sm text-gray-600">{user.email}</p>
+                      <div className="min-w-0">
+                        <p className="font-medium text-gray-800 text-sm sm:text-base truncate">
+                          {user.name}
+                        </p>
+                        <p className="text-xs sm:text-sm text-gray-600 truncate">
+                          {user.email}
+                        </p>
                       </div>
                     </div>
                   </td>
-                  <td className="py-4 px-6">
-                    <p className="text-gray-800">{user.businessName}</p>
+                  <td className="py-4 px-4 sm:px-6">
+                    <p className="text-gray-800 text-sm sm:text-base">
+                      {user.businessName}
+                    </p>
                     <div className="flex items-center mt-1">
-                      <div className="w-20 bg-gray-200 rounded-full h-1.5 mr-2">
+                      <div className="w-16 sm:w-20 bg-gray-200 rounded-full h-1.5 mr-2">
                         <div
                           className="bg-blue-500 h-1.5 rounded-full"
                           style={{ width: `${user.profileCompletion}%` }}
@@ -472,63 +488,63 @@ export default function UserManagement() {
                       </span>
                     </div>
                   </td>
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-4 sm:px-6">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${getPlanColor(
+                      className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${getPlanColor(
                         user.plan
                       )}`}
                     >
                       {user.plan}
                     </span>
                   </td>
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-4 sm:px-6">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${getStatusColor(
+                      className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium capitalize ${getStatusColor(
                         user.status
                       )}`}
                     >
                       {user.status}
                     </span>
                   </td>
-                  <td className="py-4 px-6">
-                    <span className="font-medium text-gray-800">
+                  <td className="py-4 px-4 sm:px-6">
+                    <span className="font-medium text-gray-800 text-sm sm:text-base">
                       {user.revenue}
                     </span>
                   </td>
-                  <td className="py-4 px-6">
-                    <span className="text-sm text-gray-600">
+                  <td className="py-4 px-4 sm:px-6">
+                    <span className="text-xs sm:text-sm text-gray-600">
                       {new Date(user.lastActive).toLocaleDateString()}
                     </span>
                   </td>
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-4 sm:px-6">
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => setShowUserDetails(user)}
                         className="text-blue-600 hover:text-blue-700 cursor-pointer"
-                        title="View Details"
+                        title={t("userManagement.viewDetails")}
                       >
-                        <i className="ri-eye-line"></i>
+                        <i className="ri-eye-line text-sm sm:text-base"></i>
                       </button>
                       <button
                         onClick={() => handleUserAction("edit", user.id)}
                         className="text-green-600 hover:text-green-700 cursor-pointer"
-                        title="Edit User"
+                        title={t("userManagement.edit")}
                       >
-                        <i className="ri-edit-line"></i>
+                        <i className="ri-edit-line text-sm sm:text-base"></i>
                       </button>
                       <button
                         onClick={() => handleUserAction("suspend", user.id)}
                         className="text-yellow-600 hover:text-yellow-700 cursor-pointer"
-                        title="Suspend User"
+                        title={t("userManagement.suspendUser")}
                       >
-                        <i className="ri-pause-circle-line"></i>
+                        <i className="ri-pause-circle-line text-sm sm:text-base"></i>
                       </button>
                       <button
                         onClick={() => handleUserAction("delete", user.id)}
                         className="text-red-600 hover:text-red-700 cursor-pointer"
-                        title="Delete User"
+                        title={t("userManagement.deleteUser")}
                       >
-                        <i className="ri-delete-bin-line"></i>
+                        <i className="ri-delete-bin-line text-sm sm:text-base"></i>
                       </button>
                     </div>
                   </td>
@@ -539,23 +555,25 @@ export default function UserManagement() {
         </div>
 
         {/* Pagination */}
-        <div className="bg-gray-50 px-6 py-3 border-t border-gray-200">
-          <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-600">
-              Showing {filteredUsers.length} of {users.length} users
+        <div className="bg-gray-50 px-4 sm:px-6 py-3 border-t border-gray-200">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="text-xs sm:text-sm text-gray-600">
+              {t("userManagement.showingUsers")
+                .replace("{count}", filteredUsers.length.toString())
+                .replace("{total}", users.length.toString())}
             </div>
             <div className="flex items-center space-x-2">
-              <button className="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100 cursor-pointer">
-                Previous
+              <button className="px-3 py-1 border border-gray-300 rounded text-xs sm:text-sm hover:bg-gray-100 cursor-pointer">
+                {t("userManagement.previous")}
               </button>
-              <button className="px-3 py-1 bg-red-500 text-white rounded text-sm">
+              <button className="px-3 py-1 bg-red-500 text-white rounded text-xs sm:text-sm">
                 1
               </button>
-              <button className="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100 cursor-pointer">
+              <button className="px-3 py-1 border border-gray-300 rounded text-xs sm:text-sm hover:bg-gray-100 cursor-pointer">
                 2
               </button>
-              <button className="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100 cursor-pointer">
-                Next
+              <button className="px-3 py-1 border border-gray-300 rounded text-xs sm:text-sm hover:bg-gray-100 cursor-pointer">
+                {t("userManagement.next")}
               </button>
             </div>
           </div>
@@ -566,10 +584,10 @@ export default function UserManagement() {
       {showUserDetails && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-2xl w-full max-h-screen overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
+            <div className="p-4 sm:p-6 border-b border-gray-200">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-800">
-                  User Details
+                <h3 className="text-base sm:text-lg font-semibold text-gray-800">
+                  {t("userManagement.userDetails")}
                 </h3>
                 <button
                   onClick={() => setShowUserDetails(null)}
@@ -580,28 +598,30 @@ export default function UserManagement() {
               </div>
             </div>
 
-            <div className="p-6 space-y-6">
-              <div className="flex items-center space-x-4">
+            <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+              <div className="flex items-center space-x-3 sm:space-x-4">
                 <img
                   src={showUserDetails.avatar}
                   alt={showUserDetails.name}
-                  className="w-16 h-16 rounded-full object-cover"
+                  className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover"
                 />
-                <div>
-                  <h4 className="text-xl font-semibold text-gray-800">
+                <div className="min-w-0">
+                  <h4 className="text-lg sm:text-xl font-semibold text-gray-800 truncate">
                     {showUserDetails.name}
                   </h4>
-                  <p className="text-gray-600">{showUserDetails.email}</p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm sm:text-base text-gray-600 truncate">
+                    {showUserDetails.email}
+                  </p>
+                  <p className="text-xs sm:text-sm text-gray-500 truncate">
                     {showUserDetails.businessName}
                   </p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Plan
+                    {t("userManagement.plan")}
                   </label>
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-medium ${getPlanColor(
@@ -613,7 +633,7 @@ export default function UserManagement() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Status
+                    {t("userManagement.status")}
                   </label>
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-medium capitalize ${getStatusColor(
@@ -625,34 +645,52 @@ export default function UserManagement() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Join Date
+                    {t("userManagement.joinDate")}
                   </label>
-                  <p className="text-gray-800">
+                  <p className="text-gray-800 text-sm sm:text-base">
                     {new Date(showUserDetails.joinDate).toLocaleDateString()}
                   </p>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Revenue
+                    {t("userManagement.revenue")}
                   </label>
-                  <p className="text-gray-800 font-medium">
+                  <p className="text-gray-800 font-medium text-sm sm:text-base">
                     {showUserDetails.revenue}
                   </p>
                 </div>
               </div>
 
-              <div className="flex space-x-3">
-                <button className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 font-medium text-sm whitespace-nowrap cursor-pointer">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <button
+                  onClick={() => {
+                    openEditUser(showUserDetails);
+                    setShowUserDetails(null);
+                  }}
+                  className="bg-blue-500 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-blue-600 font-medium text-sm whitespace-nowrap cursor-pointer"
+                >
                   <i className="ri-edit-line mr-2"></i>
-                  Edit User
+                  {t("userManagement.editUser")}
                 </button>
-                <button className="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 font-medium text-sm whitespace-nowrap cursor-pointer">
+                <button
+                  onClick={() => {
+                    handleUserAction("suspend", showUserDetails.id);
+                    setShowUserDetails(null);
+                  }}
+                  className="bg-yellow-500 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-yellow-600 font-medium text-sm whitespace-nowrap cursor-pointer"
+                >
                   <i className="ri-pause-circle-line mr-2"></i>
-                  Suspend
+                  {t("userManagement.suspend")}
                 </button>
-                <button className="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 font-medium text-sm whitespace-nowrap cursor-pointer">
+                <button
+                  onClick={() => {
+                    handleUserAction("delete", showUserDetails.id);
+                    setShowUserDetails(null);
+                  }}
+                  className="bg-red-500 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-red-600 font-medium text-sm whitespace-nowrap cursor-pointer"
+                >
                   <i className="ri-delete-bin-line mr-2"></i>
-                  Delete
+                  {t("userManagement.delete")}
                 </button>
               </div>
             </div>
@@ -664,9 +702,11 @@ export default function UserManagement() {
       {showUserModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-xl w-full max-h-screen overflow-y-auto">
-            <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-800">
-                {editingUser ? "Edit User" : "Add User"}
+            <div className="p-4 sm:p-6 border-b border-gray-200 flex items-center justify-between">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-800">
+                {editingUser
+                  ? t("userManagement.editUser")
+                  : t("userManagement.addUser")}
               </h3>
               <button
                 onClick={() => {
@@ -678,10 +718,10 @@ export default function UserManagement() {
                 <i className="ri-close-line text-xl"></i>
               </button>
             </div>
-            <div className="p-6 space-y-4">
+            <div className="p-4 sm:p-6 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Name
+                  {t("userManagement.name")}
                 </label>
                 <input
                   type="text"
@@ -690,12 +730,12 @@ export default function UserManagement() {
                     setUserForm({ ...userForm, name: e.target.value })
                   }
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
-                  placeholder="Full name"
+                  placeholder={t("userManagement.name")}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Email
+                  {t("userManagement.email")}
                 </label>
                 <input
                   type="email"
@@ -704,12 +744,12 @@ export default function UserManagement() {
                     setUserForm({ ...userForm, email: e.target.value })
                   }
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
-                  placeholder="user@example.com"
+                  placeholder={t("userManagement.email")}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Business Name
+                  {t("userManagement.businessName")}
                 </label>
                 <input
                   type="text"
@@ -718,13 +758,13 @@ export default function UserManagement() {
                     setUserForm({ ...userForm, businessName: e.target.value })
                   }
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
-                  placeholder="Business name"
+                  placeholder={t("userManagement.businessName")}
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Plan
+                    {t("userManagement.plan")}
                   </label>
                   <select
                     value={userForm.plan}
@@ -736,14 +776,18 @@ export default function UserManagement() {
                     }
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   >
-                    <option value="Basic">Basic</option>
-                    <option value="Premium">Premium</option>
-                    <option value="Enterprise">Enterprise</option>
+                    <option value="Basic">{t("userManagement.basic")}</option>
+                    <option value="Premium">
+                      {t("userManagement.premium")}
+                    </option>
+                    <option value="Enterprise">
+                      {t("userManagement.enterprise")}
+                    </option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Status
+                    {t("userManagement.status")}
                   </label>
                   <select
                     value={userForm.status}
@@ -755,16 +799,22 @@ export default function UserManagement() {
                     }
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   >
-                    <option value="active">Active</option>
-                    <option value="pending">Pending</option>
-                    <option value="suspended">Suspended</option>
-                    <option value="inactive">Inactive</option>
+                    <option value="active">{t("userManagement.active")}</option>
+                    <option value="pending">
+                      {t("userManagement.pending")}
+                    </option>
+                    <option value="suspended">
+                      {t("userManagement.suspended")}
+                    </option>
+                    <option value="inactive">
+                      {t("userManagement.inactive")}
+                    </option>
                   </select>
                 </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Avatar URL
+                  {t("userManagement.avatarUrl")}
                 </label>
                 <input
                   type="text"
@@ -773,19 +823,19 @@ export default function UserManagement() {
                     setUserForm({ ...userForm, avatar: e.target.value })
                   }
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
-                  placeholder="https://..."
+                  placeholder={t("userManagement.avatarUrl")}
                 />
               </div>
             </div>
-            <div className="p-6 border-t border-gray-200 flex justify-end space-x-3">
+            <div className="p-4 sm:p-6 border-t border-gray-200 flex flex-col sm:flex-row justify-end gap-3">
               <button
                 onClick={() => {
                   setShowUserModal(false);
                   setEditingUser(null);
                 }}
-                className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 font-medium text-sm whitespace-nowrap cursor-pointer"
+                className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 font-medium text-sm whitespace-nowrap cursor-pointer order-2 sm:order-1"
               >
-                Cancel
+                {t("userManagement.cancel")}
               </button>
               <button
                 onClick={saveUser}
@@ -794,7 +844,7 @@ export default function UserManagement() {
                   !userForm.email.trim() ||
                   !userForm.businessName.trim()
                 }
-                className={`px-6 py-2 rounded-lg font-medium text-sm whitespace-nowrap cursor-pointer transition-all ${
+                className={`px-6 py-2 rounded-lg font-medium text-sm whitespace-nowrap cursor-pointer transition-all order-1 sm:order-2 ${
                   userForm.name.trim() &&
                   userForm.email.trim() &&
                   userForm.businessName.trim()
@@ -802,7 +852,7 @@ export default function UserManagement() {
                     : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
               >
-                Save
+                {t("userManagement.save")}
               </button>
             </div>
           </div>

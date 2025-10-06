@@ -159,10 +159,10 @@ export default function FeaturedBusinesses() {
       <div className="w-full px-3 sm:px-4 md:px-6">
         <div className="text-center mb-8 sm:mb-10 md:mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">
-            {t("featuredBusinesses.title")}
+            {t("featuredBusinessesTitle")}
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-            {t("featuredBusinesses.subtitle")}
+            {t("featuredDescription")}
           </p>
         </div>
 
@@ -272,13 +272,13 @@ export default function FeaturedBusinesses() {
                 <div className="flex space-x-1 sm:space-x-2 mt-auto">
                   <button className="flex-1 bg-yellow-400 text-white py-1.5 sm:py-2 px-2 sm:px-3 rounded-lg hover:bg-yellow-500 font-medium text-xs whitespace-nowrap cursor-pointer">
                     <i className="ri-message-line mr-1 sm:mr-2"></i>
-                    {t("featuredBusinesses.message")}
+                    {t("sendMassege")}
                   </button>
                   <Link
                     href={`/business/${business.id}`}
                     className="flex-1 border border-yellow-400 text-yellow-600 py-1.5 sm:py-2 px-2 sm:px-3 rounded-lg hover:bg-yellow-50 font-medium text-xs whitespace-nowrap cursor-pointer text-center"
                   >
-                    {t("featuredBusinesses.viewProfile")}
+                    {t("viewProfile")}
                   </Link>
                 </div>
               </div>
@@ -288,7 +288,7 @@ export default function FeaturedBusinesses() {
 
         <div className="text-center mt-8 sm:mt-10 md:mt-12">
           <button className="bg-yellow-400 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full hover:bg-yellow-500 font-semibold text-base sm:text-lg whitespace-nowrap cursor-pointer">
-            {t("featuredBusinesses.viewAll")}
+            {t("featuredBusinessesviewAll")}
           </button>
         </div>
       </div>

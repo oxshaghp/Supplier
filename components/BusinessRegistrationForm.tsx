@@ -129,20 +129,23 @@ export default function BusinessRegistrationForm() {
   // REGISTER STEP
   if (currentStep === "register") {
     return (
-      <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <i className="ri-user-add-line text-yellow-600 text-2xl"></i>
+      <div className="bg-white rounded-xl md:rounded-2xl shadow-xl p-4 md:p-6 lg:p-8 border border-gray-100 mx-2 md:mx-0">
+        <div className="text-center mb-6 md:mb-8">
+          <div className="w-12 h-12 md:w-16 md:h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+            <i className="ri-user-add-line text-yellow-600 text-xl md:text-2xl"></i>
           </div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
             {t("business.form.createAccountTitle")}
           </h2>
-          <p className="text-gray-600">
+          <p className="text-gray-600 text-sm md:text-base">
             {t("business.form.enterInfoSubtitle")}
           </p>
         </div>
 
-        <form onSubmit={handleRegistrationSubmit} className="space-y-6">
+        <form
+          onSubmit={handleRegistrationSubmit}
+          className="space-y-4 md:space-y-6"
+        >
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               {t("business.form.businessNameLabel")}
@@ -153,10 +156,9 @@ export default function BusinessRegistrationForm() {
               onChange={(e) =>
                 handleInputChange("businessName", e.target.value)
               }
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm ${
+              className={`w-full px-3 md:px-4 py-2 md:py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm ${
                 errors.businessName ? "border-red-300" : "border-gray-300"
               }`}
-              placeholder={t("business.form.businessNamePlaceholder")}
               required
             />
             {errors.businessName && (
@@ -172,10 +174,9 @@ export default function BusinessRegistrationForm() {
               type="tel"
               value={registrationData.phone}
               onChange={(e) => handleInputChange("phone", e.target.value)}
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm ${
+              className={`w-full px-3 md:px-4 py-2 md:py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm ${
                 errors.phone ? "border-red-300" : "border-gray-300"
               }`}
-              placeholder={t("business.form.phonePlaceholder")}
               required
             />
             {errors.phone && (
@@ -191,10 +192,9 @@ export default function BusinessRegistrationForm() {
               type="email"
               value={registrationData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm ${
+              className={`w-full px-3 md:px-4 py-2 md:py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm ${
                 errors.email ? "border-red-300" : "border-gray-300"
               }`}
-              placeholder={t("business.form.emailPlaceholder")}
               required
             />
             {errors.email && (
@@ -205,7 +205,7 @@ export default function BusinessRegistrationForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full py-4 rounded-lg font-medium text-lg whitespace-nowrap cursor-pointer transition-all ${
+            className={`w-full py-3 md:py-4 rounded-lg font-medium text-base md:text-lg whitespace-nowrap cursor-pointer transition-all ${
               isSubmitting
                 ? "bg-gray-400 text-white cursor-not-allowed"
                 : "bg-yellow-400 text-white hover:bg-yellow-500"
@@ -217,8 +217,8 @@ export default function BusinessRegistrationForm() {
           </button>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-gray-200 text-center">
-          <p className="text-sm text-gray-600">
+        <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-gray-200 text-center">
+          <p className="text-xs md:text-sm text-gray-600">
             {t("business.form.alreadyAccount")}{" "}
             <Link
               href="/login"
@@ -235,40 +235,40 @@ export default function BusinessRegistrationForm() {
   // VERIFY STEP
   if (currentStep === "verify") {
     return (
-      <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <i className="ri-shield-check-line text-blue-600 text-2xl"></i>
+      <div className="bg-white rounded-xl md:rounded-2xl shadow-xl p-4 md:p-6 lg:p-8 border border-gray-100 mx-2 md:mx-0">
+        <div className="text-center mb-6 md:mb-8">
+          <div className="w-12 h-12 md:w-16 md:h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+            <i className="ri-shield-check-line text-blue-600 text-xl md:text-2xl"></i>
           </div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
             {t("business.form.verifyAccountTitle")}
           </h2>
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-600 text-sm md:text-base mb-3 md:mb-4">
             {t("business.form.verifyAccountSubtitle")}
           </p>
         </div>
 
-        <div className="mb-6">
-          <p className="text-sm font-medium text-gray-700 mb-3">
+        <div className="mb-4 md:mb-6">
+          <p className="text-sm font-medium text-gray-700 mb-2 md:mb-3">
             {t("business.form.chooseVerification")}
           </p>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
             <button
               type="button"
               onClick={() => setVerificationMethod("phone")}
-              className={`p-4 rounded-lg border-2 text-left transition-all ${
+              className={`p-3 md:p-4 rounded-lg border-2 text-left transition-all ${
                 verificationMethod === "phone"
                   ? "border-yellow-400 bg-yellow-50"
                   : "border-gray-200 hover:border-gray-300"
               }`}
             >
-              <div className="flex items-center space-x-3">
-                <i className="ri-phone-line text-lg text-gray-600"></i>
+              <div className="flex items-center space-x-2 md:space-x-3">
+                <i className="ri-phone-line text-base md:text-lg text-gray-600"></i>
                 <div>
-                  <p className="font-medium text-gray-800">
+                  <p className="font-medium text-gray-800 text-sm md:text-base">
                     {t("business.form.phone")}
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-xs md:text-sm text-gray-500 truncate">
                     {registrationData.phone}
                   </p>
                 </div>
@@ -278,19 +278,19 @@ export default function BusinessRegistrationForm() {
             <button
               type="button"
               onClick={() => setVerificationMethod("email")}
-              className={`p-4 rounded-lg border-2 text-left transition-all ${
+              className={`p-3 md:p-4 rounded-lg border-2 text-left transition-all ${
                 verificationMethod === "email"
                   ? "border-yellow-400 bg-yellow-50"
                   : "border-gray-200 hover:border-gray-300"
               }`}
             >
-              <div className="flex items-center space-x-3">
-                <i className="ri-mail-line text-lg text-gray-600"></i>
+              <div className="flex items-center space-x-2 md:space-x-3">
+                <i className="ri-mail-line text-base md:text-lg text-gray-600"></i>
                 <div>
-                  <p className="font-medium text-gray-800">
+                  <p className="font-medium text-gray-800 text-sm md:text-base">
                     {t("business.form.email")}
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-xs md:text-sm text-gray-500 truncate">
                     {registrationData.email}
                   </p>
                 </div>
@@ -299,19 +299,22 @@ export default function BusinessRegistrationForm() {
           </div>
         </div>
 
-        <div className="bg-blue-50 p-4 rounded-lg mb-6">
-          <p className="text-sm text-blue-800">
-            <i className="ri-information-line mr-2"></i>
+        <div className="bg-blue-50 p-3 md:p-4 rounded-lg mb-4 md:mb-6">
+          <p className="text-xs md:text-sm text-blue-800">
+            <i className="ri-information-line mr-1 md:mr-2"></i>
             {t("business.form.demoCode")} <strong>{generatedCode}</strong>
           </p>
         </div>
 
-        <form onSubmit={handleVerificationSubmit} className="space-y-6">
+        <form
+          onSubmit={handleVerificationSubmit}
+          className="space-y-4 md:space-y-6"
+        >
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+            <label className="block text-sm font-medium text-gray-700 mb-2 md:mb-3">
               {t("business.form.enterVerificationCode")}
             </label>
-            <div className="flex space-x-3 justify-center">
+            <div className="flex space-x-2 md:space-x-3 justify-center">
               {verificationCode.map((digit, index) => (
                 <input
                   key={index}
@@ -321,13 +324,13 @@ export default function BusinessRegistrationForm() {
                   onChange={(e) =>
                     handleVerificationCodeChange(index, e.target.value)
                   }
-                  className="w-16 h-16 text-center text-2xl font-bold border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                  className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 text-center text-xl md:text-2xl font-bold border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
                   maxLength={1}
                 />
               ))}
             </div>
             {errors.verification && (
-              <p className="text-red-500 text-sm mt-3 text-center">
+              <p className="text-red-500 text-xs md:text-sm mt-2 md:mt-3 text-center">
                 {errors.verification}
               </p>
             )}
@@ -336,7 +339,7 @@ export default function BusinessRegistrationForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full py-4 rounded-lg font-medium text-lg whitespace-nowrap cursor-pointer transition-all ${
+            className={`w-full py-3 md:py-4 rounded-lg font-medium text-base md:text-lg whitespace-nowrap cursor-pointer transition-all ${
               isSubmitting
                 ? "bg-gray-400 text-white cursor-not-allowed"
                 : "bg-yellow-400 text-white hover:bg-yellow-500"
@@ -351,17 +354,17 @@ export default function BusinessRegistrationForm() {
             <button
               type="button"
               onClick={resendCode}
-              className="text-yellow-600 hover:text-yellow-700 text-sm font-medium"
+              className="text-yellow-600 hover:text-yellow-700 text-xs md:text-sm font-medium"
             >
               {t("business.form.resendCode")}
             </button>
           </div>
         </form>
 
-        <div className="mt-6 text-center">
+        <div className="mt-4 md:mt-6 text-center">
           <button
             onClick={() => setCurrentStep("register")}
-            className="text-gray-500 hover:text-gray-700 text-sm font-medium"
+            className="text-gray-500 hover:text-gray-700 text-xs md:text-sm font-medium"
           >
             <i className="ri-arrow-left-line mr-1"></i>
             {t("business.form.backToRegistration")}
@@ -377,52 +380,52 @@ export default function BusinessRegistrationForm() {
     const checklistArray = Array.isArray(checklist) ? checklist : [];
 
     return (
-      <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-        <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <i className="ri-check-line text-green-600 text-3xl"></i>
+      <div className="bg-white rounded-xl md:rounded-2xl shadow-xl p-4 md:p-6 lg:p-8 border border-gray-100 mx-2 md:mx-0">
+        <div className="text-center mb-6 md:mb-8">
+          <div className="w-16 h-16 md:w-20 md:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+            <i className="ri-check-line text-green-600 text-2xl md:text-3xl"></i>
           </div>
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3 md:mb-4">
             {t("business.form.accountVerified")}
           </h2>
-          <p className="text-gray-600 text-lg mb-6">
+          <p className="text-gray-600 text-base md:text-lg mb-4 md:mb-6">
             {t("business.form.successMessage")}
           </p>
         </div>
 
-        <div className="bg-yellow-50 p-6 rounded-xl mb-8">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
+        <div className="bg-yellow-50 p-4 md:p-6 rounded-lg md:rounded-xl mb-6 md:mb-8">
+          <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-3 md:mb-4">
             <i className="ri-clipboard-line mr-2 text-yellow-600"></i>
             {t("business.form.completeProfileTitle")}
           </h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-gray-700 text-sm md:text-base mb-3 md:mb-4">
             {t("business.form.completeProfileSubtitle")}
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-4 text-xs md:text-sm">
             {checklistArray.map((item, index) => (
               <div key={index} className="flex items-center space-x-2">
-                <i className="ri-check-line text-green-500 text-sm"></i>
+                <i className="ri-check-line text-green-500 text-xs md:text-sm"></i>
                 <span className="text-gray-700">{String(item)}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3 md:space-y-4">
           <Link
             href="/complete-profile"
-            className="w-full bg-yellow-400 text-white py-4 px-6 rounded-lg hover:bg-yellow-500 font-medium text-lg text-center whitespace-nowrap cursor-pointer block"
+            className="w-full bg-yellow-400 text-white py-3 md:py-4 px-4 md:px-6 rounded-lg hover:bg-yellow-500 font-medium text-base md:text-lg text-center whitespace-nowrap cursor-pointer block"
           >
-            <i className="ri-edit-line mr-2"></i>
+            <i className="ri-edit-line mr-1 md:mr-2"></i>
             {t("business.form.completeProfileButton")}
           </Link>
 
           <Link
             href="/"
-            className="w-full border border-gray-300 text-gray-700 py-4 px-6 rounded-lg hover:bg-gray-50 font-medium text-lg text-center whitespace-nowrap cursor-pointer block"
+            className="w-full border border-gray-300 text-gray-700 py-3 md:py-4 px-4 md:px-6 rounded-lg hover:bg-gray-50 font-medium text-base md:text-lg text-center whitespace-nowrap cursor-pointer block"
           >
-            <i className="ri-home-line mr-2"></i>
+            <i className="ri-home-line mr-1 md:mr-2"></i>
             {t("business.form.skipButton")}
           </Link>
         </div>

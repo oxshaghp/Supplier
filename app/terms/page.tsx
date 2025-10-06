@@ -140,9 +140,10 @@ export default function TermsPage() {
                 </p>
                 <div className="bg-gray-50 p-4 rounded-lg mt-4">
                   <p className="text-gray-700">
-                    <strong>{t("terms.email")}</strong> legal@supplier.sa
+                    <strong>{t("terms.email")}</strong>{" "}
+                    Supplier.com.sa@gmail.com
                     <br />
-                    <strong>{t("terms.phone")}</strong> +966 11 123 4567
+                    <strong>{t("terms.phone")}</strong> +966 54 274 1977
                     <br />
                     <strong>{t("terms.address")}</strong> Riyadh, Saudi Arabia
                   </p>

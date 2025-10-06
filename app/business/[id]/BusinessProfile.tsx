@@ -430,7 +430,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="relative h-96 overflow-hidden">
+        <section className="relative h-64 md:h-80 lg:h-96 overflow-hidden">
           <img
             src={business.images[selectedImageIndex]}
             alt={business.name}
@@ -439,47 +439,45 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
           <div className="absolute inset-0 bg-black bg-opacity-40"></div>
 
           <div className="absolute inset-0 flex items-end">
-            <div className="w-full px-6 pb-8">
+            <div className="w-full px-4 md:px-6 pb-6 md:pb-8">
               <div className="max-w-4xl">
-                <div className="flex items-center space-x-4 mb-4">
-                  <span className="bg-yellow-400 text-white px-4 py-2 rounded-full text-sm font-medium">
+                <div className="flex flex-wrap items-center gap-2 md:gap-4 mb-3 md:mb-4">
+                  <span className="bg-yellow-400 text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium">
                     {business.category}
                   </span>
                   <div
                     className={`${getBusinessTypeColor(
                       business.businessType
-                    )} px-4 py-2 rounded-full flex items-center space-x-2 border`}
+                    )} px-3 py-1 md:px-4 md:py-2 rounded-full flex items-center space-x-1 md:space-x-2 border text-xs md:text-sm`}
                   >
                     <i
                       className={`${getBusinessTypeIcon(
                         business.businessType
-                      )} text-sm`}
+                      )} text-xs md:text-sm`}
                     ></i>
-                    <span className="text-sm font-medium">
-                      {business.businessType}
-                    </span>
+                    <span className="font-medium">{business.businessType}</span>
                   </div>
                   <div className="flex items-center space-x-1">
                     {[...Array(5)].map((_, i) => (
                       <i
                         key={i}
-                        className={`text-lg ${
+                        className={`text-sm md:text-lg ${
                           i < Math.floor(business.rating)
                             ? "ri-star-fill text-yellow-400"
                             : "ri-star-line text-white"
                         }`}
                       ></i>
                     ))}
-                    <span className="text-white ml-2 font-medium">
+                    <span className="text-white ml-1 md:ml-2 text-xs md:text-sm font-medium">
                       {business.rating} ({business.reviewCount}{" "}
                       {t("businessProfile.ratingReviewsSuffix")})
                     </span>
                   </div>
                 </div>
-                <h1 className="text-5xl font-bold text-white mb-2">
+                <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-2">
                   {business.name}
                 </h1>
-                <div className="flex items-center text-white space-x-4">
+                <div className="flex flex-col sm:flex-row sm:items-center text-white space-y-1 sm:space-y-0 sm:space-x-4 text-sm md:text-base">
                   <span
                     className={`font-semibold ${status.color.replace(
                       "text-",
@@ -493,10 +491,10 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                   >
                     {status.status}
                   </span>
-                  <span>•</span>
+                  <span className="hidden sm:block">•</span>
                   <span className="flex items-center">
                     <i className="ri-map-pin-line mr-1"></i>
-                    {business.address}
+                    <span className="truncate">{business.address}</span>
                   </span>
                 </div>
               </div>
@@ -505,32 +503,32 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
         </section>
 
         {/* Business Info Bar */}
-        <section className="py-6 bg-gray-50 border-b border-gray-200">
-          <div className="w-full px-6">
-            <div className="flex flex-wrap items-center justify-center gap-8">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                  <i className="ri-group-line text-blue-600"></i>
+        <section className="py-4 md:py-6 bg-gray-50 border-b border-gray-200">
+          <div className="w-full px-4 md:px-6">
+            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 lg:gap-8">
+              <div className="flex items-center space-x-2 md:space-x-3">
+                <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                  <i className="ri-group-line text-blue-600 text-sm md:text-base"></i>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-800">
+                  <p className="text-xs md:text-sm font-medium text-gray-800">
                     {t("businessProfile.targetCustomers")}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-xs md:text-sm text-gray-600">
                     {business.targetCustomers.join(", ")}
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                  <i className="ri-map-pin-range-line text-green-600"></i>
+              <div className="flex items-center space-x-2 md:space-x-3">
+                <div className="w-8 h-8 md:w-10 md:h-10 bg-green-100 rounded-full flex items-center justify-center">
+                  <i className="ri-map-pin-range-line text-green-600 text-sm md:text-base"></i>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-800">
+                  <p className="text-xs md:text-sm font-medium text-gray-800">
                     {t("businessProfile.serviceArea")}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-xs md:text-sm text-gray-600">
                     {t("businessProfile.upToDistance").replace(
                       "{{distance}}",
                       business.serviceDistance
@@ -539,19 +537,19 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+              <div className="flex items-center space-x-2 md:space-x-3">
+                <div className="w-8 h-8 md:w-10 md:h-10 bg-purple-100 rounded-full flex items-center justify-center">
                   <i
                     className={`${getBusinessTypeIcon(
                       business.businessType
-                    )} text-purple-600`}
+                    )} text-purple-600 text-sm md:text-base`}
                   ></i>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-800">
+                  <p className="text-xs md:text-sm font-medium text-gray-800">
                     {t("businessProfile.businessType")}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-xs md:text-sm text-gray-600">
                     {business.businessType}
                   </p>
                 </div>
@@ -561,28 +559,28 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
         </section>
 
         {/* Main Content */}
-        <section className="py-12">
-          <div className="w-full px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
+        <section className="py-8 md:py-12">
+          <div className="w-full px-4 md:px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12 max-w-7xl mx-auto">
               {/* Left Column - Main Info */}
-              <div className="lg:col-span-2 space-y-12">
+              <div className="lg:col-span-2 space-y-8 md:space-y-12">
                 {/* About Section */}
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-800 mb-6">
+                  <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 mb-4 md:mb-6">
                     {t("businessProfile.aboutThisBusiness")}
                   </h2>
-                  <p className="text-gray-600 leading-relaxed text-lg">
+                  <p className="text-gray-600 leading-relaxed text-base md:text-lg">
                     {business.description}
                   </p>
                 </div>
 
                 {/* Products & Services Section - Excel-like Grid */}
                 <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-3xl font-bold text-gray-800">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 md:mb-6 gap-2">
+                    <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800">
                       {t("businessProfile.productsServices")}
                     </h2>
-                    <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                    <span className="bg-blue-100 text-blue-800 px-2 py-1 md:px-3 md:py-1 rounded-full text-xs md:text-sm font-medium w-fit">
                       {t("businessProfile.itemsCount").replace(
                         "{{count}}",
                         String(business.productsAndServices.length)
@@ -591,32 +589,32 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                   </div>
 
                   <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                    <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
-                      <div className="flex items-center space-x-3">
-                        <i className="ri-list-check-2 text-blue-600 text-lg"></i>
-                        <h3 className="font-semibold text-gray-800">
+                    <div className="bg-gray-50 px-3 py-2 md:px-4 md:py-3 border-b border-gray-200">
+                      <div className="flex items-center space-x-2 md:space-x-3">
+                        <i className="ri-list-check-2 text-blue-600 text-base md:text-lg"></i>
+                        <h3 className="font-semibold text-gray-800 text-sm md:text-base">
                           {t("businessProfile.catalogTitle")}
                         </h3>
                       </div>
-                      <p className="text-sm text-gray-600 mt-1">
+                      <p className="text-xs md:text-sm text-gray-600 mt-1">
                         {t("businessProfile.catalogSubtitle")}
                       </p>
                     </div>
 
                     {/* Excel-like Grid */}
-                    <div className="max-h-96 overflow-y-auto">
-                      <div className="grid grid-cols-4 gap-px bg-gray-200">
+                    <div className="max-h-80 md:max-h-96 overflow-y-auto">
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-px bg-gray-200">
                         {business.productsAndServices.map((item, index) => (
                           <div
                             key={index}
-                            className="bg-white p-3 hover:bg-blue-50 transition-colors border-r border-b border-gray-100 last:border-r-0"
+                            className="bg-white p-2 md:p-3 hover:bg-blue-50 transition-colors border-r border-b border-gray-100 last:border-r-0"
                           >
-                            <div className="flex items-center space-x-2">
-                              <span className="text-xs text-gray-400 font-mono w-6">
+                            <div className="flex items-center space-x-1 md:space-x-2">
+                              <span className="text-xs text-gray-400 font-mono w-4 md:w-6 text-right">
                                 {(index + 1).toString().padStart(2, "0")}
                               </span>
                               <span
-                                className="text-sm text-gray-800 font-medium truncate"
+                                className="text-xs md:text-sm text-gray-800 font-medium truncate"
                                 title={item}
                               >
                                 {item}
@@ -633,7 +631,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                               business.productsAndServices.length % 4 !== 0 && (
                                 <div
                                   key={`filler-${index}`}
-                                  className="bg-gray-50 p-3 border-r border-b border-gray-100 last:border-r-0"
+                                  className="bg-gray-50 p-2 md:p-3 border-r border-b border-gray-100 last:border-r-0"
                                 >
                                   <div className="text-xs text-gray-300">—</div>
                                 </div>
@@ -642,13 +640,13 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                       </div>
                     </div>
 
-                    <div className="bg-blue-50 px-4 py-3 border-t border-blue-200">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-2 text-sm text-blue-700">
+                    <div className="bg-blue-50 px-3 py-2 md:px-4 md:py-3 border-t border-blue-200">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <div className="flex items-center space-x-1 md:space-x-2 text-xs md:text-sm text-blue-700">
                           <i className="ri-search-line"></i>
                           <span>{t("businessProfile.customersCanSearch")}</span>
                         </div>
-                        <div className="text-sm text-blue-600 font-medium">
+                        <div className="text-xs md:text-sm text-blue-600 font-medium">
                           {t("businessProfile.totalProductsServices").replace(
                             "{{count}}",
                             String(business.productsAndServices.length)
@@ -661,14 +659,14 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
 
                 {/* Business Gallery Section */}
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-800 mb-6">
+                  <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 mb-4 md:mb-6">
                     {t("businessProfile.businessGallery")}
                   </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                     {business.galleryImages.map((image, index) => (
                       <div
                         key={index}
-                        className="relative group overflow-hidden rounded-2xl bg-white shadow-lg border border-gray-100"
+                        className="relative group overflow-hidden rounded-xl md:rounded-2xl bg-white shadow-lg border border-gray-100"
                       >
                         <div className="aspect-[4/3] overflow-hidden">
                           <img
@@ -678,14 +676,14 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                           />
                         </div>
                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
-                        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <button className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white cursor-pointer">
-                            <i className="ri-eye-line text-gray-700"></i>
+                        <div className="absolute top-2 right-2 md:top-3 md:right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <button className="w-8 h-8 md:w-10 md:h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white cursor-pointer">
+                            <i className="ri-eye-line text-gray-700 text-sm md:text-base"></i>
                           </button>
                         </div>
                         {image.caption && (
-                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                            <p className="text-white text-sm font-medium">
+                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3 md:p-4">
+                            <p className="text-white text-xs md:text-sm font-medium">
                               {image.caption}
                             </p>
                           </div>
@@ -693,9 +691,9 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                       </div>
                     ))}
                   </div>
-                  <div className="mt-6 text-center">
-                    <p className="text-gray-600 text-sm">
-                      <i className="ri-camera-line mr-2"></i>
+                  <div className="mt-4 md:mt-6 text-center">
+                    <p className="text-gray-600 text-xs md:text-sm">
+                      <i className="ri-camera-line mr-1 md:mr-2"></i>
                       {t("businessProfile.showcasingPhotos").replace(
                         "{{count}}",
                         String(business.galleryImages.length)
@@ -706,13 +704,13 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
 
                 {/* Reviews Section */}
                 <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-3xl font-bold text-gray-800">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 md:mb-6 gap-3">
+                    <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800">
                       {t("businessProfile.customerReviews")}
                     </h2>
                     <button
                       onClick={() => setShowReviewModal(true)}
-                      className="bg-yellow-400 text-white px-6 py-3 rounded-full hover:bg-yellow-500 font-medium whitespace-nowrap cursor-pointer flex items-center space-x-2"
+                      className="bg-yellow-400 text-white px-4 py-2 md:px-6 md:py-3 rounded-full hover:bg-yellow-500 font-medium whitespace-nowrap cursor-pointer flex items-center space-x-1 md:space-x-2 text-sm md:text-base"
                     >
                       <i className="ri-edit-line"></i>
                       <span>{t("businessProfile.writeAReview")}</span>
@@ -720,18 +718,18 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                   </div>
 
                   {/* Review Summary */}
-                  <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-6 mb-8 border border-yellow-200">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-6">
+                  <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl md:rounded-2xl p-4 md:p-6 mb-6 md:mb-8 border border-yellow-200">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
+                      <div className="flex items-center space-x-4 md:space-x-6">
                         <div className="text-center">
-                          <div className="text-4xl font-bold text-gray-800">
+                          <div className="text-2xl md:text-4xl font-bold text-gray-800">
                             {business.rating}
                           </div>
                           <div className="flex items-center justify-center space-x-1 mt-1">
                             {[...Array(5)].map((_, i) => (
                               <i
                                 key={i}
-                                className={`text-lg ${
+                                className={`text-sm md:text-lg ${
                                   i < Math.floor(business.rating)
                                     ? "ri-star-fill text-yellow-400"
                                     : "ri-star-line text-gray-300"
@@ -739,25 +737,25 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                               ></i>
                             ))}
                           </div>
-                          <div className="text-sm text-gray-600 mt-1">
+                          <div className="text-xs md:text-sm text-gray-600 mt-1">
                             Overall Rating
                           </div>
                         </div>
-                        <div className="h-16 w-px bg-yellow-300"></div>
+                        <div className="h-12 md:h-16 w-px bg-yellow-300 hidden md:block"></div>
                         <div>
-                          <div className="text-2xl font-bold text-gray-800">
+                          <div className="text-xl md:text-2xl font-bold text-gray-800">
                             {business.reviewCount}
                           </div>
-                          <div className="text-sm text-gray-600">
+                          <div className="text-xs md:text-sm text-gray-600">
                             Total Reviews
                           </div>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <div className="text-sm text-gray-600 mb-2">
+                      <div className="text-center md:text-right">
+                        <div className="text-xs md:text-sm text-gray-600 mb-2">
                           Recent Reviews
                         </div>
-                        <div className="flex flex-col space-y-1">
+                        <div className="flex flex-col space-y-1 max-w-xs mx-auto md:mx-0">
                           {[5, 4, 3, 2, 1].map((star) => {
                             const count = business.reviews.filter(
                               (r) => r.rating === star
@@ -775,13 +773,13 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                                   {star}
                                 </span>
                                 <i className="ri-star-fill text-yellow-400 text-xs"></i>
-                                <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div className="w-16 md:w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
                                   <div
                                     className="h-full bg-yellow-400 rounded-full transition-all duration-300"
                                     style={{ width: `${percentage}%` }}
                                   ></div>
                                 </div>
-                                <span className="text-gray-500 w-8">
+                                <span className="text-gray-500 w-6 text-right">
                                   {count}
                                 </span>
                               </div>
@@ -792,15 +790,15 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                     </div>
                   </div>
 
-                  <div className="space-y-6">
+                  <div className="space-y-4 md:space-y-6">
                     {business.reviews.map((review) => (
                       <div
                         key={review.id}
-                        className="bg-gray-50 rounded-xl p-6 border border-gray-100"
+                        className="bg-gray-50 rounded-xl p-4 md:p-6 border border-gray-100"
                       >
-                        <div className="flex items-start justify-between mb-4">
+                        <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-3 md:mb-4 gap-2">
                           <div>
-                            <h4 className="font-semibold text-gray-800">
+                            <h4 className="font-semibold text-gray-800 text-sm md:text-base">
                               {review.customerName}
                             </h4>
                             <div className="flex items-center space-x-2 mt-1">
@@ -808,7 +806,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                                 {[...Array(5)].map((_, i) => (
                                   <i
                                     key={i}
-                                    className={`text-sm ${
+                                    className={`text-xs md:text-sm ${
                                       i < review.rating
                                         ? "ri-star-fill text-yellow-400"
                                         : "ri-star-line text-gray-300"
@@ -816,13 +814,13 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                                   ></i>
                                 ))}
                               </div>
-                              <span className="text-gray-500 text-sm">
+                              <span className="text-gray-500 text-xs md:text-sm">
                                 {new Date(review.date).toLocaleDateString()}
                               </span>
                             </div>
                           </div>
                         </div>
-                        <p className="text-gray-600 leading-relaxed">
+                        <p className="text-gray-600 leading-relaxed text-sm md:text-base">
                           {review.comment}
                         </p>
                       </div>
@@ -832,99 +830,99 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
               </div>
 
               {/* Right Column - Contact & Info */}
-              <div className="space-y-8">
+              <div className="space-y-6 md:space-y-8">
                 {/* Contact Information */}
-                <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
-                  <h3 className="text-xl font-bold text-gray-800 mb-4">
+                <div className="bg-white rounded-xl md:rounded-2xl shadow-sm p-4 md:p-6 border border-gray-100">
+                  <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4">
                     {t("businessProfile.contactInformation")}
                   </h3>
 
-                  <div className="space-y-4 mb-6">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
-                        <i className="ri-phone-line text-yellow-600"></i>
+                  <div className="space-y-3 md:space-y-4 mb-4 md:mb-6">
+                    <div className="flex items-center space-x-2 md:space-x-3">
+                      <div className="w-8 h-8 md:w-10 md:h-10 bg-yellow-100 rounded-full flex items-center justify-center">
+                        <i className="ri-phone-line text-yellow-600 text-sm md:text-base"></i>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-xs md:text-sm text-gray-600">
                           {t("businessProfile.phone")}
                         </p>
-                        <p className="font-medium text-gray-800">
+                        <p className="font-medium text-gray-800 text-sm md:text-base">
                           {business.phone}
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                        <i className="ri-mail-line text-blue-600"></i>
+                    <div className="flex items-center space-x-2 md:space-x-3">
+                      <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i className="ri-mail-line text-blue-600 text-sm md:text-base"></i>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-xs md:text-sm text-gray-600">
                           {t("businessProfile.email")}
                         </p>
-                        <p className="font-medium text-gray-800">
+                        <p className="font-medium text-gray-800 text-sm md:text-base">
                           {business.email}
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                        <i className="ri-global-line text-green-600"></i>
+                    <div className="flex items-center space-x-2 md:space-x-3">
+                      <div className="w-8 h-8 md:w-10 md:h-10 bg-green-100 rounded-full flex items-center justify-center">
+                        <i className="ri-global-line text-green-600 text-sm md:text-base"></i>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-xs md:text-sm text-gray-600">
                           {t("businessProfile.website")}
                         </p>
-                        <p className="font-medium text-gray-800">
+                        <p className="font-medium text-gray-800 text-sm md:text-base">
                           {business.website}
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                        <i className="ri-map-pin-line text-purple-600"></i>
+                    <div className="flex items-center space-x-2 md:space-x-3">
+                      <div className="w-8 h-8 md:w-10 md:h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                        <i className="ri-map-pin-line text-purple-600 text-sm md:text-base"></i>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-xs md:text-sm text-gray-600">
                           {t("businessProfile.address")}
                         </p>
-                        <p className="font-medium text-gray-800">
+                        <p className="font-medium text-gray-800 text-sm md:text-base">
                           {business.address}
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 gap-3">
+                  <div className="grid grid-cols-1 gap-2 md:gap-3">
                     <button
                       onClick={() => setShowInquiryModal(true)}
-                      className="bg-yellow-400 text-white py-3 px-4 rounded-lg hover:bg-yellow-500 font-medium text-sm whitespace-nowrap cursor-pointer"
+                      className="bg-yellow-400 text-white py-2 md:py-3 px-3 md:px-4 rounded-lg hover:bg-yellow-500 font-medium text-xs md:text-sm whitespace-nowrap cursor-pointer flex items-center justify-center space-x-1 md:space-x-2"
                     >
-                      <i className="ri-message-line mr-2"></i>
-                      {t("businessProfile.messageRequest")}
+                      <i className="ri-message-line"></i>
+                      <span>{t("businessProfile.messageRequest")}</span>
                     </button>
                   </div>
                 </div>
 
                 {/* Working Hours */}
-                <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
-                  <h3 className="text-xl font-bold text-gray-800 mb-6">
+                <div className="bg-white rounded-xl md:rounded-2xl shadow-xl p-4 md:p-6 border border-gray-100">
+                  <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-4 md:mb-6">
                     {t("businessProfile.workingHours")}
                   </h3>
-                  <div className="space-y-3">
+                  <div className="space-y-2 md:space-y-3">
                     {Object.entries(business.workingHours).map(
                       ([day, hours]) => (
                         <div
                           key={day}
                           className="flex justify-between items-center"
                         >
-                          <span className="text-gray-700 font-medium capitalize">
+                          <span className="text-gray-700 font-medium text-sm md:text-base capitalize">
                             {day}
                           </span>
                           <span
-                            className={`text-sm ${
+                            className={`text-xs md:text-sm ${
                               hours.closed ? "text-red-600" : "text-gray-600"
                             }`}
                           >
@@ -939,13 +937,13 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                 </div>
 
                 {/* Location Map */}
-                <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-                  <div className="p-4 border-b border-gray-100">
-                    <h3 className="text-lg font-bold text-gray-800">
+                <div className="bg-white rounded-xl md:rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                  <div className="p-3 md:p-4 border-b border-gray-100">
+                    <h3 className="text-base md:text-lg font-bold text-gray-800">
                       {t("businessProfile.location")}
                     </h3>
                   </div>
-                  <div className="h-64 relative">
+                  <div className="h-48 md:h-64 relative">
                     <iframe
                       src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.2!2d${business.coordinates.lng}!3d${business.coordinates.lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z${business.coordinates.lat}%2C${business.coordinates.lng}!5e0!3m2!1sen!2sus!4v1645123456789!5m2!1sen!2sus&disableDefaultUI=true&gestureHandling=none&scrollwheel=false&disableDoubleClickZoom=true&clickableIcons=false`}
                       width="100%"
@@ -957,7 +955,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                       title="Business Location"
                     ></iframe>
                   </div>
-                  <div className="p-4">
+                  <div className="p-3 md:p-4">
                     <button
                       onClick={() =>
                         window.open(
@@ -965,10 +963,10 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                           "_blank"
                         )
                       }
-                      className="w-full bg-yellow-400 text-white py-2 px-4 rounded-lg hover:bg-yellow-500 font-medium text-sm whitespace-nowrap cursor-pointer"
+                      className="w-full bg-yellow-400 text-white py-2 px-3 md:px-4 rounded-lg hover:bg-yellow-500 font-medium text-xs md:text-sm whitespace-nowrap cursor-pointer flex items-center justify-center space-x-1 md:space-x-2"
                     >
-                      <i className="ri-directions-line mr-2"></i>
-                      {t("businessProfile.getDirections")}
+                      <i className="ri-directions-line"></i>
+                      <span>{t("businessProfile.getDirections")}</span>
                     </button>
                   </div>
                 </div>
@@ -978,27 +976,27 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
         </section>
 
         {/* Back to Map CTA */}
-        <section className="py-12 bg-yellow-50">
-          <div className="w-full px-6 text-center">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+        <section className="py-8 md:py-12 bg-yellow-50">
+          <div className="w-full px-4 md:px-6 text-center">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 mb-3 md:mb-4">
               {t("businessProfile.exploreMore")}
             </h2>
-            <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+            <p className="text-gray-600 mb-6 md:mb-8 max-w-2xl mx-auto text-sm md:text-base">
               {t("businessProfile.discoverOthers")}
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-3 md:gap-4">
               <Link
                 href="/"
-                className="bg-yellow-400 text-white px-8 py-4 rounded-full hover:bg-yellow-500 font-semibold whitespace-nowrap cursor-pointer"
+                className="bg-yellow-400 text-white px-6 py-3 md:px-8 md:py-4 rounded-full hover:bg-yellow-500 font-semibold whitespace-nowrap cursor-pointer text-sm md:text-base"
               >
-                <i className="ri-map-line mr-2"></i>
+                <i className="ri-map-line mr-1 md:mr-2"></i>
                 {t("businessProfile.backToMap")}
               </Link>
               <Link
                 href="/add-business"
-                className="border border-yellow-400 text-yellow-600 px-8 py-4 rounded-full hover:bg-yellow-50 font-semibold whitespace-nowrap cursor-pointer"
+                className="border border-yellow-400 text-yellow-600 px-6 py-3 md:px-8 md:py-4 rounded-full hover:bg-yellow-50 font-semibold whitespace-nowrap cursor-pointer text-sm md:text-base"
               >
-                <i className="ri-add-line mr-2"></i>
+                <i className="ri-add-line mr-1 md:mr-2"></i>
                 {t("businessProfile.addYourBusiness")}
               </Link>
             </div>
@@ -1008,21 +1006,21 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
 
       {/* Business Inquiry Email Modal */}
       {showInquiryModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 md:p-4 z-50">
+          <div className="bg-white rounded-xl md:rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             {!isSubmitted ? (
               <>
                 {/* Email Header */}
-                <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gray-50">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
-                      <i className="ri-mail-line text-yellow-600 text-xl"></i>
+                <div className="flex items-center justify-between p-4 md:p-6 border-b border-gray-200 bg-gray-50">
+                  <div className="flex items-center space-x-2 md:space-x-4">
+                    <div className="w-8 h-8 md:w-12 md:h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                      <i className="ri-mail-line text-yellow-600 text-lg md:text-xl"></i>
                     </div>
                     <div>
-                      <h2 className="text-xl font-bold text-gray-800">
+                      <h2 className="text-lg md:text-xl font-bold text-gray-800">
                         {t("businessProfile.newMessage")}
                       </h2>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-xs md:text-sm text-gray-600">
                         {t("businessProfile.toBusiness").replace(
                           "{{name}}",
                           business.name
@@ -1032,23 +1030,23 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                   </div>
                   <button
                     onClick={resetInquiryForm}
-                    className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-full cursor-pointer"
+                    className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-full cursor-pointer"
                   >
-                    <i className="ri-close-line text-xl"></i>
+                    <i className="ri-close-line text-lg md:text-xl"></i>
                   </button>
                 </div>
 
                 {/* Email Form */}
                 <form
                   onSubmit={handleInquirySubmit}
-                  className="p-6 space-y-4"
+                  className="p-4 md:p-6 space-y-3 md:space-y-4"
                   data-readdy-form
                   id="business-inquiry"
                 >
                   {/* From Section */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">
                         <i className="ri-user-line mr-1"></i>
                         Your Name *
                       </label>
@@ -1063,12 +1061,12 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                             name: e.target.value,
                           })
                         }
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
+                        className="w-full px-3 py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs md:text-sm"
                         placeholder="Enter your full name"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">
                         <i className="ri-building-line mr-1"></i>
                         Company
                       </label>
@@ -1082,15 +1080,15 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                             company: e.target.value,
                           })
                         }
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
+                        className="w-full px-3 py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs md:text-sm"
                         placeholder="Your company name"
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">
                         <i className="ri-mail-line mr-1"></i>
                         Email Address *
                       </label>
@@ -1105,12 +1103,12 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                             email: e.target.value,
                           })
                         }
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
+                        className="w-full px-3 py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs md:text-sm"
                         placeholder="your@email.com"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">
                         <i className="ri-phone-line mr-1"></i>
                         Phone Number
                       </label>
@@ -1124,7 +1122,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                             phone: e.target.value,
                           })
                         }
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
+                        className="w-full px-3 py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs md:text-sm"
                         placeholder="+966 5X XXX XXXX"
                       />
                     </div>
@@ -1132,7 +1130,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
 
                   {/* Subject Line */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">
                       <i className="ri-price-tag-3-line mr-1"></i>
                       Subject *
                     </label>
@@ -1147,21 +1145,21 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                           subject: e.target.value,
                         })
                       }
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
+                      className="w-full px-3 py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs md:text-sm"
                       placeholder="e.g., Product Inquiry, Quote Request, Partnership Opportunity"
                     />
                   </div>
 
                   {/* Message Body */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">
                       <i className="ri-message-2-line mr-1"></i>
                       Message *
                     </label>
                     <textarea
                       name="message"
                       required
-                      rows={8}
+                      rows={6}
                       value={inquiryForm.message}
                       onChange={(e) =>
                         setInquiryForm({
@@ -1170,7 +1168,7 @@ export default function BusinessProfile({ businessId }: BusinessProfileProps) {
                         })
                       }
                       maxLength={500}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm resize-none"
+                      className="w-full px-3 py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs md:text-sm resize-none"
                       placeholder="Dear Team,
 
 I am interested in your products/services and would like to discuss...
@@ -1184,7 +1182,7 @@ Thank you for your time.
 
 Best regards,"
                     ></textarea>
-                    <div className="flex justify-between items-center mt-2">
+                    <div className="flex justify-between items-center mt-1 md:mt-2">
                       <p className="text-xs text-gray-500">
                         This message will be sent directly to {business.name}
                       </p>
@@ -1195,19 +1193,19 @@ Best regards,"
                   </div>
 
                   {/* Email Actions */}
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                    <div className="flex items-center space-x-4">
-                      <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-3 md:pt-4 border-t border-gray-200 gap-3">
+                    <div className="flex items-center space-x-2 md:space-x-4">
+                      <div className="flex items-center space-x-1 md:space-x-2 text-xs text-gray-600">
                         <i className="ri-time-line"></i>
                         <span>{t("businessProfile.businessHoursInline")}</span>
                       </div>
                     </div>
 
-                    <div className="flex space-x-3">
+                    <div className="flex space-x-2 md:space-x-3">
                       <button
                         type="button"
                         onClick={resetInquiryForm}
-                        className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium cursor-pointer"
+                        className="px-4 py-2 md:px-6 md:py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium cursor-pointer text-xs md:text-sm"
                       >
                         {t("businessProfile.cancel")}
                       </button>
@@ -1216,7 +1214,7 @@ Best regards,"
                         disabled={
                           isSubmitting || inquiryForm.message.length > 500
                         }
-                        className={`px-8 py-2 font-medium rounded-lg cursor-pointer flex items-center space-x-2 ${
+                        className={`px-4 py-2 md:px-8 md:py-2 font-medium rounded-lg cursor-pointer flex items-center space-x-1 md:space-x-2 text-xs md:text-sm ${
                           isSubmitting || inquiryForm.message.length > 500
                             ? "bg-gray-400 text-white cursor-not-allowed"
                             : "bg-yellow-400 text-white hover:bg-yellow-500"
@@ -1240,26 +1238,26 @@ Best regards,"
               </>
             ) : (
               /* Success State */
-              <div className="p-8 text-center">
-                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <i className="ri-mail-check-line text-green-600 text-3xl"></i>
+              <div className="p-4 md:p-8 text-center">
+                <div className="w-16 h-16 md:w-20 md:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                  <i className="ri-mail-check-line text-green-600 text-2xl md:text-3xl"></i>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                <h3 className="text-lg md:text-2xl font-bold text-gray-800 mb-3 md:mb-4">
                   {t("businessProfile.messageSentTitle")}
                 </h3>
-                <p className="text-gray-600 mb-2">
+                <p className="text-gray-600 mb-2 text-sm md:text-base">
                   Your inquiry has been sent to <strong>{business.name}</strong>
                 </p>
-                <p className="text-sm text-gray-500 mb-6">
+                <p className="text-xs md:text-sm text-gray-500 mb-4 md:mb-6">
                   They typically respond within 24 hours during business hours
                 </p>
-                <div className="bg-yellow-50 rounded-lg p-4 mb-6">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <i className="ri-lightbulb-line text-yellow-600"></i>
+                <div className="bg-yellow-50 rounded-lg p-3 md:p-4 mb-4 md:mb-6">
+                  <div className="flex items-start space-x-2 md:space-x-3">
+                    <div className="w-6 h-6 md:w-8 md:h-8 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <i className="ri-lightbulb-line text-yellow-600 text-sm md:text-base"></i>
                     </div>
                     <div className="text-left">
-                      <h4 className="text-sm font-medium text-yellow-800 mb-1">
+                      <h4 className="text-xs md:text-sm font-medium text-yellow-800 mb-1">
                         {t("businessProfile.whatHappensNext")}
                       </h4>
                       <ul className="text-xs text-yellow-700 space-y-1">
@@ -1273,7 +1271,7 @@ Best regards,"
                 </div>
                 <button
                   onClick={resetInquiryForm}
-                  className="bg-yellow-400 text-white px-8 py-3 rounded-lg hover:bg-yellow-500 font-medium cursor-pointer"
+                  className="bg-yellow-400 text-white px-6 py-2 md:px-8 md:py-3 rounded-lg hover:bg-yellow-500 font-medium cursor-pointer text-sm md:text-base"
                 >
                   {t("businessProfile.close")}
                 </button>
@@ -1285,15 +1283,15 @@ Best regards,"
 
       {/* Review Writing Modal */}
       {showReviewModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-6 rounded-t-2xl">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 md:p-4">
+          <div className="bg-white rounded-xl md:rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-4 md:p-6 rounded-t-xl md:rounded-t-2xl">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-2xl font-bold text-white">
+                  <h3 className="text-lg md:text-2xl font-bold text-white">
                     {t("businessProfile.writeReviewTitle")}
                   </h3>
-                  <p className="text-yellow-100 mt-1">
+                  <p className="text-yellow-100 mt-1 text-xs md:text-sm">
                     {t("businessProfile.shareExperience").replace(
                       "{{name}}",
                       business.name
@@ -1302,32 +1300,32 @@ Best regards,"
                 </div>
                 <button
                   onClick={() => setShowReviewModal(false)}
-                  className="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-white hover:bg-opacity-30 transition-all cursor-pointer"
+                  className="w-8 h-8 md:w-10 md:h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-white hover:bg-opacity-30 transition-all cursor-pointer"
                 >
-                  <i className="ri-close-line text-xl"></i>
+                  <i className="ri-close-line text-lg md:text-xl"></i>
                 </button>
               </div>
             </div>
 
             {showThankYou ? (
-              <div className="p-8 text-center">
-                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <i className="ri-check-line text-4xl text-green-600"></i>
+              <div className="p-4 md:p-8 text-center">
+                <div className="w-16 h-16 md:w-20 md:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                  <i className="ri-check-line text-3xl md:text-4xl text-green-600"></i>
                 </div>
-                <h4 className="text-2xl font-bold text-gray-800 mb-4">
+                <h4 className="text-lg md:text-2xl font-bold text-gray-800 mb-3 md:mb-4">
                   {t("businessProfile.thankYou")}
                 </h4>
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray-600 mb-4 md:mb-6 text-sm md:text-base">
                   {t("businessProfile.reviewSubmitted")}
                 </p>
 
-                <div className="bg-blue-50 rounded-lg p-4 mb-6 text-left">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <i className="ri-information-line text-blue-600"></i>
+                <div className="bg-blue-50 rounded-lg p-3 md:p-4 mb-4 md:mb-6 text-left">
+                  <div className="flex items-start space-x-2 md:space-x-3">
+                    <div className="w-6 h-6 md:w-8 md:h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <i className="ri-information-line text-blue-600 text-sm md:text-base"></i>
                     </div>
                     <div>
-                      <h4 className="text-sm font-medium text-blue-800 mb-2">
+                      <h4 className="text-xs md:text-sm font-medium text-blue-800 mb-1 md:mb-2">
                         Review Process
                       </h4>
                       <ul className="text-xs text-blue-700 space-y-1">
@@ -1347,16 +1345,16 @@ Best regards,"
                   </div>
                 </div>
 
-                <div className="bg-gray-50 rounded-lg p-4 text-left">
-                  <h5 className="text-sm font-medium text-gray-800 mb-2">
+                <div className="bg-gray-50 rounded-lg p-3 md:p-4 text-left">
+                  <h5 className="text-xs md:text-sm font-medium text-gray-800 mb-1 md:mb-2">
                     Your Submitted Review:
                   </h5>
-                  <div className="flex items-center mb-2">
-                    <div className="flex text-yellow-400 mr-2">
+                  <div className="flex items-center mb-1 md:mb-2">
+                    <div className="flex text-yellow-400 mr-1 md:mr-2">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <i
                           key={star}
-                          className={`text-lg ${
+                          className={`text-sm md:text-lg ${
                             star <= selectedRating
                               ? "ri-star-fill"
                               : "ri-star-line"
@@ -1364,38 +1362,40 @@ Best regards,"
                         ></i>
                       ))}
                     </div>
-                    <span className="text-sm text-gray-600">
+                    <span className="text-xs md:text-sm text-gray-600">
                       ({getRatingText(selectedRating)})
                     </span>
                   </div>
-                  <p className="text-sm text-gray-700">{reviewText}</p>
+                  <p className="text-xs md:text-sm text-gray-700">
+                    {reviewText}
+                  </p>
                 </div>
               </div>
             ) : (
               <form
                 onSubmit={handleReviewSubmit}
-                className="p-6 space-y-6"
+                className="p-4 md:p-6 space-y-4 md:space-y-6"
                 data-readdy-form
                 id="business-review"
               >
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                  <label className="block text-xs md:text-sm font-medium text-gray-700 mb-2 md:mb-3">
                     <i className="ri-star-line mr-1"></i>Rating *
                   </label>
-                  <div className="flex items-center space-x-2 mb-2">
+                  <div className="flex items-center space-x-1 md:space-x-2 mb-1 md:mb-2">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button
                         key={star}
                         type="button"
                         onClick={() => handleStarClick(star)}
-                        className={`w-12 h-12 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer ${
+                        className={`w-8 h-8 md:w-12 md:h-12 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer ${
                           star <= selectedRating
                             ? "text-yellow-400 bg-yellow-50"
                             : "text-gray-300 hover:text-yellow-300 hover:bg-gray-50"
                         }`}
                       >
                         <i
-                          className={`text-2xl ${
+                          className={`text-lg md:text-2xl ${
                             star <= selectedRating
                               ? "ri-star-fill"
                               : "ri-star-line"
@@ -1404,7 +1404,7 @@ Best regards,"
                       </button>
                     ))}
                     {selectedRating > 0 && (
-                      <span className="ml-3 text-sm font-medium text-gray-700">
+                      <span className="ml-2 md:ml-3 text-xs md:text-sm font-medium text-gray-700">
                         {getRatingText(selectedRating)}
                       </span>
                     )}
@@ -1415,7 +1415,7 @@ Best regards,"
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">
                     <i className="ri-message-2-line mr-1"></i>Your Review *
                   </label>
                   <textarea
@@ -1423,12 +1423,12 @@ Best regards,"
                     value={reviewText}
                     onChange={(e) => setReviewText(e.target.value)}
                     required
-                    rows={6}
+                    rows={4}
                     maxLength={500}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm resize-none"
+                    className="w-full px-3 py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs md:text-sm resize-none"
                     placeholder="Share your experience with this business. What did you like? How was their service? Would you recommend them to others? Please be honest and constructive in your feedback."
                   />
-                  <div className="flex justify-between items-center mt-2">
+                  <div className="flex justify-between items-center mt-1 md:mt-2">
                     <p className="text-xs text-gray-500">
                       Your review will help others make informed decisions
                     </p>
@@ -1438,13 +1438,13 @@ Best regards,"
                   </div>
                 </div>
 
-                <div className="bg-blue-50 rounded-lg p-4">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <i className="ri-information-line text-blue-600"></i>
+                <div className="bg-blue-50 rounded-lg p-3 md:p-4">
+                  <div className="flex items-start space-x-2 md:space-x-3">
+                    <div className="w-6 h-6 md:w-8 md:h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <i className="ri-information-line text-blue-600 text-sm md:text-base"></i>
                     </div>
                     <div>
-                      <h4 className="text-sm font-medium text-blue-800 mb-2">
+                      <h4 className="text-xs md:text-sm font-medium text-blue-800 mb-1 md:mb-2">
                         {t("businessProfile.reviewGuidelines")}
                       </h4>
                       <ul className="text-xs text-blue-700 space-y-1">
@@ -1457,22 +1457,22 @@ Best regards,"
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-3 md:pt-4 border-t border-gray-200 gap-3">
                   <div className="text-xs text-gray-500">
                     {t("businessProfile.moderationNotice")}
                   </div>
-                  <div className="flex space-x-3">
+                  <div className="flex space-x-2 md:space-x-3">
                     <button
                       type="button"
                       onClick={() => setShowReviewModal(false)}
-                      className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium cursor-pointer"
+                      className="px-4 py-2 md:px-6 md:py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium cursor-pointer text-xs md:text-sm"
                     >
                       {t("businessProfile.cancel")}
                     </button>
                     <button
                       type="submit"
                       disabled={!selectedRating || !reviewText.trim()}
-                      className={`px-8 py-2 font-medium rounded-lg cursor-pointer flex items-center space-x-2 ${
+                      className={`px-4 py-2 md:px-8 md:py-2 font-medium rounded-lg cursor-pointer flex items-center space-x-1 md:space-x-2 text-xs md:text-sm ${
                         selectedRating && reviewText.trim()
                           ? "bg-yellow-500 hover:bg-yellow-600 text-white"
                           : "bg-gray-400 text-white cursor-not-allowed"

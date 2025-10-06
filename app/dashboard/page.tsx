@@ -21,7 +21,6 @@ function DashboardContent() {
     useState(false);
   const [showPhotoUpload, setShowPhotoUpload] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
-  const [backgroundStyle, setBackgroundStyle] = useState("gradient");
   const [avatarUrl, setAvatarUrl] = useState<string>(
     "https://readdy.ai/api/search-image?query=Professional%20middle%20eastern%20businessman%20portrait%2C%20clean%20background%2C%20modern%20business%20attire%2C%20confident%20smile%2C%20professional%20headshot%20style&width=100&height=100&seq=user-avatar&orientation=squarish"
   );
@@ -45,31 +44,23 @@ function DashboardContent() {
     const tab = searchParams?.get("tab");
     const messageId = searchParams?.get("messageId");
 
-    if (tab) {
-      setActiveTab(tab);
-    }
-
+    if (tab) setActiveTab(tab);
     if (messageId) {
       const parsed = parseInt(messageId, 10);
-      if (!isNaN(parsed)) {
-        setSelectedMessageId(parsed);
-      }
+      if (!isNaN(parsed)) setSelectedMessageId(parsed);
     }
-    // Initialize theme and avatar from localStorage if present
+
     const savedTheme =
       typeof window !== "undefined"
         ? localStorage.getItem("dashboardTheme")
         : null;
-    if (savedTheme) {
-      setSelectedTheme(savedTheme);
-    }
+    if (savedTheme) setSelectedTheme(savedTheme);
+
     const savedAvatar =
       typeof window !== "undefined"
         ? localStorage.getItem("dashboardAvatar")
         : null;
-    if (savedAvatar) {
-      setAvatarUrl(savedAvatar);
-    }
+    if (savedAvatar) setAvatarUrl(savedAvatar);
   }, [searchParams]);
 
   const tabs = [
@@ -84,12 +75,12 @@ function DashboardContent() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header />
 
-      <main className="py-8 flex-grow">
-        <div className="w-full px-6">
-          <div className="max-w-7xl mx-auto">
+      <main className="py-6 flex-grow">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto space-y-6">
             {/* Profile Header */}
             <div
-              className={`rounded-2xl shadow-sm p-8 mb-8 border border-gray-100 relative overflow-hidden ${
+              className={`relative rounded-2xl shadow-sm p-6 sm:p-8 border border-gray-100 overflow-hidden ${
                 selectedTheme === "Professional Blue"
                   ? "bg-gradient-to-r from-blue-50 to-blue-100"
                   : selectedTheme === "Golden Success"
@@ -101,7 +92,6 @@ function DashboardContent() {
                   : "bg-white"
               }`}
             >
-              {/* Background Image/Pattern */}
               <div className="absolute inset-0 opacity-10">
                 <img
                   src="https://readdy.ai/api/search-image?query=Professional%20business%20background%20pattern%20with%20geometric%20shapes%2C%20modern%20corporate%20design%2C%20subtle%20gradient%20overlay%2C%20clean%20minimalist%20style%2C%20blue%20and%20yellow%20color%20scheme&width=800&height=200&seq=profile-bg&orientation=landscape"
@@ -110,8 +100,8 @@ function DashboardContent() {
                 />
               </div>
 
-              {/* Profile Customization Controls */}
-              <div className="absolute top-4 right-4 flex space-x-2">
+              {/* Customization Buttons */}
+              <div className="absolute top-4 end-4 flex space-x-2 rtl:space-x-reverse">
                 <button
                   onClick={() => setShowProfileCustomization(true)}
                   className="bg-white/90 backdrop-blur-sm text-gray-600 p-2 rounded-lg hover:bg-white shadow-sm cursor-pointer"
@@ -128,66 +118,59 @@ function DashboardContent() {
                 </button>
               </div>
 
-              <div className="relative z-10">
-                <div className="flex flex-col items-start justify-between">
-                  <div className="flex items-center justify-between w-full mb-6">
-                    <div className="flex items-center space-x-6">
-                      <div className="relative">
-                        <img
-                          alt="Ahmed Al-Rashid"
-                          className="w-20 h-20 rounded-full object-cover border-4 border-yellow-100 shadow-lg"
-                          src={avatarUrl}
-                        />
-                        <button
-                          onClick={() => setShowPhotoUpload(true)}
-                          className="absolute bottom-0 right-0 bg-yellow-400 text-white w-6 h-6 rounded-full flex items-center justify-center hover:bg-yellow-500 cursor-pointer"
-                        >
-                          <i className="ri-camera-line text-xs"></i>
-                        </button>
-                      </div>
-                      <div>
-                        <h1 className="text-3xl font-bold text-gray-800 mb-2">
-                          Welcome back, Ahmed Al-Rashid
-                        </h1>
-                        <p className="text-gray-600 mb-2">
-                          Metro Electronics Supply
-                        </p>
-                        <div className="flex items-center space-x-4 text-sm text-gray-500">
-                          <span className="flex items-center">
-                            <i className="ri-calendar-line mr-1"></i>
-                            Member since 1/15/2024
-                          </span>
-                          <span className="flex items-center">
-                            <i className="ri-vip-crown-line mr-1 text-yellow-500"></i>
-                            Premium Plan
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center">
-                      <Link
-                        href="/profile/tech-solutions-co"
-                        className="border border-gray-300 text-gray-600 px-6 py-3 rounded-lg hover:bg-gray-50 font-medium whitespace-nowrap cursor-pointer inline-flex items-center mt-32"
-                      >
-                        <i className="ri-eye-line mr-2"></i>
-                        View Public Profile
-                      </Link>
+              <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-4 sm:space-y-0">
+                  <div className="relative flex-shrink-0">
+                    <img
+                      alt={user.name}
+                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-yellow-100 shadow-lg"
+                      src={avatarUrl}
+                    />
+                    <button
+                      onClick={() => setShowPhotoUpload(true)}
+                      className="absolute bottom-0 right-0 bg-yellow-400 text-white w-6 h-6 rounded-full flex items-center justify-center hover:bg-yellow-500 cursor-pointer"
+                    >
+                      <i className="ri-camera-line text-xs"></i>
+                    </button>
+                  </div>
+                  <div className="flex flex-col">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-1 sm:mb-2">
+                      Welcome back, {user.name}
+                    </h1>
+                    <p className="text-gray-600 mb-2">{user.businessName}</p>
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
+                      <span className="flex items-center">
+                        <i className="ri-calendar-line mr-1"></i>
+                        Member since {user.memberSince}
+                      </span>
+                      <span className="flex items-center">
+                        <i className="ri-vip-crown-line mr-1 text-yellow-500"></i>
+                        {user.plan} Plan
+                      </span>
                     </div>
                   </div>
+                </div>
+                <div className="flex justify-start md:justify-end">
+                  <Link
+                    href={`/profile/${user.businessId}`}
+                    className="border border-gray-300 text-gray-600 px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-gray-50 font-medium flex items-center"
+                  >
+                    <i className="ri-eye-line mr-2"></i>
+                    View Public Profile
+                  </Link>
                 </div>
               </div>
             </div>
 
-            {/* Navigation Tabs */}
-            <div className="bg-white rounded-2xl shadow-sm mb-8 border border-gray-100">
-              <div className="border-b border-gray-200">
-                <nav className="flex space-x-8 px-6">
+            {/* Tabs Navigation */}
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
+              <div className="overflow-x-auto">
+                <div className="flex space-x-4 md:space-x-8 px-2 md:px-6 border-b border-gray-200">
                   {tabs.map((tab) => (
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap cursor-pointer transition-all ${
+                      className={`py-3 px-2 md:px-4 border-b-2 font-medium text-sm whitespace-nowrap cursor-pointer transition-all ${
                         activeTab === tab.id
                           ? "border-yellow-400 text-yellow-600"
                           : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
@@ -197,11 +180,11 @@ function DashboardContent() {
                       {tab.name}
                     </button>
                   ))}
-                </nav>
+                </div>
               </div>
 
               {/* Tab Content */}
-              <div className="p-6">
+              <div className="p-4 sm:p-6">
                 {activeTab === "overview" && <DashboardStats />}
                 {activeTab === "business" && <BusinessManagement />}
                 {activeTab === "analytics" && <DashboardAnalytics />}
@@ -214,8 +197,8 @@ function DashboardContent() {
 
             {/* Profile Customization Modal */}
             {showProfileCustomization && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 md:p-4 z-50">
+                <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white">
                   <div className="p-6 border-b border-gray-200 flex items-center justify-between">
                     <h2 className="text-2xl font-bold text-gray-800">
                       Customize Your Profile
@@ -227,36 +210,31 @@ function DashboardContent() {
                       <i className="ri-close-line"></i>
                     </button>
                   </div>
-
                   <div className="p-6 space-y-8">
                     {/* Theme Selection */}
                     <div>
                       <h3 className="text-lg font-semibold text-gray-800 mb-4">
                         Choose Theme
                       </h3>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         {[
                           {
                             name: "Professional Blue",
-                            colors: "from-blue-500 to-blue-600",
                             preview:
                               "https://readdy.ai/api/search-image?query=Professional%20business%20background%20with%20blue%20gradient%2C%20corporate%20design%2C%20clean%20modern%20style%2C%20geometric%20patterns%2C%20business%20theme&width=300&height=150&seq=theme-blue&orientation=landscape",
                           },
                           {
                             name: "Golden Success",
-                            colors: "from-yellow-400 to-yellow-500",
                             preview:
                               "https://readdy.ai/api/search-image?query=Elegant%20golden%20business%20background%2C%20luxury%20corporate%20design%2C%20warm%20professional%20atmosphere%2C%20success%20theme%2C%20modern%20gradient&width=300&height=150&seq=theme-gold&orientation=landscape",
                           },
                           {
                             name: "Tech Green",
-                            colors: "from-green-500 to-green-600",
                             preview:
                               "https://readdy.ai/api/search-image?query=Modern%20technology%20background%20with%20green%20theme%2C%20digital%20corporate%20design%2C%20innovation%20pattern%2C%20tech%20business%20style&width=300&height=150&seq=theme-green&orientation=landscape",
                           },
                           {
                             name: "Royal Purple",
-                            colors: "from-purple-500 to-purple-600",
                             preview:
                               "https://readdy.ai/api/search-image?query=Royal%20purple%20business%20background&width=300&height=150&seq=theme-purple&orientation=landscape",
                           },
@@ -288,7 +266,6 @@ function DashboardContent() {
                         ))}
                       </div>
                     </div>
-
                     {/* Save Button */}
                     <div className="flex justify-end">
                       <button
@@ -302,10 +279,11 @@ function DashboardContent() {
                 </div>
               </div>
             )}
+
             {/* Photo Upload Modal */}
             {showPhotoUpload && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                <div className="bg-white rounded-2xl w-full max-w-md overflow-hidden">
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 md:p-4 z-50">
+                <div className="w-full max-w-md overflow-hidden rounded-2xl bg-white">
                   <div className="p-6 border-b border-gray-200 flex items-center justify-between">
                     <h2 className="text-xl font-bold text-gray-800">
                       Change Profile Photo
@@ -321,13 +299,13 @@ function DashboardContent() {
                     </button>
                   </div>
                   <div className="p-6 space-y-4">
-                    <div className="flex items-center space-x-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0">
                       <img
                         src={pendingAvatarPreview || avatarUrl}
                         alt="Avatar Preview"
-                        className="w-20 h-20 rounded-full object-cover border-4 border-yellow-100 shadow"
+                        className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-yellow-100 shadow"
                       />
-                      <div>
+                      <div className="flex-1">
                         <label className="inline-block bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded cursor-pointer">
                           <input
                             type="file"

@@ -80,7 +80,7 @@ export default function Footer() {
               </div>
 
               {/* Social Media Icons - Centered */}
-              <div className="flex justify-center lg:justify-start space-x-3 sm:space-x-4">
+              <div className="flex justify-center gap-2 lg:justify-start space-x-3 sm:space-x-4">
                 <a
                   href="#"
                   className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors cursor-pointer"

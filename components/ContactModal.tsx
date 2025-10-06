@@ -301,13 +301,13 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                   <div className="flex items-center space-x-2">
                     <i className="ri-phone-line text-yellow-600"></i>
                     <span className="text-sm text-gray-700">
-                      +966 11 123 4567
+                      +966 54 274 1977
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <i className="ri-mail-line text-yellow-600"></i>
                     <span className="text-sm text-gray-700">
-                      info@supplier.sa
+                      Supplier.com.sa@gmail.com
                     </span>
                   </div>
                 </div>

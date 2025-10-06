@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function SystemSettings() {
+  const { t } = useLanguage();
   const [activeSection, setActiveSection] = useState("general");
   const [settings, setSettings] = useState({
     general: {
@@ -58,24 +60,32 @@ export default function SystemSettings() {
   });
 
   const sections = [
-    { id: "general", name: "General Settings", icon: "ri-settings-3-line" },
-    { id: "business", name: "Business Rules", icon: "ri-store-line" },
+    {
+      id: "general",
+      name: t("systemSettings.sections.general"),
+      icon: "ri-settings-3-line",
+    },
+    {
+      id: "business",
+      name: t("systemSettings.sections.business"),
+      icon: "ri-store-line",
+    },
     {
       id: "payments",
-      name: "Payment Settings",
+      name: t("systemSettings.sections.payments"),
       icon: "ri-money-dollar-circle-line",
     },
     {
       id: "security",
-      name: "Security & Privacy",
+      name: t("systemSettings.sections.security"),
       icon: "ri-shield-check-line",
     },
     {
       id: "notifications",
-      name: "Notifications",
+      name: t("systemSettings.sections.notifications"),
       icon: "ri-notification-3-line",
     },
-    { id: "api", name: "API Configuration", icon: "ri-code-line" },
+    { id: "api", name: t("systemSettings.sections.api"), icon: "ri-code-line" },
   ];
 
   const handleSettingChange = (
@@ -101,45 +111,46 @@ export default function SystemSettings() {
   };
 
   const handleSystemReset = () => {
-    if (
-      confirm(
-        "Are you sure you want to reset all settings to default? This action cannot be undone."
-      )
-    ) {
+    if (confirm(t("systemSettings.dangerZone.resetConfirm"))) {
       console.log("Resetting system settings...");
     }
   };
 
   return (
-    <div className="space-y-8">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">System Settings</h2>
-        <div className="flex space-x-3">
+    <div className="space-y-6 p-4 sm:p-6 lg:p-8">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
+          {t("systemSettings.title")}
+        </h2>
+        <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={handleSystemBackup}
-            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 font-medium text-sm whitespace-nowrap cursor-pointer"
+            className="bg-blue-500 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-blue-600 font-medium text-sm whitespace-nowrap cursor-pointer"
           >
             <i className="ri-backup-line mr-2"></i>
-            Create Backup
+            {t("systemSettings.buttons.createBackup")}
           </button>
           <button
             onClick={handleSaveSettings}
-            className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 font-medium text-sm whitespace-nowrap cursor-pointer"
+            className="bg-green-500 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-green-600 font-medium text-sm whitespace-nowrap cursor-pointer"
           >
             <i className="ri-save-line mr-2"></i>
-            Save Changes
+            {t("systemSettings.buttons.saveChanges")}
           </button>
         </div>
       </div>
 
+      {/* Main Content */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-        <div className="border-b border-gray-200">
-          <nav className="flex space-x-6 px-6 overflow-x-auto">
+        {/* Tabs Navigation */}
+        <div className="border-b border-gray-200 overflow-x-auto">
+          <nav className="flex space-x-4 sm:space-x-6 px-4 sm:px-6 min-w-max">
             {sections.map((section) => (
               <button
                 key={section.id}
                 onClick={() => setActiveSection(section.id)}
-                className={`py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap cursor-pointer transition-all ${
+                className={`py-3 sm:py-4 px-2 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap cursor-pointer transition-all ${
                   activeSection === section.id
                     ? "border-red-500 text-red-600"
                     : "border-transparent text-gray-500 hover:text-gray-700"
@@ -152,13 +163,15 @@ export default function SystemSettings() {
           </nav>
         </div>
 
-        <div className="p-6">
+        {/* Settings Content */}
+        <div className="p-4 sm:p-6">
+          {/* General Settings */}
           {activeSection === "general" && (
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Site Name
+                    {t("systemSettings.general.siteName")}
                   </label>
                   <input
                     type="text"
@@ -166,13 +179,13 @@ export default function SystemSettings() {
                     onChange={(e) =>
                       handleSettingChange("general", "siteName", e.target.value)
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Contact Email
+                    {t("systemSettings.general.contactEmail")}
                   </label>
                   <input
                     type="email"
@@ -184,13 +197,13 @@ export default function SystemSettings() {
                         e.target.value
                       )
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Support Email
+                    {t("systemSettings.general.supportEmail")}
                   </label>
                   <input
                     type="email"
@@ -202,20 +215,20 @@ export default function SystemSettings() {
                         e.target.value
                       )
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Timezone
+                    {t("systemSettings.general.timezone")}
                   </label>
                   <select
                     value={settings.general.timezone}
                     onChange={(e) =>
                       handleSettingChange("general", "timezone", e.target.value)
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm pr-8"
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   >
                     <option value="Asia/Riyadh">Asia/Riyadh (GMT+3)</option>
                     <option value="Asia/Dubai">Asia/Dubai (GMT+4)</option>
@@ -226,7 +239,7 @@ export default function SystemSettings() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Site Description
+                  {t("systemSettings.general.siteDescription")}
                 </label>
                 <textarea
                   value={settings.general.siteDescription}
@@ -239,15 +252,16 @@ export default function SystemSettings() {
                   }
                   rows={3}
                   maxLength={500}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm resize-none"
+                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm resize-none"
                 />
                 <p className="text-xs text-gray-500 mt-1">
-                  {settings.general.siteDescription.length}/500 characters
+                  {settings.general.siteDescription.length}/500{" "}
+                  {t("systemSettings.general.characters")}
                 </p>
               </div>
 
-              <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                <label className="flex items-center space-x-3">
+              <div className="bg-yellow-50 p-3 sm:p-4 rounded-lg border border-yellow-200">
+                <label className="flex items-start sm:items-center space-x-3">
                   <input
                     type="checkbox"
                     checked={settings.general.maintenanceMode}
@@ -258,14 +272,14 @@ export default function SystemSettings() {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
+                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400 mt-1 sm:mt-0 flex-shrink-0"
                   />
                   <div>
-                    <span className="font-medium text-gray-800">
-                      Maintenance Mode
+                    <span className="font-medium text-gray-800 text-sm sm:text-base">
+                      {t("systemSettings.general.maintenanceMode")}
                     </span>
-                    <p className="text-sm text-gray-600">
-                      Enable this to put the site in maintenance mode for users
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                      {t("systemSettings.general.maintenanceDescription")}
                     </p>
                   </div>
                 </label>
@@ -273,12 +287,13 @@ export default function SystemSettings() {
             </div>
           )}
 
+          {/* Business Settings */}
           {activeSection === "business" && (
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Maximum Photos per Business
+                    {t("systemSettings.business.maxPhotos")}
                   </label>
                   <input
                     type="number"
@@ -290,13 +305,13 @@ export default function SystemSettings() {
                         parseInt(e.target.value)
                       )
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Maximum Description Length
+                    {t("systemSettings.business.maxDescription")}
                   </label>
                   <input
                     type="number"
@@ -308,13 +323,13 @@ export default function SystemSettings() {
                         parseInt(e.target.value)
                       )
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   />
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <label className="flex items-center space-x-3">
+              <div className="space-y-3 sm:space-y-4">
+                <label className="flex items-start sm:items-center space-x-3">
                   <input
                     type="checkbox"
                     checked={settings.business.autoApproval}
@@ -325,20 +340,19 @@ export default function SystemSettings() {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
+                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400 mt-1 sm:mt-0 flex-shrink-0"
                   />
                   <div>
-                    <span className="font-medium text-gray-800">
-                      Auto-approve Business Listings
+                    <span className="font-medium text-gray-800 text-sm sm:text-base">
+                      {t("systemSettings.business.autoApproval")}
                     </span>
-                    <p className="text-sm text-gray-600">
-                      Automatically approve new business listings without manual
-                      review
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                      {t("systemSettings.business.autoApprovalDescription")}
                     </p>
                   </div>
                 </label>
 
-                <label className="flex items-center space-x-3">
+                <label className="flex items-start sm:items-center space-x-3">
                   <input
                     type="checkbox"
                     checked={settings.business.verificationRequired}
@@ -349,20 +363,19 @@ export default function SystemSettings() {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
+                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400 mt-1 sm:mt-0 flex-shrink-0"
                   />
                   <div>
-                    <span className="font-medium text-gray-800">
-                      Require Business Verification
+                    <span className="font-medium text-gray-800 text-sm sm:text-base">
+                      {t("systemSettings.business.verificationRequired")}
                     </span>
-                    <p className="text-sm text-gray-600">
-                      Require businesses to verify their information before
-                      listing
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                      {t("systemSettings.business.verificationDescription")}
                     </p>
                   </div>
                 </label>
 
-                <label className="flex items-center space-x-3">
+                <label className="flex items-start sm:items-center space-x-3">
                   <input
                     type="checkbox"
                     checked={settings.business.premiumFeaturesEnabled}
@@ -373,15 +386,14 @@ export default function SystemSettings() {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
+                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400 mt-1 sm:mt-0 flex-shrink-0"
                   />
                   <div>
-                    <span className="font-medium text-gray-800">
-                      Enable Premium Features
+                    <span className="font-medium text-gray-800 text-sm sm:text-base">
+                      {t("systemSettings.business.premiumFeatures")}
                     </span>
-                    <p className="text-sm text-gray-600">
-                      Allow businesses to access premium features with paid
-                      plans
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                      {t("systemSettings.business.premiumFeaturesDescription")}
                     </p>
                   </div>
                 </label>
@@ -389,15 +401,16 @@ export default function SystemSettings() {
             </div>
           )}
 
+          {/* Payment Settings */}
           {activeSection === "payments" && (
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Basic Plan Price
+                    {t("systemSettings.payments.basicPlan")}
                   </label>
                   <div className="relative">
-                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">
                       SAR
                     </span>
                     <input
@@ -417,10 +430,10 @@ export default function SystemSettings() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Premium Plan Price
+                    {t("systemSettings.payments.premiumPlan")}
                   </label>
                   <div className="relative">
-                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">
                       SAR
                     </span>
                     <input
@@ -440,10 +453,10 @@ export default function SystemSettings() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Enterprise Plan Price
+                    {t("systemSettings.payments.enterprisePlan")}
                   </label>
                   <div className="relative">
-                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">
                       SAR
                     </span>
                     <input
@@ -463,7 +476,7 @@ export default function SystemSettings() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Tax Rate (%)
+                    {t("systemSettings.payments.taxRate")}
                   </label>
                   <input
                     type="number"
@@ -475,13 +488,13 @@ export default function SystemSettings() {
                         parseFloat(e.target.value)
                       )
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Invoice Prefix
+                    {t("systemSettings.payments.invoicePrefix")}
                   </label>
                   <input
                     type="text"
@@ -493,13 +506,13 @@ export default function SystemSettings() {
                         e.target.value
                       )
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Payment Gateway
+                    {t("systemSettings.payments.paymentGateway")}
                   </label>
                   <select
                     value={settings.payments.paymentGateway}
@@ -510,7 +523,7 @@ export default function SystemSettings() {
                         e.target.value
                       )
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm pr-8"
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   >
                     <option value="stripe">Stripe</option>
                     <option value="paypal">PayPal</option>
@@ -521,12 +534,13 @@ export default function SystemSettings() {
             </div>
           )}
 
+          {/* Security Settings */}
           {activeSection === "security" && (
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Session Timeout (minutes)
+                    {t("systemSettings.security.sessionTimeout")}
                   </label>
                   <input
                     type="number"
@@ -538,13 +552,13 @@ export default function SystemSettings() {
                         parseInt(e.target.value)
                       )
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Max Login Attempts
+                    {t("systemSettings.security.maxLoginAttempts")}
                   </label>
                   <input
                     type="number"
@@ -556,13 +570,13 @@ export default function SystemSettings() {
                         parseInt(e.target.value)
                       )
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Backup Retention (days)
+                    {t("systemSettings.security.backupRetention")}
                   </label>
                   <input
                     type="number"
@@ -574,13 +588,13 @@ export default function SystemSettings() {
                         parseInt(e.target.value)
                       )
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   />
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <label className="flex items-center space-x-3">
+              <div className="space-y-3 sm:space-y-4">
+                <label className="flex items-start sm:items-center space-x-3">
                   <input
                     type="checkbox"
                     checked={settings.security.twoFactorRequired}
@@ -591,19 +605,19 @@ export default function SystemSettings() {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
+                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400 mt-1 sm:mt-0 flex-shrink-0"
                   />
                   <div>
-                    <span className="font-medium text-gray-800">
-                      Require Two-Factor Authentication
+                    <span className="font-medium text-gray-800 text-sm sm:text-base">
+                      {t("systemSettings.security.twoFactor")}
                     </span>
-                    <p className="text-sm text-gray-600">
-                      Force all users to enable 2FA for enhanced security
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                      {t("systemSettings.security.twoFactorDescription")}
                     </p>
                   </div>
                 </label>
 
-                <label className="flex items-center space-x-3">
+                <label className="flex items-start sm:items-center space-x-3">
                   <input
                     type="checkbox"
                     checked={settings.security.passwordStrengthRequired}
@@ -614,19 +628,19 @@ export default function SystemSettings() {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
+                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400 mt-1 sm:mt-0 flex-shrink-0"
                   />
                   <div>
-                    <span className="font-medium text-gray-800">
-                      Strong Password Requirements
+                    <span className="font-medium text-gray-800 text-sm sm:text-base">
+                      {t("systemSettings.security.strongPassword")}
                     </span>
-                    <p className="text-sm text-gray-600">
-                      Enforce strong password policies for all users
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                      {t("systemSettings.security.strongPasswordDescription")}
                     </p>
                   </div>
                 </label>
 
-                <label className="flex items-center space-x-3">
+                <label className="flex items-start sm:items-center space-x-3">
                   <input
                     type="checkbox"
                     checked={settings.security.dataEncryption}
@@ -637,14 +651,14 @@ export default function SystemSettings() {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
+                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400 mt-1 sm:mt-0 flex-shrink-0"
                   />
                   <div>
-                    <span className="font-medium text-gray-800">
-                      Data Encryption
+                    <span className="font-medium text-gray-800 text-sm sm:text-base">
+                      {t("systemSettings.security.dataEncryption")}
                     </span>
-                    <p className="text-sm text-gray-600">
-                      Encrypt sensitive data at rest and in transit
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                      {t("systemSettings.security.dataEncryptionDescription")}
                     </p>
                   </div>
                 </label>
@@ -652,10 +666,11 @@ export default function SystemSettings() {
             </div>
           )}
 
+          {/* Notification Settings */}
           {activeSection === "notifications" && (
-            <div className="space-y-6">
-              <div className="space-y-4">
-                <label className="flex items-center space-x-3">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="space-y-3 sm:space-y-4">
+                <label className="flex items-start sm:items-center space-x-3">
                   <input
                     type="checkbox"
                     checked={settings.notifications.emailNotifications}
@@ -666,19 +681,19 @@ export default function SystemSettings() {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
+                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400 mt-1 sm:mt-0 flex-shrink-0"
                   />
                   <div>
-                    <span className="font-medium text-gray-800">
-                      Email Notifications
+                    <span className="font-medium text-gray-800 text-sm sm:text-base">
+                      {t("systemSettings.notifications.email")}
                     </span>
-                    <p className="text-sm text-gray-600">
-                      Send notifications via email
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                      {t("systemSettings.notifications.emailDescription")}
                     </p>
                   </div>
                 </label>
 
-                <label className="flex items-center space-x-3">
+                <label className="flex items-start sm:items-center space-x-3">
                   <input
                     type="checkbox"
                     checked={settings.notifications.smsNotifications}
@@ -689,19 +704,19 @@ export default function SystemSettings() {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
+                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400 mt-1 sm:mt-0 flex-shrink-0"
                   />
                   <div>
-                    <span className="font-medium text-gray-800">
-                      SMS Notifications
+                    <span className="font-medium text-gray-800 text-sm sm:text-base">
+                      {t("systemSettings.notifications.sms")}
                     </span>
-                    <p className="text-sm text-gray-600">
-                      Send urgent notifications via SMS
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                      {t("systemSettings.notifications.smsDescription")}
                     </p>
                   </div>
                 </label>
 
-                <label className="flex items-center space-x-3">
+                <label className="flex items-start sm:items-center space-x-3">
                   <input
                     type="checkbox"
                     checked={settings.notifications.pushNotifications}
@@ -712,19 +727,19 @@ export default function SystemSettings() {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
+                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400 mt-1 sm:mt-0 flex-shrink-0"
                   />
                   <div>
-                    <span className="font-medium text-gray-800">
-                      Push Notifications
+                    <span className="font-medium text-gray-800 text-sm sm:text-base">
+                      {t("systemSettings.notifications.push")}
                     </span>
-                    <p className="text-sm text-gray-600">
-                      Send push notifications to mobile apps
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                      {t("systemSettings.notifications.pushDescription")}
                     </p>
                   </div>
                 </label>
 
-                <label className="flex items-center space-x-3">
+                <label className="flex items-start sm:items-center space-x-3">
                   <input
                     type="checkbox"
                     checked={settings.notifications.systemAlerts}
@@ -735,19 +750,21 @@ export default function SystemSettings() {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
+                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400 mt-1 sm:mt-0 flex-shrink-0"
                   />
                   <div>
-                    <span className="font-medium text-gray-800">
-                      System Alerts
+                    <span className="font-medium text-gray-800 text-sm sm:text-base">
+                      {t("systemSettings.notifications.systemAlerts")}
                     </span>
-                    <p className="text-sm text-gray-600">
-                      Notify admins about system issues and alerts
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                      {t(
+                        "systemSettings.notifications.systemAlertsDescription"
+                      )}
                     </p>
                   </div>
                 </label>
 
-                <label className="flex items-center space-x-3">
+                <label className="flex items-start sm:items-center space-x-3">
                   <input
                     type="checkbox"
                     checked={settings.notifications.maintenanceNotifications}
@@ -758,14 +775,14 @@ export default function SystemSettings() {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
+                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400 mt-1 sm:mt-0 flex-shrink-0"
                   />
                   <div>
-                    <span className="font-medium text-gray-800">
-                      Maintenance Notifications
+                    <span className="font-medium text-gray-800 text-sm sm:text-base">
+                      {t("systemSettings.notifications.maintenance")}
                     </span>
-                    <p className="text-sm text-gray-600">
-                      Notify users about scheduled maintenance
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                      {t("systemSettings.notifications.maintenanceDescription")}
                     </p>
                   </div>
                 </label>
@@ -773,12 +790,13 @@ export default function SystemSettings() {
             </div>
           )}
 
+          {/* API Settings */}
           {activeSection === "api" && (
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    API Rate Limit (requests/hour)
+                    {t("systemSettings.api.rateLimit")}
                   </label>
                   <input
                     type="number"
@@ -790,13 +808,13 @@ export default function SystemSettings() {
                         parseInt(e.target.value)
                       )
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    API Documentation URL
+                    {t("systemSettings.api.documentationUrl")}
                   </label>
                   <input
                     type="url"
@@ -808,13 +826,13 @@ export default function SystemSettings() {
                         e.target.value
                       )
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent text-sm"
                   />
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <label className="flex items-center space-x-3">
+              <div className="space-y-3 sm:space-y-4">
+                <label className="flex items-start sm:items-center space-x-3">
                   <input
                     type="checkbox"
                     checked={settings.api.apiKeysEnabled}
@@ -825,20 +843,19 @@ export default function SystemSettings() {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
+                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400 mt-1 sm:mt-0 flex-shrink-0"
                   />
                   <div>
-                    <span className="font-medium text-gray-800">
-                      Enable API Keys
+                    <span className="font-medium text-gray-800 text-sm sm:text-base">
+                      {t("systemSettings.api.apiKeys")}
                     </span>
-                    <p className="text-sm text-gray-600">
-                      Allow users to generate API keys for third-party
-                      integrations
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                      {t("systemSettings.api.apiKeysDescription")}
                     </p>
                   </div>
                 </label>
 
-                <label className="flex items-center space-x-3">
+                <label className="flex items-start sm:items-center space-x-3">
                   <input
                     type="checkbox"
                     checked={settings.api.webhooksEnabled}
@@ -849,19 +866,19 @@ export default function SystemSettings() {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
+                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400 mt-1 sm:mt-0 flex-shrink-0"
                   />
                   <div>
-                    <span className="font-medium text-gray-800">
-                      Enable Webhooks
+                    <span className="font-medium text-gray-800 text-sm sm:text-base">
+                      {t("systemSettings.api.webhooks")}
                     </span>
-                    <p className="text-sm text-gray-600">
-                      Allow webhook configurations for real-time notifications
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                      {t("systemSettings.api.webhooksDescription")}
                     </p>
                   </div>
                 </label>
 
-                <label className="flex items-center space-x-3">
+                <label className="flex items-start sm:items-center space-x-3">
                   <input
                     type="checkbox"
                     checked={settings.api.corsEnabled}
@@ -872,14 +889,14 @@ export default function SystemSettings() {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
+                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400 mt-1 sm:mt-0 flex-shrink-0"
                   />
                   <div>
-                    <span className="font-medium text-gray-800">
-                      Enable CORS
+                    <span className="font-medium text-gray-800 text-sm sm:text-base">
+                      {t("systemSettings.api.cors")}
                     </span>
-                    <p className="text-sm text-gray-600">
-                      Allow cross-origin requests from web applications
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                      {t("systemSettings.api.corsDescription")}
                     </p>
                   </div>
                 </label>
@@ -889,22 +906,27 @@ export default function SystemSettings() {
         </div>
       </div>
 
-      <div className="bg-red-50 border border-red-200 rounded-xl p-6">
-        <h3 className="text-lg font-semibold text-red-800 mb-4">Danger Zone</h3>
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <h4 className="font-medium text-red-800">Reset All Settings</h4>
-              <p className="text-sm text-red-700">
-                Reset all system settings to their default values
+      {/* Danger Zone */}
+      <div className="bg-red-50 border border-red-200 rounded-xl p-4 sm:p-6">
+        <h3 className="text-lg font-semibold text-red-800 mb-3 sm:mb-4">
+          {t("systemSettings.dangerZone.title")}
+        </h3>
+        <div className="space-y-3 sm:space-y-4">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+            <div className="flex-1">
+              <h4 className="font-medium text-red-800 text-sm sm:text-base">
+                {t("systemSettings.dangerZone.resetTitle")}
+              </h4>
+              <p className="text-xs sm:text-sm text-red-700 mt-1">
+                {t("systemSettings.dangerZone.resetDescription")}
               </p>
             </div>
             <button
               onClick={handleSystemReset}
-              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 font-medium text-sm whitespace-nowrap cursor-pointer"
+              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 font-medium text-sm whitespace-nowrap cursor-pointer w-full sm:w-auto"
             >
               <i className="ri-restart-line mr-2"></i>
-              Reset Settings
+              {t("systemSettings.dangerZone.resetButton")}
             </button>
           </div>
         </div>
