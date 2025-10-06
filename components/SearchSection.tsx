@@ -1070,11 +1070,10 @@ export default function SearchSection() {
                 <i className="ri-search-2-line text-2xl md:text-3xl text-white"></i>
               </div>
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                Can't Find What You're Looking For?
+                {t("searchRequest.cantFindTitle")}
               </h2>
               <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Submit a request and let verified Saudi suppliers come to you
-                with competitive offers
+                {t("searchRequest.submitRequestDesc")}
               </p>
             </div>
 
@@ -1119,96 +1118,114 @@ export default function SearchSection() {
                           {t("searchRequest.industryPlaceholder")}
                         </option>
                         <option value="agriculture">
-                          Agriculture & Farming
+                          {t("cat.agriculture")}
                         </option>
                         <option value="apparel-fashion">
-                          Apparel & Fashion
+                          {t("cat.apparelFashion")}
                         </option>
-                        <option value="automobile">Automobile & Parts</option>
+                        <option value="automobile">
+                          {t("cat.automobile")}
+                        </option>
                         <option value="brass-hardware">
-                          Brass Hardware & Components
+                          {t("cat.brassHardware")}
                         </option>
                         <option value="business-services">
-                          Business Services
+                          {t("cat.businessServices")}
                         </option>
-                        <option value="chemicals">Chemicals & Materials</option>
+                        <option value="chemicals">{t("cat.chemicals")}</option>
                         <option value="computer-hardware-software">
-                          Computer Hardware & Software
+                          {t("cat.computerHardwareSoftware")}
                         </option>
                         <option value="construction-real-estate">
-                          Construction & Real Estate
+                          {t("cat.constructionRealEstate")}
                         </option>
                         <option value="consumer-electronics">
-                          Consumer Electronics
+                          {t("cat.consumerElectronics")}
                         </option>
                         <option value="electronics-electrical">
-                          Electronics & Electrical
+                          {t("cat.electronicsElectrical")}
                         </option>
-                        <option value="energy-power">Energy & Power</option>
+                        <option value="energy-power">
+                          {t("cat.energyPower")}
+                        </option>
                         <option value="environment-pollution">
-                          Environment & Sustainability
+                          {t("cat.environmentPollution")}
                         </option>
-                        <option value="food-beverage">Food & Beverage</option>
-                        <option value="furniture">Furniture & Decor</option>
-                        <option value="gifts-crafts">Gifts & Crafts</option>
-                        <option value="health-beauty">Health & Beauty</option>
-                        <option value="home-supplies">Home Supplies</option>
+                        <option value="food-beverage">
+                          {t("cat.foodBeverage")}
+                        </option>
+                        <option value="furniture">{t("cat.furniture")}</option>
+                        <option value="gifts-crafts">
+                          {t("cat.giftsCrafts")}
+                        </option>
+                        <option value="health-beauty">
+                          {t("cat.healthBeauty")}
+                        </option>
+                        <option value="home-supplies">
+                          {t("cat.homeSupplies")}
+                        </option>
                         <option value="home-textiles">
-                          Home Textiles & Furnishings
+                          {t("cat.homeTextiles")}
                         </option>
                         <option value="hospital-medical">
-                          Hospital & Medical
+                          {t("cat.hospitalMedical")}
                         </option>
                         <option value="hotel-supplies">
-                          Hotel & Hospitality
+                          {t("cat.hotelSupplies")}
                         </option>
                         <option value="industrial-supplies">
-                          Industrial Supplies
+                          {t("cat.industrialSupplies")}
                         </option>
                         <option value="jewelry-gemstones">
-                          Jewelry & Gemstones
+                          {t("cat.jewelryGemstones")}
                         </option>
                         <option value="leather-products">
-                          Leather Products
+                          {t("cat.leatherProducts")}
                         </option>
-                        <option value="machinery">Machinery & Equipment</option>
+                        <option value="machinery">{t("cat.machinery")}</option>
                         <option value="mineral-metals">
-                          Minerals & Metals
+                          {t("cat.mineralMetals")}
                         </option>
                         <option value="office-school">
-                          Office & School Supplies
+                          {t("cat.officeSchool")}
                         </option>
-                        <option value="oil-gas">Oil & Gas</option>
+                        <option value="oil-gas">{t("cat.oilGas")}</option>
                         <option value="packaging-paper">
-                          Packaging & Paper
+                          {t("cat.packagingPaper")}
                         </option>
-                        <option value="pharmaceuticals">Pharmaceuticals</option>
-                        <option value="pipes-tubes">Pipes & Tubes</option>
+                        <option value="pharmaceuticals">
+                          {t("cat.pharmaceuticals")}
+                        </option>
+                        <option value="pipes-tubes">
+                          {t("cat.pipesTubes")}
+                        </option>
                         <option value="plastics-products">
-                          Plastics & Products
+                          {t("cat.plasticsProducts")}
                         </option>
                         <option value="printing-publishing">
-                          Printing & Publishing
+                          {t("cat.printingPublishing")}
                         </option>
-                        <option value="real-estate">Real Estate</option>
+                        <option value="real-estate">
+                          {t("cat.realEstate")}
+                        </option>
                         <option value="scientific-laboratory">
-                          Scientific & Laboratory
+                          {t("cat.scientificLaboratory")}
                         </option>
                         <option value="security-protection">
-                          Security & Protection
+                          {t("cat.securityProtection")}
                         </option>
                         <option value="sports-entertainment">
-                          Sports & Entertainment
+                          {t("cat.sportsEntertainment")}
                         </option>
                         <option value="telecommunications">
-                          Telecommunications
+                          {t("cat.telecommunications")}
                         </option>
                         <option value="textiles-fabrics">
-                          Textiles & Fabrics
+                          {t("cat.textilesFabrics")}
                         </option>
-                        <option value="toys">Toys & Games</option>
+                        <option value="toys">{t("cat.toys")}</option>
                         <option value="transportation">
-                          Transportation & Logistics
+                          {t("cat.transportation")}
                         </option>
                       </select>
                     </div>
@@ -1354,7 +1371,7 @@ export default function SearchSection() {
                         <i className="ri-lightbulb-line text-blue-600 text-lg md:text-xl"></i>
                       </div>
                       <h3 className="text-lg md:text-xl font-bold text-blue-900">
-                        How Our Request System Works
+                        {t("searchRequest.howItWorks")}
                       </h3>
                     </div>
                     <div className="space-y-3 md:space-y-4">
@@ -1363,8 +1380,7 @@ export default function SearchSection() {
                           1
                         </div>
                         <p className="text-blue-800 font-medium text-sm md:text-base">
-                          Your request is instantly sent to relevant suppliers
-                          in your selected area
+                          {t("searchRequest.step1")}
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
@@ -1372,8 +1388,7 @@ export default function SearchSection() {
                           2
                         </div>
                         <p className="text-blue-800 font-medium text-sm md:text-base">
-                          Verified suppliers review your requirements and
-                          respond with detailed offers
+                          {t("searchRequest.step2")}
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
@@ -1381,8 +1396,7 @@ export default function SearchSection() {
                           3
                         </div>
                         <p className="text-blue-800 font-medium text-sm md:text-base">
-                          You receive direct contact details and competitive
-                          proposals from multiple suppliers
+                          {t("searchRequest.step3")}
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
@@ -1390,8 +1404,7 @@ export default function SearchSection() {
                           4
                         </div>
                         <p className="text-blue-800 font-medium text-sm md:text-base">
-                          Compare offers, negotiate terms, and choose the best
-                          supplier for your business needs
+                          {t("searchRequest.step4")}
                         </p>
                       </div>
                     </div>
@@ -1403,44 +1416,29 @@ export default function SearchSection() {
                         <i className="ri-check-double-line text-xl md:text-2xl text-white"></i>
                       </div>
                       <h4 className="text-base md:text-lg font-bold text-gray-900 mb-2">
-                        Why Use Our Platform?
+                        {t("searchRequest.whyUsePlatform")}
                       </h4>
                     </div>
                     <ul className="space-y-2 md:space-y-3 text-xs md:text-sm text-gray-700">
                       <li className="flex items-center space-x-2 md:space-x-3">
                         <i className="ri-shield-check-line text-green-500 text-base md:text-lg"></i>
-                        <span>
-                          <strong>Verified Suppliers:</strong> All suppliers are
-                          verified Saudi businesses
-                        </span>
+                        <span>{t("searchRequest.verifiedSuppliers")}</span>
                       </li>
                       <li className="flex items-center space-x-2 md:space-x-3">
                         <i className="ri-time-line text-green-500 text-base md:text-lg"></i>
-                        <span>
-                          <strong>Quick Response:</strong> Get quotes within
-                          24-48 hours
-                        </span>
+                        <span>{t("searchRequest.quickResponse")}</span>
                       </li>
                       <li className="flex items-center space-x-2 md:space-x-3">
                         <i className="ri-price-tag-3-line text-green-500 text-base md:text-lg"></i>
-                        <span>
-                          <strong>Competitive Pricing:</strong> Multiple offers
-                          for best deals
-                        </span>
+                        <span>{t("searchRequest.competitivePricing")}</span>
                       </li>
                       <li className="flex items-center space-x-2 md:space-x-3">
                         <i className="ri-map-pin-line text-green-500 text-base md:text-lg"></i>
-                        <span>
-                          <strong>Local Focus:</strong> Find suppliers in your
-                          preferred location
-                        </span>
+                        <span>{t("searchRequest.localFocus")}</span>
                       </li>
                       <li className="flex items-center space-x-2 md:space-x-3">
                         <i className="ri-customer-service-2-line text-green-500 text-base md:text-lg"></i>
-                        <span>
-                          <strong>Free Service:</strong> No charges for
-                          submitting requests
-                        </span>
+                        <span>{t("searchRequest.freeService")}</span>
                       </li>
                     </ul>
                   </div>

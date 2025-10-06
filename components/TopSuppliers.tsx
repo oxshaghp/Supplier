@@ -4,13 +4,64 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useLanguage } from "../lib/LanguageContext";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
 export default function TopSuppliers() {
   const { t } = useLanguage();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isRTL, setIsRTL] = useState(false);
 
   const topSuppliers = [
     {
       id: 101,
+      name: "Saudi Steel Manufacturing Co.",
+      category: "Steel & Metal",
+      businessType: "Supplier",
+      rating: 4.9,
+      reviews: 428,
+      yearsInBusiness: 15,
+      clientsServed: "500+",
+      specialization: "Industrial Steel Solutions",
+      image:
+        "https://readdy.ai/api/search-image?query=Modern%20steel%20manufacturing%20facility%20with%20organized%20metal%20sheets%20and%20beams%2C%20industrial%20workspace%20with%20bright%20lighting%2C%20professional%20steel%20production%20environment%2C%20clean%20factory%20floor%20with%20yellow%20safety%20elements&width=400&height=280&seq=steel-supplier&orientation=landscape",
+      badge: "Premium Supplier",
+      features: ["ISO Certified", "24/7 Support", "Custom Solutions"],
+    },
+    {
+      id: 201,
+      name: "Saudi Steel Manufacturing Co.",
+      category: "Steel & Metal",
+      businessType: "Supplier",
+      rating: 4.9,
+      reviews: 428,
+      yearsInBusiness: 15,
+      clientsServed: "500+",
+      specialization: "Industrial Steel Solutions",
+      image:
+        "https://readdy.ai/api/search-image?query=Modern%20steel%20manufacturing%20facility%20with%20organized%20metal%20sheets%20and%20beams%2C%20industrial%20workspace%20with%20bright%20lighting%2C%20professional%20steel%20production%20environment%2C%20clean%20factory%20floor%20with%20yellow%20safety%20elements&width=400&height=280&seq=steel-supplier&orientation=landscape",
+      badge: "Premium Supplier",
+      features: ["ISO Certified", "24/7 Support", "Custom Solutions"],
+    },
+    {
+      id: 221,
+      name: "Saudi Steel Manufacturing Co.",
+      category: "Steel & Metal",
+      businessType: "Supplier",
+      rating: 4.9,
+      reviews: 428,
+      yearsInBusiness: 15,
+      clientsServed: "500+",
+      specialization: "Industrial Steel Solutions",
+      image:
+        "https://readdy.ai/api/search-image?query=Modern%20steel%20manufacturing%20facility%20with%20organized%20metal%20sheets%20and%20beams%2C%20industrial%20workspace%20with%20bright%20lighting%2C%20professional%20steel%20production%20environment%2C%20clean%20factory%20floor%20with%20yellow%20safety%20elements&width=400&height=280&seq=steel-supplier&orientation=landscape",
+      badge: "Premium Supplier",
+      features: ["ISO Certified", "24/7 Support", "Custom Solutions"],
+    },
+    {
+      id: 300,
       name: "Saudi Steel Manufacturing Co.",
       category: "Steel & Metal",
       businessType: "Supplier",
@@ -101,53 +152,37 @@ export default function TopSuppliers() {
     },
   ];
 
-  // Mobile and tablet responsive items to show
-  const getItemsToShow = () => {
-    if (typeof window !== "undefined") {
-      if (window.innerWidth < 640) return 1; // Mobile
-      if (window.innerWidth < 768) return 1; // Small mobile
-      if (window.innerWidth < 1024) return 2; // Tablet
-      return 3; // Desktop - reduced from 4 to 3 for better mobile experience
-    }
-    return 3;
-  };
-
-  const [itemsToShow, setItemsToShow] = useState(getItemsToShow());
-  const [isRTL, setIsRTL] = useState(false);
-
-  // حساب أقصى index بناءً على عدد العناصر المعروضة
-  const maxIndex = Math.max(0, topSuppliers.length - itemsToShow);
-
   useEffect(() => {
-    const handleResize = () => {
-      setItemsToShow(getItemsToShow());
-    };
+    const dir = document.documentElement.dir || document.body.dir || "ltr";
+    setIsRTL(dir === "rtl");
 
-    // اكتشاف اتجاه اللغة
-    const checkDirection = () => {
-      const dir = document.documentElement.dir || document.body.dir || "ltr";
-      setIsRTL(dir === "rtl");
-    };
-
-    window.addEventListener("resize", handleResize);
-    checkDirection();
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-    }, 5000);
+    // إضافة CSS مخصص لتصحيح اتجاه الأسهم
+    const style = document.createElement("style");
+    style.textContent = `
+      .swiper-rtl .swiper-button-next:after {
+        content: 'prev';
+      }
+      .swiper-rtl .swiper-button-prev:after {
+        content: 'next';
+      }
+      .custom-swiper {
+        padding: 0 10px 40px;
+      }
+      .custom-swiper .swiper-slide {
+        height: auto;
+      }
+      @media (max-width: 640px) {
+        .custom-swiper {
+          padding: 0 5px 40px;
+        }
+      }
+    `;
+    document.head.appendChild(style);
 
     return () => {
-      clearInterval(interval);
-      window.removeEventListener("resize", handleResize);
+      document.head.removeChild(style);
     };
-  }, [maxIndex]);
-
-  // إصلاح مشكلة السهمين - التأكد من أن currentIndex لا يتجاوز الحد الأقصى
-  useEffect(() => {
-    if (currentIndex > maxIndex) {
-      setCurrentIndex(maxIndex);
-    }
-  }, [itemsToShow, currentIndex, maxIndex]);
+  }, []);
 
   const getBadgeColor = (badge: string) => {
     switch (badge) {
@@ -187,29 +222,6 @@ export default function TopSuppliers() {
     }
   };
 
-  // وظائف التنقل مع دعم RTL
-  const nextSlide = () => {
-    if (isRTL) {
-      setCurrentIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
-    } else {
-      setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-    }
-  };
-
-  const prevSlide = () => {
-    if (isRTL) {
-      setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-    } else {
-      setCurrentIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
-    }
-  };
-
-  // حساب التحويل بناءً على اتجاه اللغة
-  const getTransformValue = () => {
-    const translateX = currentIndex * (100 / itemsToShow);
-    return isRTL ? `translateX(${translateX}%)` : `translateX(-${translateX}%)`;
-  };
-
   return (
     <section className="py-8 sm:py-10 md:py-12 lg:py-16 bg-gradient-to-b from-gray-50 to-white">
       <div className="w-full px-3 sm:px-4 md:px-6">
@@ -222,31 +234,63 @@ export default function TopSuppliers() {
           </p>
         </div>
 
-        <div className="relative overflow-hidden">
-          <div
-            className="flex transition-transform duration-700 ease-in-out"
-            style={{
-              transform: getTransformValue(),
+        <div className="relative ltr">
+          <Swiper
+            modules={[Navigation, Pagination]}
+            spaceBetween={16}
+            slidesPerView={1}
+            navigation={{
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            }}
+            pagination={{
+              clickable: true,
+              el: ".custom-pagination",
+            }}
+            autoplay={{
+              delay: 5000,
+              disableOnInteraction: false,
+            }}
+            loop
+            dir={isRTL ? "rtl" : "ltr"}
+            className="custom-swiper"
+            breakpoints={{
+              0: {
+                slidesPerView: 1,
+                spaceBetween: 12,
+              },
+              640: {
+                slidesPerView: 1,
+                spaceBetween: 16,
+              },
+              768: {
+                slidesPerView: 2,
+                spaceBetween: 16,
+              },
+              1024: {
+                slidesPerView: 3,
+                spaceBetween: 20,
+              },
+              1280: {
+                slidesPerView: 3,
+                spaceBetween: 24,
+              },
             }}
           >
             {topSuppliers.map((supplier) => (
-              <div
-                key={supplier.id}
-                className="flex-shrink-0 px-1 sm:px-2 md:px-3"
-                style={{ width: `${100 / itemsToShow}%` }}
-              >
-                <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 cursor-pointer h-full">
-                  <div className="relative h-32 sm:h-40 md:h-48 lg:h-56 overflow-hidden">
+              <SwiperSlide key={supplier.id}>
+                <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 cursor-pointer h-full flex flex-col">
+                  <div className="relative h-32 sm:h-40 md:h-48 lg:h-56 overflow-hidden flex-shrink-0">
                     <img
                       src={supplier.image}
                       alt={supplier.name}
                       className="w-full h-full object-cover object-top"
                     />
-                    <div className="absolute top-2 sm:top-3 md:top-4 left-2 sm:left-3 md:left-4">
+                    <div className="absolute top-2 left-2">
                       <div
                         className={`${getBadgeColor(
                           supplier.badge
-                        )} text-white px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded-full shadow-lg`}
+                        )} text-white px-2 py-1 rounded-full shadow-lg`}
                       >
                         <span className="text-xs font-bold">
                           {getBadgeKey(supplier.badge)
@@ -255,31 +299,29 @@ export default function TopSuppliers() {
                         </span>
                       </div>
                     </div>
-                    <div className="absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4 bg-white rounded-full px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 shadow-md">
+                    <div className="absolute top-2 right-2 bg-white rounded-full px-2 py-1 shadow-md">
                       <div className="flex items-center space-x-1">
-                        <i className="ri-star-fill text-yellow-400 text-xs sm:text-sm"></i>
-                        <span className="text-xs sm:text-sm font-bold text-gray-800">
+                        <i className="ri-star-fill text-yellow-400 text-xs"></i>
+                        <span className="text-xs font-bold text-gray-800">
                           {supplier.rating}
                         </span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="p-3 sm:p-4 md:p-6">
-                    <div className="mb-2 sm:mb-3 md:mb-4">
-                      <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-800 mb-1 line-clamp-2">
-                        {supplier.name}
-                      </h3>
-                      <p className="text-yellow-600 font-medium text-xs sm:text-sm">
-                        {supplier.category}
-                      </p>
-                      <p className="text-gray-500 text-xs mt-1 line-clamp-2">
-                        {supplier.specialization}
-                      </p>
-                    </div>
+                  <div className="p-4 flex-1 flex flex-col">
+                    <h3 className="text-sm font-bold text-gray-800 mb-1">
+                      {supplier.name}
+                    </h3>
+                    <p className="text-yellow-600 font-medium text-xs">
+                      {supplier.category}
+                    </p>
+                    <p className="text-gray-500 text-xs mt-1">
+                      {supplier.specialization}
+                    </p>
 
-                    <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 mb-2 sm:mb-3 md:mb-4 text-xs">
-                      <div className="text-center bg-gray-50 rounded-lg p-1.5 sm:p-2">
+                    <div className="grid grid-cols-2 gap-2 mt-2 text-xs">
+                      <div className="text-center bg-gray-50 rounded-lg p-2">
                         <div className="font-bold text-gray-800">
                           {supplier.yearsInBusiness}+
                         </div>
@@ -287,7 +329,7 @@ export default function TopSuppliers() {
                           {t("topSuppliers.years")}
                         </div>
                       </div>
-                      <div className="text-center bg-gray-50 rounded-lg p-1.5 sm:p-2">
+                      <div className="text-center bg-gray-50 rounded-lg p-2">
                         <div className="font-bold text-gray-800">
                           {supplier.clientsServed}
                         </div>
@@ -297,20 +339,18 @@ export default function TopSuppliers() {
                       </div>
                     </div>
 
-                    <div className="flex items-center mb-2 sm:mb-3 md:mb-4">
-                      <div className="flex items-center space-x-1">
-                        {[...Array(5)].map((_, i) => (
-                          <i
-                            key={i}
-                            className={`text-xs sm:text-sm ${
-                              i < Math.floor(supplier.rating)
-                                ? "ri-star-fill text-yellow-400"
-                                : "ri-star-line text-gray-300"
-                            }`}
-                          ></i>
-                        ))}
-                      </div>
-                      <span className="text-xs sm:text-sm text-gray-600 ml-2">
+                    <div className="flex items-center mt-2 text-xs">
+                      {[...Array(5)].map((_, i) => (
+                        <i
+                          key={i}
+                          className={`text-xs ${
+                            i < Math.floor(supplier.rating)
+                              ? "ri-star-fill text-yellow-400"
+                              : "ri-star-line text-gray-300"
+                          }`}
+                        />
+                      ))}
+                      <span className="text-gray-600 ml-2">
                         {t("topSuppliers.reviews").replace(
                           "{{count}}",
                           String(supplier.reviews)
@@ -318,87 +358,47 @@ export default function TopSuppliers() {
                       </span>
                     </div>
 
-                    <div className="mb-2 sm:mb-3 md:mb-4">
-                      <div className="flex flex-wrap gap-1">
-                        {supplier.features.map((feature, index) => (
-                          <span
-                            key={index}
-                            className="bg-yellow-50 text-yellow-700 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium"
-                          >
-                            {feature}
-                          </span>
-                        ))}
-                      </div>
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {supplier.features.map((feature, index) => (
+                        <span
+                          key={index}
+                          className="bg-yellow-50 text-yellow-700 px-2 py-1 rounded-full text-xs font-medium"
+                        >
+                          {feature}
+                        </span>
+                      ))}
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
-                      <button className="flex-1 bg-yellow-400 text-white py-1.5 sm:py-2 px-2 sm:px-3 md:px-4 rounded-lg hover:bg-yellow-500 font-medium text-xs sm:text-sm whitespace-nowrap cursor-pointer transition-colors">
-                        <i className="ri-message-line mr-1 sm:mr-1 md:mr-2"></i>
+                    <div className="flex flex-col sm:flex-row gap-2 mt-3 mt-auto">
+                      <button className="flex-1 bg-yellow-400 text-white py-2 rounded-lg hover:bg-yellow-500 text-xs font-medium transition-colors">
+                        <i className="ri-message-line mr-1"></i>{" "}
                         {t("topSuppliers.message")}
                       </button>
                       <Link
                         href={`/business/${supplier.id}`}
-                        className="flex-1 border border-yellow-400 text-yellow-600 py-1.5 sm:py-2 px-2 sm:px-3 md:px-4 rounded-lg hover:bg-yellow-50 font-medium text-xs sm:text-sm whitespace-nowrap cursor-pointer text-center transition-colors"
+                        className="flex-1 border border-yellow-400 text-yellow-600 py-2 rounded-lg hover:bg-yellow-50 text-xs font-medium text-center transition-colors"
                       >
                         {t("topSuppliers.viewDetails")}
                       </Link>
                     </div>
                   </div>
                 </div>
-              </div>
+              </SwiperSlide>
             ))}
-          </div>
+          </Swiper>
 
-          {/* Navigation Dots */}
-          {maxIndex > 0 && (
-            <div className="flex justify-center mt-4 sm:mt-6 md:mt-8 space-x-1 sm:space-x-2">
-              {Array.from({ length: maxIndex + 1 }).map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-3 md:h-3 rounded-full transition-all cursor-pointer ${
-                    currentIndex === index
-                      ? "bg-yellow-400"
-                      : "bg-gray-300 hover:bg-gray-400"
-                  }`}
-                />
-              ))}
-            </div>
-          )}
+          {/* Custom Navigation Arrows */}
+          <div className="swiper-button-prev !text-yellow-500 !scale-75 sm:!scale-100 after:!text-xl"></div>
+          <div className="swiper-button-next !text-yellow-500 !scale-75 sm:!scale-100 after:!text-xl"></div>
 
-          {/* Navigation Arrows - Hidden on mobile */}
-          {maxIndex > 0 && (
-            <>
-              <button
-                onClick={prevSlide}
-                className="hidden md:block absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 md:p-3 shadow-lg hover:shadow-xl transition-all cursor-pointer z-10"
-                aria-label={isRTL ? "Next" : "Previous"}
-              >
-                <i
-                  className={`ri-arrow-${
-                    isRTL ? "right" : "left"
-                  }-line text-gray-600 text-lg md:text-xl`}
-                ></i>
-              </button>
-              <button
-                onClick={nextSlide}
-                className="hidden md:block absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 md:p-3 shadow-lg hover:shadow-xl transition-all cursor-pointer z-10"
-                aria-label={isRTL ? "Previous" : "Next"}
-              >
-                <i
-                  className={`ri-arrow-${
-                    isRTL ? "left" : "right"
-                  }-line text-gray-600 text-lg md:text-xl`}
-                ></i>
-              </button>
-            </>
-          )}
+          {/* Custom Pagination */}
+          <div className="custom-pagination !bottom-0 mt-4"></div>
         </div>
 
-        <div className="text-center mt-6 sm:mt-8 md:mt-12">
+        <div className="text-center mt-8 sm:mt-10 md:mt-12">
           <Link
             href="/suppliers"
-            className="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-full hover:from-yellow-500 hover:to-orange-600 font-semibold text-sm sm:text-base md:text-lg whitespace-nowrap cursor-pointer shadow-lg transition-all"
+            className="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-3 rounded-full hover:from-yellow-500 hover:to-orange-600 font-semibold text-base sm:text-lg whitespace-nowrap cursor-pointer shadow-lg transition-all duration-300 transform hover:scale-105"
           >
             {t("topSuppliers.viewAll")}
           </Link>

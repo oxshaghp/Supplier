@@ -1317,7 +1317,7 @@ export default function CompleteProfileForm({
             <div>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 md:mb-3 gap-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  {t("completeProfile.step3.additionalPhonesLabel")} (Optional)
+                  {t("completeProfile.step3.additionalPhones")} (Optional)
                 </label>
                 {additionalPhones.length < 4 && (
                   <button
@@ -1377,7 +1377,9 @@ export default function CompleteProfileForm({
                           handlePhoneChange(phone.id, "name", e.target.value)
                         }
                         className="flex-1 px-2 md:px-3 py-1 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm"
-                        placeholder="Contact name"
+                        placeholder={t(
+                          "completeProfile.step3.contactNamePlaceholder"
+                        )}
                       />
                       {additionalPhones.length > 1 && (
                         <button
@@ -1405,7 +1407,7 @@ export default function CompleteProfileForm({
                     className="bg-yellow-400 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-lg hover:bg-yellow-500 text-xs md:text-sm font-medium whitespace-nowrap cursor-pointer"
                   >
                     <i className="ri-add-line mr-1 md:mr-2"></i>
-                    Add Contact Number
+                    {t("completeProfile.step3.addNumber")}
                   </button>
                 </div>
               )}
@@ -1413,7 +1415,7 @@ export default function CompleteProfileForm({
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Business Address *
+                {t("completeProfile.businessAddress")}
               </label>
               <input
                 type="text"
@@ -1423,7 +1425,7 @@ export default function CompleteProfileForm({
                 className={`w-full px-3 md:px-4 py-2 md:py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm ${
                   errors.address ? "border-red-300" : "border-gray-300"
                 }`}
-                placeholder="Enter your complete business address"
+                placeholder={t("completeProfile.addressPlaceholder")}
                 required
               />
               {errors.address && (
@@ -1434,12 +1436,12 @@ export default function CompleteProfileForm({
             <div className="bg-yellow-50 p-3 md:p-4 rounded-lg">
               <p className="text-xs md:text-sm text-yellow-800 mb-1 md:mb-2">
                 <i className="ri-map-pin-line mr-1 md:mr-2"></i>
-                Selected Location: Lat {selectedLocation.lat.toFixed(6)}, Lng{" "}
+                {t("completeProfile.selectedLocation")}: Lat{" "}
+                {selectedLocation.lat.toFixed(6)}, Lng{" "}
                 {selectedLocation.lng.toFixed(6)}
               </p>
               <p className="text-xs text-yellow-700">
-                Click on the map to adjust your business location pin for
-                accurate positioning
+                {t("completeProfile.locationInstructions")}
               </p>
             </div>
           </div>
@@ -1455,10 +1457,10 @@ export default function CompleteProfileForm({
                 </div>
                 <div>
                   <h4 className="text-sm md:text-base font-semibold text-blue-800">
-                    Working Hours
+                    {t("completeProfile.step4.workingHours")}
                   </h4>
                   <p className="text-blue-700 text-xs">
-                    Set your main business operating hours
+                    {t("completeProfile.step4.workingHoursDesc")}
                   </p>
                 </div>
               </div>
@@ -1492,7 +1494,9 @@ export default function CompleteProfileForm({
                         }
                         className="w-3 h-3 text-yellow-400 border-gray-300 rounded focus:ring-yellow-400 mr-1"
                       />
-                      <span className="text-xs text-gray-600">Closed</span>
+                      <span className="text-xs text-gray-600">
+                        {t("completeProfile.step4.dayClosed")}
+                      </span>
                     </label>
 
                     {!formData.workingHours[
@@ -1515,7 +1519,9 @@ export default function CompleteProfileForm({
                           }
                           className="px-1 md:px-2 py-0.5 md:py-1 border border-gray-300 rounded focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-xs"
                         />
-                        <span className="text-gray-500 text-xs">to</span>
+                        <span className="text-gray-500 text-xs">
+                          {t("completeProfile.step4.timeTo")}
+                        </span>
                         <input
                           type="time"
                           value={
@@ -1547,10 +1553,10 @@ export default function CompleteProfileForm({
                 </div>
                 <div>
                   <h4 className="text-sm md:text-base font-semibold text-green-800">
-                    Multiple Branches
+                    {t("completeProfile.step4.multipleBranches")}
                   </h4>
                   <p className="text-green-700 text-xs">
-                    Expand your business reach with multiple locations
+                    {t("completeProfile.step4.multipleBranchesDesc")}
                   </p>
                 </div>
               </div>
@@ -1560,33 +1566,33 @@ export default function CompleteProfileForm({
                   <div className="flex items-center space-x-1 mb-1">
                     <i className="ri-map-pin-line text-green-500 text-xs md:text-sm"></i>
                     <span className="font-medium text-gray-700 text-xs md:text-sm">
-                      Multiple Locations
+                      {t("completeProfile.step4.multipleLocations")}
                     </span>
                   </div>
                   <p className="text-xs text-gray-600">
-                    Serve customers across different areas
+                    {t("completeProfile.step4.serveCustomers")}
                   </p>
                 </div>
                 <div className="bg-white p-2 md:p-3 rounded-lg border border-blue-200">
                   <div className="flex items-center space-x-1 mb-1">
                     <i className="ri-time-line text-blue-500 text-xs md:text-sm"></i>
                     <span className="font-medium text-gray-700 text-xs md:text-sm">
-                      Flexible Hours
+                      {t("completeProfile.step4.flexibleHours")}
                     </span>
                   </div>
                   <p className="text-xs text-gray-600">
-                    Different hours per branch
+                    {t("completeProfile.step4.differentHours")}
                   </p>
                 </div>
                 <div className="bg-white p-2 md:p-3 rounded-lg border border-purple-200">
                   <div className="flex items-center space-x-1 mb-1">
                     <i className="ri-team-line text-purple-500 text-xs md:text-sm"></i>
                     <span className="font-medium text-gray-700 text-xs md:text-sm">
-                      Better Management
+                      {t("completeProfile.step4.betterManagement")}
                     </span>
                   </div>
                   <p className="text-xs text-gray-600">
-                    Track each location performance
+                    {t("completeProfile.step4.trackPerformance")}
                   </p>
                 </div>
               </div>
@@ -1594,10 +1600,10 @@ export default function CompleteProfileForm({
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
                   <p className="text-green-800 font-medium text-xs md:text-sm">
-                    Ready to add branches?
+                    {t("completeProfile.step4.readyToAddBranches")}
                   </p>
                   <p className="text-green-600 text-xs">
-                    Skip this step and add branches later
+                    {t("completeProfile.step4.skipStep")}
                   </p>
                 </div>
                 <button
@@ -1606,7 +1612,7 @@ export default function CompleteProfileForm({
                   className="bg-green-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-lg hover:bg-green-600 font-medium text-xs md:text-sm whitespace-nowrap cursor-pointer transition-all"
                 >
                   <i className="ri-add-line mr-1"></i>
-                  Add Branches
+                  {t("completeProfile.step4.addBranches")}
                 </button>
               </div>
             </div>
@@ -1616,7 +1622,7 @@ export default function CompleteProfileForm({
               <div className="bg-blue-50 p-3 md:p-4 rounded-lg md:rounded-xl border border-blue-200">
                 <h4 className="text-sm md:text-base font-semibold text-blue-800 mb-2 md:mb-3">
                   <i className="ri-building-line mr-1"></i>
-                  Your Branches ({branches.length})
+                  {t("completeProfile.step4.yourBranches")} ({branches.length})
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                   {branches.slice(0, 4).map((branch) => (
@@ -1653,7 +1659,8 @@ export default function CompleteProfileForm({
                   {branches.length > 4 && (
                     <div className="bg-gray-100 p-2 md:p-3 rounded-lg border border-gray-200 flex items-center justify-center">
                       <span className="text-gray-600 font-medium text-xs md:text-sm">
-                        +{branches.length - 4} more branches
+                        +{branches.length - 4}{" "}
+                        {t("completeProfile.step4.moreBranches")}
                       </span>
                     </div>
                   )}
@@ -1664,7 +1671,7 @@ export default function CompleteProfileForm({
                   className="mt-2 md:mt-3 bg-blue-500 text-white px-2 md:px-3 py-1 md:py-1.5 rounded-lg hover:bg-blue-600 text-xs font-medium whitespace-nowrap cursor-pointer transition-all"
                 >
                   <i className="ri-edit-line mr-1"></i>
-                  Manage Branches
+                  {t("completeProfile.step4.manageBranches")}
                 </button>
               </div>
             )}
@@ -1674,15 +1681,13 @@ export default function CompleteProfileForm({
                 <i className="ri-information-line text-yellow-600 text-base md:text-lg mt-0.5"></i>
                 <div>
                   <h4 className="text-yellow-800 font-semibold mb-1 text-xs md:text-sm">
-                    Branch Management Benefits
+                    {t("completeProfile.step4.branchBenefits")}
                   </h4>
                   <ul className="text-xs text-gray-700 space-y-0.5">
-                    <li>
-                      • Customers find your nearest location automatically
-                    </li>
-                    <li>• Each branch has unique contact info and hours</li>
-                    <li>• Track inquiries and performance by location</li>
-                    <li>• Appear in more local search results</li>
+                    <li>{t("completeProfile.step4.benefit1")}</li>
+                    <li>{t("completeProfile.step4.benefit2")}</li>
+                    <li>{t("completeProfile.step4.benefit3")}</li>
+                    <li>{t("completeProfile.step4.benefit4")}</li>
                   </ul>
                 </div>
               </div>
@@ -1699,40 +1704,34 @@ export default function CompleteProfileForm({
                 </div>
                 <div>
                   <h4 className="text-base md:text-lg font-semibold text-red-800">
-                    Business Verification Required
+                    {t("completeProfile.step5.verificationRequired")}
                   </h4>
                   <p className="text-red-700 text-xs md:text-sm">
-                    Upload your Commercial Registration to verify your business
-                    legitimacy
+                    {t("completeProfile.step5.verificationDesc")}
                   </p>
                 </div>
               </div>
 
               <div className="bg-white p-3 md:p-4 rounded-lg border border-red-200">
                 <h5 className="font-medium text-gray-800 mb-2 md:mb-3 text-sm md:text-base">
-                  Why is this required?
+                  {t("completeProfile.step5.whyRequired")}
                 </h5>
                 <ul className="text-xs md:text-sm text-gray-700 space-y-1 md:space-y-2">
                   <li className="flex items-start space-x-1 md:space-x-2">
                     <i className="ri-check-line text-green-500 mt-0.5 text-sm md:text-base"></i>
-                    <span>
-                      Ensures only legitimate businesses are listed on our
-                      platform
-                    </span>
+                    <span>{t("completeProfile.step5.reason1")}</span>
                   </li>
                   <li className="flex items-start space-x-1 md:space-x-2">
                     <i className="ri-check-line text-green-500 mt-0.5 text-sm md:text-base"></i>
-                    <span>Build trust with potential customers</span>
+                    <span>{t("completeProfile.step5.reason2")}</span>
                   </li>
                   <li className="flex items-start space-x-1 md:space-x-2">
                     <i className="ri-check-line text-green-500 mt-0.5 text-sm md:text-base"></i>
-                    <span>Provides legal protection and compliance</span>
+                    <span>{t("completeProfile.step5.reason3")}</span>
                   </li>
                   <li className="flex items-start space-x-1 md:space-x-2">
                     <i className="ri-check-line text-green-500 mt-0.5 text-sm md:text-base"></i>
-                    <span>
-                      Unlocks premium features and higher search ranking
-                    </span>
+                    <span>{t("completeProfile.step5.reason4")}</span>
                   </li>
                 </ul>
               </div>
@@ -1740,7 +1739,7 @@ export default function CompleteProfileForm({
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Commercial Registration Document *
+                {t("completeProfile.step5.crDocument")}
               </label>
               <div
                 className={`border-2 border-dashed rounded-lg p-4 md:p-6 text-center transition-all ${
@@ -1765,13 +1764,13 @@ export default function CompleteProfileForm({
                       <i className="ri-upload-cloud-2-line text-2xl md:text-4xl text-gray-400"></i>
                       <div>
                         <p className="text-base md:text-lg font-medium text-gray-700">
-                          Upload your Commercial Registration
+                          {t("completeProfile.step5.uploadCR")}
                         </p>
                         <p className="text-xs md:text-sm text-gray-500">
-                          Click to browse or drag and drop your CR document
+                          {t("completeProfile.step5.uploadDesc")}
                         </p>
                         <p className="text-xs text-gray-400 mt-1 md:mt-2">
-                          Supported formats: JPG, PNG, PDF (Max 5MB)
+                          {t("completeProfile.step5.supportedFormats")}
                         </p>
                       </div>
                     </div>
@@ -1806,7 +1805,7 @@ export default function CompleteProfileForm({
                         className="bg-blue-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-lg hover:bg-blue-600 text-xs md:text-sm cursor-pointer text-center"
                       >
                         <i className="ri-refresh-line mr-1 md:mr-2"></i>
-                        Replace File
+                        {t("completeProfile.step5.replaceFile")}
                       </label>
                       <button
                         type="button"
@@ -1817,7 +1816,7 @@ export default function CompleteProfileForm({
                         className="bg-red-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-lg hover:bg-red-600 text-xs md:text-sm cursor-pointer text-center"
                       >
                         <i className="ri-delete-bin-line mr-1 md:mr-2"></i>
-                        Remove
+                        {t("completeProfile.step5.removeFile")}
                       </button>
                     </div>
                   </div>
@@ -1831,77 +1830,91 @@ export default function CompleteProfileForm({
             <div className="bg-blue-50 p-3 md:p-4 rounded-lg">
               <h5 className="font-medium text-blue-800 mb-1 md:mb-2 text-sm md:text-base">
                 <i className="ri-information-line mr-1 md:mr-2"></i>
-                What happens next?
+                {t("completeProfile.step5.whatHappensNext")}
               </h5>
               <ol className="text-xs md:text-sm text-blue-700 space-y-1 md:space-y-2">
                 <li className="flex items-start space-x-1 md:space-x-2">
                   <span className="bg-blue-200 text-blue-800 rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center text-xs font-bold mt-0.5">
                     1
                   </span>
-                  <span>
-                    Your document will be reviewed by our verification team
-                  </span>
+                  <span>{t("completeProfile.step5.nextStep1")}</span>
                 </li>
                 <li className="flex items-start space-x-1 md:space-x-2">
                   <span className="bg-blue-200 text-blue-800 rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center text-xs font-bold mt-0.5">
                     2
                   </span>
-                  <span>
-                    You'll receive a notification about verification status
-                  </span>
+                  <span>{t("completeProfile.step5.nextStep2")}</span>
                 </li>
                 <li className="flex items-start space-x-1 md:space-x-2">
                   <span className="bg-blue-200 text-blue-800 rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center text-xs font-bold mt-0.5">
                     3
                   </span>
-                  <span>Once approved, your business profile will go live</span>
+                  <span>{t("completeProfile.step5.nextStep3")}</span>
                 </li>
               </ol>
               <p className="text-xs text-blue-600 mt-2 md:mt-3">
-                Verification typically takes 1-2 business days
+                {t("completeProfile.step5.verificationTime")}
               </p>
             </div>
 
             {/* Profile Summary */}
             <div className="bg-green-50 p-4 md:p-6 rounded-lg mt-4 md:mt-6">
               <h4 className="text-base md:text-lg font-semibold text-green-800 mb-3 md:mb-4">
-                Profile Summary
+                {t("completeProfile.step5.profileSummary")}
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 text-xs md:text-sm">
                 <div>
                   <p>
-                    <span className="font-medium">Business:</span>{" "}
+                    <span className="font-medium">
+                      {t("completeProfile.step5.business")}:
+                    </span>{" "}
                     {formData.businessName}
                   </p>
                   <p>
-                    <span className="font-medium">Category:</span>{" "}
+                    <span className="font-medium">
+                      {t("completeProfile.step5.category")}:
+                    </span>{" "}
                     {formData.category}
                   </p>
                   <p>
-                    <span className="font-medium">Type:</span>{" "}
+                    <span className="font-medium">
+                      {t("completeProfile.step5.type")}:
+                    </span>{" "}
                     {formData.businessType}
                   </p>
                   <p>
-                    <span className="font-medium">Services:</span>{" "}
-                    {selectedServices.length} selected
+                    <span className="font-medium">
+                      {t("completeProfile.step5.services")}:
+                    </span>{" "}
+                    {selectedServices.length}{" "}
+                    {t("completeProfile.step5.selected")}
                   </p>
                 </div>
                 <div>
                   <p>
-                    <span className="font-medium">Email:</span>{" "}
+                    <span className="font-medium">
+                      {t("completeProfile.step5.email")}:
+                    </span>{" "}
                     {formData.contactEmail}
                   </p>
                   <p>
-                    <span className="font-medium">Phone:</span>{" "}
+                    <span className="font-medium">
+                      {t("completeProfile.step5.phone")}:
+                    </span>{" "}
                     {formData.contactPhone}
                   </p>
                   <p>
-                    <span className="font-medium">Target Customers:</span>{" "}
-                    {selectedTargetCustomers.length} types
+                    <span className="font-medium">
+                      {t("completeProfile.step5.targetCustomers")}:
+                    </span>{" "}
+                    {selectedTargetCustomers.length}{" "}
+                    {t("completeProfile.step5.types")}
                   </p>
                   <p>
-                    <span className="font-medium">Keywords:</span>{" "}
-                    {getKeywordCount()} added
+                    <span className="font-medium">
+                      {t("completeProfile.step5.keywords")}:
+                    </span>{" "}
+                    {getKeywordCount()} {t("completeProfile.step5.added")}
                   </p>
                 </div>
               </div>
@@ -1933,7 +1946,7 @@ export default function CompleteProfileForm({
             }`}
           >
             <i className="ri-arrow-left-line mr-1 md:mr-2"></i>
-            Previous
+            {t("completeProfile.buttons.previous")}
           </button>
 
           {currentStep < 5 ? (
@@ -1942,7 +1955,7 @@ export default function CompleteProfileForm({
               onClick={nextStep}
               className="bg-yellow-400 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-yellow-500 font-medium whitespace-nowrap cursor-pointer transition-all text-sm md:text-base"
             >
-              Next Step
+              {t("completeProfile.buttons.nextStep")}
               <i className="ri-arrow-right-line ml-1 md:ml-2"></i>
             </button>
           ) : (
@@ -1958,12 +1971,12 @@ export default function CompleteProfileForm({
               {isSubmitting ? (
                 <>
                   <i className="ri-loader-4-line animate-spin mr-1 md:mr-2"></i>
-                  Submitting Profile...
+                  {t("completeProfile.buttons.submittingProfile")}
                 </>
               ) : (
                 <>
                   <i className="ri-send-plane-line mr-1 md:mr-2"></i>
-                  Submit for Verification
+                  {t("completeProfile.buttons.submitVerification")}
                 </>
               )}
             </button>
@@ -1978,31 +1991,29 @@ export default function CompleteProfileForm({
               <i className="ri-check-line text-green-600 text-xl md:text-2xl"></i>
             </div>
             <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
-              Profile Completed!
+              {t("completeProfile.success.profileCompleted")}
             </h3>
             <p className="text-gray-600 text-sm md:text-base mb-4 md:mb-6">
-              Your business profile is now complete and will be visible to
-              customers searching in your area.
+              {t("completeProfile.success.successMessage")}
             </p>
             <div className="space-y-2 md:space-y-3">
               <Link
                 href="/"
                 className="block bg-yellow-400 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-yellow-500 font-medium whitespace-nowrap cursor-pointer w-full text-sm md:text-base"
               >
-                View Your Listing
+                {t("completeProfile.buttons.viewListing")}
               </Link>
               <button
                 onClick={() => setShowSuccess(false)}
                 className="block border border-gray-300 text-gray-600 px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-gray-50 font-medium whitespace-nowrap cursor-pointer w-full text-sm md:text-base"
               >
-                Continue Editing
+                {t("completeProfile.buttons.continueEditing")}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Verification Pending Modal */}
       {showVerificationModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl md:rounded-2xl p-6 md:p-8 max-w-lg w-full mx-2 text-center">
@@ -2010,23 +2021,21 @@ export default function CompleteProfileForm({
               <i className="ri-time-line text-yellow-600 text-2xl md:text-3xl"></i>
             </div>
             <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-3 md:mb-4">
-              Profile Submitted Successfully!
+              {t("completeProfile.success.profileSubmitted")}
             </h3>
             <p className="text-gray-600 text-sm md:text-base mb-4 md:mb-6">
-              Your business profile and Commercial Registration have been
-              submitted for verification. Our team will review your documents
-              and information within 1-2 business days.
+              {t("completeProfile.success.submittedMessage")}
             </p>
 
             <div className="bg-blue-50 p-3 md:p-4 rounded-lg mb-4 md:mb-6 text-left">
               <h4 className="font-semibold text-blue-800 mb-1 md:mb-2 text-sm md:text-base">
-                What happens next:
+                {t("completeProfile.success.whatHappensNext")}
               </h4>
               <ul className="text-xs md:text-sm text-blue-700 space-y-1">
-                <li>✓ Document verification by our team</li>
-                <li>✓ Business information validation</li>
-                <li>✓ Email notification of approval status</li>
-                <li>✓ Profile goes live once verified</li>
+                <li>{t("completeProfile.success.documentVerification")}</li>
+                <li>{t("completeProfile.success.infoValidation")}</li>
+                <li>{t("completeProfile.success.emailNotification")}</li>
+                <li>{t("completeProfile.success.profileLive")}</li>
               </ul>
             </div>
 
@@ -2036,13 +2045,13 @@ export default function CompleteProfileForm({
                 className="block bg-yellow-400 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-yellow-500 font-medium whitespace-nowrap cursor-pointer w-full text-sm md:text-base"
               >
                 <i className="ri-user-line mr-1 md:mr-2"></i>
-                View Profile
+                {t("completeProfile.buttons.viewProfile")}
               </Link>
               <Link
                 href="/"
                 className="block border border-gray-300 text-gray-600 px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-gray-50 font-medium whitespace-nowrap cursor-pointer w-full text-sm md:text-base"
               >
-                Close
+                {t("completeProfile.buttons.close")}
               </Link>
             </div>
           </div>
@@ -2056,7 +2065,7 @@ export default function CompleteProfileForm({
             <div className="p-4 md:p-6 border-b border-gray-200">
               <div className="flex items-center justify-between">
                 <h3 className="text-xl md:text-2xl font-bold text-gray-800">
-                  Branch Management
+                  {t("completeProfile.step4.manageBranches")}
                 </h3>
                 <button
                   onClick={() => setShowBranchManagement(false)}

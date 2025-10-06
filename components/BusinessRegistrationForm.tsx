@@ -314,7 +314,7 @@ export default function BusinessRegistrationForm() {
             <label className="block text-sm font-medium text-gray-700 mb-2 md:mb-3">
               {t("business.form.enterVerificationCode")}
             </label>
-            <div className="flex space-x-2 md:space-x-3 justify-center">
+            <div className="flex space-x-2 md:space-x-3 justify-center ltr">
               {verificationCode.map((digit, index) => (
                 <input
                   key={index}

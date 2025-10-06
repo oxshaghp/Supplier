@@ -7,5 +7,11 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        ".ltr": { direction: "ltr" },
+      });
+    },
+  ],
 };

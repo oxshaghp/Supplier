@@ -1,8 +1,7 @@
 {
-  "/business-guides/page": "app/business-guides/page.js",
-  "/forgot-password/page": "app/forgot-password/page.js",
-  "/manage-businesses/page": "app/manage-businesses/page.js",
-  "/verification-status/page": "app/verification-status/page.js",
   "/page": "app/page.js",
-  "/not-found": "app/not-found.js"
+  "/add-business/page": "app/add-business/page.js",
+  "/complete-profile/page": "app/complete-profile/page.js",
+  "/businesses/page": "app/businesses/page.js",
+  "/business/[id]/page": "app/business/[id]/page.js"
 }
