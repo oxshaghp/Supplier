@@ -7,6 +7,7 @@ import { useLanguage } from "../lib/LanguageContext";
 import LanguageSwitcher from "./LanguageSwitcher";
 import ContactModal from "./ContactModal";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -75,52 +76,78 @@ export default function Header() {
     router.push("/dashboard?tab=messages");
   };
 
+  const bannerContent = (
+    <div className="inline-flex items-center gap-8 text-xs md:text-sm font-medium px-8">
+      <span className="flex items-center">
+        <i className="ri-trophy-fill mr-2"></i>
+        <span className="hidden sm:inline">{t("banner.slogan1Long")}</span>
+        <span className="sm:hidden">{t("banner.slogan1Short")}</span>
+      </span>
+
+      <span className="text-yellow-100">•</span>
+
+      <span className="flex items-center">
+        <i className="ri-global-line mr-2"></i>
+        <span className="hidden sm:inline">{t("banner.slogan2Long")}</span>
+        <span className="sm:hidden">{t("banner.slogan2Short")}</span>
+      </span>
+
+      <span className="text-yellow-100">•</span>
+
+      <span className="flex items-center">
+        <i className="ri-truck-line mr-2"></i>
+        <span className="hidden sm:inline">{t("banner.slogan3Long")}</span>
+        <span className="sm:hidden">{t("banner.slogan3Short")}</span>
+      </span>
+
+      <span className="text-yellow-100">•</span>
+
+      <span className="flex items-center">
+        <i className="ri-handshake-line mr-2"></i>
+        <span className="hidden sm:inline">{t("banner.slogan4Long")}</span>
+        <span className="sm:hidden">{t("banner.slogan4Short")}</span>
+      </span>
+    </div>
+  );
+
   return (
     <>
-      {/* Advertising Banner */}
-      <div className="bg-gradient-to-r from-yellow-400 to-green-400 text-white py-2 overflow-hidden">
-        <div className="animate-scroll whitespace-nowrap">
-          <div className="inline-flex items-center space-x-4 md:space-x-8 text-xs md:text-sm font-medium">
-            <span className="flex items-center">
-              <i className="ri-trophy-fill mr-1 md:mr-2"></i>
-              <span className="hidden sm:inline">
-                {t("banner.slogan1Long")}
-              </span>
-              <span className="sm:hidden">{t("banner.slogan1Short")}</span>
-            </span>
-            <span className="text-yellow-100">•</span>
-            <span className="flex items-center">
-              <i className="ri-global-line mr-1 md:mr-2"></i>
-              <span className="hidden sm:inline">
-                {t("banner.slogan2Long")}
-              </span>
-              <span className="sm:hidden">{t("banner.slogan2Short")}</span>
-            </span>
-            <span className="text-yellow-100">•</span>
-            <span className="flex items-center">
-              <i className="ri-truck-line mr-1 md:mr-2"></i>
-              <span className="hidden sm:inline">
-                {t("banner.slogan3Long")}
-              </span>
-              <span className="sm:hidden">{t("banner.slogan3Short")}</span>
-            </span>
-            <span className="text-yellow-100">•</span>
-            <span className="flex items-center">
-              <i className="ri-handshake-line mr-1 md:mr-2"></i>
-              <span className="hidden sm:inline">
-                {t("banner.slogan4Long")}
-              </span>
-              <span className="sm:hidden">{t("banner.slogan4Short")}</span>
-            </span>
-          </div>
-        </div>
+      {/* 🟡 Advertising Banner مع Framer Motion */}
+      <div className="relative bg-gradient-to-r from-yellow-400 to-green-400 text-white py-2 overflow-hidden">
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-yellow-400 to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-green-400 to-transparent z-10" />
+
+        <motion.div
+          className="flex whitespace-nowrap"
+          animate={{
+            x: isRTL ? ["100%", "-100%"] : ["-100%", "100%"],
+          }}
+          transition={{
+            x: {
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: 40,
+              ease: "linear",
+            },
+          }}
+        >
+          {[...Array(6)].map((_, index) => (
+            <div key={index} className="flex-shrink-0">
+              {bannerContent}
+            </div>
+          ))}
+        </motion.div>
       </div>
 
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="w-full px-3 sm:px-4 md:px-6">
           <div className="flex items-center justify-between h-16 md:h-20">
-            {/* Logo Section */}
-            <div className="flex items-center space-x-2 sm:space-x-3">
+            {/* Logo Section - Fixed direction regardless of language */}
+            <div
+              className={`flex items-center space-x-2 sm:space-x-3 ${
+                isRTL ? "flex-row-reverse" : "flex-row"
+              }`}
+            >
               <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
                 <svg
                   viewBox="0 0 24 24"
@@ -182,7 +209,7 @@ export default function Header() {
             {/* Right Side */}
             <div className="flex items-center space-x-2 md:space-x-3">
               {/* Language Switcher - Always Visible */}
-              <div className="flex-shrink-0">
+              <div className="flex-shrink-0 ml-4">
                 <LanguageSwitcher />
               </div>
 
@@ -212,7 +239,13 @@ export default function Header() {
                           onClick={() => setIsMessagesOpen(false)}
                         ></div>
 
-                        <div className="fixed lg:absolute left-0 right-0 lg:right-0 lg:left-auto top-16 lg:top-auto lg:mt-2 mx-4 lg:mx-0 w-auto lg:w-96 bg-white rounded-xl shadow-2xl border border-gray-200 py-3 z-50 max-h-[80vh] lg:max-h-96 overflow-hidden">
+                        <div
+                          className={`fixed lg:absolute ${
+                            isRTL
+                              ? "lg:left-0 lg:right-auto"
+                              : "lg:right-0 lg:left-auto"
+                          } left-0 right-0 top-16 lg:top-auto lg:mt-2 mx-4 lg:mx-0 w-auto lg:w-96 bg-white rounded-xl shadow-2xl border border-gray-200 py-3 z-50 max-h-[80vh] lg:max-h-96 overflow-hidden`}
+                        >
                           <div className="px-4 py-2 border-b border-gray-100">
                             <div className="flex items-center justify-between">
                               <h3 className="font-semibold text-gray-800 text-base">
@@ -231,12 +264,22 @@ export default function Header() {
                                 onClick={() => handleMessageClick(message.id)}
                                 className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-50 last:border-b-0"
                               >
-                                <div className="flex items-start space-x-3">
+                                <div
+                                  className={`flex items-start ${
+                                    isRTL
+                                      ? "space-x-reverse space-x-3"
+                                      : "space-x-3"
+                                  }`}
+                                >
                                   <div className="w-10 h-10 bg-yellow-400 text-white rounded-full flex items-center justify-center font-medium text-sm flex-shrink-0">
                                     {message.avatar}
                                   </div>
                                   <div className="flex-1 min-w-0">
-                                    <div className="flex items-center justify-between mb-1">
+                                    <div
+                                      className={`flex items-center justify-between mb-1 ${
+                                        isRTL ? "flex-row-reverse" : ""
+                                      }`}
+                                    >
                                       <h4 className="font-medium text-gray-800 text-sm truncate">
                                         {message.from}
                                       </h4>
@@ -279,15 +322,15 @@ export default function Header() {
                   <div className="relative">
                     <button
                       onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                      className="flex items-center space-x-1 md:space-x-2 text-gray-700 hover:text-yellow-600 transition-colors cursor-pointer p-1"
+                      className="flex items-center space-x-2 md:space-x-3 text-gray-700 hover:text-yellow-600 transition-colors cursor-pointer p-1"
                     >
-                      <div className="w-8 h-8 md:w-9 md:h-9 bg-yellow-400 text-white rounded-full flex items-center justify-center font-medium text-sm">
+                      <div className="w-8 h-8 md:w-9 md:h-9 bg-yellow-400 text-white rounded-full flex items-center justify-center font-medium text-sm ml-4">
                         {userInitials}
                       </div>
-                      <span className="hidden lg:block font-medium text-sm">
+                      <span className="hidden lg:block font-medium text-sm ml-1 ">
                         {userName}
                       </span>
-                      <i className="ri-arrow-down-s-line hidden lg:block"></i>
+                      <i className="ri-arrow-down-s-line hidden lg:block text-lg"></i>
                     </button>
 
                     {/* User Dropdown */}

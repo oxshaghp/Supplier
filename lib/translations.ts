@@ -2380,6 +2380,7 @@ export const translations = {
     services: "الخدمات",
     about: "حولنا",
     createProfile: "إنشاء ملف شخصي",
+    tagline: "منصة سبلاير.سا لتوصيل الشركات السعودية",
     banner: {
       slogan1Long: "#1 موقع حيث تلتقي جميع الشركات",
       slogan1Short: "أفضل شبكة أعمال",

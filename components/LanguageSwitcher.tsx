@@ -15,7 +15,6 @@ export default function LanguageSwitcher() {
             : "text-gray-600 hover:text-gray-900"
         }`}
       >
-        <span className="text-sm">🇺🇸</span>
         <span>EN</span>
       </button>
       <button
@@ -26,7 +25,6 @@ export default function LanguageSwitcher() {
             : "text-gray-600 hover:text-gray-900"
         }`}
       >
-        <span className="text-sm">🇸🇦</span>
         <span>AR</span>
       </button>
     </div>

@@ -10,15 +10,7 @@ export default function SearchSection() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [location, setLocation] = useState("");
-  const [showRequestForm, setShowRequestForm] = useState(false);
-  const [requestData, setRequestData] = useState({
-    product: "",
-    quantity: "",
-    location: "",
-    description: "",
-    urgency: "normal",
-    contactMethod: "email",
-  });
+  const [selectedBusiness, setSelectedBusiness] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState("");
   const [description, setDescription] = useState("");
@@ -26,68 +18,76 @@ export default function SearchSection() {
   const { t, isRTL } = useLanguage();
   const router = useRouter();
 
-  // Enhanced business locations with proper category mapping
+  // Enhanced business locations with proper category mapping and real Saudi addresses
   const businessLocations = [
-    // Agriculture category
+    // Agriculture category - Real locations in agricultural regions
     {
+      id: 1,
       name: "Green Valley Agriculture",
-      address: "Industrial City, Riyadh",
-      lat: 24.6986,
-      lng: 46.6653,
+      address: "Al Kharj Agricultural Area, Riyadh",
+      lat: 24.1386,
+      lng: 47.3056,
       type: "Agriculture",
       category: "agriculture",
     },
     {
+      id: 2,
       name: "Date Palm Suppliers",
-      address: "Agricultural Zone",
-      lat: 24.5297,
-      lng: 39.5742,
+      address: "Al Ahsa Oasis, Eastern Province",
+      lat: 25.3833,
+      lng: 49.5833,
       type: "Agriculture",
       category: "agriculture",
     },
     {
+      id: 3,
       name: "Northern Agriculture",
-      address: "King Abdulaziz Road, Tabuk",
-      lat: 28.3998,
-      lng: 36.566,
+      address: "Al Jouf Agricultural Region",
+      lat: 29.7855,
+      lng: 40.1,
       type: "Agriculture",
       category: "agriculture",
     },
     {
+      id: 4,
       name: "Central Grain Trading",
-      address: "Agricultural Market, Buraidah",
-      lat: 26.326,
-      lng: 43.975,
+      address: "Qassim Agricultural Zone, Buraidah",
+      lat: 26.3333,
+      lng: 43.9667,
       type: "Agriculture",
       category: "agriculture",
     },
     {
+      id: 5,
       name: "Hail Agricultural Equipment",
-      address: "Agricultural Center, Hail",
-      lat: 27.5114,
-      lng: 41.69,
+      address: "Hail Agricultural Center",
+      lat: 27.5236,
+      lng: 41.7,
       type: "Agriculture",
       category: "agriculture",
     },
 
-    // Electronics category
+    // Electronics category - Major commercial areas
     {
+      id: 6,
       name: "Tech Solutions Center",
-      address: "King Fahd Road, Al-Olaya",
+      address: "Olaya District, Riyadh",
       lat: 24.7136,
       lng: 46.6753,
       type: "Electronics",
       category: "consumer-electronics",
     },
     {
+      id: 7,
       name: "Metro Electronics Supply",
-      address: "Olaya Street, Riyadh",
+      address: "Tahlia Street, Riyadh",
       lat: 24.7186,
-      lng: 46.68,
+      lng: 46.685,
       type: "Electronics",
       category: "consumer-electronics",
     },
     {
+      id: 8,
       name: "Red Sea Electronics",
       address: "Tahlia Street, Jeddah",
       lat: 21.4858,
@@ -96,100 +96,121 @@ export default function SearchSection() {
       category: "consumer-electronics",
     },
     {
+      id: 9,
       name: "Eastern Electronics Hub",
-      address: "Dhahran Street, Dammam",
+      address: "King Saud Street, Dammam",
       lat: 26.4207,
       lng: 50.0888,
       type: "Electronics",
       category: "consumer-electronics",
     },
     {
+      id: 10,
       name: "Qassim Electronics",
-      address: "Main Street",
+      address: "King Abdulaziz Road, Buraidah",
       lat: 26.331,
       lng: 43.98,
       type: "Electronics",
       category: "consumer-electronics",
     },
 
-    // Automotive category
+    // Automotive category - Industrial and commercial zones
     {
+      id: 11,
       name: "Riyadh Auto Parts",
-      address: "Exit 5, Ring Road",
+      address: "Industrial City, Riyadh",
       lat: 24.7236,
       lng: 46.6853,
       type: "Automotive",
       category: "automobile",
     },
     {
+      id: 12,
       name: "Eastern Auto Parts",
-      address: "King Saud Road",
+      address: "Industrial Area, Dammam",
       lat: 26.4157,
       lng: 50.0838,
       type: "Automotive",
       category: "automobile",
     },
-
-    // Construction category
     {
+      id: 13,
+      name: "Jeddah Automotive Center",
+      address: "Industrial City, Jeddah",
+      lat: 21.4908,
+      lng: 39.1975,
+      type: "Automotive",
+      category: "automobile",
+    },
+
+    // Construction category - Major construction hubs
+    {
+      id: 14,
       name: "Capital Hardware",
-      address: "King Abdul Aziz Road",
+      address: "Industrial Valley, Riyadh",
       lat: 24.7086,
       lng: 46.67,
       type: "Hardware",
       category: "construction-real-estate",
     },
     {
+      id: 15,
       name: "Coastal Construction",
-      address: "Corniche Road",
+      address: "Corniche Road, Jeddah",
       lat: 21.4808,
       lng: 39.1875,
       type: "Construction",
       category: "construction-real-estate",
     },
     {
+      id: 16,
       name: "Tabuk Construction Materials",
-      address: "Industrial Area",
+      address: "Industrial Area, Tabuk",
       lat: 28.4048,
       lng: 36.571,
       type: "Construction",
       category: "construction-real-estate",
     },
     {
+      id: 17,
       name: "Mountain Construction",
-      address: "Construction District",
-      lat: 18.3111,
-      lng: 42.7376,
+      address: "Construction District, Abha",
+      lat: 18.2164,
+      lng: 42.5047,
       type: "Construction",
       category: "construction-real-estate",
     },
 
-    // Industrial category
+    // Industrial category - Industrial cities
     {
+      id: 18,
       name: "Jeddah Industrial Supplies",
-      address: "Industrial Area, Jeddah",
+      address: "Industrial City, Jeddah",
       lat: 21.4908,
       lng: 39.1975,
       type: "Industrial",
       category: "industrial-supplies",
     },
     {
+      id: 19,
       name: "Oil Services Company",
-      address: "Industrial City",
-      lat: 26.4257,
-      lng: 50.0938,
+      address: "Industrial City, Jubail",
+      lat: 27.0174,
+      lng: 49.6584,
       type: "Oil&Gas",
       category: "oil-gas",
     },
     {
+      id: 20,
       name: "Industrial Equipment Co.",
-      address: "SABIC Area",
-      lat: 27.0224,
-      lng: 49.6634,
+      address: "Industrial City, Yanbu",
+      lat: 24.0875,
+      lng: 38.0569,
       type: "Industrial",
       category: "industrial-supplies",
     },
     {
+      id: 21,
       name: "Jubail Petrochemicals",
       address: "Industrial City, Al Jubail",
       lat: 27.0174,
@@ -198,36 +219,57 @@ export default function SearchSection() {
       category: "chemicals",
     },
 
-    // Fashion & Textiles category
+    // Fashion & Textiles category - Commercial districts
     {
+      id: 22,
       name: "Fashion District",
-      address: "Al-Rawdah District",
+      address: "Al-Rawdah District, Jeddah",
       lat: 21.4758,
       lng: 39.1825,
       type: "Fashion",
       category: "apparel-fashion",
     },
     {
+      id: 23,
       name: "Southern Textiles",
-      address: "Industrial Zone",
-      lat: 18.2114,
-      lng: 42.4997,
+      address: "Textile Market, Abha",
+      lat: 18.2164,
+      lng: 42.5047,
       type: "Textiles",
       category: "textiles-fabrics",
     },
-
-    // Medical category
     {
+      id: 24,
+      name: "Riyadh Fashion Hub",
+      address: "Batha Commercial Area, Riyadh",
+      lat: 24.6333,
+      lng: 46.7167,
+      type: "Fashion",
+      category: "apparel-fashion",
+    },
+
+    // Medical category - Near hospitals and medical areas
+    {
+      id: 25,
       name: "Medical Equipment Co.",
-      address: "Al-Sharafeyah",
+      address: "Al-Sharafeyah, Jeddah",
       lat: 21.4958,
       lng: 39.2025,
       type: "Medical",
       category: "hospital-medical",
     },
-
-    // Food & Beverage category
     {
+      name: "Riyadh Medical Supplies",
+      address: "Medical City, Riyadh",
+      lat: 24.6986,
+      lng: 46.7236,
+      type: "Medical",
+      category: "hospital-medical",
+    },
+
+    // Food & Beverage category - Various regions
+    {
+      id: 26,
       name: "Mountain Fresh Foods",
       address: "King Khalid Street, Abha",
       lat: 18.2164,
@@ -236,78 +278,114 @@ export default function SearchSection() {
       category: "food-beverage",
     },
     {
+      id: 27,
       name: "Mecca Food Distributors",
-      address: "Al-Misfalah",
+      address: "Al-Misfalah, Mecca",
       lat: 21.3941,
       lng: 39.8629,
       type: "Food",
       category: "food-beverage",
     },
-
-    // Technology category
     {
+      id: 28,
+      name: "Central Food Trading",
+      address: "Food Market, Riyadh",
+      lat: 24.65,
+      lng: 46.71,
+      type: "Food",
+      category: "food-beverage",
+    },
+
+    // Technology category - Business districts
+    {
+      id: 29,
       name: "Khobar Tech Center",
-      address: "Prince Faisal Street",
+      address: "Prince Faisal Street, Khobar",
       lat: 26.2172,
       lng: 50.1971,
       type: "Technology",
       category: "computer-hardware-software",
     },
-
-    // Office Supplies category
     {
+      id: 30,
+      name: "Riyadh Tech Hub",
+      address: "Digital City, Riyadh",
+      lat: 24.7611,
+      lng: 46.6822,
+      type: "Technology",
+      category: "computer-hardware-software",
+    },
+
+    // Office Supplies category - Commercial areas
+    {
+      id: 31,
       name: "Office Plus Supplies",
-      address: "Business District",
+      address: "Business District, Riyadh",
       lat: 24.7286,
       lng: 46.6903,
       type: "Office",
       category: "office-school",
     },
-
-    // Services category
     {
+      id: 32,
+      name: "Jeddah Office Solutions",
+      address: "Commercial Center, Jeddah",
+      lat: 21.5433,
+      lng: 39.1728,
+      type: "Office",
+      category: "office-school",
+    },
+
+    // Services category - Various service locations
+    {
+      id: 33,
       name: "Highland Tourism Services",
-      address: "Tourist District",
+      address: "Tourist District, Abha",
       lat: 18.2214,
       lng: 42.5097,
       type: "Tourism",
       category: "sports-entertainment",
     },
     {
+      id: 34,
       name: "Mountain Tourism Equipment",
-      address: "Tourist Area",
+      address: "Tourist Area, Taif",
       lat: 21.2753,
       lng: 40.4208,
       type: "Tourism",
       category: "sports-entertainment",
     },
     {
+      id: 35,
       name: "Pilgrimage Services",
-      address: "Near Haram",
+      address: "Near Haram, Mecca",
       lat: 21.3841,
       lng: 39.8529,
       type: "Services",
       category: "business-services",
     },
 
-    // Trading & Logistics category
+    // Trading & Logistics category - Commercial hubs
     {
+      id: 36,
       name: "Medina Trading",
-      address: "Prophet Mosque Area",
+      address: "Prophet Mosque Area, Medina",
       lat: 24.5247,
       lng: 39.5692,
       type: "Trading",
       category: "business-services",
     },
     {
+      id: 37,
       name: "Northern Trading Post",
-      address: "Commercial Street",
+      address: "Commercial Street, Hail",
       lat: 27.5164,
       lng: 41.695,
       type: "Trading",
       category: "business-services",
     },
     {
+      id: 38,
       name: "Border Trade Center",
       address: "Commercial District, Najran",
       lat: 17.4924,
@@ -316,16 +394,18 @@ export default function SearchSection() {
       category: "business-services",
     },
     {
+      id: 39,
       name: "Southern Logistics",
-      address: "Transportation Hub",
-      lat: 17.4974,
-      lng: 44.1327,
+      address: "Transportation Hub, Jazan",
+      lat: 16.8892,
+      lng: 42.5511,
       type: "Logistics",
       category: "transportation",
     },
 
-    // Marine & Port category
+    // Marine & Port category - Coastal areas
     {
+      id: 40,
       name: "Gulf Marine Supplies",
       address: "Corniche, Al Khobar",
       lat: 26.2122,
@@ -334,6 +414,7 @@ export default function SearchSection() {
       category: "transportation",
     },
     {
+      id: 41,
       name: "Port Jazan Services",
       address: "Port Area, Jazan",
       lat: 16.8892,
@@ -342,16 +423,18 @@ export default function SearchSection() {
       category: "transportation",
     },
     {
+      id: 42,
       name: "Coastal Fishing Supplies",
-      address: "Marina District",
-      lat: 16.8942,
-      lng: 42.5561,
+      address: "Marina District, Dammam",
+      lat: 26.4333,
+      lng: 50.1,
       type: "Fishing",
       category: "food-beverage",
     },
 
     // Specialty products category
     {
+      id: 43,
       name: "Rose City Perfumes",
       address: "Rose Garden Area, Taif",
       lat: 21.2703,
@@ -360,6 +443,7 @@ export default function SearchSection() {
       category: "health-beauty",
     },
     {
+      id: 44,
       name: "Islamic Books Store",
       address: "Old City, Medina",
       lat: 24.5197,
@@ -368,16 +452,18 @@ export default function SearchSection() {
       category: "office-school",
     },
     {
+      id: 45,
       name: "Desert Mining Equipment",
-      address: "Mining District",
+      address: "Mining District, Tabuk",
       lat: 28.3948,
       lng: 36.561,
       type: "Mining",
       category: "machinery",
     },
     {
+      id: 46,
       name: "Desert Equipment Rental",
-      address: "Service Road",
+      address: "Service Road, Qassim",
       lat: 26.321,
       lng: 43.97,
       type: "Equipment",
@@ -386,6 +472,7 @@ export default function SearchSection() {
 
     // Military & Security category
     {
+      id: 47,
       name: "Southern Military Supplies",
       address: "King Fahd Road, Khamis Mushait",
       lat: 18.3061,
@@ -396,6 +483,7 @@ export default function SearchSection() {
 
     // General supplies category
     {
+      id: 48,
       name: "Holy City Supplies",
       address: "Ajyad Street, Mecca",
       lat: 21.3891,
@@ -447,7 +535,6 @@ export default function SearchSection() {
     const latPercent = ((32 - lat) / (32 - 16)) * 100;
     const lngPercent = ((lng - 34) / (55 - 34)) * 100;
 
-    // Ensure positions stay within map bounds
     return {
       top: `${Math.max(2, Math.min(98, latPercent))}%`,
       left: `${Math.max(2, Math.min(98, lngPercent))}%`,
@@ -712,9 +799,7 @@ export default function SearchSection() {
       color: "from-blue-600 to-blue-800",
     },
   ];
-
   const handleSearch = () => {
-    // Build query parameters for the businesses page
     const params = new URLSearchParams();
 
     if (searchQuery.trim()) {
@@ -729,11 +814,30 @@ export default function SearchSection() {
       params.set("location", location.trim());
     }
 
-    // Navigate to businesses page with search parameters
     const queryString = params.toString();
     const url = queryString ? `/businesses?${queryString}` : "/businesses";
-
     router.push(url);
+  };
+  const handleMarkerClick = (business: any) => {
+    setSelectedBusiness(business);
+
+    // Optional: Scroll to show the selected business details
+    setTimeout(() => {
+      const element = document.getElementById("selected-business-details");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    }, 100);
+  };
+  const handleViewDetails = (business: any) => {
+    // Navigate to business details page
+    router.push(`/businesses/${business.id}`);
+  };
+
+  const handleGetDirections = (business: any) => {
+    // Open Google Maps with directions
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${business.lat},${business.lng}`;
+    window.open(mapsUrl, "_blank");
   };
 
   const handleDescriptionChange = (
@@ -908,10 +1012,17 @@ export default function SearchSection() {
               <div className="lg:col-span-3">
                 {/* Search Form */}
                 <div className="bg-white rounded-2xl shadow-xl p-3 sm:p-4 md:p-6 mb-3 sm:mb-4 md:mb-6">
-                  {/* Search Guidelines */}
-                  <div className="mb-3 sm:mb-4 text-left">
+                  <div
+                    className={`mb-3 sm:mb-4 ${
+                      isRTL ? "text-right" : "text-left"
+                    }`}
+                  >
                     <p className="text-xs sm:text-sm md:text-base font-bold text-gray-700">
-                      <i className="ri-lightbulb-line text-yellow-500 mr-1 sm:mr-2"></i>
+                      <i
+                        className={`ri-lightbulb-line text-yellow-500 ${
+                          isRTL ? "ml-1 sm:ml-2" : "mr-1 sm:mr-2"
+                        }`}
+                      ></i>
                       {t("searchRequest.guideTitle")}
                     </p>
                   </div>
@@ -966,8 +1077,9 @@ export default function SearchSection() {
                   </Link>
                 </div>
 
-                {/* Enhanced Map Section with Filtered Business Locations */}
-                <div className="bg-gray-100 rounded-2xl overflow-hidden shadow-xl relative h-48 sm:h-64 md:h-96 mb-3 sm:mb-4 md:mb-6">
+                {/* Enhanced Interactive Map Section */}
+                <div className="bg-gray-100 rounded-2xl overflow-hidden shadow-xl relative h-64 sm:h-80 md:h-[28rem] mb-3 sm:mb-4 md:mb-6">
+                  {/* Google Maps Iframe */}
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7476794.374816895!2d39.857910156249994!3d23.885837699999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15e7b33fe7952a41%3A0x5960504bc21ab69b!2sSaudi%20Arabia!5e0!3m2!1sen!2sus!4v1647890123456!5m2!1sen!2sus&disableDefaultUI=true&gestureHandling=none&scrollwheel=false&disableDoubleClickZoom=true&clickableIcons=false"
                     width="100%"
@@ -979,8 +1091,8 @@ export default function SearchSection() {
                     className="w-full h-full"
                   ></iframe>
 
+                  {/* Interactive Business Markers */}
                   <div className="absolute inset-0 pointer-events-none">
-                    {/* Filtered Business Location Dots */}
                     {getFilteredBusinesses().map((business, index) => {
                       const position = getMapPosition(
                         business.lat,
@@ -990,42 +1102,74 @@ export default function SearchSection() {
 
                       return (
                         <div
-                          key={index}
+                          key={business.id}
                           className="absolute transform -translate-x-1/2 -translate-y-1/2 group"
                           style={position}
-                          title={`${business.name} - ${business.address}`}
                         >
-                          {/* Main Business Dot */}
+                          {/* Interactive Business Marker */}
                           <div
-                            className={`relative w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-3 md:h-3 ${colorClass} rounded-full border-2 border-white shadow-lg`}
-                          ></div>
+                            className={`relative w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 ${colorClass} rounded-full border-2 border-white shadow-lg cursor-pointer transition-all duration-200 hover:scale-150 hover:shadow-xl pointer-events-auto animate-pulse`}
+                            onClick={() => handleMarkerClick(business)}
+                            title={`${business.name} - ${business.address}`}
+                          >
+                            {/* Pulsing Effect */}
+                            <div className="absolute inset-0 rounded-full bg-current animate-ping opacity-75"></div>
+                          </div>
 
                           {/* Business Info Tooltip */}
-                          <div className="absolute bottom-3 sm:bottom-4 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-lg p-2 sm:p-3 min-w-32 sm:min-w-40 md:min-w-48 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-auto z-10">
-                            <div className="text-xs">
-                              <h4 className="font-semibold text-gray-800 mb-1">
-                                {business.name}
-                              </h4>
-                              <p className="text-gray-600 mb-1">
-                                {business.address}
-                              </p>
+                          <div
+                            className={`absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-white rounded-xl shadow-2xl p-4 min-w-64 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-auto z-20 border border-gray-200 ${
+                              isRTL ? "text-right" : "text-left"
+                            }`}
+                          >
+                            <h4 className="font-bold text-gray-900 text-sm mb-2">
+                              {business.name}
+                            </h4>
+                            <p className="text-gray-600 text-xs mb-3">
+                              {business.address}
+                            </p>
+                            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                               <span
-                                className={`inline-block px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-white text-xs ${colorClass}`}
+                                className={`px-3 py-1 rounded-full text-white text-xs font-medium ${colorClass} self-start`}
                               >
                                 {business.type}
                               </span>
+                              <div className="flex gap-2">
+                                <button
+                                  onClick={() => handleViewDetails(business)}
+                                  className="bg-yellow-400 text-white px-3 py-1 rounded-lg text-xs font-medium hover:bg-yellow-500 transition-colors whitespace-nowrap"
+                                >
+                                  {t("viewDetails") || "View Details"}
+                                </button>
+                                <button
+                                  onClick={() => handleGetDirections(business)}
+                                  className="bg-blue-500 text-white px-3 py-1 rounded-lg text-xs font-medium hover:bg-blue-600 transition-colors whitespace-nowrap"
+                                >
+                                  <i className="ri-map-pin-line mr-1"></i>
+                                  Directions
+                                </button>
+                              </div>
                             </div>
-                            {/* Tooltip Arrow */}
-                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white"></div>
                           </div>
                         </div>
                       );
                     })}
                   </div>
 
+                  {/* Selected Business Highlight */}
+                  {selectedBusiness && (
+                    <div className="absolute inset-0 border-2 border-yellow-400 rounded-xl pointer-events-none animate-pulse"></div>
+                  )}
+
                   {/* Category Filter Info */}
                   {selectedCategory !== "all" && (
-                    <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-white rounded-lg shadow-lg p-1.5 sm:p-2 md:p-3 z-10">
+                    <div
+                      className={`absolute top-2 sm:top-4 ${
+                        isRTL ? "right-2 sm:right-4" : "left-2 sm:left-4"
+                      } bg-white rounded-lg shadow-lg p-1.5 sm:p-2 md:p-3 z-10 ${
+                        isRTL ? "text-right" : "text-left"
+                      }`}
+                    >
                       <div className="flex items-center space-x-1 sm:space-x-2">
                         <div
                           className={`w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-3 md:h-3 ${
@@ -1037,7 +1181,7 @@ export default function SearchSection() {
                           } rounded-full`}
                         ></div>
                         <span className="text-xs sm:text-xs md:text-sm font-medium text-gray-700">
-                          Showing:{" "}
+                          {t("showing") || "Showing"}:{" "}
                           {
                             categories.find(
                               (cat) => cat.id === selectedCategory
@@ -1045,12 +1189,82 @@ export default function SearchSection() {
                           }
                         </span>
                         <span className="text-xs text-gray-500">
-                          ({getFilteredBusinesses().length} locations)
+                          ({getFilteredBusinesses().length}{" "}
+                          {t("locations") || "locations"})
                         </span>
                       </div>
                     </div>
                   )}
+
+                  {/* Map Controls Info */}
+                  <div
+                    className={`absolute bottom-2 sm:bottom-4 ${
+                      isRTL ? "left-2 sm:left-4" : "right-2 sm:right-4"
+                    } bg-white rounded-lg shadow-lg p-2 z-10`}
+                  >
+                    <p className="text-xs text-gray-600 flex items-center space-x-1">
+                      <i className="ri-information-line text-blue-500"></i>
+                      <span>
+                        {t("clickMarkersInfo") ||
+                          "Click on markers for details"}
+                      </span>
+                    </p>
+                  </div>
                 </div>
+
+                {/* Selected Business Details */}
+                {selectedBusiness && (
+                  <div
+                    id="selected-business-details"
+                    className="bg-white rounded-2xl shadow-xl p-4 md:p-6 mb-4 border-2 border-yellow-400"
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <h3 className="text-lg md:text-xl font-bold text-gray-900">
+                        {selectedBusiness.name}
+                      </h3>
+                      <button
+                        onClick={() => setSelectedBusiness(null)}
+                        className="text-gray-400 hover:text-gray-600"
+                      >
+                        <i className="ri-close-line text-xl"></i>
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-gray-600 mb-2">
+                          <i className="ri-map-pin-line text-yellow-500 mr-2"></i>
+                          {selectedBusiness.address}
+                        </p>
+                        <p className="text-gray-600 mb-2">
+                          <i className="ri-phone-line text-yellow-500 mr-2"></i>
+                          {selectedBusiness.phone}
+                        </p>
+                        <p className="text-gray-600">
+                          <i className="ri-mail-line text-yellow-500 mr-2"></i>
+                          {selectedBusiness.email}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <button
+                          onClick={() => handleViewDetails(selectedBusiness)}
+                          className="bg-yellow-400 text-white px-4 py-2 rounded-lg font-medium hover:bg-yellow-500 transition-colors flex items-center justify-center"
+                        >
+                          <i className="ri-eye-line mr-2"></i>
+                          {t("viewFullProfile") || "View Full Profile"}
+                        </button>
+                        <button
+                          onClick={() => handleGetDirections(selectedBusiness)}
+                          className="bg-blue-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors flex items-center justify-center"
+                        >
+                          <i className="ri-map-pin-line mr-2"></i>
+                          {t("getDirections") || "Get Directions"}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
