@@ -156,7 +156,7 @@ export default function TopSuppliers() {
     const dir = document.documentElement.dir || document.body.dir || "ltr";
     setIsRTL(dir === "rtl");
 
-    // إضافة CSS مخصص لتصحيح اتجاه الأسهم
+    // إضافة CSS مخصص لتصحيح اتجاه الأسهم وتحسين الباجينيشن
     const style = document.createElement("style");
     style.textContent = `
       .swiper-rtl .swiper-button-next:after {
@@ -171,9 +171,50 @@ export default function TopSuppliers() {
       .custom-swiper .swiper-slide {
         height: auto;
       }
+      
+      /* تحسينات الباجينيشن */
+      .custom-pagination {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        gap: 8px;
+      }
+      
+      .custom-pagination .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+        background-color: #d1d5db;
+        opacity: 0.7;
+        transition: all 0.3s ease;
+        border-radius: 50%;
+      }
+      
+      .custom-pagination .swiper-pagination-bullet-active {
+        width: 24px;
+        background-color: #f59e0b;
+        opacity: 1;
+        border-radius: 12px;
+      }
+      
+      .custom-pagination .swiper-pagination-bullet:hover {
+        opacity: 1;
+        background-color: #fbbf24;
+      }
+      
       @media (max-width: 640px) {
         .custom-swiper {
           padding: 0 5px 40px;
+        }
+        
+        .custom-pagination .swiper-pagination-bullet {
+          width: 6px;
+          height: 6px;
+        }
+        
+        .custom-pagination .swiper-pagination-bullet-active {
+          width: 20px;
         }
       }
     `;
@@ -236,7 +277,7 @@ export default function TopSuppliers() {
 
         <div className="relative ltr">
           <Swiper
-            modules={[Navigation, Pagination]}
+            modules={[Navigation, Pagination, Autoplay]}
             spaceBetween={16}
             slidesPerView={1}
             navigation={{
@@ -246,10 +287,12 @@ export default function TopSuppliers() {
             pagination={{
               clickable: true,
               el: ".custom-pagination",
+              type: "bullets",
             }}
             autoplay={{
               delay: 5000,
               disableOnInteraction: false,
+              pauseOnMouseEnter: true, // إضافة هذه الخاصية لتوقيف الأوتوبلاي عند التمرير بالفأرة
             }}
             loop
             dir={isRTL ? "rtl" : "ltr"}
@@ -276,6 +319,8 @@ export default function TopSuppliers() {
                 spaceBetween: 24,
               },
             }}
+            // إضافة هذه الخاصية لضمان عمل السوايبر بشكل صحيح عند تغيير اللغة
+            key={isRTL ? "rtl" : "ltr"}
           >
             {topSuppliers.map((supplier) => (
               <SwiperSlide key={supplier.id}>
@@ -391,7 +436,7 @@ export default function TopSuppliers() {
           <div className="swiper-button-prev !text-yellow-500 !scale-75 sm:!scale-100 after:!text-xl"></div>
           <div className="swiper-button-next !text-yellow-500 !scale-75 sm:!scale-100 after:!text-xl"></div>
 
-          {/* Custom Pagination */}
+          {/* Custom Pagination - تم تحسينها */}
           <div className="custom-pagination !bottom-0 mt-4"></div>
         </div>
 

@@ -11,6 +11,7 @@ type AISuggestions = {
   features: string[];
   specificProducts: string[];
   businessTypes: string[];
+  distance: number | null;
 };
 
 type AIFilterBarProps = {
@@ -49,6 +50,7 @@ export default function AIFilterBar({ onFilterChange }: AIFilterBarProps) {
       features: [],
       specificProducts: [],
       businessTypes: [],
+      distance: null,
     };
 
     // Enhanced product/service recognition

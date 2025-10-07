@@ -1752,7 +1752,9 @@ export const translations = {
     completeProfile: {
       title: "Complete Business Profile",
       stepOf: "Step {current} of {total}",
+      subtitle: "Complete your business profile to get started",
       accountVerified: "Account Verified",
+      optional: "Optional",
       business: "Business",
       phone: "Phone",
       email: "Email",
@@ -1766,13 +1768,21 @@ export const translations = {
       },
 
       step1: {
+        addMinChars: "Add",
+        minChars: "20 chars minimum",
         businessTypeLabel: "Business Type",
         categoriesLabel: "Business Categories",
         categoriesDesc:
           "Select the categories that apply to your business. This helps ",
         clearAll: "Clear All",
+        categoriesSelected: "Categories Selected",
         selectedCategories: "Selected Categories",
         keywordsTitle: "Products & Services Keywords",
+        keywordsPlaceholder: "Separate keywords with commas...",
+        keywordsAdded: "Keywords Added",
+        keywordsDesc:
+          "These keywords will be used to improve your visibility in search results",
+
         howToOptimize: "How to Optimize",
         searchMatching: "Search Matching",
         searchMatchingDesc:
@@ -1786,13 +1796,13 @@ export const translations = {
         proTip: "Pro Tip: Add 10-15 keywords for best results",
         keywordsCount: "keywords",
         goodLength: "Good length!",
-        minChars: "20 chars minimum",
         quickSuggestions: "Quick suggestions based on your categories",
       },
 
       step2: {
         whoServeLabel: "Who do you serve?",
         serviceDistanceLabel: "Service Distance",
+        serviceDistancePlaceholder: "Select the service distance",
         servicesLabel: "Services Offered",
         servicesDesc: "Select the services you provide to your customers",
       },
@@ -2077,6 +2087,14 @@ export const translations = {
       totalBusinesses: "Total Businesses",
       verified: "Verified",
       newThisWeek: "New This Week",
+      distanceTitle: "Distance",
+      allDistances: "All Distances",
+      within2km: "Within 2 km",
+      within5km: "Within 5 km",
+      within10km: "Within 10 km",
+      within15km: "Within 15 km",
+      within20km: "Within 20 km",
+      within50km: "Within 50 km",
     },
     // Removed duplicate 'cat' property. Only one 'cat' property should exist per language.
     subscriptionFAQ: {
@@ -4143,7 +4161,9 @@ export const translations = {
     completeProfile: {
       title: "إكمال الملف الشخصي للعمل",
       stepOf: "الخطوة {current} من {total}",
+      subtitle: "إكمل ملف تعريف عملك للبدء",
       accountVerified: "تم التحقق من الحساب",
+      optional: "اختياري",
       business: "العمل",
       phone: "الهاتف",
       email: "البريد الإلكتروني",
@@ -4157,12 +4177,18 @@ export const translations = {
       },
 
       step1: {
+        addMinChars: "أضف",
+        minChars: "20 حرفاً كحد أدنى",
         businessTypeLabel: "نوع العمل",
         categoriesLabel: "فئات العمل",
         categoriesDesc: "اختر الفئات التي تنطبق على عملك. هذا يساعد ",
         clearAll: "مسح الكل",
+        categoriesSelected: "الفئات المحددة",
         selectedCategories: "الفئات المحددة",
         keywordsTitle: "الكلمات المفتاحية للمنتجات والخدمات",
+        keywordsPlaceholder: "افصح عن الكلمات المفتاحية بفواصل",
+        keywordsAdded: "كلمات مفتاحية مضافة",
+        keywordsDesc: "سيتم استخدام هذه الكلمات لتحسين ظهورك في نتائج البحث",
         howToOptimize: "كيفية التحسين",
         searchMatching: "مطابقة البحث",
         searchMatchingDesc: "يستخدم العملاء كلمات البحث للعثور على موردين مثلك",
@@ -4174,7 +4200,6 @@ export const translations = {
           "نصيحة احترافية: أضف 10-15 كلمة مفتاحية للحصول على أفضل النتائج",
         keywordsCount: "كلمات مفتاحية",
         goodLength: "طول جيد!",
-        minChars: "20 حرفاً كحد أدنى",
         quickSuggestions: "اقتراحات سريعة بناءً على فئاتك",
       },
 
@@ -4183,6 +4208,7 @@ export const translations = {
         serviceDistanceLabel: "مسافة الخدمة",
         servicesLabel: "الخدمات المقدمة",
         servicesDesc: "اختر الخدمات التي تقدمها لعملائك",
+        serviceDistancePlaceholder: "اختر مسافة الخدمة",
       },
 
       step3: {
@@ -4388,6 +4414,14 @@ export const translations = {
       totalBusinesses: "إجمالي الشركات",
       verified: "موثقة",
       newThisWeek: "جديد هذا الأسبوع",
+      distanceTitle: "المسافة",
+      allDistances: "جميع المسافات",
+      within2km: "أقل من ٢ كم",
+      within5km: "أقل من ٥ كم",
+      within10km: "أقل من ١٠ كم",
+      within15km: "أقل من ١٥ كم",
+      within20km: "أقل من ٢٠ كم",
+      within50km: "أقل من ٥٠ كم",
     },
 
     // Business Guides

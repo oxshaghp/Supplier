@@ -16,7 +16,9 @@ export default function CompleteProfilePage() {
     lng: 46.6753,
   });
 
-  // هذا هو السطر الصحيح - داخل الـ function
+  // State لتتبع الخطوة الحالية
+  const [currentStep, setCurrentStep] = useState(1);
+
   const [formData, setFormData] = useState<FormData>(initialFormData);
 
   return (
@@ -34,18 +36,32 @@ export default function CompleteProfilePage() {
               </p>
             </div>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
+
+          {/* التعديل الرئيسي هنا */}
+          <div
+            className={`max-w-7xl mx-auto px-6 ${
+              currentStep >= 4 // تغيير الشرط هنا
+                ? "grid grid-cols-1 gap-8" // من الخطوة 4 فما فوق: عمود واحد فقط
+                : "grid grid-cols-1 lg:grid-cols-2 gap-12" // في الخطوات 1,2,3: عمودين
+            }`}
+          >
             {/* النموذج */}
-            <div className="order-2 lg:order-1">
+            <div
+              className={currentStep >= 4 ? "order-1" : "order-2 lg:order-1"}
+            >
               <CompleteProfileForm
                 formData={formData}
                 setFormData={setFormData}
                 selectedLocation={selectedLocation}
+                currentStep={currentStep}
+                setCurrentStep={setCurrentStep}
               />
             </div>
 
             {/* الخريطة */}
-            <div className="order-1 lg:order-2">
+            <div
+              className={currentStep >= 4 ? "order-2" : "order-1 lg:order-2"}
+            >
               <BusinessLocationMap
                 selectedLocation={selectedLocation}
                 setSelectedLocation={setSelectedLocation}

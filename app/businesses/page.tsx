@@ -37,19 +37,24 @@ export interface Business {
 }
 
 type AISuggestions = {
-  filters: {
-    categories: string[];
-    locations: string[];
-    rating: number | null;
-    features: string[];
-    businessTypes: string[];
-  };
+  categories: string[];
+  locations: string[];
+  rating: number | null;
+  features: string[];
+  businessTypes: string[];
+  distance: number | null;
+};
+
+type AIFilterPayload = {
+  query: string;
+  filters: AISuggestions;
 };
 
 // Suspense wrapper for useSearchParams
 function BusinessesContent() {
   const { t } = useLanguage();
   const searchParams = useSearchParams();
+  const [selectedDistance, setSelectedDistance] = useState<string>("");
   const [filteredBusinesses, setFilteredBusinesses] = useState<Business[]>(
     allBusinesses as Business[]
   );
@@ -74,36 +79,49 @@ function BusinessesContent() {
     const rating = searchParams.get("rating");
     const search = searchParams.get("search");
     const features = searchParams.get("features");
+    const distance = searchParams.get("distance");
 
     if (category) setSelectedCategory(category);
     if (location) setSelectedLocation(location);
     if (type) setSelectedBusinessType(type);
     if (rating) setSelectedRating(rating);
     if (search) setSearchQuery(search);
+    if (distance) setSelectedDistance(distance);
 
     // Apply AI-generated filters
-    const aiSuggestions = {
+    const aiPayload = {
+      query: search || "",
       filters: {
         categories: category ? [category] : [],
         locations: location ? location.split(",") : [],
         rating: rating ? parseInt(rating) : null,
         features: features ? features.split(",") : [],
         businessTypes: type ? [type] : [],
+        distance: distance ? parseInt(distance) : null,
       },
     };
 
-    if (category || location || type || rating || search || features) {
-      handleAIFilter(aiSuggestions);
+    if (
+      category ||
+      location ||
+      type ||
+      rating ||
+      search ||
+      features ||
+      distance
+    ) {
+      handleAIFilter(aiPayload);
     }
   }, [searchParams]);
 
-  const handleAIFilter = (aiSuggestions: AISuggestions) => {
+  const handleAIFilter = (payload: AIFilterPayload) => {
+    const { query, filters } = payload;
     let filtered: Business[] = [...(allBusinesses as Business[])];
 
     // Apply AI-generated filters
-    if (aiSuggestions.filters.categories.length > 0) {
+    if (filters.categories.length > 0) {
       filtered = filtered.filter((business) =>
-        aiSuggestions.filters.categories.some((cat) => {
+        filters.categories.some((cat) => {
           const categoryMap: Record<string, string> = {
             "construction-real-estate": "Construction & Real Estate",
             "consumer-electronics": "Consumer Electronics",
@@ -137,24 +155,23 @@ function BusinessesContent() {
       );
     }
 
-    if (aiSuggestions.filters.locations.length > 0) {
+    if (filters.locations.length > 0) {
       filtered = filtered.filter((business: Business) =>
-        aiSuggestions.filters.locations.some((loc: string) =>
+        filters.locations.some((loc: string) =>
           business.location.toLowerCase().includes(loc.toLowerCase())
         )
       );
     }
 
-    if (aiSuggestions.filters.rating) {
+    if (filters.rating) {
       filtered = filtered.filter(
-        (business: Business) =>
-          business.rating >= (aiSuggestions.filters.rating as number)
+        (business: Business) => business.rating >= (filters.rating as number)
       );
     }
 
-    if (aiSuggestions.filters.features.length > 0) {
+    if (filters.features.length > 0) {
       filtered = filtered.filter((business: Business) =>
-        aiSuggestions.filters.features.some(
+        filters.features.some(
           (feature: string) =>
             business.services &&
             business.services.some((service: string) =>
@@ -164,24 +181,32 @@ function BusinessesContent() {
       );
     }
 
-    if (aiSuggestions.filters.businessTypes.length > 0) {
+    if (filters.businessTypes.length > 0) {
       filtered = filtered.filter((business: Business) =>
-        aiSuggestions.filters.businessTypes.some(
+        filters.businessTypes.some(
           (type: string) =>
             business.businessType.toLowerCase() === type.toLowerCase()
         )
       );
     }
 
+    // Apply distance filter from AI suggestions
+    if (filters.distance) {
+      filtered = filtered.filter((business: Business) => {
+        const businessDistance = parseFloat(business.distance.split(" ")[0]);
+        return businessDistance <= (filters.distance as number);
+      });
+    }
+
     // Apply search query if provided
-    if (searchQuery) {
+    if (query) {
       filtered = filtered.filter(
         (business: Business) =>
-          business.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          business.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          business.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          business.name.toLowerCase().includes(query.toLowerCase()) ||
+          business.category.toLowerCase().includes(query.toLowerCase()) ||
+          business.location.toLowerCase().includes(query.toLowerCase()) ||
           business.services.some((service: string) =>
-            service.toLowerCase().includes(searchQuery.toLowerCase())
+            service.toLowerCase().includes(query.toLowerCase())
           )
       );
     }
@@ -258,6 +283,15 @@ function BusinessesContent() {
       );
     }
 
+    // Apply distance filter
+    if (selectedDistance) {
+      filtered = filtered.filter((business: Business) => {
+        const businessDistance = parseFloat(business.distance.split(" ")[0]);
+        const selectedDistanceValue = parseFloat(selectedDistance);
+        return businessDistance <= selectedDistanceValue;
+      });
+    }
+
     setFilteredBusinesses(filtered);
   }, [
     searchQuery,
@@ -265,6 +299,7 @@ function BusinessesContent() {
     selectedBusinessType,
     selectedLocation,
     selectedRating,
+    selectedDistance,
   ]);
 
   const sortedBusinesses = [...filteredBusinesses].sort(
@@ -433,6 +468,8 @@ function BusinessesContent() {
                     setSelectedCategory={setSelectedCategory}
                     selectedBusinessType={selectedBusinessType}
                     setSelectedBusinessType={setSelectedBusinessType}
+                    selectedDistance={selectedDistance}
+                    setSelectedDistance={setSelectedDistance}
                   />
                 </div>
 
@@ -613,6 +650,7 @@ function BusinessesContent() {
                           setSelectedBusinessType("all");
                           setSelectedLocation("");
                           setSelectedRating("");
+                          setSelectedDistance("");
                         }}
                         className="bg-yellow-400 text-white px-6 py-3 rounded-lg hover:bg-yellow-500 font-medium cursor-pointer"
                       >

@@ -22,6 +22,8 @@ interface BusinessFiltersProps {
   setSelectedCategory: (category: string) => void;
   selectedBusinessType: string;
   setSelectedBusinessType: (type: string) => void;
+  selectedDistance: string;
+  setSelectedDistance: (distance: string) => void;
 }
 
 export default function BusinessFilters({
@@ -31,6 +33,8 @@ export default function BusinessFilters({
   setSelectedCategory,
   selectedBusinessType,
   setSelectedBusinessType,
+  selectedDistance,
+  setSelectedDistance,
 }: BusinessFiltersProps) {
   const { t } = useLanguage();
   const [showVerified, setShowVerified] = useState<boolean>(false);
@@ -196,10 +200,21 @@ export default function BusinessFilters({
     { id: "Individual", name: "Individual", icon: "ri-user-line" },
   ];
 
+  const distanceOptions = [
+    { value: "", label: t("filters.allDistances") },
+    { value: "2", label: t("filters.within2km") },
+    { value: "5", label: t("filters.within5km") },
+    { value: "10", label: t("filters.within10km") },
+    { value: "15", label: t("filters.within15km") },
+    { value: "20", label: t("filters.within20km") },
+    { value: "50", label: t("filters.within50km") },
+  ];
+
   const clearAllFilters = (): void => {
     setSearchQuery("");
     setSelectedCategory("all");
     setSelectedBusinessType("all");
+    setSelectedDistance("");
     setShowVerified(false);
     setShowOpenNow(false);
   };
@@ -274,7 +289,26 @@ export default function BusinessFilters({
         <h3 className="text-lg font-semibold mb-4 text-gray-800">
           {t("filters.filtersTitle")}
         </h3>
-        <div className="space-y-3">
+        <div className="space-y-4">
+          {/* Distance Filter */}
+          <div className="space-y-3">
+            <label className="block text-sm font-medium text-gray-700">
+              {t("filters.distanceTitle")}
+            </label>
+            <select
+              value={selectedDistance}
+              onChange={(e) => setSelectedDistance(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:border-yellow-400 focus:outline-none text-sm"
+            >
+              {distanceOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Verified Filter */}
           <label className="flex items-center space-x-3 cursor-pointer">
             <input
               type="checkbox"
@@ -290,6 +324,7 @@ export default function BusinessFilters({
             </div>
           </label>
 
+          {/* Open Now Filter */}
           <label className="flex items-center space-x-3 cursor-pointer">
             <input
               type="checkbox"

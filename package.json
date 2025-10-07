@@ -16,9 +16,11 @@
     "framer-motion": "^12.23.22",
     "geist": "^1.5.1",
     "glob": "^11.0.3",
+    "google-map-react": "^2.2.5",
     "next": "14.0.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-icons": "^5.5.0",
     "swiper": "^12.0.2"
   },
   "devDependencies": {

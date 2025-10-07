@@ -101,7 +101,7 @@ function DashboardContent() {
               </div>
 
               {/* Customization Buttons */}
-              <div className="absolute top-4 end-4 flex space-x-2 rtl:space-x-reverse">
+              <div className="absolute top-1 end-4 flex space-x-2 rtl:space-x-reverse">
                 <button
                   onClick={() => setShowProfileCustomization(true)}
                   className="bg-white/90 backdrop-blur-sm text-gray-600 p-2 rounded-lg hover:bg-white shadow-sm cursor-pointer"
@@ -282,7 +282,7 @@ function DashboardContent() {
 
             {/* Photo Upload Modal */}
             {showPhotoUpload && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 md:p-4 z-50">
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 md:p-4 z-50 ">
                 <div className="w-full max-w-md overflow-hidden rounded-2xl bg-white">
                   <div className="p-6 border-b border-gray-200 flex items-center justify-between">
                     <h2 className="text-xl font-bold text-gray-800">

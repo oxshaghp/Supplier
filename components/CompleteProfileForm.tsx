@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import BranchManagement from "./BranchManagement";
 import { useLanguage } from "./../lib/LanguageContext";
@@ -13,92 +13,119 @@ import {
   Branch,
 } from "./../lib/types";
 
+// Categories with translations
 const categories = [
-  "Agriculture",
-  "Apparel & Fashion",
-  "Automobile",
-  "Brass Hardware & Components",
-  "Business Services",
-  "Chemicals",
-  "Computer Hardware & Software",
-  "Construction & Real Estate",
-  "Consumer Electronics",
-  "Electronics & Electrical Supplies",
-  "Energy & Power",
-  "Environment & Pollution",
-  "Food & Beverage",
-  "Furniture",
-  "Gifts & Crafts",
-  "Health & Beauty",
-  "Home Supplies",
-  "Home Textiles & Furnishings",
-  "Hospital & Medical Supplies",
-  "Hotel Supplies & Equipment",
-  "Industrial Supplies",
-  "Jewelry & Gemstones",
-  "Leather & Leather Products",
-  "Machinery",
-  "Mineral & Metals",
-  "Office & School Supplies",
-  "Oil and Gas",
-  "Packaging & Paper",
-  "Pharmaceuticals",
-  "Pipes, Tubes & Fittings",
-  "Plastics & Products",
-  "Printing & Publishing",
-  "Real Estate",
-  "Scientific & Laboratory Instruments",
-  "Security & Protection",
-  "Sports & Entertainment",
-  "Telecommunications",
-  "Textiles & Fabrics",
-  "Toys",
-  "Transportation",
+  { en: "Agriculture", ar: "الزراعة" },
+  { en: "Apparel & Fashion", ar: "الملابس والموضة" },
+  { en: "Automobile", ar: "السيارات" },
+  { en: "Brass Hardware & Components", ar: "أدوات ومكونات النحاس" },
+  { en: "Business Services", ar: "الخدمات التجارية" },
+  { en: "Chemicals", ar: "المواد الكيميائية" },
+  { en: "Computer Hardware & Software", ar: "أجهزة وبرامج الكمبيوتر" },
+  { en: "Construction & Real Estate", ar: "البناء والعقارات" },
+  { en: "Consumer Electronics", ar: "الإلكترونيات الاستهلاكية" },
+  {
+    en: "Electronics & Electrical Supplies",
+    ar: "الإلكترونيات والمستلزمات الكهربائية",
+  },
+  { en: "Energy & Power", ar: "الطاقة والطاقة الكهربائية" },
+  { en: "Environment & Pollution", ar: "البيئة والتلوث" },
+  { en: "Food & Beverage", ar: "الطعام والمشروبات" },
+  { en: "Furniture", ar: "الأثاث" },
+  { en: "Gifts & Crafts", ar: "الهدايا والحرف اليدوية" },
+  { en: "Health & Beauty", ar: "الصحة والجمال" },
+  { en: "Home Supplies", ar: "مستلزمات المنزل" },
+  { en: "Home Textiles & Furnishings", ar: "منسوجات وتجهيزات المنزل" },
+  { en: "Hospital & Medical Supplies", ar: "المستشفيات والمستلزمات الطبية" },
+  { en: "Hotel Supplies & Equipment", ar: "مستلزمات ومعدات الفنادق" },
+  { en: "Industrial Supplies", ar: "المستلزمات الصناعية" },
+  { en: "Jewelry & Gemstones", ar: "المجوهرات والأحجار الكريمة" },
+  { en: "Leather & Leather Products", ar: "الجلد والمنتجات الجلدية" },
+  { en: "Machinery", ar: "المعدات والآلات" },
+  { en: "Mineral & Metals", ar: "المعادن والمعادن" },
+  { en: "Office & School Supplies", ar: "مستلزمات المكتب والمدرسة" },
+  { en: "Oil and Gas", ar: "النفط والغاز" },
+  { en: "Packaging & Paper", ar: "التغليف والورق" },
+  { en: "Pharmaceuticals", ar: "الأدوية" },
+  { en: "Pipes, Tubes & Fittings", ar: "الأنابيب والوصلات" },
+  { en: "Plastics & Products", ar: "اللدائن والمنتجات" },
+  { en: "Printing & Publishing", ar: "الطباعة والنشر" },
+  { en: "Real Estate", ar: "العقارات" },
+  {
+    en: "Scientific & Laboratory Instruments",
+    ar: "الأدوات العلمية والمخبرية",
+  },
+  { en: "Security & Protection", ar: "الأمن والحماية" },
+  { en: "Sports & Entertainment", ar: "الرياضة والترفيه" },
+  { en: "Telecommunications", ar: "الاتصالات" },
+  { en: "Textiles & Fabrics", ar: "المنسوجات والأقمشة" },
+  { en: "Toys", ar: "الألعاب" },
+  { en: "Transportation", ar: "النقل" },
 ];
 
-const businessTypes = ["Supplier", "Store", "Office", "Individual"];
+// Business types with translations
+const businessTypes = [
+  { en: "Supplier", ar: "مورد" },
+  { en: "Store", ar: "متجر" },
+  { en: "Office", ar: "مكتب" },
+  { en: "Individual", ar: "فرد" },
+];
 
+// Target customer options with translations
 const targetCustomerOptions = [
-  "Large Organizations",
-  "Small Businesses",
-  "Individuals",
+  { en: "Large Organizations", ar: "المنظمات الكبيرة" },
+  { en: "Small Businesses", ar: "الشركات الصغيرة" },
+  { en: "Individuals", ar: "الأفراد" },
 ];
 
+// Service distance options with translations
 const serviceDistanceOptions = [
-  "5 km",
-  "10 km",
-  "15 km",
-  "25 km",
-  "50 km",
-  "100+ km",
+  { en: "5 km", ar: "5 كم" },
+  { en: "10 km", ar: "10 كم" },
+  { en: "15 km", ar: "15 كم" },
+  { en: "25 km", ar: "25 كم" },
+  { en: "50 km", ar: "50 كم" },
+  { en: "100+ km", ar: "100+ كم" },
 ];
 
+// Service options with translations
 const serviceOptions = [
-  "Wholesale",
-  "Retail",
-  "Repair Services",
-  "Consulting",
-  "Installation",
-  "Maintenance",
-  "Custom Orders",
-  "Bulk Orders",
-  "Emergency Services",
-  "Delivery",
+  { en: "Wholesale", ar: "البيع بالجملة" },
+  { en: "Retail", ar: "التجزئة" },
+  { en: "Repair Services", ar: "خدمات الإصلاح" },
+  { en: "Consulting", ar: "الاستشارات" },
+  { en: "Installation", ar: "التثبيت" },
+  { en: "Maintenance", ar: "الصيانة" },
+  { en: "Custom Orders", ar: "طلبات مخصصة" },
+  { en: "Bulk Orders", ar: "طلبات بالجملة" },
+  { en: "Emergency Services", ar: "خدمات الطوارئ" },
+  { en: "Delivery", ar: "التوصيل" },
 ];
 
 export default function CompleteProfileForm({
   formData,
   setFormData,
   selectedLocation,
-}: CompleteProfileFormProps) {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  currentStep,
+  setCurrentStep,
+}: CompleteProfileFormProps & {
+  currentStep: number;
+  setCurrentStep: (step: number) => void;
+}) {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [selectedTargetCustomers, setSelectedTargetCustomers] = useState<
     string[]
   >([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [productKeywords, setProductKeywords] = useState<string[]>([]);
+  const [productKeywords, setProductKeywords] = useState<string[]>(
+    formData.productKeywords || []
+  );
+  const [keywordInput, setKeywordInput] = useState<string>(
+    formData.productKeywords?.join(", ") || ""
+  );
+
   const [keywordSuggestions, setKeywordSuggestions] = useState<string[]>([]);
+
   const [showKeywordGuide, setShowKeywordGuide] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
@@ -108,7 +135,7 @@ export default function CompleteProfileForm({
   const [crPreview, setCrPreview] = useState<string>("");
   const [showVerificationModal, setShowVerificationModal] =
     useState<boolean>(false);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const [additionalPhones, setAdditionalPhones] = useState<AdditionalPhone[]>([
     { id: 1, type: "Sales Representative", number: "", name: "" },
@@ -117,6 +144,49 @@ export default function CompleteProfileForm({
   const [branches, setBranches] = useState<Branch[]>([]);
   const [showBranchManagement, setShowBranchManagement] =
     useState<boolean>(false);
+
+  // Helper function to get translated text
+  const getTranslatedText = (
+    items: Array<{ en: string; ar: string }>,
+    value: string
+  ): string => {
+    const item = items.find((item) => item.en === value);
+    return item ? item[language as keyof typeof item] : value;
+  };
+
+  // Helper function to get English value from translated text
+  const getEnglishValue = (
+    items: Array<{ en: string; ar: string }>,
+    translatedValue: string
+  ): string => {
+    const item = items.find(
+      (item) => item.en === translatedValue || item.ar === translatedValue
+    );
+    return item ? item.en : translatedValue;
+  };
+  const saveKeywords = (): void => {
+    if (keywordInput.trim()) {
+      const keywordsArray = keywordInput
+        .split(",")
+        .map((k) => k.trim())
+        .filter((k) => k.length > 0);
+
+      const uniqueKeywords = [...new Set(keywordsArray)];
+
+      setProductKeywords(uniqueKeywords);
+      setFormData((prev) => ({
+        ...prev,
+        productKeywords: uniqueKeywords,
+      }));
+    } else {
+      // إذا كان الحقل فارغاً، امسح الكلمات
+      setProductKeywords([]);
+      setFormData((prev) => ({
+        ...prev,
+        productKeywords: [],
+      }));
+    }
+  };
 
   const getCategorySuggestions = (categories: string[]): string[] => {
     const suggestions: Record<string, string[]> = {
@@ -624,10 +694,14 @@ export default function CompleteProfileForm({
   };
 
   const handleProductKeywordsChange = (value: string): void => {
+    setKeywordInput(value);
+
+    // تحديث القائمة فوراً عند الكتابة
     const keywordsArray = value
       .split(",")
       .map((k) => k.trim())
       .filter((k) => k.length > 0);
+
     setProductKeywords(keywordsArray);
     setFormData((prev) => ({
       ...prev,
@@ -640,8 +714,10 @@ export default function CompleteProfileForm({
   };
 
   const addSuggestedKeyword = (keyword: string): void => {
-    const newKeywords = [...productKeywords, keyword];
+    const newKeywords = [...new Set([...productKeywords, keyword])];
+
     setProductKeywords(newKeywords);
+    setKeywordInput(newKeywords.join(", "));
     setFormData((prev) => ({
       ...prev,
       productKeywords: newKeywords,
@@ -649,9 +725,10 @@ export default function CompleteProfileForm({
   };
 
   const handleServiceToggle = (service: string): void => {
-    const newServices = selectedServices.includes(service)
-      ? selectedServices.filter((s) => s !== service)
-      : [...selectedServices, service];
+    const englishService = getEnglishValue(serviceOptions, service);
+    const newServices = selectedServices.includes(englishService)
+      ? selectedServices.filter((s) => s !== englishService)
+      : [...selectedServices, englishService];
 
     setSelectedServices(newServices);
     setFormData((prev) => ({
@@ -661,9 +738,10 @@ export default function CompleteProfileForm({
   };
 
   const handleTargetCustomerToggle = (customer: string): void => {
-    const newCustomers = selectedTargetCustomers.includes(customer)
-      ? selectedTargetCustomers.filter((c) => c !== customer)
-      : [...selectedTargetCustomers, customer];
+    const englishCustomer = getEnglishValue(targetCustomerOptions, customer);
+    const newCustomers = selectedTargetCustomers.includes(englishCustomer)
+      ? selectedTargetCustomers.filter((c) => c !== englishCustomer)
+      : [...selectedTargetCustomers, englishCustomer];
 
     setSelectedTargetCustomers(newCustomers);
     setFormData((prev) => ({
@@ -817,9 +895,10 @@ export default function CompleteProfileForm({
   ];
 
   const handleCategoryToggle = (category: string): void => {
-    const newCategories = selectedCategories.includes(category)
-      ? selectedCategories.filter((c) => c !== category)
-      : [...selectedCategories, category];
+    const englishCategory = getEnglishValue(categories, category);
+    const newCategories = selectedCategories.includes(englishCategory)
+      ? selectedCategories.filter((c) => c !== englishCategory)
+      : [...selectedCategories, englishCategory];
 
     setSelectedCategories(newCategories);
     setFormData((prev) => ({
@@ -869,6 +948,31 @@ export default function CompleteProfileForm({
       additionalPhones: updatedPhones,
     }));
   };
+  const clearAllKeywords = (): void => {
+    setProductKeywords([]);
+    setKeywordInput("");
+    setFormData((prev) => ({
+      ...prev,
+      productKeywords: [],
+    }));
+  };
+  const removeKeyword = (keywordToRemove: string): void => {
+    const newKeywords = productKeywords.filter((k) => k !== keywordToRemove);
+    const newKeywordInput = newKeywords.join(", ");
+
+    setProductKeywords(newKeywords);
+    setKeywordInput(newKeywordInput);
+    setFormData((prev) => ({
+      ...prev,
+      productKeywords: newKeywords,
+    }));
+  };
+  useEffect(() => {
+    if (formData.productKeywords && formData.productKeywords.length > 0) {
+      setProductKeywords(formData.productKeywords);
+      setKeywordInput(formData.productKeywords.join(", "));
+    }
+  }, [formData.productKeywords]);
 
   return (
     <div className="bg-white rounded-xl md:rounded-2xl shadow-xl p-4 md:p-6 lg:p-8 mx-2 md:mx-0">
@@ -946,9 +1050,9 @@ export default function CompleteProfileForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
                 {businessTypes.map((type) => (
                   <label
-                    key={type}
+                    key={type.en}
                     className={`flex items-center space-x-2 md:space-x-3 p-3 md:p-4 border-2 rounded-lg cursor-pointer transition-all ${
-                      formData.businessType === type
+                      formData.businessType === type.en
                         ? "border-yellow-400 bg-yellow-50"
                         : "border-gray-200 hover:border-gray-300"
                     }`}
@@ -956,8 +1060,8 @@ export default function CompleteProfileForm({
                     <input
                       type="radio"
                       name="businessType"
-                      value={type}
-                      checked={formData.businessType === type}
+                      value={type.en}
+                      checked={formData.businessType === type.en}
                       onChange={(e) =>
                         handleInputChange("businessType", e.target.value)
                       }
@@ -966,11 +1070,11 @@ export default function CompleteProfileForm({
                     />
                     <i
                       className={`${getBusinessTypeIcon(
-                        type
+                        type.en
                       )} text-base md:text-lg text-gray-600`}
                     ></i>
                     <span className="text-sm font-medium text-gray-700">
-                      {type}
+                      {type[language as keyof typeof type]}
                     </span>
                   </label>
                 ))}
@@ -988,27 +1092,30 @@ export default function CompleteProfileForm({
               </label>
               <p className="text-xs md:text-sm text-gray-600 mb-3 md:mb-4">
                 {t("completeProfile.step1.categoriesDesc")}
-                customers find you more easily.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 max-h-60 md:max-h-80 overflow-y-auto border border-gray-200 rounded-lg p-3 md:p-4">
                 {categories.map((category) => (
                   <label
-                    key={category}
+                    key={category.en}
                     className={`flex items-center space-x-2 md:space-x-3 p-2 md:p-3 border rounded-lg cursor-pointer transition-all ${
-                      selectedCategories.includes(category)
+                      selectedCategories.includes(category.en)
                         ? "border-yellow-400 bg-yellow-50"
                         : "border-gray-200 hover:border-gray-300"
                     }`}
                   >
                     <input
                       type="checkbox"
-                      checked={selectedCategories.includes(category)}
-                      onChange={() => handleCategoryToggle(category)}
+                      checked={selectedCategories.includes(category.en)}
+                      onChange={() =>
+                        handleCategoryToggle(
+                          category[language as keyof typeof category]
+                        )
+                      }
                       className="w-4 h-4 text-yellow-400 border-gray-300 rounded focus:ring-yellow-400"
                     />
                     <span className="text-xs md:text-sm text-gray-700">
-                      {category}
+                      {category[language as keyof typeof category]}
                     </span>
                   </label>
                 ))}
@@ -1016,7 +1123,8 @@ export default function CompleteProfileForm({
 
               <div className="mt-2 md:mt-3 flex items-center justify-between">
                 <span className="text-xs md:text-sm text-gray-500">
-                  {selectedCategories.length} categories selected
+                  {selectedCategories.length}{" "}
+                  {t("completeProfile.step1.categoriesSelected")}
                 </span>
                 {selectedCategories.length > 0 && (
                   <button
@@ -1042,14 +1150,21 @@ export default function CompleteProfileForm({
                     {t("completeProfile.step1.selectedCategories")}
                   </p>
                   <div className="flex flex-wrap gap-1 md:gap-2">
-                    {selectedCategories.map((category) => (
-                      <span
-                        key={category}
-                        className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs"
-                      >
-                        {category}
-                      </span>
-                    ))}
+                    {selectedCategories.map((category) => {
+                      const categoryObj = categories.find(
+                        (c) => c.en === category
+                      );
+                      return (
+                        <span
+                          key={category}
+                          className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs"
+                        >
+                          {categoryObj
+                            ? categoryObj[language as keyof typeof categoryObj]
+                            : category}
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -1122,15 +1237,16 @@ export default function CompleteProfileForm({
 
               <div className="mb-3 md:mb-4">
                 <textarea
-                  value={productKeywords.join(", ")}
-                  onChange={(e) => handleProductKeywordsChange(e.target.value)}
+                  value={keywordInput}
+                  onChange={(e) => setKeywordInput(e.target.value)}
+                  onBlur={saveKeywords}
                   rows={3}
                   className={`w-full px-3 md:px-4 py-2 md:py-3 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm resize-none ${
                     errors.productKeywords
                       ? "border-red-300"
                       : "border-gray-300"
                   }`}
-                  placeholder="Enter products and services separated by commas. Example: LED TV, Samsung electronics, iPhone repair, laptop wholesale, gaming computers, mobile accessories, warranty service, bulk orders..."
+                  placeholder={t("completeProfile.step1.keywordsPlaceholder")}
                 />
                 <div className="flex justify-between items-center mt-1 md:mt-2">
                   <span
@@ -1139,22 +1255,22 @@ export default function CompleteProfileForm({
                     }`}
                   >
                     {errors.productKeywords ||
-                      `${getKeywordCount()} ${t(
+                      `${productKeywords.length} ${t(
                         "completeProfile.step1.keywordsCount"
                       )}`}
                   </span>
                   <span
                     className={`text-xs ${
-                      productKeywords.join(", ").length >= 20
+                      productKeywords.length >= 3
                         ? "text-green-500"
-                        : "text-gray-400"
+                        : "text-yellow-500"
                     }`}
                   >
-                    {productKeywords.join(", ").length >= 20
-                      ? t("completeProfile.step1.goodLength")
-                      : `${productKeywords.join(", ").length}/${t(
-                          "completeProfile.step1.minChars"
-                        )}`}
+                    {productKeywords.length >= 3
+                      ? `${t("completeProfile.step1.goodLength")}`
+                      : `${t("completeProfile.step1.addMinChars")} ${
+                          3 - productKeywords.length
+                        } ${t("completeProfile.step1.minChars")}`}
                   </span>
                 </div>
               </div>
@@ -1162,27 +1278,93 @@ export default function CompleteProfileForm({
               {/* Keyword Suggestions */}
               {selectedCategories.length > 0 &&
                 keywordSuggestions.length > 0 && (
-                  <div>
+                  <div className="mt-4">
                     <p className="text-xs md:text-sm font-medium text-blue-700 mb-2 md:mb-3">
                       <i className="ri-magic-line mr-1"></i>
                       {t("completeProfile.step1.quickSuggestions")}
                     </p>
                     <div className="flex flex-wrap gap-1 md:gap-2">
-                      {keywordSuggestions.map((keyword, index) => (
-                        <button
-                          key={index}
-                          type="button"
-                          onClick={() => addSuggestedKeyword(keyword)}
-                          className="bg-white border border-blue-300 text-blue-700 px-2 md:px-3 py-1 rounded-full text-xs hover:bg-blue-50 transition-colors cursor-pointer"
-                        >
-                          <i className="ri-add-line mr-1"></i>
-                          {keyword}
-                        </button>
-                      ))}
+                      {keywordSuggestions
+                        .filter((keyword) => !productKeywords.includes(keyword))
+                        .map((keyword, index) => (
+                          <button
+                            key={index}
+                            type="button"
+                            onClick={() => addSuggestedKeyword(keyword)}
+                            className="bg-white border border-blue-300 text-blue-700 px-2 md:px-3 py-1 rounded-full text-xs hover:bg-blue-50 transition-colors cursor-pointer flex items-center"
+                          >
+                            <i className="ri-add-line mr-1"></i>
+                            {keyword}
+                          </button>
+                        ))}
                     </div>
                   </div>
                 )}
             </div>
+          </div>
+        )}
+        {productKeywords.length > 0 && (
+          <div className="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
+            <div className="flex items-center justify-between mb-3">
+              <h5 className="text-sm font-semibold text-green-800 flex items-center">
+                <i className="ri-price-tag-3-line mr-2"></i>
+                {t("completeProfile.step1.keywordsAdded")} (
+                {productKeywords.length})
+              </h5>
+              <button
+                type="button"
+                onClick={() => {
+                  setProductKeywords([]);
+                  setKeywordInput("");
+                  setFormData((prev) => ({ ...prev, productKeywords: [] }));
+                }}
+                className="text-xs text-red-600 hover:text-red-700 flex items-center"
+              >
+                <i className="ri-delete-bin-line mr-1"></i>
+                {t("completeProfile.step1.clearAll")}
+              </button>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {productKeywords.map((keyword, index) => (
+                <span
+                  key={index}
+                  className="bg-white border border-green-300 text-green-800 px-3 py-2 rounded-lg text-sm flex items-center shadow-sm"
+                >
+                  <i className="ri-check-line text-green-500 mr-2"></i>
+                  {keyword}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newKeywords = productKeywords.filter(
+                        (k) => k !== keyword
+                      );
+                      setProductKeywords(newKeywords);
+                      setKeywordInput(newKeywords.join(", "));
+                      setFormData((prev) => ({
+                        ...prev,
+                        productKeywords: newKeywords,
+                      }));
+                    }}
+                    className="mr-1 text-red-500 hover:text-red-700 transition-colors"
+                  >
+                    <i className="ri-close-line text-sm"></i>
+                  </button>
+                </span>
+              ))}
+            </div>
+
+            <p className="text-xs text-green-600 mt-2">
+              {t("completeProfile.step1.keywordsDesc")}
+            </p>
+          </div>
+        )}
+        {productKeywords.length === 0 && keywordInput.trim() === "" && (
+          <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200 text-center">
+            <i className="ri-search-line text-gray-400 text-2xl mb-2"></i>
+            <p className="text-sm text-gray-600">
+              {t("completeProfile.step1.keywordsDesc")}
+            </p>
           </div>
         )}
 
@@ -1195,20 +1377,26 @@ export default function CompleteProfileForm({
               <div className="space-y-2 md:space-y-3">
                 {targetCustomerOptions.map((customer) => (
                   <label
-                    key={customer}
+                    key={customer.en}
                     className={`flex items-center space-x-2 md:space-x-3 p-2 md:p-3 border rounded-lg cursor-pointer transition-all ${
-                      selectedTargetCustomers.includes(customer)
+                      selectedTargetCustomers.includes(customer.en)
                         ? "border-yellow-400 bg-yellow-50"
                         : "border-gray-200 hover:border-gray-300"
                     }`}
                   >
                     <input
                       type="checkbox"
-                      checked={selectedTargetCustomers.includes(customer)}
-                      onChange={() => handleTargetCustomerToggle(customer)}
+                      checked={selectedTargetCustomers.includes(customer.en)}
+                      onChange={() =>
+                        handleTargetCustomerToggle(
+                          customer[language as keyof typeof customer]
+                        )
+                      }
                       className="w-4 h-4 text-yellow-400 border-gray-300 rounded focus:ring-yellow-400"
                     />
-                    <span className="text-sm text-gray-700">{customer}</span>
+                    <span className="text-sm text-gray-700">
+                      {customer[language as keyof typeof customer]}
+                    </span>
                   </label>
                 ))}
               </div>
@@ -1234,10 +1422,12 @@ export default function CompleteProfileForm({
                 }`}
                 required
               >
-                <option value="">How far do you serve?</option>
+                <option value="">
+                  {t("completeProfile.step2.serviceDistancePlaceholder")}
+                </option>
                 {serviceDistanceOptions.map((distance) => (
-                  <option key={distance} value={distance}>
-                    {distance}
+                  <option key={distance.en} value={distance.en}>
+                    {distance[language as keyof typeof distance]}
                   </option>
                 ))}
               </select>
@@ -1250,25 +1440,32 @@ export default function CompleteProfileForm({
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2 md:mb-3">
-                {t("completeProfile.step2.servicesLabel")} (Optional)
+                {t("completeProfile.step2.servicesLabel")} (
+                {t("completeProfile.optional")})
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
                 {serviceOptions.map((service) => (
                   <label
-                    key={service}
+                    key={service.en}
                     className={`flex items-center space-x-2 md:space-x-3 p-2 md:p-3 border rounded-lg cursor-pointer transition-all ${
-                      selectedServices.includes(service)
+                      selectedServices.includes(service.en)
                         ? "border-yellow-400 bg-yellow-50"
                         : "border-gray-200 hover:border-gray-300"
                     }`}
                   >
                     <input
                       type="checkbox"
-                      checked={selectedServices.includes(service)}
-                      onChange={() => handleServiceToggle(service)}
+                      checked={selectedServices.includes(service.en)}
+                      onChange={() =>
+                        handleServiceToggle(
+                          service[language as keyof typeof service]
+                        )
+                      }
                       className="w-4 h-4 text-yellow-400 border-gray-300 rounded focus:ring-yellow-400"
                     />
-                    <span className="text-sm text-gray-700">{service}</span>
+                    <span className="text-sm text-gray-700">
+                      {service[language as keyof typeof service]}
+                    </span>
                   </label>
                 ))}
               </div>
@@ -1283,7 +1480,8 @@ export default function CompleteProfileForm({
           <div className="space-y-4 md:space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t("completeProfile.step3.websiteLabel")} (Optional)
+                {t("completeProfile.step3.websiteLabel")} (
+                {t("completeProfile.optional")})
               </label>
               <input
                 type="url"
@@ -1317,7 +1515,8 @@ export default function CompleteProfileForm({
             <div>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 md:mb-3 gap-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  {t("completeProfile.step3.additionalPhones")} (Optional)
+                  {t("completeProfile.step3.additionalPhones")} (
+                  {t("completeProfile.optional")})
                 </label>
                 {additionalPhones.length < 4 && (
                   <button
@@ -1880,7 +2079,7 @@ export default function CompleteProfileForm({
                     <span className="font-medium">
                       {t("completeProfile.step5.type")}:
                     </span>{" "}
-                    {formData.businessType}
+                    {getTranslatedText(businessTypes, formData.businessType)}
                   </p>
                   <p>
                     <span className="font-medium">

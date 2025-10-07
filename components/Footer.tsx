@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useLanguage } from "../lib/LanguageContext";
+import { FaTwitter, FaLinkedin, FaWhatsapp } from "react-icons/fa";
+import { FaFlag } from "react-icons/fa6";
 
 export default function Footer() {
   const { t, isRTL } = useLanguage();
@@ -16,18 +18,12 @@ export default function Footer() {
                 isRTL ? "space-x-reverse space-x-4" : "space-x-4"
               } text-sm`}
             >
-              <div className="flex items-center space-x-2">
-                <div className="w-6 h-4 bg-white rounded-sm flex items-center justify-center">
-                  <div className="w-4 h-3 bg-green-600 relative">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-2 h-2 bg-white rounded-full"></div>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white"></div>
-                  </div>
-                </div>
-                <span className="font-medium">
-                  {t("footer.bannerSupport2030")}
-                </span>
+              <div>
+                <img
+                  src="/Flag_of_Saudi_Arabia.svg"
+                  alt="Vision 2030"
+                  className="w-6 h-6"
+                />
               </div>
               <span className="text-yellow-200">|</span>
               <span className="text-yellow-100">
@@ -45,7 +41,11 @@ export default function Footer() {
             {/* Brand Section - Reorganized and Better Aligned */}
             <div className="lg:col-span-1 text-center lg:text-left">
               {/* Logo Section */}
-              <div className="flex items-center justify-center lg:justify-start space-x-2 sm:space-x-3 mb-6 sm:mb-8">
+              <div
+                className={`flex items-center space-x-2 sm:space-x-3 mb-6 ${
+                  isRTL ? "flex-row-reverse" : "flex-row"
+                }`}
+              >
                 <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
                   <svg
                     viewBox="0 0 24 24"
@@ -64,7 +64,7 @@ export default function Footer() {
                     />
                   </svg>
                 </div>
-                <div className="text-2xl sm:text-3xl font-bold">
+                <div className="text-xl sm:text-2xl md:text-3xl font-bold">
                   <span className="text-gray-800">Supplier</span>
                   <span className="text-green-400">.sa</span>
                 </div>
@@ -83,21 +83,21 @@ export default function Footer() {
               <div className="flex justify-center gap-2 lg:justify-start space-x-3 sm:space-x-4">
                 <a
                   href="#"
-                  className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors cursor-pointer"
+                  className="flex items-center justify-center transition-colors cursor-pointer"
                 >
-                  <i className="ri-twitter-fill text-lg sm:text-xl text-white"></i>
+                  <FaTwitter className="text-lg sm:text-xl text-black" />
                 </a>
                 <a
                   href="#"
-                  className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-700 hover:bg-blue-800 rounded-lg flex items-center justify-center transition-colors cursor-pointer"
+                  className="flex items-center justify-center transition-colors cursor-pointer"
                 >
-                  <i className="ri-linkedin-fill text-lg sm:text-xl text-white"></i>
+                  <FaLinkedin className="text-lg sm:text-xl text-black" />
                 </a>
                 <a
                   href="tel:+966542741977"
-                  className="w-10 h-10 sm:w-12 sm:h-12 bg-green-500 hover:bg-green-600 rounded-lg flex items-center justify-center transition-colors cursor-pointer"
+                  className="flex items-center justify-center transition-colors cursor-pointer"
                 >
-                  <i className="ri-whatsapp-fill text-lg sm:text-xl text-white"></i>
+                  <FaWhatsapp className="text-lg sm:text-xl text-black" />
                 </a>
               </div>
             </div>
@@ -242,8 +242,8 @@ export default function Footer() {
                       : "space-x-1 sm:space-x-2"
                   } text-xs text-yellow-100`}
                 >
-                  <div className="w-3 h-2 sm:w-4 sm:h-3 bg-white rounded-sm flex items-center justify-center">
-                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-600 rounded-full"></div>
+                  <div className="flex items-center justify-center">
+                    <FaFlag className="text-green-600 text-sm sm:text-base" />
                   </div>
                   <span className="text-xs">
                     {t("footer.proudlyMadeInSaudi")}
