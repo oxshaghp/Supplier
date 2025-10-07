@@ -917,6 +917,18 @@ export default function SearchSection() {
         handleMarkerClick(business);
       }
     };
+    (window as any).handleMapViewDetails = (businessId: number) => {
+      const business = businessLocations.find((b) => b.id === businessId);
+      if (business) {
+        handleViewDetails(business);
+      }
+    };
+    (window as any).handleMapGetDirections = (businessId: number) => {
+      const business = businessLocations.find((b) => b.id === businessId);
+      if (business) {
+        handleGetDirections(business);
+      }
+    };
   }, []);
   return (
     <>
@@ -1102,59 +1114,7 @@ export default function SearchSection() {
                   </div>
                 </div>
 
-                {/* Selected Business Details */}
-                {selectedBusiness && (
-                  <div
-                    id="selected-business-details"
-                    className="bg-white rounded-2xl shadow-xl p-4 md:p-6 mb-4 border-2 border-yellow-400"
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <h3 className="text-lg md:text-xl font-bold text-gray-900">
-                        {selectedBusiness.name}
-                      </h3>
-                      <button
-                        onClick={() => setSelectedBusiness(null)}
-                        className="text-gray-400 hover:text-gray-600"
-                      >
-                        <i className="ri-close-line text-xl"></i>
-                      </button>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-gray-600 mb-2">
-                          <i className="ri-map-pin-line text-yellow-500 mr-2"></i>
-                          {selectedBusiness.address}
-                        </p>
-                        <p className="text-gray-600 mb-2">
-                          <i className="ri-phone-line text-yellow-500 mr-2"></i>
-                          {selectedBusiness.phone}
-                        </p>
-                        <p className="text-gray-600">
-                          <i className="ri-mail-line text-yellow-500 mr-2"></i>
-                          {selectedBusiness.email}
-                        </p>
-                      </div>
-
-                      <div className="flex flex-col sm:flex-row gap-2">
-                        <button
-                          onClick={() => handleViewDetails(selectedBusiness)}
-                          className="bg-yellow-400 text-white px-4 py-2 rounded-lg font-medium hover:bg-yellow-500 transition-colors flex items-center justify-center"
-                        >
-                          <i className="ri-eye-line mr-2"></i>
-                          {t("viewFullProfile") || "View Full Profile"}
-                        </button>
-                        <button
-                          onClick={() => handleGetDirections(selectedBusiness)}
-                          className="bg-blue-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors flex items-center justify-center"
-                        >
-                          <i className="ri-map-pin-line mr-2"></i>
-                          {t("getDirections") || "Get Directions"}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                {/* Removed bottom details panel; details now shown in map tooltip */}
               </div>
             </div>
           </div>

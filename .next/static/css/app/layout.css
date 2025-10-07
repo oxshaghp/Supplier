@@ -603,6 +603,9 @@ video {
 .top-full{
   top: 100%;
 }
+.z-0{
+  z-index: 0;
+}
 .z-10{
   z-index: 10;
 }
@@ -939,8 +942,8 @@ video {
 .min-w-0{
   min-width: 0px;
 }
-.min-w-48{
-  min-width: 12rem;
+.min-w-56{
+  min-width: 14rem;
 }
 .min-w-64{
   min-width: 16rem;
@@ -993,9 +996,6 @@ video {
 }
 .max-w-xs{
   max-width: 20rem;
-}
-.max-w-64{
-  max-width: 16rem;
 }
 .flex-1{
   flex: 1 1 0%;
@@ -2415,9 +2415,6 @@ video {
 .opacity-100{
   opacity: 1;
 }
-.opacity-20{
-  opacity: 0.2;
-}
 .opacity-60{
   opacity: 0.6;
 }
@@ -3604,6 +3601,9 @@ video {
   }
   .md\:items-center{
     align-items: center;
+  }
+  .md\:justify-start{
+    justify-content: flex-start;
   }
   .md\:justify-end{
     justify-content: flex-end;

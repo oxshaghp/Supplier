@@ -42,7 +42,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 sm:gap-10 md:gap-12">
             {/* Brand Section - Reorganized and Better Aligned */}
-            <div className="lg:col-span-1 text-center lg:text-left">
+            <div className="flex justify-center items-center flex-col md:justify-start lg:col-span-1 text-center lg:text-left">
               {/* Logo Section */}
               <div
                 className={`flex items-center space-x-2 sm:space-x-3 mb-6 ${
@@ -83,7 +83,7 @@ export default function Footer() {
               </div>
 
               {/* Social Media Icons - Centered */}
-              <div className="flex justify-center gap-2 lg:justify-start space-x-3 sm:space-x-4">
+              <div className="flex justify-center text-center gap-2 lg:justify-start space-x-3 sm:space-x-4">
                 <a
                   href="#"
                   className="flex items-center justify-center transition-colors cursor-pointer"
