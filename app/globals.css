@@ -19,3 +19,35 @@
 .leaflet-tooltip-top.custom-tooltip::before {
   border-top-color: white;
 }
+
+/* تحسينات للـ tooltip في الخريطة */
+.leaflet-business-tooltip {
+  pointer-events: auto !important;
+  z-index: 1000 !important;
+  transition: none !important; /* منع الانتقالات التي قد تسبب مشاكل */
+}
+
+.leaflet-business-tooltip .leaflet-btn-view,
+.leaflet-business-tooltip .leaflet-btn-dir {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.leaflet-business-tooltip .leaflet-btn-view:hover,
+.leaflet-business-tooltip .leaflet-btn-dir:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+/* ضمان ثبات الـ tooltip عند hover */
+.leaflet-business-tooltip:hover {
+  pointer-events: auto !important;
+}
+
+/* تحسينات إضافية للعربية */
+.leaflet-business-tooltip[dir="rtl"] {
+  text-align: right;
+  direction: rtl;
+}

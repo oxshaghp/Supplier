@@ -150,7 +150,7 @@ const InteractiveMap = ({ businesses, onBusinessClick }: MapProps) => {
       const { MaptilerLayer } = await import("@maptiler/leaflet-maptilersdk");
       const layer = new MaptilerLayer({
         apiKey: mapTilerKey,
-        style: "bright-v2",
+        style: "streets-v2",
         language: language === "ar" ? "ar" : "en",
       });
       tileLayerRef.current = layer;
@@ -159,7 +159,7 @@ const InteractiveMap = ({ businesses, onBusinessClick }: MapProps) => {
     updateTiles();
   }, [language, map, isClient]);
 
-  // Update markers when businesses change - هذا هو الـ useEffect الجديد
+  // Update markers when businesses change
   useEffect(() => {
     if (!map || !isClient) return;
 
@@ -196,14 +196,14 @@ const InteractiveMap = ({ businesses, onBusinessClick }: MapProps) => {
           title: business.name,
         }).addTo(map);
 
-        // Build hover tooltip content to show above the dot
+        // Build hover tooltip content - تم التعديل هنا
         const isRtl = language === "ar";
-        const viewDetailsLabel = (window as any).__map_viewDetails || ""; // placeholder if needed
-        const directionsLabel = (window as any).__map_getDirections || ""; // placeholder if needed
         const tooltipContent = `
-          <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:12px 14px;min-width:240px;box-shadow:0 8px 20px rgba(0,0,0,0.12);${
-            isRtl ? "direction:rtl;text-align:right;" : ""
-          }">
+          <div dir="${
+            isRtl ? "rtl" : "ltr"
+          }" style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:12px 14px;min-width:240px;box-shadow:0 8px 20px rgba(0,0,0,0.12);${
+          isRtl ? "direction:rtl;text-align:right;" : ""
+        }">
             <div style="font-weight:700;color:#111827;font-size:14px;margin-bottom:6px;">${
               business.name
             }</div>
@@ -221,12 +221,12 @@ const InteractiveMap = ({ businesses, onBusinessClick }: MapProps) => {
               }">
                 <button class="leaflet-btn-view" data-id="${
                   business.id
-                }" style="padding:6px 10px;font-size:12px;border-radius:8px;background:#f59e0b;color:#fff;cursor:pointer;border:none;white-space:nowrap;">${
+                }" style="padding:6px 10px;font-size:12px;border-radius:8px;background:#f59e0b;color:#fff;cursor:pointer;border:none;white-space:nowrap;pointer-events:auto;">${
           language === "ar" ? "عرض التفاصيل" : "View Details"
         }</button>
                 <button class="leaflet-btn-dir" data-id="${
                   business.id
-                }" style="padding:6px 10px;font-size:12px;border-radius:8px;background:#2563eb;color:#fff;cursor:pointer;border:none;white-space:nowrap;">${
+                }" style="padding:6px 10px;font-size:12px;border-radius:8px;background:#2563eb;color:#fff;cursor:pointer;border:none;white-space:nowrap;pointer-events:auto;">${
           language === "ar" ? "الاتجاهات" : "Directions"
         }</button>
               </div>
@@ -236,83 +236,117 @@ const InteractiveMap = ({ businesses, onBusinessClick }: MapProps) => {
 
         marker.bindTooltip(tooltipContent, {
           direction: "top",
-          offset: [0, -4],
+          offset: language === "ar" ? [-10, -5] : [0, -10], // تعديل الموضع للعربية
           opacity: 1,
           permanent: false,
           sticky: true,
-          interactive: true,
+          interactive: true, // هذا مهم لجعل الأزرار قابلة للنقر
           className: "leaflet-business-tooltip",
         });
 
-        // Hover behavior: show tooltip and update external selection (for highlight)
-        let isTooltipHovered = false;
-        marker.on("mouseover", () => {
-          marker.openTooltip();
-          onBusinessClick(business);
-          const tt: any =
-            (marker as any).getTooltip && (marker as any).getTooltip();
-          const el: HTMLElement | null =
-            tt && tt.getElement ? tt.getElement() : null;
-          if (el) {
-            el.style.pointerEvents = "auto";
-            if (!(el as any)._hoverBound) {
-              el.addEventListener("mouseenter", () => {
-                isTooltipHovered = true;
-                marker.openTooltip();
-              });
-              el.addEventListener("mouseleave", () => {
-                isTooltipHovered = false;
-              });
-              // Attach click handlers for buttons
-              const onView = (e: Event) => {
-                e.preventDefault();
-                e.stopPropagation();
-                const id = (e.currentTarget as HTMLElement).getAttribute(
-                  "data-id"
-                );
-                if (id && (window as any).handleMapViewDetails) {
-                  (window as any).handleMapViewDetails(Number(id));
-                }
-              };
-              const onDir = (e: Event) => {
-                e.preventDefault();
-                e.stopPropagation();
-                const id = (e.currentTarget as HTMLElement).getAttribute(
-                  "data-id"
-                );
-                if (id && (window as any).handleMapGetDirections) {
-                  (window as any).handleMapGetDirections(Number(id));
-                }
-              };
-              const viewBtn = el.querySelector(".leaflet-btn-view");
-              const dirBtn = el.querySelector(".leaflet-btn-dir");
-              if (viewBtn && !(viewBtn as any)._bound) {
-                viewBtn.addEventListener("click", onView);
-                (viewBtn as any)._bound = true;
-              }
-              if (dirBtn && !(dirBtn as any)._bound) {
-                dirBtn.addEventListener("click", onDir);
-                (dirBtn as any)._bound = true;
-              }
-              (el as any)._hoverBound = true;
+        // Handle tooltip events
+        marker.on("tooltipopen", (e) => {
+          const tooltip = e.tooltip;
+          const tooltipElement = tooltip.getElement();
+
+          if (tooltipElement) {
+            // Add event listeners for buttons
+            const viewButton =
+              tooltipElement.querySelector(".leaflet-btn-view");
+            const dirButton = tooltipElement.querySelector(".leaflet-btn-dir");
+
+            if (viewButton) {
+              // Remove existing listeners first
+              viewButton.removeEventListener("click", handleViewClick);
+              viewButton.addEventListener("click", handleViewClick);
+            }
+
+            if (dirButton) {
+              // Remove existing listeners first
+              dirButton.removeEventListener("click", handleDirClick);
+              dirButton.addEventListener("click", handleDirClick);
             }
           }
         });
-        // Delay close and keep open if pointer moved into the tooltip element
+
+        // Define click handlers outside to avoid recreation
+        const handleViewClick = (event: Event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          console.log("View button clicked for business:", business.id);
+          if ((window as any).handleMapViewDetails) {
+            (window as any).handleMapViewDetails(business.id);
+          } else {
+            console.warn("handleMapViewDetails function not found on window");
+          }
+        };
+
+        const handleDirClick = (event: Event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          console.log("Directions button clicked for business:", business.id);
+          if ((window as any).handleMapGetDirections) {
+            (window as any).handleMapGetDirections(business.id);
+          } else {
+            console.warn("handleMapGetDirections function not found on window");
+          }
+        };
+
+        // Hover behavior - تحسين لضمان ثبات الـ tooltip
+        marker.on("mouseover", () => {
+          marker.openTooltip();
+          onBusinessClick(business);
+        });
+
         marker.on("mouseout", () => {
+          // تأخير أطول لضمان عدم اختفاء الـ tooltip عند تحريك الماوس عليه
           setTimeout(() => {
-            const tt: any =
-              (marker as any).getTooltip && (marker as any).getTooltip();
-            const el: HTMLElement | null =
-              tt && tt.getElement ? tt.getElement() : null;
-            const markerEl: HTMLElement | null = (marker as any).getElement
-              ? (marker as any).getElement()
-              : null;
-            const stillOnMarker = !!(markerEl && markerEl.matches(":hover"));
-            if (!(el && el.matches(":hover")) && !stillOnMarker) {
+            const tooltip = (marker as any).getTooltip();
+            if (tooltip && tooltip.getElement()) {
+              const tooltipElement = tooltip.getElement();
+              const markerElement = marker.getElement();
+              // التحقق من أن الماوس ليس فوق الـ tooltip أو الـ marker
+              if (
+                !tooltipElement.matches(":hover") &&
+                markerElement &&
+                !markerElement.matches(":hover")
+              ) {
+                marker.closeTooltip();
+              }
+            } else {
               marker.closeTooltip();
             }
-          }, 400);
+          }, 300); // زيادة التأخير من 100 إلى 300
+        });
+
+        // إضافة event listeners للـ tooltip نفسه لضمان ثباته
+        marker.on("tooltipopen", (e) => {
+          const tooltip = e.tooltip;
+          const tooltipElement = tooltip.getElement();
+
+          if (tooltipElement) {
+            let tooltipShouldClose = true;
+
+            // منع إغلاق الـ tooltip عند hover عليه
+            tooltipElement.addEventListener("mouseenter", () => {
+              tooltipShouldClose = false;
+            });
+
+            tooltipElement.addEventListener("mouseleave", () => {
+              tooltipShouldClose = true;
+              // إغلاق الـ tooltip بعد مغادرة الماوس
+              setTimeout(() => {
+                if (tooltipShouldClose) {
+                  marker.closeTooltip();
+                }
+              }, 200);
+            });
+          }
+        });
+
+        // Also handle click on marker
+        marker.on("click", () => {
+          onBusinessClick(business);
         });
 
         newMarkers.push(marker);
@@ -328,7 +362,7 @@ const InteractiveMap = ({ businesses, onBusinessClick }: MapProps) => {
     };
 
     updateMarkers();
-  }, [map, isClient, businesses, onBusinessClick]);
+  }, [map, isClient, businesses, onBusinessClick, language]); // تم إضافة language dependency
 
   const getBusinessMarkerColor = (type: string) => {
     const colors: { [key: string]: string } = {
