@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import Link from "next/link";
 import BranchManagement from "./BranchManagement";
 import { useLanguage } from "./../lib/LanguageContext";
@@ -12,6 +12,7 @@ import {
   CompleteProfileFormProps,
   Branch,
 } from "./../lib/types";
+import BusinessLocationMap from "./BusinessLocationMap";
 
 // Categories with translations
 const categories = [
@@ -106,6 +107,7 @@ export default function CompleteProfileForm({
   formData,
   setFormData,
   selectedLocation,
+  setSelectedLocation,
   currentStep,
   setCurrentStep,
 }: CompleteProfileFormProps & {
@@ -179,7 +181,6 @@ export default function CompleteProfileForm({
         productKeywords: uniqueKeywords,
       }));
     } else {
-      // إذا كان الحقل فارغاً، امسح الكلمات
       setProductKeywords([]);
       setFormData((prev) => ({
         ...prev,
@@ -696,7 +697,6 @@ export default function CompleteProfileForm({
   const handleProductKeywordsChange = (value: string): void => {
     setKeywordInput(value);
 
-    // تحديث القائمة فوراً عند الكتابة
     const keywordsArray = value
       .split(",")
       .map((k) => k.trim())
@@ -823,6 +823,12 @@ export default function CompleteProfileForm({
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
+    e.stopPropagation(); // منع أي propagation
+
+    // تأكد إننا في الخطوة الأخيرة
+    if (currentStep !== 6) {
+      return;
+    }
 
     setIsSubmitting(true);
     setSubmitStatus("Uploading documents and saving profile...");
@@ -837,14 +843,16 @@ export default function CompleteProfileForm({
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }; // <-- Add this closing brace to end handleSubmit
 
   const nextStep = (): void => {
     if (validateStep(currentStep)) {
-      if (currentStep < 5) setCurrentStep(currentStep + 1);
+      if (currentStep < 6) {
+        setCurrentStep(currentStep + 1);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     }
   };
-
   const prevStep = (): void => {
     if (currentStep > 1) setCurrentStep(currentStep - 1);
   };
@@ -875,7 +883,9 @@ export default function CompleteProfileForm({
       case 4:
         return t("completeProfile.steps.hoursBranches");
       case 5:
-        return t("completeProfile.steps.verification");
+        return t("completeProfile.steps.locationMap"); // الخريطة هنا
+      case 6:
+        return t("completeProfile.steps.verification"); // التحقق هنا
       default:
         return "";
     }
@@ -906,11 +916,10 @@ export default function CompleteProfileForm({
       categories: newCategories,
     }));
 
-    if (newCategories.length > 0) {
-      setKeywordSuggestions(getCategorySuggestions(newCategories));
-    } else {
-      setKeywordSuggestions([]);
-    }
+    // تحديث الاقتراحات فوراً
+    const newSuggestions =
+      newCategories.length > 0 ? getCategorySuggestions(newCategories) : [];
+    setKeywordSuggestions(newSuggestions);
   };
 
   const handleAddPhone = (): void => {
@@ -974,6 +983,26 @@ export default function CompleteProfileForm({
     }
   }, [formData.productKeywords]);
 
+  // ⭐ التعديل الرابع: useEffect لتحديث الاقتراحات تلقائياً
+  useEffect(() => {
+    if (selectedCategories.length > 0) {
+      const newSuggestions = getCategorySuggestions(selectedCategories);
+      setKeywordSuggestions(newSuggestions);
+    } else {
+      setKeywordSuggestions([]);
+    }
+  }, [selectedCategories]);
+
+  useEffect(() => {
+    if (Number(currentStep) === 5) {
+      return;
+    }
+  }, [currentStep]);
+
+  const handleLocationSelect = (location: Location) => {
+    setSelectedLocation(location);
+  };
+
   return (
     <div className="bg-white rounded-xl md:rounded-2xl shadow-xl p-4 md:p-6 lg:p-8 mx-2 md:mx-0">
       <div className="mb-6 md:mb-8">
@@ -984,12 +1013,13 @@ export default function CompleteProfileForm({
           <span className="text-xs md:text-sm text-gray-500">
             {t("completeProfile.stepOf")
               .replace("{current}", String(currentStep))
-              .replace("{total}", "5")}
+              .replace("{total}", "6")}{" "}
+            {/* غير من 5 ل 6 */}
           </span>
         </div>
 
         <div className="flex space-x-1 md:space-x-2 mb-3 md:mb-4">
-          {[1, 2, 3, 4, 5].map((step) => (
+          {[1, 2, 3, 4, 5, 6].map((step) => (
             <div
               key={step}
               className={`h-1.5 md:h-2 flex-1 rounded-full transition-all duration-300 ${
@@ -1005,7 +1035,7 @@ export default function CompleteProfileForm({
         <div className="w-full bg-gray-100 rounded-full h-1">
           <div
             className="bg-yellow-400 h-1 rounded-full transition-all duration-300"
-            style={{ width: `${(currentStep / 5) * 100}%` }}
+            style={{ width: `${(currentStep / 6) * 100}%` }}
           ></div>
         </div>
       </div>
@@ -1235,7 +1265,56 @@ export default function CompleteProfileForm({
                 </div>
               )}
 
+              {/* ⭐⭐ الكلمات المفتاحية الجاهزة ⭐⭐ */}
               <div className="mb-3 md:mb-4">
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {[
+                    "wholesale supplier",
+                    "retail products",
+                    "bulk orders",
+                    "custom solutions",
+                    "premium quality",
+                    "fast delivery",
+                    "competitive prices",
+                    "professional service",
+                    "reliable partner",
+                    "expert consultation",
+                  ].map((keyword, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => {
+                        if (!productKeywords.includes(keyword)) {
+                          const newKeywords = [...productKeywords, keyword];
+                          setProductKeywords(newKeywords);
+                          setKeywordInput(newKeywords.join(", "));
+                          setFormData((prev) => ({
+                            ...prev,
+                            productKeywords: newKeywords,
+                          }));
+                        }
+                      }}
+                      className={`px-3 py-2 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                        productKeywords.includes(keyword)
+                          ? "bg-green-100 text-green-800 border border-green-300"
+                          : "bg-white text-gray-700 border border-gray-300 hover:bg-blue-50 hover:border-blue-300"
+                      }`}
+                    >
+                      {productKeywords.includes(keyword) ? (
+                        <>
+                          <i className="ri-check-line mr-1"></i>
+                          {keyword}
+                        </>
+                      ) : (
+                        <>
+                          <i className="ri-add-line mr-1"></i>
+                          {keyword}
+                        </>
+                      )}
+                    </button>
+                  ))}
+                </div>
+
                 <textarea
                   value={keywordInput}
                   onChange={(e) => setKeywordInput(e.target.value)}
@@ -1893,8 +1972,55 @@ export default function CompleteProfileForm({
             </div>
           </div>
         )}
-
         {currentStep === 5 && (
+          <div className="space-y-4 md:space-y-6">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg md:rounded-xl p-4 md:p-6">
+              <div className="flex items-center space-x-2 mb-3 md:mb-4">
+                <i className="ri-map-pin-line text-blue-600 text-lg md:text-xl"></i>
+                <h4 className="text-base md:text-lg font-semibold text-blue-800">
+                  {t("completeProfile.step5.mapTitle")}
+                </h4>
+              </div>
+              <p className="text-sm text-gray-600 mb-4">
+                {t("completeProfile.step5.mapDescription")}
+              </p>
+
+              {/* الخريطة بحجم أكبر */}
+              <div className="h-[800px] rounded-lg overflow-hidden border border-gray-300 shadow-lg">
+                <BusinessLocationMap
+                  selectedLocation={selectedLocation}
+                  setSelectedLocation={setSelectedLocation}
+                />
+              </div>
+
+              <div className="mt-3 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                <p className="text-xs md:text-sm text-yellow-800 mb-1">
+                  <i className="ri-map-pin-line mr-1 md:mr-2"></i>
+                  {t("completeProfile.selectedLocation")}: Lat{" "}
+                  {selectedLocation.lat.toFixed(6)}, Lng{" "}
+                  {selectedLocation.lng.toFixed(6)}
+                </p>
+                <p className="text-xs text-yellow-700">
+                  {t("completeProfile.locationInstructions")}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {submitStatus && (
+          <div
+            className={`p-3 md:p-4 rounded-lg ${
+              submitStatus.includes("Failed")
+                ? "bg-red-50 text-red-700"
+                : "bg-blue-50 text-blue-700"
+            }`}
+          >
+            <p className="text-xs md:text-sm">{submitStatus}</p>
+          </div>
+        )}
+
+        {currentStep === 6 && (
           <div className="space-y-4 md:space-y-6">
             <div className="bg-gradient-to-r from-red-50 to-red-100 border border-red-200 rounded-lg md:rounded-xl p-4 md:p-6">
               <div className="flex items-center space-x-2 md:space-x-3 mb-3 md:mb-4">
@@ -1903,34 +2029,34 @@ export default function CompleteProfileForm({
                 </div>
                 <div>
                   <h4 className="text-base md:text-lg font-semibold text-red-800">
-                    {t("completeProfile.step5.verificationRequired")}
+                    {t("completeProfile.step6.verificationRequired")}
                   </h4>
                   <p className="text-red-700 text-xs md:text-sm">
-                    {t("completeProfile.step5.verificationDesc")}
+                    {t("completeProfile.step6.verificationDesc")}
                   </p>
                 </div>
               </div>
 
               <div className="bg-white p-3 md:p-4 rounded-lg border border-red-200">
                 <h5 className="font-medium text-gray-800 mb-2 md:mb-3 text-sm md:text-base">
-                  {t("completeProfile.step5.whyRequired")}
+                  {t("completeProfile.step6.whyRequired")}
                 </h5>
                 <ul className="text-xs md:text-sm text-gray-700 space-y-1 md:space-y-2">
                   <li className="flex items-start space-x-1 md:space-x-2">
                     <i className="ri-check-line text-green-500 mt-0.5 text-sm md:text-base"></i>
-                    <span>{t("completeProfile.step5.reason1")}</span>
+                    <span>{t("completeProfile.step6.reason1")}</span>
                   </li>
                   <li className="flex items-start space-x-1 md:space-x-2">
                     <i className="ri-check-line text-green-500 mt-0.5 text-sm md:text-base"></i>
-                    <span>{t("completeProfile.step5.reason2")}</span>
+                    <span>{t("completeProfile.step6.reason2")}</span>
                   </li>
                   <li className="flex items-start space-x-1 md:space-x-2">
                     <i className="ri-check-line text-green-500 mt-0.5 text-sm md:text-base"></i>
-                    <span>{t("completeProfile.step5.reason3")}</span>
+                    <span>{t("completeProfile.step6.reason3")}</span>
                   </li>
                   <li className="flex items-start space-x-1 md:space-x-2">
                     <i className="ri-check-line text-green-500 mt-0.5 text-sm md:text-base"></i>
-                    <span>{t("completeProfile.step5.reason4")}</span>
+                    <span>{t("completeProfile.step6.reason4")}</span>
                   </li>
                 </ul>
               </div>
@@ -1938,7 +2064,7 @@ export default function CompleteProfileForm({
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t("completeProfile.step5.crDocument")}
+                {t("completeProfile.step6.crDocument")}
               </label>
               <div
                 className={`border-2 border-dashed rounded-lg p-4 md:p-6 text-center transition-all ${
@@ -1963,13 +2089,13 @@ export default function CompleteProfileForm({
                       <i className="ri-upload-cloud-2-line text-2xl md:text-4xl text-gray-400"></i>
                       <div>
                         <p className="text-base md:text-lg font-medium text-gray-700">
-                          {t("completeProfile.step5.uploadCR")}
+                          {t("completeProfile.step6.uploadCR")}
                         </p>
                         <p className="text-xs md:text-sm text-gray-500">
-                          {t("completeProfile.step5.uploadDesc")}
+                          {t("completeProfile.step6.uploadDesc")}
                         </p>
                         <p className="text-xs text-gray-400 mt-1 md:mt-2">
-                          {t("completeProfile.step5.supportedFormats")}
+                          {t("completeProfile.step6.supportedFormats")}
                         </p>
                       </div>
                     </div>
@@ -2004,7 +2130,7 @@ export default function CompleteProfileForm({
                         className="bg-blue-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-lg hover:bg-blue-600 text-xs md:text-sm cursor-pointer text-center"
                       >
                         <i className="ri-refresh-line mr-1 md:mr-2"></i>
-                        {t("completeProfile.step5.replaceFile")}
+                        {t("completeProfile.step6.replaceFile")}
                       </label>
                       <button
                         type="button"
@@ -2015,7 +2141,7 @@ export default function CompleteProfileForm({
                         className="bg-red-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-lg hover:bg-red-600 text-xs md:text-sm cursor-pointer text-center"
                       >
                         <i className="ri-delete-bin-line mr-1 md:mr-2"></i>
-                        {t("completeProfile.step5.removeFile")}
+                        {t("completeProfile.step6.removeFile")}
                       </button>
                     </div>
                   </div>
@@ -2029,91 +2155,91 @@ export default function CompleteProfileForm({
             <div className="bg-blue-50 p-3 md:p-4 rounded-lg">
               <h5 className="font-medium text-blue-800 mb-1 md:mb-2 text-sm md:text-base">
                 <i className="ri-information-line mr-1 md:mr-2"></i>
-                {t("completeProfile.step5.whatHappensNext")}
+                {t("completeProfile.step6.whatHappensNext")}
               </h5>
               <ol className="text-xs md:text-sm text-blue-700 space-y-1 md:space-y-2">
                 <li className="flex items-start space-x-1 md:space-x-2">
                   <span className="bg-blue-200 text-blue-800 rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center text-xs font-bold mt-0.5">
                     1
                   </span>
-                  <span>{t("completeProfile.step5.nextStep1")}</span>
+                  <span>{t("completeProfile.step6.nextStep1")}</span>
                 </li>
                 <li className="flex items-start space-x-1 md:space-x-2">
                   <span className="bg-blue-200 text-blue-800 rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center text-xs font-bold mt-0.5">
                     2
                   </span>
-                  <span>{t("completeProfile.step5.nextStep2")}</span>
+                  <span>{t("completeProfile.step6.nextStep2")}</span>
                 </li>
                 <li className="flex items-start space-x-1 md:space-x-2">
                   <span className="bg-blue-200 text-blue-800 rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center text-xs font-bold mt-0.5">
                     3
                   </span>
-                  <span>{t("completeProfile.step5.nextStep3")}</span>
+                  <span>{t("completeProfile.step6.nextStep3")}</span>
                 </li>
               </ol>
               <p className="text-xs text-blue-600 mt-2 md:mt-3">
-                {t("completeProfile.step5.verificationTime")}
+                {t("completeProfile.step6.verificationTime")}
               </p>
             </div>
 
             {/* Profile Summary */}
             <div className="bg-green-50 p-4 md:p-6 rounded-lg mt-4 md:mt-6">
               <h4 className="text-base md:text-lg font-semibold text-green-800 mb-3 md:mb-4">
-                {t("completeProfile.step5.profileSummary")}
+                {t("completeProfile.step6.profileSummary")}
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 text-xs md:text-sm">
                 <div>
                   <p>
                     <span className="font-medium">
-                      {t("completeProfile.step5.business")}:
+                      {t("completeProfile.step6.business")}:
                     </span>{" "}
                     {formData.businessName}
                   </p>
                   <p>
                     <span className="font-medium">
-                      {t("completeProfile.step5.category")}:
+                      {t("completeProfile.step6.category")}:
                     </span>{" "}
                     {formData.category}
                   </p>
                   <p>
                     <span className="font-medium">
-                      {t("completeProfile.step5.type")}:
+                      {t("completeProfile.step6.type")}:
                     </span>{" "}
                     {getTranslatedText(businessTypes, formData.businessType)}
                   </p>
                   <p>
                     <span className="font-medium">
-                      {t("completeProfile.step5.services")}:
+                      {t("completeProfile.step6.services")}:
                     </span>{" "}
                     {selectedServices.length}{" "}
-                    {t("completeProfile.step5.selected")}
+                    {t("completeProfile.step6.selected")}
                   </p>
                 </div>
                 <div>
                   <p>
                     <span className="font-medium">
-                      {t("completeProfile.step5.email")}:
+                      {t("completeProfile.step6.email")}:
                     </span>{" "}
                     {formData.contactEmail}
                   </p>
                   <p>
                     <span className="font-medium">
-                      {t("completeProfile.step5.phone")}:
+                      {t("completeProfile.step6.phone")}:
                     </span>{" "}
                     {formData.contactPhone}
                   </p>
                   <p>
                     <span className="font-medium">
-                      {t("completeProfile.step5.targetCustomers")}:
+                      {t("completeProfile.step6.targetCustomers")}:
                     </span>{" "}
                     {selectedTargetCustomers.length}{" "}
-                    {t("completeProfile.step5.types")}
+                    {t("completeProfile.step6.types")}
                   </p>
                   <p>
                     <span className="font-medium">
-                      {t("completeProfile.step5.keywords")}:
+                      {t("completeProfile.step6.keywords")}:
                     </span>{" "}
-                    {getKeywordCount()} {t("completeProfile.step5.added")}
+                    {getKeywordCount()} {t("completeProfile.step6.added")}
                   </p>
                 </div>
               </div>
@@ -2148,7 +2274,7 @@ export default function CompleteProfileForm({
             {t("completeProfile.buttons.previous")}
           </button>
 
-          {currentStep < 5 ? (
+          {currentStep < 6 ? (
             <button
               type="button"
               onClick={nextStep}

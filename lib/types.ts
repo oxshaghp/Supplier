@@ -67,4 +67,5 @@ export interface CompleteProfileFormProps {
   formData: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   selectedLocation: Location;
+  setSelectedLocation: React.Dispatch<React.SetStateAction<Location>>; // إضافة هذا السطر
 }

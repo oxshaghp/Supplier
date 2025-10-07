@@ -2,7 +2,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { LanguageProvider } from "../lib/LanguageContext";
 import { Metadata } from "next";
-
+import "leaflet/dist/leaflet.css";
 const pacifico = localFont({
   src: "./fonts/Pacifico-Regular.ttf",
   variable: "--font-pacifico",

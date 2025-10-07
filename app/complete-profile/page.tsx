@@ -38,33 +38,16 @@ export default function CompleteProfilePage() {
           </div>
 
           {/* التعديل الرئيسي هنا */}
-          <div
-            className={`max-w-7xl mx-auto px-6 ${
-              currentStep >= 4 // تغيير الشرط هنا
-                ? "grid grid-cols-1 gap-8" // من الخطوة 4 فما فوق: عمود واحد فقط
-                : "grid grid-cols-1 lg:grid-cols-2 gap-12" // في الخطوات 1,2,3: عمودين
-            }`}
-          >
-            {/* النموذج */}
-            <div
-              className={currentStep >= 4 ? "order-1" : "order-2 lg:order-1"}
-            >
+          <div className="max-w-7xl mx-auto px-6">
+            {/* النموذج فقط - ياخد المساحة كاملة في كل الخطوات */}
+            <div className="order-1">
               <CompleteProfileForm
                 formData={formData}
                 setFormData={setFormData}
                 selectedLocation={selectedLocation}
+                setSelectedLocation={setSelectedLocation}
                 currentStep={currentStep}
                 setCurrentStep={setCurrentStep}
-              />
-            </div>
-
-            {/* الخريطة */}
-            <div
-              className={currentStep >= 4 ? "order-2" : "order-1 lg:order-2"}
-            >
-              <BusinessLocationMap
-                selectedLocation={selectedLocation}
-                setSelectedLocation={setSelectedLocation}
               />
             </div>
           </div>

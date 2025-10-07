@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useLanguage } from "../lib/LanguageContext";
 import FeaturedBusinesses from "./FeaturedBusinesses";
-
+import InteractiveMap from "./InteractiveMap";
 export default function SearchSection() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -259,6 +259,7 @@ export default function SearchSection() {
       category: "hospital-medical",
     },
     {
+      id: 26,
       name: "Riyadh Medical Supplies",
       address: "Medical City, Riyadh",
       lat: 24.6986,
@@ -492,54 +493,6 @@ export default function SearchSection() {
       category: "home-supplies",
     },
   ];
-
-  const getBusinessTypeColor = (type: string) => {
-    const colors = {
-      Electronics: "bg-blue-500",
-      Hardware: "bg-gray-600",
-      Automotive: "bg-red-500",
-      Agriculture: "bg-green-500",
-      Office: "bg-purple-500",
-      Industrial: "bg-orange-600",
-      Construction: "bg-yellow-600",
-      Fashion: "bg-pink-500",
-      Medical: "bg-teal-500",
-      Supplies: "bg-indigo-500",
-      Food: "bg-orange-500",
-      Services: "bg-cyan-500",
-      Trading: "bg-emerald-500",
-      Books: "bg-amber-600",
-      Technology: "bg-violet-500",
-      "Oil&Gas": "bg-black",
-      Marine: "bg-blue-600",
-      Mining: "bg-stone-600",
-      Tourism: "bg-rose-500",
-      Textiles: "bg-fuchsia-500",
-      Equipment: "bg-slate-600",
-      Military: "bg-green-800",
-      Logistics: "bg-blue-700",
-      Port: "bg-navy-600",
-      Fishing: "bg-blue-400",
-      Perfumes: "bg-purple-600",
-      Petrochemical: "bg-gray-800",
-    } as const;
-    type ColorKey = keyof typeof colors;
-    return (
-      (colors as Record<string, string>)[type as ColorKey] || "bg-gray-500"
-    );
-  };
-
-  // Calculate position percentage based on Saudi Arabia map bounds
-  const getMapPosition = (lat: number, lng: number) => {
-    // Saudi Arabia approximate bounds: lat 16-32, lng 34-55
-    const latPercent = ((32 - lat) / (32 - 16)) * 100;
-    const lngPercent = ((lng - 34) / (55 - 34)) * 100;
-
-    return {
-      top: `${Math.max(2, Math.min(98, latPercent))}%`,
-      left: `${Math.max(2, Math.min(98, lngPercent))}%`,
-    };
-  };
 
   // Filter businesses based on selected category
   const getFilteredBusinesses = () => {
@@ -956,7 +909,15 @@ export default function SearchSection() {
       setIsSubmitting(false);
     }
   };
-
+  useEffect(() => {
+    // علشان الـ popups في الخريطة
+    (window as any).handleMapBusinessClick = (businessId: number) => {
+      const business = businessLocations.find((b) => b.id === businessId);
+      if (business) {
+        handleMarkerClick(business);
+      }
+    };
+  }, []);
   return (
     <>
       <section className="py-4 sm:py-6 md:py-8 bg-gradient-to-b from-yellow-50 to-white">
@@ -1079,82 +1040,11 @@ export default function SearchSection() {
 
                 {/* Enhanced Interactive Map Section */}
                 <div className="bg-gray-100 rounded-2xl overflow-hidden shadow-xl relative h-64 sm:h-80 md:h-[28rem] mb-3 sm:mb-4 md:mb-6">
-                  {/* Google Maps Iframe */}
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7476794.374816895!2d39.857910156249994!3d23.885837699999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15e7b33fe7952a41%3A0x5960504bc21ab69b!2sSaudi%20Arabia!5e0!3m2!1sen!2sus!4v1647890123456!5m2!1sen!2sus&disableDefaultUI=true&gestureHandling=none&scrollwheel=false&disableDoubleClickZoom=true&clickableIcons=false"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="w-full h-full"
-                  ></iframe>
-
-                  {/* Interactive Business Markers */}
-                  <div className="absolute inset-0 pointer-events-none">
-                    {getFilteredBusinesses().map((business, index) => {
-                      const position = getMapPosition(
-                        business.lat,
-                        business.lng
-                      );
-                      const colorClass = getBusinessTypeColor(business.type);
-
-                      return (
-                        <div
-                          key={business.id}
-                          className="absolute transform -translate-x-1/2 -translate-y-1/2 group"
-                          style={position}
-                        >
-                          {/* Interactive Business Marker */}
-                          <div
-                            className={`relative w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 ${colorClass} rounded-full border-2 border-white shadow-lg cursor-pointer transition-all duration-200 hover:scale-150 hover:shadow-xl pointer-events-auto animate-pulse`}
-                            onClick={() => handleMarkerClick(business)}
-                            title={`${business.name} - ${business.address}`}
-                          >
-                            {/* Pulsing Effect */}
-                            <div className="absolute inset-0 rounded-full bg-current animate-ping opacity-75"></div>
-                          </div>
-
-                          {/* Business Info Tooltip */}
-                          <div
-                            className={`absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-white rounded-xl shadow-2xl p-4 min-w-64 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-auto z-20 border border-gray-200 ${
-                              isRTL ? "text-right" : "text-left"
-                            }`}
-                          >
-                            <h4 className="font-bold text-gray-900 text-sm mb-2">
-                              {business.name}
-                            </h4>
-                            <p className="text-gray-600 text-xs mb-3">
-                              {business.address}
-                            </p>
-                            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-                              <span
-                                className={`px-3 py-1 rounded-full text-white text-xs font-medium ${colorClass} self-start`}
-                              >
-                                {business.type}
-                              </span>
-                              <div className="flex gap-2">
-                                <button
-                                  onClick={() => handleViewDetails(business)}
-                                  className="bg-yellow-400 text-white px-3 py-1 rounded-lg text-xs font-medium hover:bg-yellow-500 transition-colors whitespace-nowrap"
-                                >
-                                  {t("viewDetails") || "View Details"}
-                                </button>
-                                <button
-                                  onClick={() => handleGetDirections(business)}
-                                  className="bg-blue-500 text-white px-3 py-1 rounded-lg text-xs font-medium hover:bg-blue-600 transition-colors whitespace-nowrap"
-                                >
-                                  <i className="ri-map-pin-line mr-1"></i>
-                                  Directions
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+                  {/* Interactive Map Component */}
+                  <InteractiveMap
+                    businesses={getFilteredBusinesses()}
+                    onBusinessClick={handleMarkerClick}
+                  />
 
                   {/* Selected Business Highlight */}
                   {selectedBusiness && (

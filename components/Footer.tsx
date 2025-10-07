@@ -18,12 +18,15 @@ export default function Footer() {
                 isRTL ? "space-x-reverse space-x-4" : "space-x-4"
               } text-sm`}
             >
-              <div>
+              <div className="flex justify-center items-center gap-2">
                 <img
                   src="/Flag_of_Saudi_Arabia.svg"
                   alt="Vision 2030"
                   className="w-6 h-6"
                 />
+                <span className="text-yellow-100">
+                  {t("footer.bannerSupport2030")}
+                </span>
               </div>
               <span className="text-yellow-200">|</span>
               <span className="text-yellow-100">
@@ -85,19 +88,19 @@ export default function Footer() {
                   href="#"
                   className="flex items-center justify-center transition-colors cursor-pointer"
                 >
-                  <FaTwitter className="text-lg sm:text-xl text-black" />
+                  <FaTwitter className="text-lg sm:text-xl text-cyan-500" />
                 </a>
                 <a
                   href="#"
                   className="flex items-center justify-center transition-colors cursor-pointer"
                 >
-                  <FaLinkedin className="text-lg sm:text-xl text-black" />
+                  <FaLinkedin className="text-lg sm:text-xl text-blue-500" />
                 </a>
                 <a
                   href="tel:+966542741977"
                   className="flex items-center justify-center transition-colors cursor-pointer"
                 >
-                  <FaWhatsapp className="text-lg sm:text-xl text-black" />
+                  <FaWhatsapp className="text-lg sm:text-xl text-green-500" />
                 </a>
               </div>
             </div>
@@ -241,14 +244,7 @@ export default function Footer() {
                       ? "space-x-reverse space-x-1 sm:space-x-2"
                       : "space-x-1 sm:space-x-2"
                   } text-xs text-yellow-100`}
-                >
-                  <div className="flex items-center justify-center">
-                    <FaFlag className="text-green-600 text-sm sm:text-base" />
-                  </div>
-                  <span className="text-xs">
-                    {t("footer.proudlyMadeInSaudi")}
-                  </span>
-                </div>
+                ></div>
               </div>
 
               {/* Legal Links */}
