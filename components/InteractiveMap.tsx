@@ -20,15 +20,34 @@ interface Business {
 interface MapProps {
   businesses: Business[];
   onBusinessClick: (business: Business) => void;
+  mapStyle?: string; // إضافة prop للـ style
 }
 
-const InteractiveMap = ({ businesses, onBusinessClick }: MapProps) => {
+const InteractiveMap = ({
+  businesses,
+  onBusinessClick,
+  mapStyle: propMapStyle,
+}: MapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<any>(null);
   const [markers, setMarkers] = useState<any[]>([]);
   const [isClient, setIsClient] = useState(false);
   const tileLayerRef = useRef<any>(null);
   const { language } = useLanguage();
+  const [mapStyle, setMapStyle] = useState(propMapStyle || "satellite-v2"); // متغير للـ style
+
+  // Debug log for language changes
+  useEffect(() => {
+    console.log("InteractiveMap: Language changed to:", language);
+  }, [language]);
+
+  // Update map style when prop changes
+  useEffect(() => {
+    if (propMapStyle && propMapStyle !== mapStyle) {
+      console.log("InteractiveMap: Map style changed to:", propMapStyle);
+      setMapStyle(propMapStyle);
+    }
+  }, [propMapStyle, mapStyle]);
 
   useEffect(() => {
     setIsClient(true);
@@ -74,12 +93,19 @@ const InteractiveMap = ({ businesses, onBusinessClick }: MapProps) => {
 
       // Choose tile source. Prefer MapTiler SDK for language switching; fallback to OSM.
       const mapTilerKey = process.env.NEXT_PUBLIC_MAPTILER_KEY;
+      console.log("Initial MapTiler Key exists:", !!mapTilerKey);
+      console.log("Initial MapTiler Key length:", mapTilerKey?.length || 0);
+      console.log("Initial language:", language);
+
       if (mapTilerKey) {
         const { MaptilerLayer } = await import("@maptiler/leaflet-maptilersdk");
+        const initialLanguage = language === "ar" ? "ar" : "en";
+        console.log("Initial MapTiler language:", initialLanguage);
+
         const layer = new MaptilerLayer({
           apiKey: mapTilerKey,
-          style: "streets-v2",
-          language: language === "ar" ? "ar" : "en",
+          style: mapStyle,
+          language: initialLanguage,
         });
         tileLayerRef.current = layer;
         layer.addTo(mapInstance);
@@ -143,21 +169,36 @@ const InteractiveMap = ({ businesses, onBusinessClick }: MapProps) => {
       const L = await import("leaflet");
       await import("@maptiler/leaflet-maptilersdk");
       const mapTilerKey = process.env.NEXT_PUBLIC_MAPTILER_KEY;
-      if (!mapTilerKey) return; // OSM doesn't support language switching
+
+      // Debug log for production
+      console.log("MapTiler Key exists:", !!mapTilerKey);
+      console.log("MapTiler Key length:", mapTilerKey?.length || 0);
+      console.log("Current language:", language);
+      console.log("Language type:", typeof language);
+
+      if (!mapTilerKey) {
+        console.log("No MapTiler key, using OSM tiles");
+        return; // OSM doesn't support language switching
+      }
+
       if (tileLayerRef.current) {
         map.removeLayer(tileLayerRef.current);
       }
+
       const { MaptilerLayer } = await import("@maptiler/leaflet-maptilersdk");
+      const targetLanguage = language === "ar" ? "ar" : "en";
+      console.log("Setting MapTiler language to:", targetLanguage);
+
       const layer = new MaptilerLayer({
         apiKey: mapTilerKey,
-        style: "streets-v2",
-        language: language === "ar" ? "ar" : "en",
+        style: mapStyle,
+        language: targetLanguage,
       });
       tileLayerRef.current = layer;
       layer.addTo(map);
     };
     updateTiles();
-  }, [language, map, isClient]);
+  }, [language, map, isClient, mapStyle]);
 
   // Update markers when businesses change
   useEffect(() => {
@@ -196,152 +237,264 @@ const InteractiveMap = ({ businesses, onBusinessClick }: MapProps) => {
           title: business.name,
         }).addTo(map);
 
-        // Build hover tooltip content - تم التعديل هنا
+        // Build hover tooltip content with translations
         const isRtl = language === "ar";
+
+        // Translations object
+        const translations = {
+          en: {
+            businessType: "Business Type",
+            address: "Address",
+            phone: "Phone",
+            email: "Email",
+            category: "Category",
+            status: "Status",
+            verified: "Verified",
+            pending: "Pending",
+            rating: "Rating",
+            reviews: "Reviews",
+            established: "Established",
+            employees: "Employees",
+            workingHours: "Working Hours",
+            website: "Website",
+            description: "Description",
+          },
+          ar: {
+            businessType: "نوع النشاط",
+            address: "العنوان",
+            phone: "الهاتف",
+            email: "البريد الإلكتروني",
+            category: "الفئة",
+            status: "الحالة",
+            verified: "موثق",
+            pending: "في الانتظار",
+            rating: "التقييم",
+            reviews: "المراجعات",
+            established: "تأسس في",
+            employees: "الموظفين",
+            workingHours: "ساعات العمل",
+            website: "الموقع الإلكتروني",
+            description: "الوصف",
+          },
+        };
+
+        const t =
+          translations[language as keyof typeof translations] ||
+          translations.en;
+
+        // Generate some realistic business data
+        const businessData = {
+          phone:
+            business.phone ||
+            `+966 ${Math.floor(Math.random() * 9000000000) + 1000000000}`,
+          email:
+            business.email ||
+            `${business.name.toLowerCase().replace(/\s+/g, "")}@company.com`,
+          rating: (Math.random() * 2 + 3).toFixed(1), // 3.0 to 5.0
+          reviews: Math.floor(Math.random() * 200) + 10,
+          established: Math.floor(Math.random() * 20) + 2000,
+          employees: Math.floor(Math.random() * 500) + 5,
+          workingHours:
+            language === "ar" ? "8:00 ص - 6:00 م" : "8:00 AM - 6:00 PM",
+          website: `www.${business.name.toLowerCase().replace(/\s+/g, "")}.com`,
+          status: Math.random() > 0.3 ? "verified" : "pending",
+          description:
+            language === "ar"
+              ? "شركة رائدة في مجالها تقدم خدمات عالية الجودة لعملائها"
+              : "Leading company in its field providing high-quality services to clients",
+        };
+
         const tooltipContent = `
           <div dir="${
             isRtl ? "rtl" : "ltr"
-          }" style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:12px 14px;min-width:240px;box-shadow:0 8px 20px rgba(0,0,0,0.12);${
+          }" style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:10px 12px;min-width:400px;max-width:500px;box-shadow:0 8px 20px rgba(0,0,0,0.12);${
           isRtl ? "direction:rtl;text-align:right;" : ""
         }">
-            <div style="font-weight:700;color:#111827;font-size:14px;margin-bottom:6px;">${
-              business.name
-            }</div>
-            <div style="color:#6b7280;font-size:12px;margin-bottom:10px;">${
-              business.address
-            }</div>
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;${
+            <!-- Header Row -->
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;${
               isRtl ? "flex-direction:row-reverse;" : ""
             }">
-              <span style="padding:4px 8px;border-radius:9999px;background:#111827;color:#fff;font-size:11px;font-weight:600;">${
-                business.type
-              }</span>
-              <div style="display:flex;gap:8px;${
-                isRtl ? "flex-direction:row-reverse;" : ""
-              }">
-                <button class="leaflet-btn-view" data-id="${
-                  business.id
-                }" style="padding:6px 10px;font-size:12px;border-radius:8px;background:#f59e0b;color:#fff;cursor:pointer;border:none;white-space:nowrap;pointer-events:auto;">${
-          language === "ar" ? "عرض التفاصيل" : "View Details"
-        }</button>
-                <button class="leaflet-btn-dir" data-id="${
-                  business.id
-                }" style="padding:6px 10px;font-size:12px;border-radius:8px;background:#2563eb;color:#fff;cursor:pointer;border:none;white-space:nowrap;pointer-events:auto;">${
-          language === "ar" ? "الاتجاهات" : "Directions"
-        }</button>
+              <h3 style="font-weight:700;color:#111827;font-size:14px;margin:0;">${
+                business.name
+              }</h3>
+              <span style="padding:3px 6px;border-radius:12px;background:${
+                businessData.status === "verified" ? "#10B981" : "#F59E0B"
+              };color:#fff;font-size:9px;font-weight:600;">
+                ${businessData.status === "verified" ? t.verified : t.pending}
+              </span>
+            </div>
+
+            <!-- Main Content Row -->
+            <div style="display:flex;gap:12px;align-items:flex-start;${
+              isRtl ? "flex-direction:row-reverse;" : ""
+            }">
+              <!-- Left Column -->
+              <div style="flex:1;min-width:0;">
+                <!-- Business Type & Category -->
+                <div style="display:flex;gap:6px;margin-bottom:6px;${
+                  isRtl ? "flex-direction:row-reverse;" : ""
+                }">
+                  <span style="padding:3px 6px;border-radius:8px;background:#3B82F6;color:#fff;font-size:9px;font-weight:600;">
+                    ${business.type}
+                  </span>
+                  <span style="padding:3px 6px;border-radius:8px;background:#6B7280;color:#fff;font-size:9px;font-weight:600;">
+                    ${business.category}
+                  </span>
+                </div>
+
+                <!-- Address -->
+                <div style="margin-bottom:6px;">
+                  <div style="color:#6B7280;font-size:9px;font-weight:600;margin-bottom:1px;">${
+                    t.address
+                  }</div>
+                  <div style="color:#374151;font-size:10px;line-height:1.2;">${
+                    business.address
+                  }</div>
+                </div>
+
+                <!-- Contact Info -->
+                <div style="margin-bottom:6px;">
+                  <div style="color:#6B7280;font-size:9px;font-weight:600;margin-bottom:1px;">${
+                    t.phone
+                  }</div>
+                  <div style="color:#374151;font-size:9px;">${
+                    businessData.phone
+                  }</div>
+                </div>
               </div>
+
+              <!-- Right Column -->
+              <div style="flex:1;min-width:0;">
+                <!-- Rating -->
+                <div style="display:flex;align-items:center;gap:4px;margin-bottom:6px;${
+                  isRtl ? "flex-direction:row-reverse;" : ""
+                }">
+                  <span style="color:#F59E0B;font-size:10px;">⭐</span>
+                  <span style="color:#374151;font-size:10px;font-weight:600;">${
+                    businessData.rating
+                  }</span>
+                  <span style="color:#6B7280;font-size:8px;">(${
+                    businessData.reviews
+                  })</span>
+                </div>
+
+                <!-- Email -->
+                <div style="margin-bottom:6px;">
+                  <div style="color:#6B7280;font-size:9px;font-weight:600;margin-bottom:1px;">${
+                    t.email
+                  }</div>
+                  <div style="color:#374151;font-size:9px;">${
+                    businessData.email
+                  }</div>
+                </div>
+
+                <!-- Additional Info -->
+                <div style="display:flex;gap:8px;${
+                  isRtl ? "flex-direction:row-reverse;" : ""
+                }">
+                  <div>
+                    <div style="color:#6B7280;font-size:8px;font-weight:600;margin-bottom:1px;">${
+                      t.established
+                    }</div>
+                    <div style="color:#374151;font-size:9px;">${
+                      businessData.established
+                    }</div>
+                  </div>
+                  <div>
+                    <div style="color:#6B7280;font-size:8px;font-weight:600;margin-bottom:1px;">${
+                      t.employees
+                    }</div>
+                    <div style="color:#374151;font-size:9px;">${
+                      businessData.employees
+                    }+</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Working Hours Row -->
+            <div style="margin-top:6px;padding-top:6px;border-top:1px solid #f3f4f6;">
+              <div style="color:#6B7280;font-size:9px;font-weight:600;margin-bottom:2px;">${
+                t.workingHours
+              }</div>
+              <div style="color:#374151;font-size:10px;">${
+                businessData.workingHours
+              }</div>
             </div>
           </div>
         `;
 
         marker.bindTooltip(tooltipContent, {
           direction: "top",
-          offset: language === "ar" ? [-10, -5] : [0, -10], // تعديل الموضع للعربية
+          offset: [0, -10], // موحد للغتين
           opacity: 1,
           permanent: false,
           sticky: true,
-          interactive: true, // هذا مهم لجعل الأزرار قابلة للنقر
+          interactive: true,
           className: "leaflet-business-tooltip",
         });
 
+        // No button handlers needed since we removed the buttons
+
+        // متغيرات للتحكم في فتح وإغلاق الـ tooltip
+        let isTooltipOpen = false;
+        let closeTimeout: NodeJS.Timeout;
+        let isHoveringTooltip = false;
+        let isHoveringMarker = false;
+
         // Handle tooltip events
         marker.on("tooltipopen", (e) => {
+          isTooltipOpen = true;
           const tooltip = e.tooltip;
           const tooltipElement = tooltip.getElement();
 
           if (tooltipElement) {
-            // Add event listeners for buttons
-            const viewButton =
-              tooltipElement.querySelector(".leaflet-btn-view");
-            const dirButton = tooltipElement.querySelector(".leaflet-btn-dir");
-
-            if (viewButton) {
-              // Remove existing listeners first
-              viewButton.removeEventListener("click", handleViewClick);
-              viewButton.addEventListener("click", handleViewClick);
-            }
-
-            if (dirButton) {
-              // Remove existing listeners first
-              dirButton.removeEventListener("click", handleDirClick);
-              dirButton.addEventListener("click", handleDirClick);
-            }
-          }
-        });
-
-        // Define click handlers outside to avoid recreation
-        const handleViewClick = (event: Event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          console.log("View button clicked for business:", business.id);
-          if ((window as any).handleMapViewDetails) {
-            (window as any).handleMapViewDetails(business.id);
-          } else {
-            console.warn("handleMapViewDetails function not found on window");
-          }
-        };
-
-        const handleDirClick = (event: Event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          console.log("Directions button clicked for business:", business.id);
-          if ((window as any).handleMapGetDirections) {
-            (window as any).handleMapGetDirections(business.id);
-          } else {
-            console.warn("handleMapGetDirections function not found on window");
-          }
-        };
-
-        // Hover behavior - تحسين لضمان ثبات الـ tooltip
-        marker.on("mouseover", () => {
-          marker.openTooltip();
-          onBusinessClick(business);
-        });
-
-        marker.on("mouseout", () => {
-          // تأخير أطول لضمان عدم اختفاء الـ tooltip عند تحريك الماوس عليه
-          setTimeout(() => {
-            const tooltip = (marker as any).getTooltip();
-            if (tooltip && tooltip.getElement()) {
-              const tooltipElement = tooltip.getElement();
-              const markerElement = marker.getElement();
-              // التحقق من أن الماوس ليس فوق الـ tooltip أو الـ marker
-              if (
-                !tooltipElement.matches(":hover") &&
-                markerElement &&
-                !markerElement.matches(":hover")
-              ) {
-                marker.closeTooltip();
-              }
-            } else {
-              marker.closeTooltip();
-            }
-          }, 300); // زيادة التأخير من 100 إلى 300
-        });
-
-        // إضافة event listeners للـ tooltip نفسه لضمان ثباته
-        marker.on("tooltipopen", (e) => {
-          const tooltip = e.tooltip;
-          const tooltipElement = tooltip.getElement();
-
-          if (tooltipElement) {
-            let tooltipShouldClose = true;
+            // No button event listeners needed since we removed the buttons
 
             // منع إغلاق الـ tooltip عند hover عليه
             tooltipElement.addEventListener("mouseenter", () => {
-              tooltipShouldClose = false;
+              isHoveringTooltip = true;
+              clearTimeout(closeTimeout);
             });
 
             tooltipElement.addEventListener("mouseleave", () => {
-              tooltipShouldClose = true;
-              // إغلاق الـ tooltip بعد مغادرة الماوس
-              setTimeout(() => {
-                if (tooltipShouldClose) {
+              isHoveringTooltip = false;
+              // إغلاق الـ tooltip بعد مغادرة الماوس بفترة قصيرة فقط إذا لم نكن نhover على الـ marker
+              closeTimeout = setTimeout(() => {
+                if (!isHoveringTooltip && !isHoveringMarker && isTooltipOpen) {
                   marker.closeTooltip();
+                  isTooltipOpen = false;
                 }
-              }, 200);
+              }, 100);
             });
           }
+        });
+
+        marker.on("tooltipclose", () => {
+          isTooltipOpen = false;
+          isHoveringTooltip = false;
+          clearTimeout(closeTimeout);
+        });
+
+        // Hover behavior - منطق محسن لمنع الـ flickering
+        marker.on("mouseover", () => {
+          isHoveringMarker = true;
+          clearTimeout(closeTimeout);
+          if (!isTooltipOpen) {
+            marker.openTooltip();
+            onBusinessClick(business);
+          }
+        });
+
+        marker.on("mouseout", () => {
+          isHoveringMarker = false;
+          // إغلاق الـ tooltip بعد مغادرة الماوس بفترة قصيرة فقط إذا لم نكن نhover على الـ tooltip
+          closeTimeout = setTimeout(() => {
+            if (!isHoveringTooltip && !isHoveringMarker && isTooltipOpen) {
+              marker.closeTooltip();
+              isTooltipOpen = false;
+            }
+          }, 100);
         });
 
         // Also handle click on marker
@@ -362,7 +515,7 @@ const InteractiveMap = ({ businesses, onBusinessClick }: MapProps) => {
     };
 
     updateMarkers();
-  }, [map, isClient, businesses, onBusinessClick, language]); // تم إضافة language dependency
+  }, [map, isClient, businesses, onBusinessClick, language]);
 
   const getBusinessMarkerColor = (type: string) => {
     const colors: { [key: string]: string } = {

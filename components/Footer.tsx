@@ -19,11 +19,7 @@ export default function Footer() {
               } text-sm`}
             >
               <div className="flex justify-center items-center gap-2">
-                <img
-                  src="/Flag_of_Saudi_Arabia.svg"
-                  alt="Vision 2030"
-                  className="w-6 h-6"
-                />
+                <img src="/images.png" alt="Vision 2030" className="w-6 h-6" />
                 <span className="text-yellow-100">
                   {t("footer.bannerSupport2030")}
                 </span>
