@@ -360,6 +360,17 @@ export default function Header() {
                           </div>
 
                           <Link
+                            href="/profile/1"
+                            className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                            onClick={() => setIsUserMenuOpen(false)}
+                          >
+                            <i className="ri-user-line text-lg"></i>
+                            <span className="text-sm font-medium">
+                              {t("userMenu.viewProfile")}
+                            </span>
+                          </Link>
+
+                          <Link
                             href="/dashboard"
                             className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
                             onClick={() => setIsUserMenuOpen(false)}

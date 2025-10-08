@@ -41,6 +41,7 @@ export const translations = {
       dashboard: "Dashboard",
       addBusiness: "Add Business",
       signOut: "Sign Out",
+      viewProfile: "View Profile",
     },
 
     // Search Section
@@ -2546,6 +2547,7 @@ export const translations = {
       dashboard: "لوحة التحكم",
       addBusiness: "إضافة شركة",
       signOut: "تسجيل الخروج",
+      viewProfile: "عرض الملف الشخصي",
     },
 
     // Search Section
